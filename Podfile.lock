@@ -1,0 +1,43 @@
+PODS:
+  - Differentiator (3.0.2)
+  - RxCocoa (4.1.2):
+    - RxSwift (~> 4.0)
+  - RxDataSources (3.0.2):
+    - Differentiator (~> 3.0)
+    - RxCocoa (~> 4.0)
+    - RxSwift (~> 4.0)
+  - RxSwift (4.1.2)
+  - SwiftFP/Main (1.0.1)
+
+DEPENDENCIES:
+  - RxCocoa (~> 4.0)
+  - RxDataSources
+  - RxSwift (~> 4.0)
+  - SwiftFP/Main (from `https://github.com/protoman92/SwiftFP.git`)
+
+SPEC REPOS:
+  https://github.com/CocoaPods/Specs.git:
+    - Differentiator
+    - RxCocoa
+    - RxDataSources
+    - RxSwift
+
+EXTERNAL SOURCES:
+  SwiftFP:
+    :git: https://github.com/protoman92/SwiftFP.git
+
+CHECKOUT OPTIONS:
+  SwiftFP:
+    :commit: eb32feb8cfb44c2d69431ec4cae455daf73339a7
+    :git: https://github.com/protoman92/SwiftFP.git
+
+SPEC CHECKSUMS:
+  Differentiator: a87be69eba49ec4ab460c7671143ee3a9eececfd
+  RxCocoa: d88ba0f1f6abf040011a9eb4b539324fc426843a
+  RxDataSources: cb7c31e652a87ebb919da45f716bbb87b3765f6b
+  RxSwift: e49536837d9901277638493ea537394d4b55f570
+  SwiftFP: 25277c3c13de8b45771702a77443cd1d3c2761b2
+
+PODFILE CHECKSUM: cee31aede25da08ca8aad53997eeb27e486631a3
+
+COCOAPODS: 1.5.0

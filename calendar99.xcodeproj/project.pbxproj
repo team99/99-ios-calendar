@@ -7,9 +7,38 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		83D0879AD7148AD7B6ADF5F0 /* Pods_calendar99_logicTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C737F71F74B500EA998EB22F /* Pods_calendar99_logicTests.framework */; };
+		8B35A294FF4D72D4892DCE2F /* Pods_calendar99_demo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F059406167C331B65DF17BCE /* Pods_calendar99_demo.framework */; };
+		99EB1FCC7C144B9EC432DFCF /* Pods_calendar99.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D938B372CAFDEAD5B7917D27 /* Pods_calendar99.framework */; };
+		A9FC60253899F296B3E614F9 /* Pods_calendar99_logic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FA7759958763D8ADC1A0A33 /* Pods_calendar99_logic.framework */; };
 		D3DA6FA1207C6CEE00A3DFE1 /* calendar99.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3DA6F97207C6CEE00A3DFE1 /* calendar99.framework */; };
 		D3DA6FA6207C6CEE00A3DFE1 /* calendar99Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3DA6FA5207C6CEE00A3DFE1 /* calendar99Tests.swift */; };
 		D3DA6FA8207C6CEE00A3DFE1 /* calendar99.h in Headers */ = {isa = PBXBuildFile; fileRef = D3DA6F9A207C6CEE00A3DFE1 /* calendar99.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D3DA6FBF207C6D2300A3DFE1 /* calendar99_logic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3DA6FB6207C6D2200A3DFE1 /* calendar99_logic.framework */; };
+		D3DA6FC6207C6D2300A3DFE1 /* calendar99_logic.h in Headers */ = {isa = PBXBuildFile; fileRef = D3DA6FB8207C6D2300A3DFE1 /* calendar99_logic.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D3DA6FCE207C6E7800A3DFE1 /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3DA6FCD207C6E7800A3DFE1 /* ViewModel.swift */; };
+		D3DA6FD0207C6E7E00A3DFE1 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3DA6FCF207C6E7E00A3DFE1 /* Model.swift */; };
+		D3DA6FD4207C6EC700A3DFE1 /* Entry.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3DA6FD3207C6EC700A3DFE1 /* Entry.swift */; };
+		D3DA6FD6207C72D700A3DFE1 /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3DA6FD5207C72D700A3DFE1 /* View.swift */; };
+		D3DA6FD8207C735300A3DFE1 /* Cell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3DA6FD7207C735300A3DFE1 /* Cell.swift */; };
+		D3DA6FE0207C739400A3DFE1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3DA6FDF207C739400A3DFE1 /* AppDelegate.swift */; };
+		D3DA6FE2207C739400A3DFE1 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3DA6FE1207C739400A3DFE1 /* ViewController.swift */; };
+		D3DA6FE5207C739400A3DFE1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D3DA6FE3207C739400A3DFE1 /* Main.storyboard */; };
+		D3DA6FE7207C739500A3DFE1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D3DA6FE6207C739500A3DFE1 /* Assets.xcassets */; };
+		D3DA6FEA207C739500A3DFE1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D3DA6FE8207C739500A3DFE1 /* LaunchScreen.storyboard */; };
+		D3DA6FF5207C739500A3DFE1 /* calendar99_demoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3DA6FF4207C739500A3DFE1 /* calendar99_demoTests.swift */; };
+		D3DA7000207C739500A3DFE1 /* calendar99_demoUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3DA6FFF207C739500A3DFE1 /* calendar99_demoUITests.swift */; };
+		D3DA700E207C7DFA00A3DFE1 /* Functionality.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3DA700D207C7DFA00A3DFE1 /* Functionality.swift */; };
+		D3DA7010207C805300A3DFE1 /* Entity.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3DA700F207C805300A3DFE1 /* Entity.swift */; };
+		D3DA7012207C81E100A3DFE1 /* MonthHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = D3DA7011207C81E100A3DFE1 /* MonthHeader.xib */; };
+		D3DA7014207C868F00A3DFE1 /* Header.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3DA7013207C868F00A3DFE1 /* Header.swift */; };
+		D3DA7016207C876300A3DFE1 /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3DA7015207C876300A3DFE1 /* Util.swift */; };
+		D3DA701F207C8E0F00A3DFE1 /* calendar99_logic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3DA6FB6207C6D2200A3DFE1 /* calendar99_logic.framework */; };
+		D3DA7020207C8E0F00A3DFE1 /* calendar99.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3DA6F97207C6CEE00A3DFE1 /* calendar99.framework */; };
+		D3DA7021207C8E2300A3DFE1 /* calendar99_logic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3DA6FB6207C6D2200A3DFE1 /* calendar99_logic.framework */; };
+		D3DA7023207C977200A3DFE1 /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3DA7022207C977200A3DFE1 /* Util.swift */; };
+		D3DA7025207C97F100A3DFE1 /* DateUtilTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3DA7024207C97F100A3DFE1 /* DateUtilTest.swift */; };
+		E2DCBB123488442269125D97 /* Pods_calendar99Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0824444065A1A7B969DBD579 /* Pods_calendar99Tests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -20,15 +49,102 @@
 			remoteGlobalIDString = D3DA6F96207C6CEE00A3DFE1;
 			remoteInfo = calendar99;
 		};
+		D3DA6FC0207C6D2300A3DFE1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D3DA6F8E207C6CEE00A3DFE1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D3DA6FB5207C6D2200A3DFE1;
+			remoteInfo = "calendar99-logic";
+		};
+		D3DA6FF1207C739500A3DFE1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D3DA6F8E207C6CEE00A3DFE1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D3DA6FDC207C739400A3DFE1;
+			remoteInfo = "calendar99-demo";
+		};
+		D3DA6FFC207C739500A3DFE1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D3DA6F8E207C6CEE00A3DFE1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D3DA6FDC207C739400A3DFE1;
+			remoteInfo = "calendar99-demo";
+		};
+		D3DA7017207C8CB100A3DFE1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D3DA6F8E207C6CEE00A3DFE1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D3DA6FB5207C6D2200A3DFE1;
+			remoteInfo = "calendar99-logic";
+		};
+		D3DA701B207C8E0A00A3DFE1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D3DA6F8E207C6CEE00A3DFE1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D3DA6F96207C6CEE00A3DFE1;
+			remoteInfo = calendar99;
+		};
+		D3DA701D207C8E0A00A3DFE1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D3DA6F8E207C6CEE00A3DFE1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D3DA6FB5207C6D2200A3DFE1;
+			remoteInfo = "calendar99-logic";
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		04D74B116647242FC8CF08CA /* Pods-calendar99-demo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-calendar99-demo.release.xcconfig"; path = "Pods/Target Support Files/Pods-calendar99-demo/Pods-calendar99-demo.release.xcconfig"; sourceTree = "<group>"; };
+		0824444065A1A7B969DBD579 /* Pods_calendar99Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_calendar99Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		09DD075CBF6FAE8839ED6B85 /* Pods-calendar99Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-calendar99Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-calendar99Tests/Pods-calendar99Tests.debug.xcconfig"; sourceTree = "<group>"; };
+		2581178A4130BEE2B0114EB9 /* Pods-calendar99Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-calendar99Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-calendar99Tests/Pods-calendar99Tests.release.xcconfig"; sourceTree = "<group>"; };
+		2F64F57362BEB3E1164FB5BC /* Pods-calendar99-logicTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-calendar99-logicTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-calendar99-logicTests/Pods-calendar99-logicTests.debug.xcconfig"; sourceTree = "<group>"; };
+		320E00D12C0E1392AB73DE2E /* Pods-calendar99-logic.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-calendar99-logic.release.xcconfig"; path = "Pods/Target Support Files/Pods-calendar99-logic/Pods-calendar99-logic.release.xcconfig"; sourceTree = "<group>"; };
+		3DAE1A73F092169DB91E2865 /* Pods-calendar99.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-calendar99.debug.xcconfig"; path = "Pods/Target Support Files/Pods-calendar99/Pods-calendar99.debug.xcconfig"; sourceTree = "<group>"; };
+		48CDE88D6801E33CC237AF9E /* Pods-calendar99.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-calendar99.release.xcconfig"; path = "Pods/Target Support Files/Pods-calendar99/Pods-calendar99.release.xcconfig"; sourceTree = "<group>"; };
+		7B3C8C28804A3AC4610AC5C0 /* Pods-calendar99-demo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-calendar99-demo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-calendar99-demo/Pods-calendar99-demo.debug.xcconfig"; sourceTree = "<group>"; };
+		9FA7759958763D8ADC1A0A33 /* Pods_calendar99_logic.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_calendar99_logic.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B83FD4052FC070AEB5AC9F55 /* Pods-calendar99-logicTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-calendar99-logicTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-calendar99-logicTests/Pods-calendar99-logicTests.release.xcconfig"; sourceTree = "<group>"; };
+		C737F71F74B500EA998EB22F /* Pods_calendar99_logicTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_calendar99_logicTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		CA2363311704BDDCFECB5053 /* Pods-calendar99-logic.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-calendar99-logic.debug.xcconfig"; path = "Pods/Target Support Files/Pods-calendar99-logic/Pods-calendar99-logic.debug.xcconfig"; sourceTree = "<group>"; };
 		D3DA6F97207C6CEE00A3DFE1 /* calendar99.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = calendar99.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D3DA6F9A207C6CEE00A3DFE1 /* calendar99.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = calendar99.h; sourceTree = "<group>"; };
 		D3DA6F9B207C6CEE00A3DFE1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D3DA6FA0207C6CEE00A3DFE1 /* calendar99Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = calendar99Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D3DA6FA5207C6CEE00A3DFE1 /* calendar99Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = calendar99Tests.swift; sourceTree = "<group>"; };
 		D3DA6FA7207C6CEE00A3DFE1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D3DA6FB6207C6D2200A3DFE1 /* calendar99_logic.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = calendar99_logic.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D3DA6FB8207C6D2300A3DFE1 /* calendar99_logic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = calendar99_logic.h; sourceTree = "<group>"; };
+		D3DA6FB9207C6D2300A3DFE1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D3DA6FBE207C6D2300A3DFE1 /* calendar99-logicTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "calendar99-logicTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D3DA6FC5207C6D2300A3DFE1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D3DA6FCD207C6E7800A3DFE1 /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
+		D3DA6FCF207C6E7E00A3DFE1 /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
+		D3DA6FD3207C6EC700A3DFE1 /* Entry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Entry.swift; sourceTree = "<group>"; };
+		D3DA6FD5207C72D700A3DFE1 /* View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
+		D3DA6FD7207C735300A3DFE1 /* Cell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cell.swift; sourceTree = "<group>"; };
+		D3DA6FDD207C739400A3DFE1 /* calendar99-demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "calendar99-demo.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D3DA6FDF207C739400A3DFE1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		D3DA6FE1207C739400A3DFE1 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		D3DA6FE4207C739400A3DFE1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		D3DA6FE6207C739500A3DFE1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		D3DA6FE9207C739500A3DFE1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		D3DA6FEB207C739500A3DFE1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D3DA6FF0207C739500A3DFE1 /* calendar99-demoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "calendar99-demoTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D3DA6FF4207C739500A3DFE1 /* calendar99_demoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = calendar99_demoTests.swift; sourceTree = "<group>"; };
+		D3DA6FF6207C739500A3DFE1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D3DA6FFB207C739500A3DFE1 /* calendar99-demoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "calendar99-demoUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D3DA6FFF207C739500A3DFE1 /* calendar99_demoUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = calendar99_demoUITests.swift; sourceTree = "<group>"; };
+		D3DA7001207C739600A3DFE1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D3DA700D207C7DFA00A3DFE1 /* Functionality.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Functionality.swift; sourceTree = "<group>"; };
+		D3DA700F207C805300A3DFE1 /* Entity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Entity.swift; sourceTree = "<group>"; };
+		D3DA7011207C81E100A3DFE1 /* MonthHeader.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MonthHeader.xib; sourceTree = "<group>"; };
+		D3DA7013207C868F00A3DFE1 /* Header.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Header.swift; sourceTree = "<group>"; };
+		D3DA7015207C876300A3DFE1 /* Util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
+		D3DA7022207C977200A3DFE1 /* Util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
+		D3DA7024207C97F100A3DFE1 /* DateUtilTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateUtilTest.swift; sourceTree = "<group>"; };
+		D938B372CAFDEAD5B7917D27 /* Pods_calendar99.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_calendar99.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F059406167C331B65DF17BCE /* Pods_calendar99_demo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_calendar99_demo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -36,6 +152,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D3DA7021207C8E2300A3DFE1 /* calendar99_logic.framework in Frameworks */,
+				99EB1FCC7C144B9EC432DFCF /* Pods_calendar99.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -44,18 +162,79 @@
 			buildActionMask = 2147483647;
 			files = (
 				D3DA6FA1207C6CEE00A3DFE1 /* calendar99.framework in Frameworks */,
+				E2DCBB123488442269125D97 /* Pods_calendar99Tests.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D3DA6FB2207C6D2200A3DFE1 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A9FC60253899F296B3E614F9 /* Pods_calendar99_logic.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D3DA6FBB207C6D2300A3DFE1 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D3DA6FBF207C6D2300A3DFE1 /* calendar99_logic.framework in Frameworks */,
+				83D0879AD7148AD7B6ADF5F0 /* Pods_calendar99_logicTests.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D3DA6FDA207C739400A3DFE1 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D3DA701F207C8E0F00A3DFE1 /* calendar99_logic.framework in Frameworks */,
+				D3DA7020207C8E0F00A3DFE1 /* calendar99.framework in Frameworks */,
+				8B35A294FF4D72D4892DCE2F /* Pods_calendar99_demo.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D3DA6FED207C739500A3DFE1 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D3DA6FF8207C739500A3DFE1 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		22D3E06FB2537F8CA3585F6A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				D938B372CAFDEAD5B7917D27 /* Pods_calendar99.framework */,
+				0824444065A1A7B969DBD579 /* Pods_calendar99Tests.framework */,
+				9FA7759958763D8ADC1A0A33 /* Pods_calendar99_logic.framework */,
+				F059406167C331B65DF17BCE /* Pods_calendar99_demo.framework */,
+				C737F71F74B500EA998EB22F /* Pods_calendar99_logicTests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		D3DA6F8D207C6CEE00A3DFE1 = {
 			isa = PBXGroup;
 			children = (
 				D3DA6F99207C6CEE00A3DFE1 /* calendar99 */,
 				D3DA6FA4207C6CEE00A3DFE1 /* calendar99Tests */,
+				D3DA6FB7207C6D2200A3DFE1 /* calendar99-logic */,
+				D3DA6FC2207C6D2300A3DFE1 /* calendar99-logicTests */,
+				D3DA6FDE207C739400A3DFE1 /* calendar99-demo */,
+				D3DA6FF3207C739500A3DFE1 /* calendar99-demoTests */,
+				D3DA6FFE207C739500A3DFE1 /* calendar99-demoUITests */,
 				D3DA6F98207C6CEE00A3DFE1 /* Products */,
+				FA6AC0D0F44373E29A575844 /* Pods */,
+				22D3E06FB2537F8CA3585F6A /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -64,6 +243,11 @@
 			children = (
 				D3DA6F97207C6CEE00A3DFE1 /* calendar99.framework */,
 				D3DA6FA0207C6CEE00A3DFE1 /* calendar99Tests.xctest */,
+				D3DA6FB6207C6D2200A3DFE1 /* calendar99_logic.framework */,
+				D3DA6FBE207C6D2300A3DFE1 /* calendar99-logicTests.xctest */,
+				D3DA6FDD207C739400A3DFE1 /* calendar99-demo.app */,
+				D3DA6FF0207C739500A3DFE1 /* calendar99-demoTests.xctest */,
+				D3DA6FFB207C739500A3DFE1 /* calendar99-demoUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -73,6 +257,11 @@
 			children = (
 				D3DA6F9A207C6CEE00A3DFE1 /* calendar99.h */,
 				D3DA6F9B207C6CEE00A3DFE1 /* Info.plist */,
+				D3DA6FD5207C72D700A3DFE1 /* View.swift */,
+				D3DA6FD7207C735300A3DFE1 /* Cell.swift */,
+				D3DA7011207C81E100A3DFE1 /* MonthHeader.xib */,
+				D3DA7013207C868F00A3DFE1 /* Header.swift */,
+				D3DA7015207C876300A3DFE1 /* Util.swift */,
 			);
 			path = calendar99;
 			sourceTree = "<group>";
@@ -86,6 +275,78 @@
 			path = calendar99Tests;
 			sourceTree = "<group>";
 		};
+		D3DA6FB7207C6D2200A3DFE1 /* calendar99-logic */ = {
+			isa = PBXGroup;
+			children = (
+				D3DA6FB8207C6D2300A3DFE1 /* calendar99_logic.h */,
+				D3DA6FD3207C6EC700A3DFE1 /* Entry.swift */,
+				D3DA6FB9207C6D2300A3DFE1 /* Info.plist */,
+				D3DA6FCF207C6E7E00A3DFE1 /* Model.swift */,
+				D3DA6FCD207C6E7800A3DFE1 /* ViewModel.swift */,
+				D3DA700D207C7DFA00A3DFE1 /* Functionality.swift */,
+				D3DA700F207C805300A3DFE1 /* Entity.swift */,
+				D3DA7022207C977200A3DFE1 /* Util.swift */,
+			);
+			path = "calendar99-logic";
+			sourceTree = "<group>";
+		};
+		D3DA6FC2207C6D2300A3DFE1 /* calendar99-logicTests */ = {
+			isa = PBXGroup;
+			children = (
+				D3DA6FC5207C6D2300A3DFE1 /* Info.plist */,
+				D3DA7024207C97F100A3DFE1 /* DateUtilTest.swift */,
+			);
+			path = "calendar99-logicTests";
+			sourceTree = "<group>";
+		};
+		D3DA6FDE207C739400A3DFE1 /* calendar99-demo */ = {
+			isa = PBXGroup;
+			children = (
+				D3DA6FDF207C739400A3DFE1 /* AppDelegate.swift */,
+				D3DA6FE1207C739400A3DFE1 /* ViewController.swift */,
+				D3DA6FE3207C739400A3DFE1 /* Main.storyboard */,
+				D3DA6FE6207C739500A3DFE1 /* Assets.xcassets */,
+				D3DA6FE8207C739500A3DFE1 /* LaunchScreen.storyboard */,
+				D3DA6FEB207C739500A3DFE1 /* Info.plist */,
+			);
+			path = "calendar99-demo";
+			sourceTree = "<group>";
+		};
+		D3DA6FF3207C739500A3DFE1 /* calendar99-demoTests */ = {
+			isa = PBXGroup;
+			children = (
+				D3DA6FF4207C739500A3DFE1 /* calendar99_demoTests.swift */,
+				D3DA6FF6207C739500A3DFE1 /* Info.plist */,
+			);
+			path = "calendar99-demoTests";
+			sourceTree = "<group>";
+		};
+		D3DA6FFE207C739500A3DFE1 /* calendar99-demoUITests */ = {
+			isa = PBXGroup;
+			children = (
+				D3DA6FFF207C739500A3DFE1 /* calendar99_demoUITests.swift */,
+				D3DA7001207C739600A3DFE1 /* Info.plist */,
+			);
+			path = "calendar99-demoUITests";
+			sourceTree = "<group>";
+		};
+		FA6AC0D0F44373E29A575844 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				3DAE1A73F092169DB91E2865 /* Pods-calendar99.debug.xcconfig */,
+				48CDE88D6801E33CC237AF9E /* Pods-calendar99.release.xcconfig */,
+				09DD075CBF6FAE8839ED6B85 /* Pods-calendar99Tests.debug.xcconfig */,
+				2581178A4130BEE2B0114EB9 /* Pods-calendar99Tests.release.xcconfig */,
+				CA2363311704BDDCFECB5053 /* Pods-calendar99-logic.debug.xcconfig */,
+				320E00D12C0E1392AB73DE2E /* Pods-calendar99-logic.release.xcconfig */,
+				7B3C8C28804A3AC4610AC5C0 /* Pods-calendar99-demo.debug.xcconfig */,
+				04D74B116647242FC8CF08CA /* Pods-calendar99-demo.release.xcconfig */,
+				2F64F57362BEB3E1164FB5BC /* Pods-calendar99-logicTests.debug.xcconfig */,
+				B83FD4052FC070AEB5AC9F55 /* Pods-calendar99-logicTests.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -97,6 +358,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		D3DA6FB3207C6D2200A3DFE1 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D3DA6FC6207C6D2300A3DFE1 /* calendar99_logic.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
@@ -104,6 +373,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = D3DA6FAB207C6CEE00A3DFE1 /* Build configuration list for PBXNativeTarget "calendar99" */;
 			buildPhases = (
+				58C77F270B4F727853FCC613 /* [CP] Check Pods Manifest.lock */,
 				D3DA6F92207C6CEE00A3DFE1 /* Sources */,
 				D3DA6F93207C6CEE00A3DFE1 /* Frameworks */,
 				D3DA6F94207C6CEE00A3DFE1 /* Headers */,
@@ -112,6 +382,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				D3DA7018207C8CB100A3DFE1 /* PBXTargetDependency */,
 			);
 			name = calendar99;
 			productName = calendar99;
@@ -122,9 +393,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = D3DA6FAE207C6CEE00A3DFE1 /* Build configuration list for PBXNativeTarget "calendar99Tests" */;
 			buildPhases = (
+				7D9410E8A68611679F8B28C6 /* [CP] Check Pods Manifest.lock */,
 				D3DA6F9C207C6CEE00A3DFE1 /* Sources */,
 				D3DA6F9D207C6CEE00A3DFE1 /* Frameworks */,
 				D3DA6F9E207C6CEE00A3DFE1 /* Resources */,
+				6B7ED28AF0A4365762946819 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -135,6 +408,102 @@
 			productName = calendar99Tests;
 			productReference = D3DA6FA0207C6CEE00A3DFE1 /* calendar99Tests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		D3DA6FB5207C6D2200A3DFE1 /* calendar99-logic */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D3DA6FCB207C6D2300A3DFE1 /* Build configuration list for PBXNativeTarget "calendar99-logic" */;
+			buildPhases = (
+				70238075EADD9EAF6C96C1F6 /* [CP] Check Pods Manifest.lock */,
+				D3DA6FB1207C6D2200A3DFE1 /* Sources */,
+				D3DA6FB2207C6D2200A3DFE1 /* Frameworks */,
+				D3DA6FB3207C6D2200A3DFE1 /* Headers */,
+				D3DA6FB4207C6D2200A3DFE1 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "calendar99-logic";
+			productName = "calendar99-logic";
+			productReference = D3DA6FB6207C6D2200A3DFE1 /* calendar99_logic.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		D3DA6FBD207C6D2300A3DFE1 /* calendar99-logicTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D3DA6FCC207C6D2300A3DFE1 /* Build configuration list for PBXNativeTarget "calendar99-logicTests" */;
+			buildPhases = (
+				3972FDE8DD6F578D3AE3455A /* [CP] Check Pods Manifest.lock */,
+				D3DA6FBA207C6D2300A3DFE1 /* Sources */,
+				D3DA6FBB207C6D2300A3DFE1 /* Frameworks */,
+				D3DA6FBC207C6D2300A3DFE1 /* Resources */,
+				6569FCA283576F57B6A2CEA0 /* [CP] Embed Pods Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D3DA6FC1207C6D2300A3DFE1 /* PBXTargetDependency */,
+			);
+			name = "calendar99-logicTests";
+			productName = "calendar99-logicTests";
+			productReference = D3DA6FBE207C6D2300A3DFE1 /* calendar99-logicTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		D3DA6FDC207C739400A3DFE1 /* calendar99-demo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D3DA7002207C739600A3DFE1 /* Build configuration list for PBXNativeTarget "calendar99-demo" */;
+			buildPhases = (
+				E748E96AC2B682DF1EABBC8B /* [CP] Check Pods Manifest.lock */,
+				D3DA6FD9207C739400A3DFE1 /* Sources */,
+				D3DA6FDA207C739400A3DFE1 /* Frameworks */,
+				D3DA6FDB207C739400A3DFE1 /* Resources */,
+				80009C8F262C3DB7B186164A /* [CP] Embed Pods Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D3DA701C207C8E0A00A3DFE1 /* PBXTargetDependency */,
+				D3DA701E207C8E0A00A3DFE1 /* PBXTargetDependency */,
+			);
+			name = "calendar99-demo";
+			productName = "calendar99-demo";
+			productReference = D3DA6FDD207C739400A3DFE1 /* calendar99-demo.app */;
+			productType = "com.apple.product-type.application";
+		};
+		D3DA6FEF207C739500A3DFE1 /* calendar99-demoTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D3DA7005207C739600A3DFE1 /* Build configuration list for PBXNativeTarget "calendar99-demoTests" */;
+			buildPhases = (
+				D3DA6FEC207C739500A3DFE1 /* Sources */,
+				D3DA6FED207C739500A3DFE1 /* Frameworks */,
+				D3DA6FEE207C739500A3DFE1 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D3DA6FF2207C739500A3DFE1 /* PBXTargetDependency */,
+			);
+			name = "calendar99-demoTests";
+			productName = "calendar99-demoTests";
+			productReference = D3DA6FF0207C739500A3DFE1 /* calendar99-demoTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		D3DA6FFA207C739500A3DFE1 /* calendar99-demoUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D3DA7008207C739600A3DFE1 /* Build configuration list for PBXNativeTarget "calendar99-demoUITests" */;
+			buildPhases = (
+				D3DA6FF7207C739500A3DFE1 /* Sources */,
+				D3DA6FF8207C739500A3DFE1 /* Frameworks */,
+				D3DA6FF9207C739500A3DFE1 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D3DA6FFD207C739500A3DFE1 /* PBXTargetDependency */,
+			);
+			name = "calendar99-demoUITests";
+			productName = "calendar99-demoUITests";
+			productReference = D3DA6FFB207C739500A3DFE1 /* calendar99-demoUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
 
@@ -148,9 +517,29 @@
 				TargetAttributes = {
 					D3DA6F96207C6CEE00A3DFE1 = {
 						CreatedOnToolsVersion = 9.3;
+						LastSwiftMigration = 0930;
 					};
 					D3DA6F9F207C6CEE00A3DFE1 = {
 						CreatedOnToolsVersion = 9.3;
+					};
+					D3DA6FB5207C6D2200A3DFE1 = {
+						CreatedOnToolsVersion = 9.3;
+						LastSwiftMigration = 0930;
+					};
+					D3DA6FBD207C6D2300A3DFE1 = {
+						CreatedOnToolsVersion = 9.3;
+						LastSwiftMigration = 0930;
+					};
+					D3DA6FDC207C739400A3DFE1 = {
+						CreatedOnToolsVersion = 9.3;
+					};
+					D3DA6FEF207C739500A3DFE1 = {
+						CreatedOnToolsVersion = 9.3;
+						TestTargetID = D3DA6FDC207C739400A3DFE1;
+					};
+					D3DA6FFA207C739500A3DFE1 = {
+						CreatedOnToolsVersion = 9.3;
+						TestTargetID = D3DA6FDC207C739400A3DFE1;
 					};
 				};
 			};
@@ -160,6 +549,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
 			);
 			mainGroup = D3DA6F8D207C6CEE00A3DFE1;
 			productRefGroup = D3DA6F98207C6CEE00A3DFE1 /* Products */;
@@ -168,6 +558,11 @@
 			targets = (
 				D3DA6F96207C6CEE00A3DFE1 /* calendar99 */,
 				D3DA6F9F207C6CEE00A3DFE1 /* calendar99Tests */,
+				D3DA6FB5207C6D2200A3DFE1 /* calendar99-logic */,
+				D3DA6FBD207C6D2300A3DFE1 /* calendar99-logicTests */,
+				D3DA6FDC207C739400A3DFE1 /* calendar99-demo */,
+				D3DA6FEF207C739500A3DFE1 /* calendar99-demoTests */,
+				D3DA6FFA207C739500A3DFE1 /* calendar99-demoUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -177,6 +572,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D3DA7012207C81E100A3DFE1 /* MonthHeader.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -187,13 +583,220 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		D3DA6FB4207C6D2200A3DFE1 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D3DA6FBC207C6D2300A3DFE1 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D3DA6FDB207C739400A3DFE1 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D3DA6FEA207C739500A3DFE1 /* LaunchScreen.storyboard in Resources */,
+				D3DA6FE7207C739500A3DFE1 /* Assets.xcassets in Resources */,
+				D3DA6FE5207C739400A3DFE1 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D3DA6FEE207C739500A3DFE1 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D3DA6FF9207C739500A3DFE1 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		3972FDE8DD6F578D3AE3455A /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-calendar99-logicTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		58C77F270B4F727853FCC613 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-calendar99-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		6569FCA283576F57B6A2CEA0 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-calendar99-logicTests/Pods-calendar99-logicTests-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftFP/SwiftFP.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftFP.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-calendar99-logicTests/Pods-calendar99-logicTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		6B7ED28AF0A4365762946819 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-calendar99Tests/Pods-calendar99Tests-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftFP/SwiftFP.framework",
+				"${BUILT_PRODUCTS_DIR}/Differentiator/Differentiator.framework",
+				"${BUILT_PRODUCTS_DIR}/RxCocoa/RxCocoa.framework",
+				"${BUILT_PRODUCTS_DIR}/RxDataSources/RxDataSources.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftFP.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Differentiator.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxCocoa.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxDataSources.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-calendar99Tests/Pods-calendar99Tests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		70238075EADD9EAF6C96C1F6 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-calendar99-logic-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		7D9410E8A68611679F8B28C6 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-calendar99Tests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		80009C8F262C3DB7B186164A /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-calendar99-demo/Pods-calendar99-demo-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Differentiator/Differentiator.framework",
+				"${BUILT_PRODUCTS_DIR}/RxCocoa/RxCocoa.framework",
+				"${BUILT_PRODUCTS_DIR}/RxDataSources/RxDataSources.framework",
+				"${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftFP/SwiftFP.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Differentiator.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxCocoa.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxDataSources.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftFP.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-calendar99-demo/Pods-calendar99-demo-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E748E96AC2B682DF1EABBC8B /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-calendar99-demo-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		D3DA6F92207C6CEE00A3DFE1 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D3DA6FD6207C72D700A3DFE1 /* View.swift in Sources */,
+				D3DA7014207C868F00A3DFE1 /* Header.swift in Sources */,
+				D3DA6FD8207C735300A3DFE1 /* Cell.swift in Sources */,
+				D3DA7016207C876300A3DFE1 /* Util.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -205,6 +808,52 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		D3DA6FB1207C6D2200A3DFE1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D3DA6FD4207C6EC700A3DFE1 /* Entry.swift in Sources */,
+				D3DA7023207C977200A3DFE1 /* Util.swift in Sources */,
+				D3DA7010207C805300A3DFE1 /* Entity.swift in Sources */,
+				D3DA6FCE207C6E7800A3DFE1 /* ViewModel.swift in Sources */,
+				D3DA6FD0207C6E7E00A3DFE1 /* Model.swift in Sources */,
+				D3DA700E207C7DFA00A3DFE1 /* Functionality.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D3DA6FBA207C6D2300A3DFE1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D3DA7025207C97F100A3DFE1 /* DateUtilTest.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D3DA6FD9207C739400A3DFE1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D3DA6FE2207C739400A3DFE1 /* ViewController.swift in Sources */,
+				D3DA6FE0207C739400A3DFE1 /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D3DA6FEC207C739500A3DFE1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D3DA6FF5207C739500A3DFE1 /* calendar99_demoTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D3DA6FF7207C739500A3DFE1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D3DA7000207C739500A3DFE1 /* calendar99_demoUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -213,7 +862,56 @@
 			target = D3DA6F96207C6CEE00A3DFE1 /* calendar99 */;
 			targetProxy = D3DA6FA2207C6CEE00A3DFE1 /* PBXContainerItemProxy */;
 		};
+		D3DA6FC1207C6D2300A3DFE1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D3DA6FB5207C6D2200A3DFE1 /* calendar99-logic */;
+			targetProxy = D3DA6FC0207C6D2300A3DFE1 /* PBXContainerItemProxy */;
+		};
+		D3DA6FF2207C739500A3DFE1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D3DA6FDC207C739400A3DFE1 /* calendar99-demo */;
+			targetProxy = D3DA6FF1207C739500A3DFE1 /* PBXContainerItemProxy */;
+		};
+		D3DA6FFD207C739500A3DFE1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D3DA6FDC207C739400A3DFE1 /* calendar99-demo */;
+			targetProxy = D3DA6FFC207C739500A3DFE1 /* PBXContainerItemProxy */;
+		};
+		D3DA7018207C8CB100A3DFE1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D3DA6FB5207C6D2200A3DFE1 /* calendar99-logic */;
+			targetProxy = D3DA7017207C8CB100A3DFE1 /* PBXContainerItemProxy */;
+		};
+		D3DA701C207C8E0A00A3DFE1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D3DA6F96207C6CEE00A3DFE1 /* calendar99 */;
+			targetProxy = D3DA701B207C8E0A00A3DFE1 /* PBXContainerItemProxy */;
+		};
+		D3DA701E207C8E0A00A3DFE1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D3DA6FB5207C6D2200A3DFE1 /* calendar99-logic */;
+			targetProxy = D3DA701D207C8E0A00A3DFE1 /* PBXContainerItemProxy */;
+		};
 /* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		D3DA6FE3207C739400A3DFE1 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D3DA6FE4207C739400A3DFE1 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		D3DA6FE8207C739500A3DFE1 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D3DA6FE9207C739500A3DFE1 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		D3DA6FA9207C6CEE00A3DFE1 /* Debug */ = {
@@ -338,7 +1036,9 @@
 		};
 		D3DA6FAC207C6CEE00A3DFE1 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3DAE1A73F092169DB91E2865 /* Pods-calendar99.debug.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
@@ -348,14 +1048,11 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = calendar99/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = org.swiften.calendar99;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -363,7 +1060,9 @@
 		};
 		D3DA6FAD207C6CEE00A3DFE1 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 48CDE88D6801E33CC237AF9E /* Pods-calendar99.release.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
@@ -373,11 +1072,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = calendar99/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = org.swiften.calendar99;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -388,15 +1083,13 @@
 		};
 		D3DA6FAF207C6CEE00A3DFE1 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 09DD075CBF6FAE8839ED6B85 /* Pods-calendar99Tests.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 5FF785XRZ6;
 				INFOPLIST_FILE = calendar99Tests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = org.swiften.calendar99Tests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -406,19 +1099,197 @@
 		};
 		D3DA6FB0207C6CEE00A3DFE1 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2581178A4130BEE2B0114EB9 /* Pods-calendar99Tests.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 5FF785XRZ6;
 				INFOPLIST_FILE = calendar99Tests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = org.swiften.calendar99Tests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		D3DA6FC7207C6D2300A3DFE1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = CA2363311704BDDCFECB5053 /* Pods-calendar99-logic.debug.xcconfig */;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Automatic;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = 5FF785XRZ6;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = "calendar99-logic/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.swiften.calendar99-logic";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		D3DA6FC8207C6D2300A3DFE1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 320E00D12C0E1392AB73DE2E /* Pods-calendar99-logic.release.xcconfig */;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Automatic;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = 5FF785XRZ6;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = "calendar99-logic/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.swiften.calendar99-logic";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		D3DA6FC9207C6D2300A3DFE1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2F64F57362BEB3E1164FB5BC /* Pods-calendar99-logicTests.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 5FF785XRZ6;
+				INFOPLIST_FILE = "calendar99-logicTests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.swiften.calendar99-logicTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		D3DA6FCA207C6D2300A3DFE1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = B83FD4052FC070AEB5AC9F55 /* Pods-calendar99-logicTests.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 5FF785XRZ6;
+				INFOPLIST_FILE = "calendar99-logicTests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.swiften.calendar99-logicTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		D3DA7003207C739600A3DFE1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7B3C8C28804A3AC4610AC5C0 /* Pods-calendar99-demo.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 5FF785XRZ6;
+				INFOPLIST_FILE = "calendar99-demo/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.swiften.calendar99-demo";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		D3DA7004207C739600A3DFE1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 04D74B116647242FC8CF08CA /* Pods-calendar99-demo.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 5FF785XRZ6;
+				INFOPLIST_FILE = "calendar99-demo/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.swiften.calendar99-demo";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		D3DA7006207C739600A3DFE1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 5FF785XRZ6;
+				INFOPLIST_FILE = "calendar99-demoTests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.swiften.calendar99-demoTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/calendar99-demo.app/calendar99-demo";
+			};
+			name = Debug;
+		};
+		D3DA7007207C739600A3DFE1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 5FF785XRZ6;
+				INFOPLIST_FILE = "calendar99-demoTests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.swiften.calendar99-demoTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/calendar99-demo.app/calendar99-demo";
+			};
+			name = Release;
+		};
+		D3DA7009207C739600A3DFE1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 5FF785XRZ6;
+				INFOPLIST_FILE = "calendar99-demoUITests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.swiften.calendar99-demoUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = "calendar99-demo";
+			};
+			name = Debug;
+		};
+		D3DA700A207C739600A3DFE1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 5FF785XRZ6;
+				INFOPLIST_FILE = "calendar99-demoUITests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.swiften.calendar99-demoUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = "calendar99-demo";
 			};
 			name = Release;
 		};
@@ -448,6 +1319,51 @@
 			buildConfigurations = (
 				D3DA6FAF207C6CEE00A3DFE1 /* Debug */,
 				D3DA6FB0207C6CEE00A3DFE1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D3DA6FCB207C6D2300A3DFE1 /* Build configuration list for PBXNativeTarget "calendar99-logic" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D3DA6FC7207C6D2300A3DFE1 /* Debug */,
+				D3DA6FC8207C6D2300A3DFE1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D3DA6FCC207C6D2300A3DFE1 /* Build configuration list for PBXNativeTarget "calendar99-logicTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D3DA6FC9207C6D2300A3DFE1 /* Debug */,
+				D3DA6FCA207C6D2300A3DFE1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D3DA7002207C739600A3DFE1 /* Build configuration list for PBXNativeTarget "calendar99-demo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D3DA7003207C739600A3DFE1 /* Debug */,
+				D3DA7004207C739600A3DFE1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D3DA7005207C739600A3DFE1 /* Build configuration list for PBXNativeTarget "calendar99-demoTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D3DA7006207C739600A3DFE1 /* Debug */,
+				D3DA7007207C739600A3DFE1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D3DA7008207C739600A3DFE1 /* Build configuration list for PBXNativeTarget "calendar99-demoUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D3DA7009207C739600A3DFE1 /* Debug */,
+				D3DA700A207C739600A3DFE1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

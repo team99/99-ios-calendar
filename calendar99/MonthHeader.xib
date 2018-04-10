@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="Calendar99MonthHeader" customModule="calendar99" customModuleProvider="target">
+            <connections>
+                <outlet property="backwardBtn" destination="8Nc-7J-QRe" id="17g-sF-NSn"/>
+                <outlet property="backwardImg" destination="2yh-p0-64N" id="Kye-Gg-R6J"/>
+                <outlet property="forwardBtn" destination="7GA-XM-uvY" id="E1a-E3-WLZ"/>
+                <outlet property="forwardImg" destination="DxI-O1-WEF" id="vp4-nF-hDa"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionReusableView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gRW-Fu-AjT" customClass="Calendar99MonthHeader" customModule="calendar99" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="50"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="DxI-O1-WEF">
+                    <rect key="frame" x="325" y="0.0" width="50" height="50"/>
+                    <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="width" secondItem="DxI-O1-WEF" secondAttribute="height" id="SGn-wJ-sIS"/>
+                    </constraints>
+                </imageView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7GA-XM-uvY">
+                    <rect key="frame" x="325" y="0.0" width="50" height="50"/>
+                    <state key="normal" title="Button"/>
+                </button>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="2yh-p0-64N">
+                    <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                    <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="width" secondItem="2yh-p0-64N" secondAttribute="height" id="jYf-Xm-sYi"/>
+                    </constraints>
+                </imageView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8Nc-7J-QRe">
+                    <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                    <state key="normal" title="Button"/>
+                </button>
+            </subviews>
+            <constraints>
+                <constraint firstItem="2yh-p0-64N" firstAttribute="top" secondItem="gRW-Fu-AjT" secondAttribute="top" id="AP5-iZ-q4g"/>
+                <constraint firstItem="8Nc-7J-QRe" firstAttribute="top" secondItem="2yh-p0-64N" secondAttribute="top" id="EJz-kJ-klK"/>
+                <constraint firstItem="DxI-O1-WEF" firstAttribute="leading" secondItem="7GA-XM-uvY" secondAttribute="leading" id="KnP-2U-bUQ"/>
+                <constraint firstItem="2yh-p0-64N" firstAttribute="width" secondItem="2yh-p0-64N" secondAttribute="height" id="LKr-2e-4u5"/>
+                <constraint firstAttribute="bottom" secondItem="2yh-p0-64N" secondAttribute="bottom" id="MUv-2c-ogB"/>
+                <constraint firstItem="8Nc-7J-QRe" firstAttribute="leading" secondItem="2yh-p0-64N" secondAttribute="leading" id="QQR-GQ-Ju3"/>
+                <constraint firstItem="DxI-O1-WEF" firstAttribute="top" secondItem="gRW-Fu-AjT" secondAttribute="top" id="UXZ-uJ-T4J"/>
+                <constraint firstItem="8Nc-7J-QRe" firstAttribute="bottom" secondItem="2yh-p0-64N" secondAttribute="bottom" id="aWu-Sr-BMb"/>
+                <constraint firstItem="DxI-O1-WEF" firstAttribute="bottom" secondItem="7GA-XM-uvY" secondAttribute="bottom" id="dOJ-p4-zry"/>
+                <constraint firstItem="2yh-p0-64N" firstAttribute="leading" secondItem="gRW-Fu-AjT" secondAttribute="leading" id="hyb-c1-7bU"/>
+                <constraint firstItem="8Nc-7J-QRe" firstAttribute="trailing" secondItem="2yh-p0-64N" secondAttribute="trailing" id="kyc-zx-sNO"/>
+                <constraint firstAttribute="bottom" secondItem="DxI-O1-WEF" secondAttribute="bottom" id="mlG-uH-xo5"/>
+                <constraint firstItem="DxI-O1-WEF" firstAttribute="trailing" secondItem="7GA-XM-uvY" secondAttribute="trailing" id="qz5-5U-gO3"/>
+                <constraint firstItem="DxI-O1-WEF" firstAttribute="top" secondItem="7GA-XM-uvY" secondAttribute="top" id="sFb-r8-FI6"/>
+                <constraint firstAttribute="trailing" secondItem="DxI-O1-WEF" secondAttribute="trailing" id="scb-yf-huc"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="Ep5-aF-VCb"/>
+            <point key="canvasLocation" x="-79" y="-89"/>
+        </collectionReusableView>
+    </objects>
+</document>
