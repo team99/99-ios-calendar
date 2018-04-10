@@ -13,7 +13,7 @@ public protocol NNMonthHeaderViewModelType:
   NNMonthHeaderFunctionality,
   NNMonthControlViewModelType
 {
-  /// Stream month descriptions with the year.
+  /// Stream month descriptions to populate the month display label.
   var monthDescriptionStream: Observable<String> { get }
 }
 
@@ -54,6 +54,8 @@ public extension NNCalendar.MonthHeader {
     }
 
     public func setupBindings() {
+      /// Set up bindings in the month control view model to kickstart the
+      /// month/year calculations.
       monthControlVM.setupBindings()
     }
   }

@@ -10,9 +10,11 @@ import RxSwift
 
 /// Dependency for month display model.
 public protocol NNMonthDisplayModelDependency: NNMonthDisplayFunctionality {
-
   /// Stream components.
   var componentStream: Observable<NNCalendar.Components> { get }
+
+  /// Calculator to calculate date ranges.
+  var dateCalculator: NNDateCalculatorType { get }
 }
 
 /// Factory for month display model dependency.
@@ -42,12 +44,21 @@ public extension NNCalendar.MonthDisplay {
       return dependency.columnCount
     }
 
+    /// Avoid 0 and values larger than 7.
+    public var firstDayOfWeek: Int {
+      return Swift.max(dependency.firstDayOfWeek % 7, 1)
+    }
+
     public var rowCount: Int {
       return dependency.rowCount
     }
 
     public var componentStream: Observable<NNCalendar.Components> {
       return dependency.componentStream
+    }
+
+    public var dateCalculator: NNDateCalculatorType {
+      return dependency.dateCalculator
     }
 
     fileprivate let dependency: NNMonthDisplayModelDependency
@@ -57,7 +68,10 @@ public extension NNCalendar.MonthDisplay {
     }
 
     public func calculateDateRange(_ components: NNCalendar.Components) -> [Date] {
-      return []
+      return dateCalculator.calculateRange(components,
+                                           firstDayOfWeek,
+                                           rowCount,
+                                           columnCount)
     }
   }
 }

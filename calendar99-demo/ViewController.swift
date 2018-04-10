@@ -63,6 +63,14 @@ extension ViewController: NNMonthHeaderModelDependency {
 }
 
 extension ViewController: NNMonthDisplayModelDependency {
+  public var dateCalculator: NNDateCalculatorType {
+    return NNCalendar.DateCalculator.Sequential()
+  }
+
+  public var firstDayOfWeek: Int {
+    return 1
+  }
+
   public var columnCount: Int {
     return 7
   }

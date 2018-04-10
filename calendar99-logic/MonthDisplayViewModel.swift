@@ -31,6 +31,10 @@ public extension NNCalendar.MonthDisplay {
 
   /// Month display view model implementation.
   public final class ViewModel: NNMonthDisplayViewModelType {
+    public var firstDayOfWeek: Int {
+      return 1
+    }
+
     public var columnCount: Int {
       return model.columnCount
     }

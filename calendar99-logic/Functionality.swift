@@ -16,6 +16,9 @@ public protocol NNMonthHeaderFunctionality: NNMonthControlFunctionality {}
 
 /// Shared functionalities between the month display's model and view model.
 public protocol NNMonthDisplayFunctionality: NNMonthControlFunctionality {
+
+  /// Get the first day of a week (e.g. Monday).
+  var firstDayOfWeek: Int { get }
   
   /// Represents the number of columns. Should be 7 in most cases.
   var columnCount: Int { get }

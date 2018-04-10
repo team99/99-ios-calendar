@@ -20,4 +20,7 @@ public extension NNCalendar {
 
   /// Represents the month view display view.
   public final class MonthDisplay {}
+
+  /// Represents date calculators.
+  public final class DateCalculator {}
 }
