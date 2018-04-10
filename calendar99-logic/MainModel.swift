@@ -8,11 +8,14 @@
 
 import RxSwift
 
-/// Dependency for calendar model.
-public protocol Calendar99ModelDependency: Calendar99FunctionalityType {
+/// Dependency for calendar model for main view.
+public protocol Calendar99MainModelDependency: Calendar99MainFunctionalityType {
 
   /// Stream the current selected month.
   var monthStream: Observable<Int> { get }
+
+  /// Emit the initial month.
+  var initialMonthStream: Single<Int> { get }
 
   /// Receive the current month.
   var monthReceiver: AnyObserver<Int> { get }
@@ -20,21 +23,24 @@ public protocol Calendar99ModelDependency: Calendar99FunctionalityType {
   /// Stream the current selected year.
   var yearStream: Observable<Int> { get }
 
+  /// Emit the initial year.
+  var initialYearStream: Single<Int> { get }
+
   /// Receive the current year.
   var yearReceiver: AnyObserver<Int> { get }
 }
 
 /// Factory for model dependency.
-public protocol Calendar99ModelDependencyFactory {
+public protocol Calendar99MainModelDependencyFactory {
 
-  /// Create a model dependency.
+  /// Create a model dependency for main calendar view.
   ///
   /// - Returns: A Calendar99ModelDependency instance.
-  func calendarModelDependency() -> Calendar99ModelDependency
+  func mainCalendarModelDependency() -> Calendar99MainModelDependency
 }
 
-/// Model for calendar. This handles API calls.
-public protocol Calendar99ModelType: Calendar99ModelDependency {
+/// Model for main calendar view. This handles API calls.
+public protocol Calendar99MainModelType: Calendar99MainModelDependency {
 
   /// Calculate a new month and year based on a month offset.
   ///
@@ -51,11 +57,15 @@ public protocol Calendar99ModelType: Calendar99ModelDependency {
 public extension Calendar99.Main {
 
   /// Model implementation.
-  public final class Model: Calendar99ModelType {
-    fileprivate let dependency: Calendar99ModelDependency
+  public final class Model: Calendar99MainModelType {
+    fileprivate let dependency: Calendar99MainModelDependency
 
     public var monthStream: Observable<Int> {
       return dependency.monthStream
+    }
+
+    public var initialMonthStream: Single<Int> {
+      return dependency.initialMonthStream
     }
 
     public var monthReceiver: AnyObserver<Int> {
@@ -66,11 +76,15 @@ public extension Calendar99.Main {
       return dependency.yearStream
     }
 
+    public var initialYearStream: Single<Int> {
+      return dependency.initialYearStream
+    }
+
     public var yearReceiver: AnyObserver<Int> {
       return dependency.yearReceiver
     }
 
-    public init(_ dependency: Calendar99ModelDependency) {
+    public init(_ dependency: Calendar99MainModelDependency) {
       self.dependency = dependency
     }
 

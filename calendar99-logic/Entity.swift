@@ -11,15 +11,15 @@
 /// - forward: Go forward by some months.
 /// - backward: Go backward by some months.
 internal enum MonthDirection {
-  case forward(Int)
-  case backward(Int)
+  case forward(UInt)
+  case backward(UInt)
 
   /// Get the offset from current month. Beware that the offset for backward
   /// is a negative number.
   var monthOffset: Int {
     switch self {
-    case .forward(let offset): return offset
-    case .backward(let offset): return -offset
+    case .forward(let offset): return Int(offset)
+    case .backward(let offset): return -Int(offset)
     }
   }
 }

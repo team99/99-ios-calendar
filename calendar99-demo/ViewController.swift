@@ -16,14 +16,6 @@ public final class ViewController: UIViewController  {
   fileprivate let monthSb = BehaviorSubject(value: 1)
   fileprivate let yearSb = BehaviorSubject(value: 2018)
 
-  public var monthStream: Observable<Int> {
-    return monthSb
-  }
-
-  public var yearStream: Observable<Int> {
-    return yearSb
-  }
-
   override public func viewDidLoad() {
     super.viewDidLoad()
     let model = Calendar99.Main.Model(self)
@@ -34,6 +26,34 @@ public final class ViewController: UIViewController  {
 
 /// BEWARE MEMORY LEAKS HERE. THIS IS ONLY TEMPORARY.
 
-extension ViewController: Calendar99ModelDependency {}
+extension ViewController: Calendar99MainModelDependency {
+  public var monthStream: Observable<Int> {
+    return monthSb
+  }
 
-extension ViewController: Calendar99ViewModelDependency {}
+  public var initialMonthStream: Single<Int> {
+    let date = Date()
+    let month = Calendar.current.component(.month, from: date)
+    return Single.just(month)
+  }
+
+  public var yearStream: Observable<Int> {
+    return yearSb
+  }
+
+  public var initialYearStream: Single<Int> {
+    let date = Date()
+    let year = Calendar.current.component(.year, from: date)
+    return Single.just(year)
+  }
+
+  public var monthReceiver: AnyObserver<Int> {
+    return monthSb.asObserver()
+  }
+
+  public var yearReceiver: AnyObserver<Int> {
+    return yearSb.asObserver()
+  }
+}
+
+extension ViewController: Calendar99MainViewModelDependency {}

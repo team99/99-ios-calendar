@@ -8,5 +8,5 @@
 
 import RxSwift
 
-/// Shared functionalities between model and view model.
-public protocol Calendar99FunctionalityType {}
+/// Shared functionalities between the main view's model and view model.
+public protocol Calendar99MainFunctionalityType {}

@@ -18,31 +18,24 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="uTt-Pb-J8O" customClass="Calendar99MainView" customModule="calendar99">
-                                <rect key="frame" x="15" y="258.5" width="345" height="150"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OAw-Fd-26I" customClass="Calendar99MainView" customModule="calendar99">
+                                <rect key="frame" x="0.0" y="303" width="375" height="60"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="150" id="wnc-5q-hYE"/>
+                                    <constraint firstAttribute="height" constant="60" id="Gn8-uA-dTC"/>
                                 </constraints>
-                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="qr2-kY-Icl">
-                                    <size key="itemSize" width="50" height="50"/>
-                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                </collectionViewFlowLayout>
-                                <cells/>
-                            </collectionView>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="uTt-Pb-J8O" secondAttribute="trailing" constant="15" id="P3H-qO-qqb"/>
-                            <constraint firstItem="uTt-Pb-J8O" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="Yy9-BL-1BO"/>
-                            <constraint firstItem="uTt-Pb-J8O" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="15" id="tg7-1w-b4b"/>
+                            <constraint firstItem="OAw-Fd-26I" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="BXF-Ay-Reo"/>
+                            <constraint firstItem="OAw-Fd-26I" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="X9F-x1-dkz"/>
+                            <constraint firstAttribute="trailing" secondItem="OAw-Fd-26I" secondAttribute="trailing" id="mbD-pp-t8B"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
-                        <outlet property="calendarView" destination="uTt-Pb-J8O" id="mH2-Su-L8u"/>
+                        <outlet property="calendarView" destination="OAw-Fd-26I" id="h4Q-TN-wRQ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

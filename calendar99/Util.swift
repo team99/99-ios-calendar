@@ -16,14 +16,14 @@ public extension Calendar99 {
     /// Initialize a view with nib.
     ///
     /// - Parameter named: The name of the nib file.
-    public func initializeWithNib(view: UIView, _ named: String) {
+    public static func initializeWithNib(view: UIView, _ named: String) {
       let cls: AnyClass = view.classForCoder
 
       guard
         view.subviews.count == 0,
         let nibView = UINib
           .init(nibName: named, bundle: Bundle(for: cls))
-          .instantiate(withOwner: self, options: nil)[0]
+          .instantiate(withOwner: view, options: nil)[0]
           as? UIView
       else {
         return
@@ -33,5 +33,7 @@ public extension Calendar99 {
       nibView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
       view.addSubview(nibView)
     }
+
+    private init() {}
   }
 }

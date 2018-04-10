@@ -12,9 +12,9 @@ import RxSwift
 import SwiftFP
 import calendar99_logic
 
-/// Calendar view implementation.
-public final class Calendar99MainView: UICollectionView {
-  public var viewModel: Calendar99ViewModelType? {
+/// Month view implementation.
+public final class Calendar99MonthView: UICollectionView {
+  public var viewModel: Calendar99MainViewModelType? {
     willSet {
       #if DEBUG
       if viewModel != nil {
@@ -33,12 +33,11 @@ public final class Calendar99MainView: UICollectionView {
     guard !initialized else { return }
     defer { initialized = true }
     setupViews()
-    bindViewModel()
   }
 }
 
 // MARK: - UICollectionViewDelegateFlowLayout
-extension Calendar99MainView: UICollectionViewDelegateFlowLayout {
+extension Calendar99MonthView: UICollectionViewDelegateFlowLayout {
   public func collectionView(_ collectionView: UICollectionView,
                              layout collectionViewLayout: UICollectionViewLayout,
                              referenceSizeForHeaderInSection section: Int)
@@ -55,21 +54,20 @@ extension Calendar99MainView: UICollectionViewDelegateFlowLayout {
 }
 
 // MARK: - Views.
-public extension Calendar99MainView {
-  fileprivate var headerId: String {
-    return "MonthHeader"
+public extension Calendar99MonthView {
+  fileprivate var cellId: String {
+    return "DateCell"
   }
 
   /// Set up views/sub-views in the calendar view.
   fileprivate func setupViews() {
-    register(UINib(nibName: "MonthHeader", bundle: nil),
-             forSupplementaryViewOfKind: UICollectionElementKindSectionHeader,
-             withReuseIdentifier: headerId)
+    register(UINib(nibName: "DateCell", bundle: nil),
+             forCellWithReuseIdentifier: cellId)
   }
 }
 
 // MARK: - Data source.
-public extension Calendar99MainView {
+public extension Calendar99MonthView {
   typealias Section = AnimatableSectionModel<String, String>
   typealias CVSource = CollectionViewSectionedDataSource<Section>
   typealias RxDataSource = RxCollectionViewSectionedAnimatedDataSource<Section>
@@ -92,6 +90,12 @@ public extension Calendar99MainView {
         }
     })
 
+    dataSource.animationConfiguration = AnimationConfiguration(
+      insertAnimation: .left,
+      reloadAnimation: .fade,
+      deleteAnimation: .right
+    )
+
     dataSource.canMoveItemAtIndexPath = {(_, _) in false}
     return dataSource
   }
@@ -102,7 +106,7 @@ public extension Calendar99MainView {
                              _ item: Section.Item)
     -> UICollectionViewCell
   {
-    return Calendar99MainCell()
+    return Calendar99DateCell()
   }
 
   private func configureSupplementaryView(_ source: CVSource,
@@ -111,70 +115,6 @@ public extension Calendar99MainView {
                                           _ indexPath: IndexPath)
     -> UICollectionReusableView
   {
-    switch kind {
-    case UICollectionElementKindSectionHeader:
-      guard let monthHeader = view.dequeueReusableSupplementaryView(
-        ofKind: kind,
-        withReuseIdentifier: headerId,
-        for: indexPath) as? Calendar99MonthHeader else
-      {
-        break
-      }
-
-      bindMonthHeaderView(monthHeader)
-      return monthHeader
-
-    default:
-      break
-    }
-
     return UICollectionReusableView()
-  }
-}
-
-// MARK: - Bindings.
-public extension Calendar99MainView {
-
-  /// Set up stream bindings.
-  fileprivate func bindViewModel() {
-    guard let viewModel = self.viewModel else {
-      #if DEBUG
-      fatalError("Properties cannot be nil")
-      #else
-      return
-      #endif
-    }
-
-    let disposable = self.disposable
-    let dataSource = setupDataSource()
-    viewModel.setupBindings()
-    self.rx.setDelegate(self).disposed(by: disposable)
-  }
-
-  /// Bind month header views.
-  ///
-  /// - Parameter monthHeader: A MonthHeader instance.
-  fileprivate func bindMonthHeaderView(_ monthHeader: Calendar99MonthHeader) {
-    guard
-      let viewModel = self.viewModel,
-      let monthForward = monthHeader.forwardBtn,
-      let monthBackward = monthHeader.backwardBtn else
-    {
-      #if DEBUG
-      fatalError("Properties cannot be nil")
-      #else
-      return
-      #endif
-    }
-
-    let disposable = self.disposable
-
-    monthForward.rx.tap.map({1})
-      .bind(to: viewModel.monthForwardReceiver)
-      .disposed(by: disposable)
-
-    monthBackward.rx.tap.map({1})
-      .bind(to: viewModel.monthBackwardReceiver)
-      .disposed(by: disposable)
   }
 }
