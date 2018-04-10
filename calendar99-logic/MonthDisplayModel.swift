@@ -36,6 +36,17 @@ public protocol NNMonthDisplayModelType: NNMonthDisplayModelDependency {
   /// - Parameter components: A Components instance.
   /// - Returns: An Array of Date.
   func calculateDateRange(_ components: NNCalendar.Components) -> [Date]
+
+  /// Get the description for a date.
+  ///
+  /// - Parameter date: A Date instance.
+  func dateDescription(_ date: Date) -> String
+
+  /// Check if a date is in a specified month.
+  ///
+  /// - Parameter components: A Components instance.
+  /// - Returns: A Date instance.
+  func isInMonth(_ components: NNCalendar.Components, _ date: Date) -> Bool
 }
 
 public extension NNCalendar.MonthDisplay {
@@ -72,6 +83,17 @@ public extension NNCalendar.MonthDisplay {
                                            firstDayOfWeek,
                                            rowCount,
                                            columnCount)
+    }
+
+    public func dateDescription(_ date: Date) -> String {
+      return Calendar.current.component(.day, from: date).description
+    }
+
+    public func isInMonth(_ components: NNCalendar.Components, _ date: Date) -> Bool {
+      let calendar = Calendar.current
+      let month = calendar.component(.month, from: date)
+      let year = calendar.component(.year, from: date)
+      return components.month == month && components.year == year
     }
   }
 }

@@ -51,23 +51,44 @@ public final class NNMonthView: UICollectionView {
 
 // MARK: - UICollectionViewDelegateFlowLayout
 extension NNMonthView: UICollectionViewDelegateFlowLayout {
-  public func collectionView(_ collectionView: UICollectionView,
-                             layout collectionViewLayout: UICollectionViewLayout,
-                             referenceSizeForHeaderInSection section: Int)
-    -> CGSize
+  public func collectionView(
+    _ collectionView: UICollectionView,
+    layout collectionViewLayout: UICollectionViewLayout,
+    referenceSizeForHeaderInSection section: Int) -> CGSize
   {
     return CGSize.zero
   }
 
   public func collectionView(_ collectionView: UICollectionView,
                              layout collectionViewLayout: UICollectionViewLayout,
+                             insetForSectionAt section: Int) -> UIEdgeInsets {
+    return UIEdgeInsets.zero
+  }
+
+  public func collectionView(
+    _ collectionView: UICollectionView,
+    layout collectionViewLayout: UICollectionViewLayout,
+    minimumLineSpacingForSectionAt section: Int) -> CGFloat
+  {
+    return 0
+  }
+
+  public func collectionView(
+    _ collectionView: UICollectionView,
+    layout collectionViewLayout: UICollectionViewLayout,
+    minimumInteritemSpacingForSectionAt section: Int) -> CGFloat
+  {
+    return 0
+  }
+
+  public func collectionView(_ collectionView: UICollectionView,
+                             layout collectionViewLayout: UICollectionViewLayout,
                              sizeForItemAt indexPath: IndexPath) -> CGSize {
-    let containerHeight = collectionView.bounds.height
-    let containerWidth = collectionView.bounds.width
+    let cHeight = collectionView.bounds.height
+    let cWidth = collectionView.bounds.width
 
     return viewModel
-      .map({(containerWidth / CGFloat($0.columnCount),
-             containerHeight / CGFloat($0.rowCount))})
+      .map({(cWidth / CGFloat($0.columnCount), cHeight / CGFloat($0.rowCount))})
       .map({CGSize(width: $0, height: $1)})
       .getOrElse(CGSize.zero)
   }
@@ -81,8 +102,9 @@ public extension NNMonthView {
 
   /// Set up views/sub-views in the calendar view.
   fileprivate func setupViews() {
-    register(UINib(nibName: "DateCell", bundle: nil),
-             forCellWithReuseIdentifier: cellId)
+    let bundle = Bundle(for: NNDateCell.classForCoder())
+    let cellNib = UINib(nibName: "DateCell", bundle: bundle)
+    register(cellNib, forCellWithReuseIdentifier: cellId)
   }
 }
 
@@ -126,7 +148,19 @@ public extension NNMonthView {
                              _ item: Section.Item)
     -> UICollectionViewCell
   {
-    return NNDateCell()
+    guard let cell = view.dequeueReusableCell(
+      withReuseIdentifier: cellId,
+      for: indexPath) as? NNDateCell else
+    {
+      #if DEBUG
+      fatalError("Unrecognized cell")
+      #else
+      return UICollectionViewCell()
+      #endif
+    }
+
+    cell.setupWithDay(item)
+    return cell
   }
 
   private func configureSupplementaryView(_ source: CVSource,
@@ -163,9 +197,9 @@ public extension NNMonthView {
 }
 
 extension NNCalendar.Day: IdentifiableType {
-  public typealias Identity = Date
+  public typealias Identity = String
 
   public var identity: Identity {
-    return date
+    return "\(date).\(isCurrentMonth)"
   }
 }

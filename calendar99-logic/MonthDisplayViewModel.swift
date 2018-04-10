@@ -45,9 +45,16 @@ public extension NNCalendar.MonthDisplay {
 
     public var dayStream: Observable<[NNCalendar.Day]> {
       return model.componentStream
-        .map({[weak self] in self?.model.calculateDateRange($0)})
+        .map({[weak self] components in
+          (self?.model.calculateDateRange(components)).map({(components, $0)})
+        })
         .filter({$0.isSome}).map({$0!})
-        .map({$0.map({NNCalendar.Day(date: $0)})})
+        .map({[weak self] (comps, dates) in (self?.model).map({model in dates.map({
+            NNCalendar.Day(date: $0,
+                           dateDescription: model.dateDescription($0),
+                           isCurrentMonth: model.isInMonth(comps, $0))
+        })})})
+        .filter({$0.isSome}).map({$0!})
     }
 
     fileprivate let dependency: NNMonthDisplayViewModelDependency

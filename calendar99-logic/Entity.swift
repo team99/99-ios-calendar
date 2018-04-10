@@ -41,6 +41,13 @@ public extension NNCalendar {
       self.year = year
     }
 
+    public func dateComponents() -> DateComponents {
+      var components = DateComponents()
+      components.setValue(month, for: .month)
+      components.setValue(year, for: .year)
+      return components
+    }
+
     public static func ==(_ lhs: Components, _ rhs: Components) -> Bool {
       return lhs.month == rhs.month && lhs.year == rhs.year
     }
@@ -54,13 +61,11 @@ public extension NNCalendar {
   /// view.
   public struct Day: Equatable, CustomStringConvertible {
     public let date: Date
+    public let dateDescription: String
+    public let isCurrentMonth: Bool
 
     public var description: String {
       return date.description
-    }
-
-    public init(date: Date) {
-      self.date = date
     }
 
     public static func ==(_ lhs: Day, _ rhs: Day) -> Bool {
