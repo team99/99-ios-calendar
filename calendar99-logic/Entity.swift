@@ -24,6 +24,7 @@ internal enum MonthDirection {
   }
 }
 
+// MARK: - Components.
 public extension Calendar99 {
 
   /// Represents components that can be controlled by the user.
@@ -42,6 +43,28 @@ public extension Calendar99 {
 
     public static func ==(_ lhs: Components, _ rhs: Components) -> Bool {
       return lhs.month == rhs.month && lhs.year == rhs.year
+    }
+  }
+}
+
+// MARK: - Days.
+public extension Calendar99 {
+
+  /// Represents a container for dates that can be used to display on the month
+  /// view.
+  public struct Day: Equatable, CustomStringConvertible {
+    public let date: Date
+
+    public var description: String {
+      return date.description
+    }
+
+    public init(date: Date) {
+      self.date = date
+    }
+
+    public static func ==(_ lhs: Day, _ rhs: Day) -> Bool {
+      return lhs.date == rhs.date
     }
   }
 }

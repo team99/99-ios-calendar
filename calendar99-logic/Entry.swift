@@ -11,9 +11,9 @@
 public final class Calendar99 {}
 
 public extension Calendar99 {
-  /// Represents the main display component.
-  public final class Main {}
+  /// Represents the month header display component.
+  public final class MonthHeader {}
 
-  /// Represents the day display component.
-  public final class Days {}
+  /// Represents the month view display component.
+  public final class MonthDisplay {}
 }

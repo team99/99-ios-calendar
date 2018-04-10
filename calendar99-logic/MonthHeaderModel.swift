@@ -8,8 +8,8 @@
 
 import RxSwift
 
-/// Dependency for calendar model for main view.
-public protocol Calendar99MainModelDependency: Calendar99MainFunctionalityType {
+/// Dependency for month header model.
+public protocol C99MonthHeaderModelDependency: C99MonthHeaderFunctionality {
 
   /// Stream the current selected components.
   var componentStream: Observable<Calendar99.Components> { get }
@@ -27,17 +27,17 @@ public protocol Calendar99MainModelDependency: Calendar99MainFunctionalityType {
   func formatMonthDescription(_ components: Calendar99.Components) -> String
 }
 
-/// Factory for model dependency.
-public protocol Calendar99MainModelDependencyFactory {
+/// Factory for month header model dependency.
+public protocol C99MonthHeaderDependencyFactory {
 
-  /// Create a model dependency for main calendar view.
+  /// Create a model dependency for month header view.
   ///
   /// - Returns: A Calendar99ModelDependency instance.
-  func mainCalendarModelDependency() -> Calendar99MainModelDependency
+  func monthHeaderModelDependency() -> C99MonthHeaderModelDependency
 }
 
-/// Model for main calendar view. This handles API calls.
-public protocol Calendar99MainModelType: Calendar99MainModelDependency {
+/// Model for month header view.
+public protocol C99MonthHeaderModelType: C99MonthHeaderModelDependency {
 
   /// Calculate a new components based on a month offset.
   ///
@@ -49,11 +49,11 @@ public protocol Calendar99MainModelType: Calendar99MainModelDependency {
     -> Calendar99.Components?
 }
 
-public extension Calendar99.Main {
+public extension Calendar99.MonthHeader {
 
   /// Model implementation.
-  public final class Model: Calendar99MainModelType {
-    fileprivate let dependency: Calendar99MainModelDependency
+  public final class Model: C99MonthHeaderModelType {
+    fileprivate let dependency: C99MonthHeaderModelDependency
 
     public var componentStream: Observable<Calendar99.Components> {
       return dependency.componentStream
@@ -67,7 +67,7 @@ public extension Calendar99.Main {
       return dependency.componentReceiver
     }
 
-    public init(_ dependency: Calendar99MainModelDependency) {
+    public init(_ dependency: C99MonthHeaderModelDependency) {
       self.dependency = dependency
     }
 

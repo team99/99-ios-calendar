@@ -8,20 +8,20 @@
 
 import RxSwift
 
-/// Dependency for calendar view model.
-public protocol Calendar99MainViewModelDependency {}
+/// Dependency for month header view model.
+public protocol C99MonthHeaderViewModelDependency {}
 
-/// Factory for calendar view model dependency.
-public protocol Calendar99MainViewModelDependencyFactory {
+/// Factory for month header view model dependency.
+public protocol C99MonthHeaderViewModelDependencyFactory {
 
-  /// Create a view model dependency for the main calendar view.
+  /// Create a view model dependency for the month header view.
   ///
   /// - Returns: A Calendar99ViewModelDependency instance.
-  func mainCalendarViewModelDependency() -> Calendar99MainViewModelDependency
+  func monthHeaderViewModelDependency() -> C99MonthHeaderViewModelDependency
 }
 
-/// View model for calendar view.
-public protocol Calendar99MainViewModelType {
+/// View model for month header view.
+public protocol C99MonthHeaderViewModelType: C99MonthHeaderFunctionality {
 
   /// Move forward by some months.
   var monthForwardReceiver: AnyObserver<UInt> { get }
@@ -36,10 +36,10 @@ public protocol Calendar99MainViewModelType {
   func setupBindings()
 }
 
-public extension Calendar99.Main {
+public extension Calendar99.MonthHeader {
   
   /// View model implementation.
-  public final class ViewModel: Calendar99MainViewModelType {
+  public final class ViewModel: C99MonthHeaderViewModelType {
     public var monthForwardReceiver: AnyObserver<UInt> {
       return monthMovementSb.mapObserver(MonthDirection.forward)
     }
@@ -55,13 +55,13 @@ public extension Calendar99.Main {
         .distinctUntilChanged()
     }
 
-    fileprivate let dependency: Calendar99MainViewModelDependency
-    fileprivate let model: Calendar99MainModelType
+    fileprivate let dependency: C99MonthHeaderViewModelDependency
+    fileprivate let model: C99MonthHeaderModelType
     fileprivate let monthMovementSb: PublishSubject<MonthDirection>
     fileprivate let disposable: DisposeBag
 
-    public init(_ dependency: Calendar99MainViewModelDependency,
-                _ model: Calendar99MainModelType) {
+    public init(_ dependency: C99MonthHeaderViewModelDependency,
+                _ model: C99MonthHeaderModelType) {
       self.dependency = dependency
       self.model = model
       disposable = DisposeBag()

@@ -1,5 +1,5 @@
 //
-//  MainView.swift
+//  MonthHeader.swift
 //  calendar99
 //
 //  Created by Hai Pham on 10/4/18.
@@ -10,15 +10,15 @@ import RxSwift
 import UIKit
 import calendar99_logic
 
-/// Header view for calendar.
-public final class Calendar99MainView: UIView {
+/// Month header view for calendar.
+public final class C99MonthHeaderView: UIView {
   @IBOutlet fileprivate weak var backwardImg: UIImageView!
   @IBOutlet fileprivate weak var backwardBtn: UIButton!
   @IBOutlet fileprivate weak var forwardImg: UIImageView!
   @IBOutlet fileprivate weak var forwardBtn: UIButton!
   @IBOutlet fileprivate weak var monthLbl: UILabel!
   
-  public var viewModel: Calendar99MainViewModelType? {
+  public var viewModel: C99MonthHeaderViewModelType? {
     willSet {
       #if DEBUG
       if viewModel != nil {
@@ -37,18 +37,25 @@ public final class Calendar99MainView: UIView {
 
   required public init?(coder aDecoder: NSCoder) {
     super.init(coder: aDecoder)
-    Calendar99.ViewUtil.initializeWithNib(view: self, "MainView")
+    Calendar99.ViewUtil.initializeWithNib(view: self, "MonthHeader")
   }
 
   override public init(frame: CGRect) {
     super.init(frame: frame)
-    Calendar99.ViewUtil.initializeWithNib(view: self, "MainView")
+    Calendar99.ViewUtil.initializeWithNib(view: self, "MonthHeader")
   }
 
   override public func layoutSubviews() {
     super.layoutSubviews()
-    guard !initialized else { return }
-    defer { initialized = true }
+    var didInitialize = false
+
+    objc_sync_enter() {
+      didInitialize = self.initialized
+      if !self.initialized { self.initialized = true }
+    }
+
+    guard !didInitialize else { return }
+    setupViews()
   }
 
   private func didSetViewModel() {
@@ -57,14 +64,12 @@ public final class Calendar99MainView: UIView {
 }
 
 // MARK: - Views
-public extension Calendar99MainView {
-  fileprivate func setupViews() {
-    
-  }
+public extension C99MonthHeaderView {
+  fileprivate func setupViews() {}
 }
 
 // MARK: - Bindings.
-public extension Calendar99MainView {
+public extension C99MonthHeaderView {
 
   /// Set up stream bindings.
   fileprivate func bindViewModel() {

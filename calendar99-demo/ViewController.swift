@@ -12,21 +12,27 @@ import calendar99_logic
 import calendar99
 
 public final class ViewController: UIViewController  {
-  @IBOutlet weak var calendarView: Calendar99MainView!
+  @IBOutlet fileprivate weak var monthHeader: C99MonthHeaderView!
+  @IBOutlet fileprivate weak var monthView: C99MonthView!
   fileprivate var componentSb: BehaviorSubject<Calendar99.Components?>!
 
   override public func viewDidLoad() {
     super.viewDidLoad()
     componentSb = BehaviorSubject(value: nil)
-    let model = Calendar99.Main.Model(self)
-    let viewModel = Calendar99.Main.ViewModel(self, model)
-    calendarView.viewModel = viewModel
+
+    let monthHeaderModel = Calendar99.MonthHeader.Model(self)
+    let monthHeaderVM = Calendar99.MonthHeader.ViewModel(self, monthHeaderModel)
+    monthHeader.viewModel = monthHeaderVM
+
+    let monthViewModel = Calendar99.MonthDisplay.Model(self)
+    let monthViewVM = Calendar99.MonthDisplay.ViewModel(self, monthViewModel)
+    monthView.viewModel = monthViewVM
   }
 }
 
 /// BEWARE MEMORY LEAKS HERE. THIS IS ONLY TEMPORARY.
 
-extension ViewController: Calendar99MainModelDependency {
+extension ViewController: C99MonthHeaderModelDependency {
   public var componentStream: Observable<Calendar99.Components> {
     return componentSb.map({$0!})
   }
@@ -56,4 +62,16 @@ extension ViewController: Calendar99MainModelDependency {
   }
 }
 
-extension ViewController: Calendar99MainViewModelDependency {}
+extension ViewController: C99MonthHeaderViewModelDependency {}
+
+extension ViewController: C99MonthDisplayModelDependency {
+  public var columnCount: Int {
+    return 7
+  }
+
+  public var rowCount: Int {
+    return 6
+  }
+}
+
+extension ViewController: C99MonthDisplayViewModelDependency {}
