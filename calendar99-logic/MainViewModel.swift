@@ -29,6 +29,9 @@ public protocol Calendar99MainViewModelType {
   /// Move backward by some months.
   var monthBackwardReceiver: AnyObserver<UInt> { get }
 
+  /// Stream month descriptions with the year.
+  var monthDescriptionStream: Observable<String> { get }
+
   /// Set up stream bindings.
   func setupBindings()
 }
@@ -43,6 +46,13 @@ public extension Calendar99.Main {
 
     public var monthBackwardReceiver: AnyObserver<UInt> {
       return monthMovementSb.mapObserver(MonthDirection.backward)
+    }
+
+    public var monthDescriptionStream: Observable<String> {
+      return model.componentStream
+        .map({[weak self] in self?.model.formatMonthDescription($0)})
+        .filter({$0.isSome}).map({$0!})
+        .distinctUntilChanged()
     }
 
     fileprivate let dependency: Calendar99MainViewModelDependency
@@ -62,26 +72,15 @@ public extension Calendar99.Main {
       let disposable = self.disposable
 
       let monthMovementStream = monthMovementSb
-        .withLatestFrom(model.monthStream) {($1, $0)}
-        .withLatestFrom(model.yearStream) {($0.0, $1, $0.1.monthOffset)}
-        .map({[weak self] in self?.model.newMonthAndYear($0, $1, $2)})
+        .withLatestFrom(model.componentStream) {($1, $0.monthOffset)}
+        .map({[weak self] in self?.model.newComponents($0, $1)})
         .filter({$0.isSome}).map({$0!})
         .share(replay: 1)
 
       Observable
-        .merge(model.initialMonthStream.asObservable(),
-               monthMovementStream.map({$0.month}))
+        .merge(model.initialComponentStream.asObservable(), monthMovementStream)
         .distinctUntilChanged()
-        .do(onNext: {print("Month:", $0)})
-        .subscribe(model.monthReceiver)
-        .disposed(by: disposable)
-
-      Observable
-        .merge(model.initialYearStream.asObservable(),
-               monthMovementStream.map({$0.year}))
-        .distinctUntilChanged()
-        .do(onNext: {print("Year:", $0)})
-        .subscribe(model.yearReceiver)
+        .subscribe(model.componentReceiver)
         .disposed(by: disposable)
     }
   }

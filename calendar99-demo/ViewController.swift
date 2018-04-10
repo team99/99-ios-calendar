@@ -13,11 +13,11 @@ import calendar99
 
 public final class ViewController: UIViewController  {
   @IBOutlet weak var calendarView: Calendar99MainView!
-  fileprivate let monthSb = BehaviorSubject(value: 1)
-  fileprivate let yearSb = BehaviorSubject(value: 2018)
+  fileprivate var componentSb: BehaviorSubject<Calendar99.Components?>!
 
   override public func viewDidLoad() {
     super.viewDidLoad()
+    componentSb = BehaviorSubject(value: nil)
     let model = Calendar99.Main.Model(self)
     let viewModel = Calendar99.Main.ViewModel(self, model)
     calendarView.viewModel = viewModel
@@ -27,32 +27,32 @@ public final class ViewController: UIViewController  {
 /// BEWARE MEMORY LEAKS HERE. THIS IS ONLY TEMPORARY.
 
 extension ViewController: Calendar99MainModelDependency {
-  public var monthStream: Observable<Int> {
-    return monthSb
+  public var componentStream: Observable<Calendar99.Components> {
+    return componentSb.map({$0!})
   }
 
-  public var initialMonthStream: Single<Int> {
+  public var initialComponentStream: Single<Calendar99.Components> {
     let date = Date()
     let month = Calendar.current.component(.month, from: date)
-    return Single.just(month)
-  }
-
-  public var yearStream: Observable<Int> {
-    return yearSb
-  }
-
-  public var initialYearStream: Single<Int> {
-    let date = Date()
     let year = Calendar.current.component(.year, from: date)
-    return Single.just(year)
+    let comps = Calendar99.Components(month: month, year: year)
+    return Single.just(comps)
   }
 
-  public var monthReceiver: AnyObserver<Int> {
-    return monthSb.asObserver()
+  public var componentReceiver: AnyObserver<Calendar99.Components> {
+    return componentSb.mapObserver(Optional.some)
   }
 
-  public var yearReceiver: AnyObserver<Int> {
-    return yearSb.asObserver()
+  public func formatMonthDescription(_ components: Calendar99.Components) -> String {
+    let month = components.month
+    let year = components.year
+    var components = DateComponents()
+    components.setValue(month, for: .month)
+    components.setValue(year, for: .year)
+    let date = Calendar.current.date(from: components)!
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateFormat = "MMM yyyy"
+    return dateFormatter.string(from: date)
   }
 }
 

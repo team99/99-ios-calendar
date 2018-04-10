@@ -23,3 +23,25 @@ internal enum MonthDirection {
     }
   }
 }
+
+public extension Calendar99 {
+
+  /// Represents components that can be controlled by the user.
+  public struct Components: Equatable, CustomStringConvertible {
+    public let month: Int
+    public let year: Int
+
+    public var description: String {
+      return "month: \(month), year: \(year)"
+    }
+
+    public init(month: Int, year: Int) {
+      self.month = month
+      self.year = year
+    }
+
+    public static func ==(_ lhs: Components, _ rhs: Components) -> Bool {
+      return lhs.month == rhs.month && lhs.year == rhs.year
+    }
+  }
+}

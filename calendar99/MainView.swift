@@ -12,11 +12,12 @@ import calendar99_logic
 
 /// Header view for calendar.
 public final class Calendar99MainView: UIView {
-  @IBOutlet weak var backwardImg: UIImageView!
-  @IBOutlet weak var backwardBtn: UIButton!
-  @IBOutlet weak var forwardImg: UIImageView!
-  @IBOutlet weak var forwardBtn: UIButton!
-
+  @IBOutlet fileprivate weak var backwardImg: UIImageView!
+  @IBOutlet fileprivate weak var backwardBtn: UIButton!
+  @IBOutlet fileprivate weak var forwardImg: UIImageView!
+  @IBOutlet fileprivate weak var forwardBtn: UIButton!
+  @IBOutlet fileprivate weak var monthLbl: UILabel!
+  
   public var viewModel: Calendar99MainViewModelType? {
     willSet {
       #if DEBUG
@@ -69,6 +70,7 @@ public extension Calendar99MainView {
   fileprivate func bindViewModel() {
     guard
       let viewModel = self.viewModel,
+      let monthLbl = self.monthLbl,
       let backwardBtn = self.backwardBtn,
       let forwardBtn = self.forwardBtn else
     {
@@ -88,6 +90,11 @@ public extension Calendar99MainView {
 
     forwardBtn.rx.tap.map({1})
       .bind(to: viewModel.monthForwardReceiver)
+      .disposed(by: disposable)
+
+    viewModel.monthDescriptionStream
+      .observeOn(MainScheduler.instance)
+      .bind(to: monthLbl.rx.text)
       .disposed(by: disposable)
   }
 }

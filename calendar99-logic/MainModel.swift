@@ -11,23 +11,20 @@ import RxSwift
 /// Dependency for calendar model for main view.
 public protocol Calendar99MainModelDependency: Calendar99MainFunctionalityType {
 
-  /// Stream the current selected month.
-  var monthStream: Observable<Int> { get }
+  /// Stream the current selected components.
+  var componentStream: Observable<Calendar99.Components> { get }
 
-  /// Emit the initial month.
-  var initialMonthStream: Single<Int> { get }
+  /// Emit the initial components.
+  var initialComponentStream: Single<Calendar99.Components> { get }
 
-  /// Receive the current month.
-  var monthReceiver: AnyObserver<Int> { get }
+  /// Receive the current components.
+  var componentReceiver: AnyObserver<Calendar99.Components> { get }
 
-  /// Stream the current selected year.
-  var yearStream: Observable<Int> { get }
-
-  /// Emit the initial year.
-  var initialYearStream: Single<Int> { get }
-
-  /// Receive the current year.
-  var yearReceiver: AnyObserver<Int> { get }
+  /// Format month description.
+  ///
+  /// - Parameter components: A ControlComponents instance.
+  /// - Returns: A String value.
+  func formatMonthDescription(_ components: Calendar99.Components) -> String
 }
 
 /// Factory for model dependency.
@@ -42,16 +39,14 @@ public protocol Calendar99MainModelDependencyFactory {
 /// Model for main calendar view. This handles API calls.
 public protocol Calendar99MainModelType: Calendar99MainModelDependency {
 
-  /// Calculate a new month and year based on a month offset.
+  /// Calculate a new components based on a month offset.
   ///
   /// - Parameters:
-  ///   - prevMonth: The previous month.
-  ///   - prevYear: The previous year.
+  ///   - prevComps: The previous components.
   ///   - monthOffset: A month offset value.
   /// - Returns: A tuple of month and year.
-  func newMonthAndYear(_ prevMonth: Int,
-                       _ prevYear: Int,
-                       _ monthOffset: Int) -> (month: Int, year: Int)?
+  func newComponents(_ prevComps: Calendar99.Components, _ monthOffset: Int)
+    -> Calendar99.Components?
 }
 
 public extension Calendar99.Main {
@@ -60,38 +55,34 @@ public extension Calendar99.Main {
   public final class Model: Calendar99MainModelType {
     fileprivate let dependency: Calendar99MainModelDependency
 
-    public var monthStream: Observable<Int> {
-      return dependency.monthStream
+    public var componentStream: Observable<Calendar99.Components> {
+      return dependency.componentStream
     }
 
-    public var initialMonthStream: Single<Int> {
-      return dependency.initialMonthStream
+    public var initialComponentStream: Single<Calendar99.Components> {
+      return dependency.initialComponentStream
     }
 
-    public var monthReceiver: AnyObserver<Int> {
-      return dependency.monthReceiver
-    }
-
-    public var yearStream: Observable<Int> {
-      return dependency.yearStream
-    }
-
-    public var initialYearStream: Single<Int> {
-      return dependency.initialYearStream
-    }
-
-    public var yearReceiver: AnyObserver<Int> {
-      return dependency.yearReceiver
+    public var componentReceiver: AnyObserver<Calendar99.Components> {
+      return dependency.componentReceiver
     }
 
     public init(_ dependency: Calendar99MainModelDependency) {
       self.dependency = dependency
     }
 
-    public func newMonthAndYear(_ prevMonth: Int,
-                                _ prevYear: Int,
-                                _ monthOffset: Int) -> (month: Int, year: Int)? {
-      return Calendar99.DateUtil.newMonthAndYear(prevMonth, prevYear, monthOffset)
+    public func formatMonthDescription(_ components: Calendar99.Components) -> String {
+      return dependency.formatMonthDescription(components)
+    }
+
+    public func newComponents(_ prevComponents: Calendar99.Components,
+                              _ monthOffset: Int) -> Calendar99.Components? {
+      let prevMonth = prevComponents.month
+      let prevYear = prevComponents.year
+
+      return Calendar99.DateUtil
+        .newMonthAndYear(prevMonth, prevYear, monthOffset)
+        .map({Calendar99.Components(month: $0.month, year: $0.year)})
     }
   }
 }
