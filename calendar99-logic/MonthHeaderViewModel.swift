@@ -8,44 +8,25 @@
 
 import RxSwift
 
-/// Dependency for month header view model.
-public protocol C99MonthHeaderViewModelDependency {}
-
-/// Factory for month header view model dependency.
-public protocol C99MonthHeaderViewModelDependencyFactory {
-
-  /// Create a view model dependency for the month header view.
-  ///
-  /// - Returns: A Calendar99ViewModelDependency instance.
-  func monthHeaderViewModelDependency() -> C99MonthHeaderViewModelDependency
-}
-
 /// View model for month header view.
-public protocol C99MonthHeaderViewModelType: C99MonthHeaderFunctionality {
-
-  /// Move forward by some months.
-  var monthForwardReceiver: AnyObserver<UInt> { get }
-
-  /// Move backward by some months.
-  var monthBackwardReceiver: AnyObserver<UInt> { get }
-
+public protocol NNMonthHeaderViewModelType:
+  NNMonthHeaderFunctionality,
+  NNMonthControlViewModelType
+{
   /// Stream month descriptions with the year.
   var monthDescriptionStream: Observable<String> { get }
-
-  /// Set up stream bindings.
-  func setupBindings()
 }
 
-public extension Calendar99.MonthHeader {
+public extension NNCalendar.MonthHeader {
   
   /// View model implementation.
-  public final class ViewModel: C99MonthHeaderViewModelType {
+  public final class ViewModel: NNMonthHeaderViewModelType {
     public var monthForwardReceiver: AnyObserver<UInt> {
-      return monthMovementSb.mapObserver(MonthDirection.forward)
+      return monthControlVM.monthForwardReceiver
     }
 
     public var monthBackwardReceiver: AnyObserver<UInt> {
-      return monthMovementSb.mapObserver(MonthDirection.backward)
+      return monthControlVM.monthBackwardReceiver
     }
 
     public var monthDescriptionStream: Observable<String> {
@@ -55,33 +36,25 @@ public extension Calendar99.MonthHeader {
         .distinctUntilChanged()
     }
 
-    fileprivate let dependency: C99MonthHeaderViewModelDependency
-    fileprivate let model: C99MonthHeaderModelType
-    fileprivate let monthMovementSb: PublishSubject<MonthDirection>
+    /// Delegate month controlling to this view model.
+    fileprivate let monthControlVM: NNMonthControlViewModelType
+    fileprivate let model: NNMonthHeaderModelType
     fileprivate let disposable: DisposeBag
 
-    public init(_ dependency: C99MonthHeaderViewModelDependency,
-                _ model: C99MonthHeaderModelType) {
-      self.dependency = dependency
+    required public init(_ monthControlVM: NNMonthControlViewModelType,
+                         _ model: NNMonthHeaderModelType) {
+      self.monthControlVM = monthControlVM
       self.model = model
       disposable = DisposeBag()
-      monthMovementSb = PublishSubject()
+    }
+
+    convenience public init(_ model: NNMonthHeaderModelType) {
+      let monthControlVM = NNCalendar.MonthControl.ViewModel(model)
+      self.init(monthControlVM, model)
     }
 
     public func setupBindings() {
-      let disposable = self.disposable
-
-      let monthMovementStream = monthMovementSb
-        .withLatestFrom(model.componentStream) {($1, $0.monthOffset)}
-        .map({[weak self] in self?.model.newComponents($0, $1)})
-        .filter({$0.isSome}).map({$0!})
-        .share(replay: 1)
-
-      Observable
-        .merge(model.initialComponentStream.asObservable(), monthMovementStream)
-        .distinctUntilChanged()
-        .subscribe(model.componentReceiver)
-        .disposed(by: disposable)
+      monthControlVM.setupBindings()
     }
   }
 }

@@ -9,80 +9,79 @@
 import RxSwift
 
 /// Dependency for month header model.
-public protocol C99MonthHeaderModelDependency: C99MonthHeaderFunctionality {
-
-  /// Stream the current selected components.
-  var componentStream: Observable<Calendar99.Components> { get }
-
-  /// Emit the initial components.
-  var initialComponentStream: Single<Calendar99.Components> { get }
-
-  /// Receive the current components.
-  var componentReceiver: AnyObserver<Calendar99.Components> { get }
-
+public protocol NNMonthHeaderModelDependency:
+  NNMonthHeaderFunctionality,
+  NNMonthControlModelDependency
+{
   /// Format month description.
   ///
   /// - Parameter components: A ControlComponents instance.
   /// - Returns: A String value.
-  func formatMonthDescription(_ components: Calendar99.Components) -> String
+  func formatMonthDescription(_ components: NNCalendar.Components) -> String
 }
 
 /// Factory for month header model dependency.
-public protocol C99MonthHeaderDependencyFactory {
+public protocol NNMonthHeaderDependencyFactory {
 
   /// Create a model dependency for month header view.
   ///
   /// - Returns: A Calendar99ModelDependency instance.
-  func monthHeaderModelDependency() -> C99MonthHeaderModelDependency
+  func monthHeaderModelDependency() -> NNMonthHeaderModelDependency
 }
 
 /// Model for month header view.
-public protocol C99MonthHeaderModelType: C99MonthHeaderModelDependency {
-
+public protocol NNMonthHeaderModelType:
+  NNMonthHeaderModelDependency,
+  NNMonthControlModelType
+{
   /// Calculate a new components based on a month offset.
   ///
   /// - Parameters:
   ///   - prevComps: The previous components.
   ///   - monthOffset: A month offset value.
   /// - Returns: A tuple of month and year.
-  func newComponents(_ prevComps: Calendar99.Components, _ monthOffset: Int)
-    -> Calendar99.Components?
+  func newComponents(_ prevComps: NNCalendar.Components, _ monthOffset: Int)
+    -> NNCalendar.Components?
 }
 
-public extension Calendar99.MonthHeader {
+public extension NNCalendar.MonthHeader {
 
   /// Model implementation.
-  public final class Model: C99MonthHeaderModelType {
-    fileprivate let dependency: C99MonthHeaderModelDependency
-
-    public var componentStream: Observable<Calendar99.Components> {
-      return dependency.componentStream
+  public final class Model: NNMonthHeaderModelType {
+    public var componentStream: Observable<NNCalendar.Components> {
+      return monthControlModel.componentStream
     }
 
-    public var initialComponentStream: Single<Calendar99.Components> {
-      return dependency.initialComponentStream
+    public var initialComponentStream: Single<NNCalendar.Components> {
+      return monthControlModel.initialComponentStream
     }
 
-    public var componentReceiver: AnyObserver<Calendar99.Components> {
-      return dependency.componentReceiver
+    public var componentReceiver: AnyObserver<NNCalendar.Components> {
+      return monthControlModel.componentReceiver
     }
 
-    public init(_ dependency: C99MonthHeaderModelDependency) {
+    /// Delegate month-related calculations to this model.
+    fileprivate let monthControlModel: NNMonthControlModelType
+    fileprivate let dependency: NNMonthHeaderModelDependency
+
+    required public init(_ monthControlModel: NNMonthControlModelType,
+                         _ dependency: NNMonthHeaderModelDependency) {
       self.dependency = dependency
+      self.monthControlModel = monthControlModel
     }
 
-    public func formatMonthDescription(_ components: Calendar99.Components) -> String {
+    convenience public init(_ dependency: NNMonthHeaderModelDependency) {
+      let monthControlModel = NNCalendar.MonthControl.Model(dependency)
+      self.init(monthControlModel, dependency)
+    }
+
+    public func newComponents(_ prevComponents: NNCalendar.Components,
+                              _ monthOffset: Int) -> NNCalendar.Components? {
+      return monthControlModel.newComponents(prevComponents, monthOffset)
+    }
+
+    public func formatMonthDescription(_ components: NNCalendar.Components) -> String {
       return dependency.formatMonthDescription(components)
-    }
-
-    public func newComponents(_ prevComponents: Calendar99.Components,
-                              _ monthOffset: Int) -> Calendar99.Components? {
-      let prevMonth = prevComponents.month
-      let prevYear = prevComponents.year
-
-      return Calendar99.DateUtil
-        .newMonthAndYear(prevMonth, prevYear, monthOffset)
-        .map({Calendar99.Components(month: $0.month, year: $0.year)})
     }
   }
 }

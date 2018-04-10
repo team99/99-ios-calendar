@@ -26,7 +26,7 @@ public final class DateUtilTest: XCTestCase {
 
     /// When
     for _ in 0..<iterations! {
-      let newMonthAndYear = Calendar99.DateUtil.newMonthAndYear(month, year, 1)
+      let newMonthAndYear = NNCalendar.DateUtil.newMonthAndYear(month, year, 1)
       month = newMonthAndYear!.month
       year = newMonthAndYear!.year
       var components = DateComponents()

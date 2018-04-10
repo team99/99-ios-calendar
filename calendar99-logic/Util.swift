@@ -8,7 +8,7 @@
 
 import SwiftFP
 
-public extension Calendar99 {
+public extension NNCalendar {
 
   /// Date utilities.
   final class DateUtil {

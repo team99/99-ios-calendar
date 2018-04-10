@@ -11,14 +11,14 @@ import UIKit
 import calendar99_logic
 
 /// Month header view for calendar.
-public final class C99MonthHeaderView: UIView {
+public final class NNMonthHeaderView: UIView {
   @IBOutlet fileprivate weak var backwardImg: UIImageView!
   @IBOutlet fileprivate weak var backwardBtn: UIButton!
   @IBOutlet fileprivate weak var forwardImg: UIImageView!
   @IBOutlet fileprivate weak var forwardBtn: UIButton!
   @IBOutlet fileprivate weak var monthLbl: UILabel!
   
-  public var viewModel: C99MonthHeaderViewModelType? {
+  public var viewModel: NNMonthHeaderViewModelType? {
     willSet {
       #if DEBUG
       if viewModel != nil {
@@ -37,12 +37,12 @@ public final class C99MonthHeaderView: UIView {
 
   required public init?(coder aDecoder: NSCoder) {
     super.init(coder: aDecoder)
-    Calendar99.ViewUtil.initializeWithNib(view: self, "MonthHeader")
+    NNCalendar.ViewUtil.initializeWithNib(view: self, "MonthHeader")
   }
 
   override public init(frame: CGRect) {
     super.init(frame: frame)
-    Calendar99.ViewUtil.initializeWithNib(view: self, "MonthHeader")
+    NNCalendar.ViewUtil.initializeWithNib(view: self, "MonthHeader")
   }
 
   override public func layoutSubviews() {
@@ -64,12 +64,12 @@ public final class C99MonthHeaderView: UIView {
 }
 
 // MARK: - Views
-public extension C99MonthHeaderView {
+public extension NNMonthHeaderView {
   fileprivate func setupViews() {}
 }
 
 // MARK: - Bindings.
-public extension C99MonthHeaderView {
+public extension NNMonthHeaderView {
 
   /// Set up stream bindings.
   fileprivate func bindViewModel() {

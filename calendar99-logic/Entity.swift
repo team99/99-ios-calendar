@@ -25,7 +25,7 @@ internal enum MonthDirection {
 }
 
 // MARK: - Components.
-public extension Calendar99 {
+public extension NNCalendar {
 
   /// Represents components that can be controlled by the user.
   public struct Components: Equatable, CustomStringConvertible {
@@ -48,7 +48,7 @@ public extension Calendar99 {
 }
 
 // MARK: - Days.
-public extension Calendar99 {
+public extension NNCalendar {
 
   /// Represents a container for dates that can be used to display on the month
   /// view.

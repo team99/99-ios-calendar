@@ -9,6 +9,6 @@
 import calendar99_logic
 
 /// Date implementation for calendar view.
-public final class C99DateCell: UICollectionViewCell {
+public final class NNDateCell: UICollectionViewCell {
 
 }

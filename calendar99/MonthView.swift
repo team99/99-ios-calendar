@@ -13,8 +13,8 @@ import SwiftFP
 import calendar99_logic
 
 /// Month view implementation.
-public final class C99MonthView: UICollectionView {
-  public var viewModel: C99MonthDisplayViewModelType? {
+public final class NNMonthView: UICollectionView {
+  public var viewModel: NNMonthDisplayViewModelType? {
     willSet {
       #if DEBUG
       if viewModel != nil {
@@ -50,7 +50,7 @@ public final class C99MonthView: UICollectionView {
 }
 
 // MARK: - UICollectionViewDelegateFlowLayout
-extension C99MonthView: UICollectionViewDelegateFlowLayout {
+extension NNMonthView: UICollectionViewDelegateFlowLayout {
   public func collectionView(_ collectionView: UICollectionView,
                              layout collectionViewLayout: UICollectionViewLayout,
                              referenceSizeForHeaderInSection section: Int)
@@ -74,7 +74,7 @@ extension C99MonthView: UICollectionViewDelegateFlowLayout {
 }
 
 // MARK: - Views.
-public extension C99MonthView {
+public extension NNMonthView {
   fileprivate var cellId: String {
     return "DateCell"
   }
@@ -87,8 +87,8 @@ public extension C99MonthView {
 }
 
 // MARK: - Data source.
-public extension C99MonthView {
-  typealias Section = AnimatableSectionModel<String, Calendar99.Day>
+public extension NNMonthView {
+  typealias Section = AnimatableSectionModel<String, NNCalendar.Day>
   typealias CVSource = CollectionViewSectionedDataSource<Section>
   typealias RxDataSource = RxCollectionViewSectionedAnimatedDataSource<Section>
 
@@ -126,7 +126,7 @@ public extension C99MonthView {
                              _ item: Section.Item)
     -> UICollectionViewCell
   {
-    return C99DateCell()
+    return NNDateCell()
   }
 
   private func configureSupplementaryView(_ source: CVSource,
@@ -140,7 +140,7 @@ public extension C99MonthView {
 }
 
 // MARK: - View model bindings.
-public extension C99MonthView {
+public extension NNMonthView {
   fileprivate func bindViewModel() {
     guard let viewModel = self.viewModel else {
       #if DEBUG
@@ -162,7 +162,7 @@ public extension C99MonthView {
   }
 }
 
-extension Calendar99.Day: IdentifiableType {
+extension NNCalendar.Day: IdentifiableType {
   public typealias Identity = Date
 
   public var identity: Identity {

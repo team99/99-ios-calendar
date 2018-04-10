@@ -8,12 +8,16 @@
 
 /// This is the entry point to all features, and acts as a namespace to the
 /// underlying logic.
-public final class Calendar99 {}
+public final class NNCalendar {}
 
-public extension Calendar99 {
-  /// Represents the month header display component.
+public extension NNCalendar {
+
+  /// Represents views that can control months.
+  internal final class MonthControl {}
+
+  /// Represents the month header display view.
   public final class MonthHeader {}
 
-  /// Represents the month view display component.
+  /// Represents the month view display view.
   public final class MonthDisplay {}
 }

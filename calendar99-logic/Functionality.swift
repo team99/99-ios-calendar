@@ -8,11 +8,14 @@
 
 import RxSwift
 
+/// Shared functionalities between the model/view model for month control views.
+public protocol NNMonthControlFunctionality {}
+
 /// Shared functionalities between the month header's model and view model.
-public protocol C99MonthHeaderFunctionality {}
+public protocol NNMonthHeaderFunctionality: NNMonthControlFunctionality {}
 
 /// Shared functionalities between the month display's model and view model.
-public protocol C99MonthDisplayFunctionality {
+public protocol NNMonthDisplayFunctionality: NNMonthControlFunctionality {
   
   /// Represents the number of columns. Should be 7 in most cases.
   var columnCount: Int { get }

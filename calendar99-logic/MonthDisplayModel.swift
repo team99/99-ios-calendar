@@ -9,23 +9,23 @@
 import RxSwift
 
 /// Dependency for month display model.
-public protocol C99MonthDisplayModelDependency: C99MonthDisplayFunctionality {
+public protocol NNMonthDisplayModelDependency: NNMonthDisplayFunctionality {
 
   /// Stream components.
-  var componentStream: Observable<Calendar99.Components> { get }
+  var componentStream: Observable<NNCalendar.Components> { get }
 }
 
 /// Factory for month display model dependency.
-public protocol C99MonthDisplayModelDependencyFactory {
+public protocol NNMonthDisplayModelDependencyFactory {
 
   /// Create a month display model dependency.
   ///
   /// - Returns: A MonthDisplayModelDependency instance.
-  func monthDisplayModelDependency() -> C99MonthDisplayModelDependency
+  func monthDisplayModelDependency() -> NNMonthDisplayModelDependency
 }
 
 /// Model for month display view.
-public protocol C99MonthDisplayModelType: C99MonthDisplayModelDependency {
+public protocol NNMonthDisplayModelType: NNMonthDisplayModelDependency {
 
   /// Calculate a range of Date that is applicable to the current calendar
   /// components. The first element of the range is not necessarily the start
@@ -33,11 +33,11 @@ public protocol C99MonthDisplayModelType: C99MonthDisplayModelDependency {
   ///
   /// - Parameter components: A Components instance.
   /// - Returns: An Array of Date.
-  func calculateDateRange(_ components: Calendar99.Components) -> [Date]
+  func calculateDateRange(_ components: NNCalendar.Components) -> [Date]
 }
 
-public extension Calendar99.MonthDisplay {
-  public final class Model: C99MonthDisplayModelType {
+public extension NNCalendar.MonthDisplay {
+  public final class Model: NNMonthDisplayModelType {
     public var columnCount: Int {
       return dependency.columnCount
     }
@@ -46,17 +46,17 @@ public extension Calendar99.MonthDisplay {
       return dependency.rowCount
     }
 
-    public var componentStream: Observable<Calendar99.Components> {
+    public var componentStream: Observable<NNCalendar.Components> {
       return dependency.componentStream
     }
 
-    fileprivate let dependency: C99MonthDisplayModelDependency
+    fileprivate let dependency: NNMonthDisplayModelDependency
 
-    public init(_ dependency: C99MonthDisplayModelDependency) {
+    public init(_ dependency: NNMonthDisplayModelDependency) {
       self.dependency = dependency
     }
 
-    public func calculateDateRange(_ components: Calendar99.Components) -> [Date] {
+    public func calculateDateRange(_ components: NNCalendar.Components) -> [Date] {
       return []
     }
   }

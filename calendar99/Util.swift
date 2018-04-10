@@ -8,7 +8,7 @@
 
 import calendar99_logic
 
-public extension Calendar99 {
+public extension NNCalendar {
 
   /// View utilities.
   public final class ViewUtil {
