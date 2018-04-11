@@ -17,7 +17,7 @@ public protocol NNMonthHeaderModelDependency:
   ///
   /// - Parameter components: A ControlComponents instance.
   /// - Returns: A String value.
-  func formatMonthDescription(_ components: NNCalendar.Components) -> String
+  func formatMonthDescription(_ components: NNCalendar.MonthComponents) -> String
 }
 
 /// Factory for month header model dependency.
@@ -32,31 +32,21 @@ public protocol NNMonthHeaderDependencyFactory {
 /// Model for month header view.
 public protocol NNMonthHeaderModelType:
   NNMonthHeaderModelDependency,
-  NNMonthControlModelType
-{
-  /// Calculate a new components based on a month offset.
-  ///
-  /// - Parameters:
-  ///   - prevComps: The previous components.
-  ///   - monthOffset: A month offset value.
-  /// - Returns: A tuple of month and year.
-  func newComponents(_ prevComps: NNCalendar.Components, _ monthOffset: Int)
-    -> NNCalendar.Components?
-}
+  NNMonthControlModelType {}
 
 public extension NNCalendar.MonthHeader {
 
   /// Model implementation.
   public final class Model: NNMonthHeaderModelType {
-    public var componentStream: Observable<NNCalendar.Components> {
+    public var componentStream: Observable<NNCalendar.MonthComponents> {
       return monthControlModel.componentStream
     }
 
-    public var initialComponentStream: Single<NNCalendar.Components> {
+    public var initialComponentStream: Single<NNCalendar.MonthComponents> {
       return monthControlModel.initialComponentStream
     }
 
-    public var componentReceiver: AnyObserver<NNCalendar.Components> {
+    public var componentReceiver: AnyObserver<NNCalendar.MonthComponents> {
       return monthControlModel.componentReceiver
     }
 
@@ -75,13 +65,13 @@ public extension NNCalendar.MonthHeader {
       self.init(monthControlModel, dependency)
     }
 
-    public func newComponents(_ prevComponents: NNCalendar.Components,
-                              _ monthOffset: Int) -> NNCalendar.Components? {
+    public func newComponents(_ prevComponents: NNCalendar.MonthComponents,
+                              _ monthOffset: Int) -> NNCalendar.MonthComponents? {
       return monthControlModel.newComponents(prevComponents, monthOffset)
     }
 
-    public func formatMonthDescription(_ components: NNCalendar.Components) -> String {
-      return dependency.formatMonthDescription(components)
+    public func formatMonthDescription(_ comps: NNCalendar.MonthComponents) -> String {
+      return dependency.formatMonthDescription(comps)
     }
   }
 }

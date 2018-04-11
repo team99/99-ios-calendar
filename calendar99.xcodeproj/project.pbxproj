@@ -272,9 +272,9 @@
 		D319C2B6207D9E94005D1828 /* MonthControl */ = {
 			isa = PBXGroup;
 			children = (
+				D319C2B9207D9ECB005D1828 /* MonthControlFunctionality.swift */,
 				D31C042A207D17C5000C2C75 /* MonthControlModel.swift */,
 				D31C0428207D1649000C2C75 /* MonthControlViewModel.swift */,
-				D319C2B9207D9ECB005D1828 /* MonthControlFunctionality.swift */,
 			);
 			path = MonthControl;
 			sourceTree = "<group>";
@@ -282,9 +282,9 @@
 		D319C2B7207D9E9B005D1828 /* MonthDisplay */ = {
 			isa = PBXGroup;
 			children = (
+				D319C2BB207D9EDD005D1828 /* MonthDisplayFunctionality.swift */,
 				D3DA702C207CBDE900A3DFE1 /* MonthDisplayModel.swift */,
 				D3DA702E207CBF3D00A3DFE1 /* MonthDisplayViewModel.swift */,
-				D319C2BB207D9EDD005D1828 /* MonthDisplayFunctionality.swift */,
 			);
 			path = MonthDisplay;
 			sourceTree = "<group>";
@@ -292,9 +292,9 @@
 		D319C2B8207D9EA2005D1828 /* MonthHeader */ = {
 			isa = PBXGroup;
 			children = (
+				D319C2BD207D9EF4005D1828 /* MonthHeaderFunctionality.swift */,
 				D3DA6FCF207C6E7E00A3DFE1 /* MonthHeaderModel.swift */,
 				D3DA6FCD207C6E7800A3DFE1 /* MonthHeaderViewModel.swift */,
-				D319C2BD207D9EF4005D1828 /* MonthHeaderFunctionality.swift */,
 			);
 			path = MonthHeader;
 			sourceTree = "<group>";
@@ -340,11 +340,11 @@
 		D3DA6F99207C6CEE00A3DFE1 /* calendar99 */ = {
 			isa = PBXGroup;
 			children = (
-				D319C2C1207DA4F9005D1828 /* MonthSectionView */,
 				D3DA6F9A207C6CEE00A3DFE1 /* calendar99.h */,
 				D319C2B5207D9E2A005D1828 /* DateCell */,
 				D3DA6F9B207C6CEE00A3DFE1 /* Info.plist */,
 				D319C2B3207D9E15005D1828 /* MonthHeader */,
+				D319C2C1207DA4F9005D1828 /* MonthSectionView */,
 				D319C2B4207D9E20005D1828 /* MonthView */,
 				D3DA7015207C876300A3DFE1 /* Util.swift */,
 			);

@@ -8,14 +8,28 @@
 
 import RxSwift
 
-/// Dependency for month display model.
-public protocol NNMonthDisplayModelDependency: NNMonthDisplayFunctionality {
-  /// Stream components.
-  var componentStream: Observable<NNCalendar.Components> { get }
-
+/// Dependency for month display model, containing components that can have
+/// defaults.
+public protocol NNMonthDisplayDefaultableModelDependency:
+  NNMonthDisplayDefaultableFunctionality
+{
   /// Calculator to calculate date ranges.
   var dateCalculator: NNDateCalculatorType { get }
 }
+
+/// Dependency for month display model, containing components that cannot have
+/// defaults.
+public protocol NNMonthDisplayNonDefaultableModelDependency {
+
+  /// Stream components.
+  var componentStream: Observable<NNCalendar.MonthComponents> { get }
+}
+
+/// Dependency for month display model.
+public protocol NNMonthDisplayModelDependency:
+  NNMonthDisplayFunctionality,
+  NNMonthDisplayDefaultableModelDependency,
+  NNMonthDisplayNonDefaultableModelDependency {}
 
 /// Factory for month display model dependency.
 public protocol NNMonthDisplayModelDependencyFactory {
@@ -35,7 +49,7 @@ public protocol NNMonthDisplayModelType: NNMonthDisplayModelDependency {
   ///
   /// - Parameter components: A Components instance.
   /// - Returns: An Array of Date.
-  func calculateDateRange(_ components: NNCalendar.Components) -> [Date]
+  func calculateDateRange(_ components: NNCalendar.MonthComponents) -> [Date]
 
   /// Get the description for a date.
   ///
@@ -46,10 +60,12 @@ public protocol NNMonthDisplayModelType: NNMonthDisplayModelDependency {
   ///
   /// - Parameter components: A Components instance.
   /// - Returns: A Date instance.
-  func isInMonth(_ components: NNCalendar.Components, _ date: Date) -> Bool
+  func isInMonth(_ components: NNCalendar.MonthComponents, _ date: Date) -> Bool
 }
 
 public extension NNCalendar.MonthDisplay {
+
+  /// Month display model implementation.
   public final class Model: NNMonthDisplayModelType {
     public var columnCount: Int {
       return dependency.columnCount
@@ -64,7 +80,7 @@ public extension NNCalendar.MonthDisplay {
       return dependency.rowCount
     }
 
-    public var componentStream: Observable<NNCalendar.Components> {
+    public var componentStream: Observable<NNCalendar.MonthComponents> {
       return dependency.componentStream
     }
 
@@ -74,11 +90,16 @@ public extension NNCalendar.MonthDisplay {
 
     fileprivate let dependency: NNMonthDisplayModelDependency
 
-    public init(_ dependency: NNMonthDisplayModelDependency) {
+    required public init(_ dependency: NNMonthDisplayModelDependency) {
       self.dependency = dependency
     }
 
-    public func calculateDateRange(_ components: NNCalendar.Components) -> [Date] {
+    convenience public init(_ dependency: NNMonthDisplayNonDefaultableModelDependency) {
+      let fullDependency = DefaultDependency(dependency)
+      self.init(fullDependency)
+    }
+
+    public func calculateDateRange(_ components: NNCalendar.MonthComponents) -> [Date] {
       return dateCalculator.calculateRange(components,
                                            firstDayOfWeek,
                                            rowCount,
@@ -89,11 +110,48 @@ public extension NNCalendar.MonthDisplay {
       return Calendar.current.component(.day, from: date).description
     }
 
-    public func isInMonth(_ components: NNCalendar.Components, _ date: Date) -> Bool {
+    public func isInMonth(_ components: NNCalendar.MonthComponents, _ date: Date) -> Bool {
       let calendar = Calendar.current
       let month = calendar.component(.month, from: date)
       let year = calendar.component(.year, from: date)
       return components.month == month && components.year == year
+    }
+  }
+}
+
+public extension NNCalendar.MonthDisplay.Model {
+
+  /// Default dependency for month display model. This delegates non-defaultable
+  /// components to a separate dependency.
+  ///
+  /// The defaults here represent most commonly used set-up, for e.g. horizontal
+  /// calendar with 42 date cells in total.
+  internal struct DefaultDependency: NNMonthDisplayModelDependency {
+    private let nonDefaultable: NNMonthDisplayNonDefaultableModelDependency
+
+    public init(_ nonDefaultable: NNMonthDisplayNonDefaultableModelDependency) {
+      self.nonDefaultable = nonDefaultable
+    }
+
+    /// Corresponds to a Sunday.
+    public var firstDayOfWeek: Int {
+      return 1
+    }
+
+    public var columnCount: Int {
+      return 7
+    }
+
+    public var rowCount: Int {
+      return 6
+    }
+
+    public var dateCalculator: NNDateCalculatorType {
+      return NNCalendar.DateCalculator.Sequential()
+    }
+
+    public var componentStream: Observable<NNCalendar.MonthComponents> {
+      return nonDefaultable.componentStream
     }
   }
 }

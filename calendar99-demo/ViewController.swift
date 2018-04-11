@@ -14,7 +14,7 @@ import calendar99
 public final class ViewController: UIViewController  {
   @IBOutlet fileprivate weak var monthHeader: NNMonthHeaderView!
   @IBOutlet fileprivate weak var monthView: NNMonthView!
-  fileprivate var componentSb: BehaviorSubject<NNCalendar.Components?>!
+  fileprivate var componentSb: BehaviorSubject<NNCalendar.MonthComponents?>!
 
   override public func viewDidLoad() {
     super.viewDidLoad()
@@ -33,23 +33,23 @@ public final class ViewController: UIViewController  {
 /// BEWARE MEMORY LEAKS HERE. THIS IS ONLY TEMPORARY.
 
 extension ViewController: NNMonthHeaderModelDependency {
-  public var componentStream: Observable<NNCalendar.Components> {
+  public var componentStream: Observable<NNCalendar.MonthComponents> {
     return componentSb.map({$0!})
   }
 
-  public var initialComponentStream: Single<NNCalendar.Components> {
+  public var initialComponentStream: Single<NNCalendar.MonthComponents> {
     let date = Date()
     let month = Calendar.current.component(.month, from: date)
     let year = Calendar.current.component(.year, from: date)
-    let comps = NNCalendar.Components(month: month, year: year)
+    let comps = NNCalendar.MonthComponents(month: month, year: year)
     return Single.just(comps)
   }
 
-  public var componentReceiver: AnyObserver<NNCalendar.Components> {
+  public var componentReceiver: AnyObserver<NNCalendar.MonthComponents> {
     return componentSb.mapObserver(Optional.some)
   }
 
-  public func formatMonthDescription(_ components: NNCalendar.Components) -> String {
+  public func formatMonthDescription(_ components: NNCalendar.MonthComponents) -> String {
     let month = components.month
     let year = components.year
     var components = DateComponents()
@@ -62,22 +62,6 @@ extension ViewController: NNMonthHeaderModelDependency {
   }
 }
 
-extension ViewController: NNMonthDisplayModelDependency {
-  public var dateCalculator: NNDateCalculatorType {
-    return NNCalendar.DateCalculator.Sequential()
-  }
-
-  public var firstDayOfWeek: Int {
-    return 1
-  }
-
-  public var columnCount: Int {
-    return 7
-  }
-
-  public var rowCount: Int {
-    return 6
-  }
-}
+extension ViewController: NNMonthDisplayNonDefaultableModelDependency {}
 
 extension ViewController: NNMonthDisplayViewModelDependency {}

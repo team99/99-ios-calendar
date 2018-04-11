@@ -12,13 +12,13 @@ import RxSwift
 public protocol NNMonthControlModelDependency: NNMonthControlFunctionality {
 
   /// Stream the current selected components.
-  var componentStream: Observable<NNCalendar.Components> { get }
+  var componentStream: Observable<NNCalendar.MonthComponents> { get }
 
   /// Emit the initial components.
-  var initialComponentStream: Single<NNCalendar.Components> { get }
+  var initialComponentStream: Single<NNCalendar.MonthComponents> { get }
 
   /// Receive the current components.
-  var componentReceiver: AnyObserver<NNCalendar.Components> { get }
+  var componentReceiver: AnyObserver<NNCalendar.MonthComponents> { get }
 }
 
 /// Model for month header view.
@@ -30,8 +30,8 @@ public protocol NNMonthControlModelType: NNMonthControlModelDependency {
   ///   - prevComps: The previous components.
   ///   - monthOffset: A month offset value.
   /// - Returns: A tuple of month and year.
-  func newComponents(_ prevComps: NNCalendar.Components, _ monthOffset: Int)
-    -> NNCalendar.Components?
+  func newComponents(_ prevComps: NNCalendar.MonthComponents,
+                     _ monthOffset: Int) -> NNCalendar.MonthComponents?
 }
 
 internal extension NNCalendar.MonthControl {
@@ -40,15 +40,15 @@ internal extension NNCalendar.MonthControl {
   internal final class Model: NNMonthControlModelType {
     fileprivate let dependency: NNMonthHeaderModelDependency
 
-    public var componentStream: Observable<NNCalendar.Components> {
+    public var componentStream: Observable<NNCalendar.MonthComponents> {
       return dependency.componentStream
     }
 
-    public var initialComponentStream: Single<NNCalendar.Components> {
+    public var initialComponentStream: Single<NNCalendar.MonthComponents> {
       return dependency.initialComponentStream
     }
 
-    public var componentReceiver: AnyObserver<NNCalendar.Components> {
+    public var componentReceiver: AnyObserver<NNCalendar.MonthComponents> {
       return dependency.componentReceiver
     }
 
@@ -56,14 +56,14 @@ internal extension NNCalendar.MonthControl {
       self.dependency = dependency
     }
 
-    public func newComponents(_ prevComponents: NNCalendar.Components,
-                              _ monthOffset: Int) -> NNCalendar.Components? {
+    public func newComponents(_ prevComponents: NNCalendar.MonthComponents,
+                              _ monthOffset: Int) -> NNCalendar.MonthComponents? {
       let prevMonth = prevComponents.month
       let prevYear = prevComponents.year
 
       return NNCalendar.DateUtil
         .newMonthAndYear(prevMonth, prevYear, monthOffset)
-        .map({NNCalendar.Components(month: $0.month, year: $0.year)})
+        .map({NNCalendar.MonthComponents(month: $0.month, year: $0.year)})
     }
   }
 }

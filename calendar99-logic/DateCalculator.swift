@@ -23,7 +23,7 @@ public protocol NNDateCalculatorType {
   ///   - rowCount: The number of rows in a calendar grid.
   ///   - columnCount: The number of columns in a calendar grid.
   /// - Returns: An Array of Date.
-  func calculateRange(_ components: NNCalendar.Components,
+  func calculateRange(_ components: NNCalendar.MonthComponents,
                       _ firstDayOfWeek: Int,
                       _ rowCount: Int,
                       _ columnCount: Int) -> [Date]
@@ -37,7 +37,7 @@ public extension NNCalendar.DateCalculator {
 
     /// We need to find the first day of the week in which the current month
     /// starts (not necessarily the first day of the month).
-    public func calculateRange(_ components: NNCalendar.Components,
+    public func calculateRange(_ components: NNCalendar.MonthComponents,
                                _ firstDayOfWeek: Int,
                                _ rowCount: Int,
                                _ columnCount: Int) -> [Date] {

@@ -22,7 +22,7 @@ public final class DateCalculatorTest: XCTestCase {
   public func test_sequentialDateCalculator_shouldWork() {
     /// Setup
     let calculator = NNCalendar.DateCalculator.Sequential()
-    var components = NNCalendar.Components(month: 4, year: 2018)
+    var components = NNCalendar.MonthComponents(month: 4, year: 2018)
 
     /// When
     for _ in 0..<iterations! {
@@ -31,7 +31,7 @@ public final class DateCalculatorTest: XCTestCase {
       let newMonthAndYear = NNCalendar.DateUtil
         .newMonthAndYear(components.month, components.year, 1)!
 
-      components = NNCalendar.Components(month: newMonthAndYear.month,
+      components = NNCalendar.MonthComponents(month: newMonthAndYear.month,
                                          year: newMonthAndYear.year)
 
       /// Then

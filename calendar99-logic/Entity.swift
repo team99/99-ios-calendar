@@ -24,11 +24,11 @@ internal enum MonthDirection {
   }
 }
 
-// MARK: - Components.
+// MARK: - MonthComponents.
 public extension NNCalendar {
 
   /// Represents components that can be controlled by the user.
-  public struct Components: Equatable, CustomStringConvertible {
+  public struct MonthComponents: Equatable, CustomStringConvertible {
     public let month: Int
     public let year: Int
 
@@ -48,7 +48,7 @@ public extension NNCalendar {
       return components
     }
 
-    public static func ==(_ lhs: Components, _ rhs: Components) -> Bool {
+    public static func ==(_ lhs: MonthComponents, _ rhs: MonthComponents) -> Bool {
       return lhs.month == rhs.month && lhs.year == rhs.year
     }
   }
@@ -80,7 +80,7 @@ public extension NNCalendar {
   /// Represents a container for months that can be used to display on the
   /// month section view.
   public struct Month: Equatable, CustomStringConvertible {
-    fileprivate let monthComponents: Components
+    fileprivate let monthComponents: MonthComponents
 
     public var month: Int {
       return monthComponents.month
@@ -94,7 +94,7 @@ public extension NNCalendar {
       return monthComponents.description
     }
 
-    public init(_ monthComponents: Components) {
+    public init(_ monthComponents: MonthComponents) {
       self.monthComponents = monthComponents
     }
 
