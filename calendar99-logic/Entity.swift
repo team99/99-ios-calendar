@@ -73,3 +73,33 @@ public extension NNCalendar {
     }
   }
 }
+
+// MARK: - Months.
+public extension NNCalendar {
+
+  /// Represents a container for months that can be used to display on the
+  /// month section view.
+  public struct Month: Equatable, CustomStringConvertible {
+    fileprivate let monthComponents: Components
+
+    public var month: Int {
+      return monthComponents.month
+    }
+
+    public var year: Int {
+      return monthComponents.year
+    }
+
+    public var description: String {
+      return monthComponents.description
+    }
+
+    public init(_ monthComponents: Components) {
+      self.monthComponents = monthComponents
+    }
+
+    public static func ==(_ lhs: Month, _ rhs: Month) -> Bool {
+      return lhs.monthComponents == rhs.monthComponents
+    }
+  }
+}

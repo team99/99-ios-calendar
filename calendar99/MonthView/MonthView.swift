@@ -36,14 +36,8 @@ public final class NNMonthView: UICollectionView {
 
   override public func layoutSubviews() {
     super.layoutSubviews()
-    var didInitialize = false
-
-    objc_sync_enter() {
-      didInitialize = self.initialized
-      if !self.initialized { self.initialized = true }
-    }
-
-    guard !didInitialize else { return }
+    guard !initialized else { return }
+    initialized = true
     setupViews()
   }
 

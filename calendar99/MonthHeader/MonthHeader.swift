@@ -58,8 +58,8 @@ public final class NNMonthHeaderView: UIView {
       return
     }
 
-    setupViews()
     initialized = true
+    setupViews()
   }
 
   private func didSetViewModel() {
