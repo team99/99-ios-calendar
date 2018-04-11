@@ -47,15 +47,19 @@ public final class NNMonthHeaderView: UIView {
 
   override public func layoutSubviews() {
     super.layoutSubviews()
-    var didInitialize = false
 
-    objc_sync_enter() {
-      didInitialize = self.initialized
-      if !self.initialized { self.initialized = true }
+    guard !initialized,
+      backwardImg != nil,
+      backwardBtn != nil,
+      forwardImg != nil,
+      forwardBtn != nil,
+      monthLbl != nil else
+    {
+      return
     }
 
-    guard !didInitialize else { return }
     setupViews()
+    initialized = true
   }
 
   private func didSetViewModel() {
@@ -65,7 +69,34 @@ public final class NNMonthHeaderView: UIView {
 
 // MARK: - Views
 public extension NNMonthHeaderView {
-  fileprivate func setupViews() {}
+  fileprivate func setupViews() {
+    let bundle = Bundle(for: NNMonthHeaderView.classForCoder())
+    print(backwardImg, forwardImg)
+
+    guard
+      let backwardImg = self.backwardImg,
+      let forwardImg = self.forwardImg,
+      let backwardIcon = UIImage(named: "backward", in: bundle, compatibleWith: nil)?
+        .withRenderingMode(.alwaysTemplate),
+      let backwardCgImage = backwardIcon.cgImage
+      else
+    {
+      #if DEBUG
+      fatalError("Properties cannot be nil")
+      #else
+      return
+      #endif
+    }
+
+    /// Flip programmatically to reuse assets.
+    let forwardIcon = UIImage(cgImage: backwardCgImage,
+                              scale: 1,
+                              orientation: .down)
+      .withRenderingMode(.alwaysTemplate)
+
+    backwardImg.image = backwardIcon
+    forwardImg.image = forwardIcon
+  }
 }
 
 // MARK: - Bindings.

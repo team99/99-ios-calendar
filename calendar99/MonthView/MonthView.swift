@@ -12,7 +12,10 @@ import RxSwift
 import SwiftFP
 import calendar99_logic
 
-/// Month view implementation.
+/// Month view implementation. This view should be quite memory-efficient since
+/// it calculates dates lazily based on the user's current month selection. As
+/// a result, it does not have scrolling animations when switching months, so
+/// if we are looking for feel instead of function, skip this.
 public final class NNMonthView: UICollectionView {
   public var viewModel: NNMonthDisplayViewModelType? {
     willSet {
@@ -134,8 +137,8 @@ public extension NNMonthView {
 
     dataSource.animationConfiguration = AnimationConfiguration(
       insertAnimation: .left,
-      reloadAnimation: .fade,
-      deleteAnimation: .right
+      reloadAnimation: .left,
+      deleteAnimation: .left
     )
 
     dataSource.canMoveItemAtIndexPath = {(_, _) in false}
