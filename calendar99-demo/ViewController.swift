@@ -13,7 +13,8 @@ import calendar99
 
 public final class ViewController: UIViewController  {
   @IBOutlet fileprivate weak var monthHeader: NNMonthHeaderView!
-  @IBOutlet fileprivate weak var monthView: NNMonthSectionView!
+  @IBOutlet fileprivate weak var monthSectionView: NNMonthSectionView!
+  @IBOutlet fileprivate weak var monthView: NNMonthView!
   fileprivate var componentSb: BehaviorSubject<NNCalendar.MonthComp>!
 
   override public func viewDidLoad() {
@@ -24,14 +25,18 @@ public final class ViewController: UIViewController  {
     let monthHeaderVM = NNCalendar.MonthHeader.ViewModel(monthHeaderModel)
     monthHeader.viewModel = monthHeaderVM
 
-    let monthViewModel = NNCalendar.MonthSection.Model(self)
-    let monthViewVM = NNCalendar.MonthSection.ViewModel(self, monthViewModel)
-    let pageCount = monthViewVM.totalMonthCount
-    let rowCount = monthViewVM.rowCount
-    let columnCount = monthViewVM.columnCount
+    let monthSectionModel = NNCalendar.MonthSection.Model(self)
+    let monthSectionVM = NNCalendar.MonthSection.ViewModel(self, monthSectionModel)
+    let pageCount = monthSectionVM.totalMonthCount
+    let rowCount = monthSectionVM.rowCount
+    let columnCount = monthSectionVM.columnCount
     let layout = NNMonthSectionHorizontalFlowLayout(pageCount, rowCount, columnCount)
+    monthSectionView.setCollectionViewLayout(layout, animated: true)
+    monthSectionView.viewModel = monthSectionVM
+
+    let monthViewModel = NNCalendar.MonthDisplay.Model(self)
+    let monthViewVM = NNCalendar.MonthDisplay.ViewModel(monthViewModel)
     monthView.viewModel = monthViewVM
-    monthView.collectionViewLayout = layout
   }
 }
 
@@ -71,6 +76,8 @@ extension ViewController: NNMonthSectionNonDefaultableViewModelDependency {
   }
 
   public var futureMonthCountFromCurrent: Int {
-    return 1000
+    return 100
   }
 }
+
+extension ViewController: NNMonthDisplayNonDefaultableModelDependency {}

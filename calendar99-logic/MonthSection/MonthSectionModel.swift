@@ -128,15 +128,13 @@ extension NNCalendar.MonthSection.Model: NNMonthSectionModelType {
   public func componentRange(_ currentComp: NNCalendar.MonthComp,
                              _ pastMonthCount: Int,
                              _ futureMonthCount: Int) -> [NNCalendar.MonthComp] {
-    let earliest = monthControlModel.newComponents(currentComp, pastMonthCount)
+    let earliest = monthControlModel.newComponents(currentComp, -pastMonthCount)
     let totalMonths = pastMonthCount + 1 + futureMonthCount
 
     return (0..<totalMonths).flatMap({offset in
       earliest.flatMap({monthControlModel.newComponents($0, offset)})
     })
   }
-
-
 }
 
 extension NNCalendar.MonthSection.Model {

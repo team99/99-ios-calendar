@@ -90,6 +90,7 @@ extension NNMonthSectionView: UICollectionViewDelegateFlowLayout {
   }
 }
 
+
 // MARK: - Views.
 public extension NNMonthSectionView {
   fileprivate var cellId: String {
@@ -110,17 +111,20 @@ public extension NNMonthSectionView {
 public extension NNMonthSectionView {
   typealias Section = NNCalendar.Month
   typealias CVSource = CollectionViewSectionedDataSource<Section>
-  typealias RxDataSource = RxCollectionViewSectionedReloadDataSource<Section>
+  typealias RxDataSource = RxCollectionViewSectionedAnimatedDataSource<Section>
 
   /// Use RxDataSource to drive data.
   fileprivate func setupDataSource() -> RxDataSource {
-    let dataSource = RxDataSource(configureCell: {[weak self] in
-      if let `self` = self {
-        return self.configureCell($0, $1, $2, $3)
-      } else {
-        return UICollectionViewCell()
-      }
-    })
+    let dataSource = RxDataSource(
+      configureCell: {[weak self] in
+        if let `self` = self {
+          return self.configureCell($0, $1, $2, $3)
+        } else {
+          return UICollectionViewCell()
+        }
+      },
+      configureSupplementaryView: {(_, _, _, _) in UICollectionReusableView()}
+    )
 
     dataSource.canMoveItemAtIndexPath = {(_, _) in false}
     return dataSource
@@ -138,7 +142,7 @@ public extension NNMonthSectionView {
     guard
       section >= 0 && section < source.sectionModels.count,
       let viewModel = self.viewModel,
-      let day = viewModel.calculateDay(sections[section].monthComp, item),
+      let day = viewModel.calculateDay(sections[section].monthComp, item.index),
       let cell = view.dequeueReusableCell(
         withReuseIdentifier: cellId,
         for: indexPath) as? NNDateCell else
@@ -170,23 +174,94 @@ public extension NNMonthSectionView {
 
     let disposable = self.disposable
     let dataSource = setupDataSource()
-//    self.rx.setDelegate(self).disposed(by: disposable)
+    viewModel.setupBindings()
 
     viewModel.monthStream
       .observeOn(MainScheduler.instance)
       .bind(to: self.rx.items(dataSource: dataSource))
       .disposed(by: disposable)
+
+    let selectionStream = viewModel.currentMonthSelectionIndex.share(replay: 1)
+
+    // The scroll position actually affects the cell layout, so be sure to
+    // choose carefully.
+    selectionStream
+      .observeOn(MainScheduler.instance)
+      .bind(onNext: {[weak self] in
+        self?.scrollToItem(at: IndexPath(row: 0, section: $0),
+                           at: .left,
+                           animated: true)
+      })
+      .disposed(by: disposable)
+
+    // Detect swipes to change current selection.
+    let movementStream = self.rx.didEndDecelerating
+      .withLatestFrom(selectionStream)
+      .map({[weak self] in (self?.calculateOffsetChange($0)) ?? 0})
+      .share(replay: 1)
+
+    movementStream
+      .filter({$0 >= 0}).map({UInt($0)})
+      .bind(to: viewModel.currentMonthForwardReceiver)
+      .disposed(by: disposable)
+
+    movementStream
+      .filter({$0 < 0})
+      .map({UInt(Swift.abs($0))})
+      .bind(to: viewModel.currentMonthBackwardReceiver)
+      .disposed(by: disposable)
+  }
+
+  /// Calculate the change in offset relative to the previous selection index.
+  private func calculateOffsetChange(_ pix: Int) -> Int {
+    let offset = self.contentOffset
+    let bounds = self.bounds
+
+    // Since this view can either be horizontal or vertical, only one origin
+    // coordinate (x or y) will be positive, so we need to check for both cases.
+    // We also compare with the offset for the previous selection index.
+    if offset.x == 0 && offset.y == 0 {
+      return -pix
+    } else if offset.x > 0 {
+      return Int((offset.x - CGFloat(pix) * bounds.width) / bounds.width)
+    } else {
+      return Int((offset.y - CGFloat(pix) * bounds.height) / bounds.height)
+    }
+  }
+}
+
+/// Temp data for animatable section.
+public struct NNMonthCompIndex: IdentifiableType, Equatable {
+  public typealias Identity = String
+
+  public var identity: Identity {
+    return "\(monthComp.month)-\(monthComp.year):\(index)"
+  }
+
+  fileprivate let monthComp: NNCalendar.MonthComp
+  fileprivate let index: Int
+
+  public static func ==(_ lhs: NNMonthCompIndex, _ rhs: NNMonthCompIndex) -> Bool {
+    return lhs.monthComp == rhs.monthComp && lhs.index == rhs.index
+  }
+}
+
+extension NNCalendar.Month: IdentifiableType {
+  public typealias Identity = String
+
+  public var identity: String {
+    return "\(monthComp.month)-\(monthComp.year)"
   }
 }
 
 /// Notice that we don't actually store any data here - this is done so that
 /// the memory footprint is as small as possible. If a cell requires data to
 /// display, that data will be calculated at the time it's requested.
-extension NNCalendar.Month: SectionModelType {
-  public typealias Item = Int
+extension NNCalendar.Month: AnimatableSectionModelType {
+  public typealias Item = NNMonthCompIndex
 
   public var items: [Item] {
-    return (0..<dayCount).map({$0})
+    return (0..<dayCount).map({NNMonthCompIndex(monthComp: monthComp, index: $0)})
   }
 
   public init(original: NNCalendar.Month, items: [Item]) {

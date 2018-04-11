@@ -9,11 +9,9 @@
 import SwiftFP
 import UIKit
 
-/// Horizontal layout subclass for month section view. Beware that we can only
-/// set the layout AFTER we have bound the data to the collection view, or else
-/// it will crash.
+/// Horizontal layout subclass for month section view.
 ///
-/// But then again, how do we even test this?
+/// How do we even test this?
 public final class NNMonthSectionHorizontalFlowLayout: UICollectionViewFlowLayout {
   override public var collectionViewContentSize: CGSize {
     return collectionView
@@ -51,7 +49,11 @@ public final class NNMonthSectionHorizontalFlowLayout: UICollectionViewFlowLayou
   override public func prepare() {
     super.prepare()
 
-    guard cache.isEmpty, let collectionView = self.collectionView else {
+    guard
+      let collectionView = self.collectionView,
+      collectionView.numberOfSections > 0,
+      cache.isEmpty else
+    {
       return
     }
 

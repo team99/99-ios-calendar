@@ -30,13 +30,18 @@ public protocol NNMonthSectionViewModelDependency:
   NNMonthDisplayViewModelDependency {}
 
 /// View model for month section view.
-public protocol NNMonthSectionViewModelType: NNMonthSectionViewModelFunctionality {
-
+public protocol NNMonthSectionViewModelType:
+  NNMonthSectionViewModelFunctionality,
+  NNMonthControlViewModelType
+{
   /// Get the total month count.
   var totalMonthCount: Int { get }
   
   /// Stream months to display on the month section view.
   var monthStream: Observable<[NNCalendar.Month]> { get }
+
+  /// Stream the current month selection index.
+  var currentMonthSelectionIndex: Observable<Int> { get }
 
   /// Calculate the day for a month components and a first date offset.
   ///
@@ -52,13 +57,28 @@ public extension NNCalendar.MonthSection {
 
   /// View model implementation for the month section view.
   public final class ViewModel {
+    fileprivate let monthControlVM: NNMonthControlViewModelType
     fileprivate let dependency: NNMonthSectionViewModelDependency
     fileprivate let model: NNMonthSectionModelType
+    fileprivate let disposable: DisposeBag
 
-    required public init(_ dependency: NNMonthSectionViewModelDependency,
+    /// Cache here to improve performance.
+    fileprivate let monthSbj: BehaviorSubject<[NNCalendar.Month]?>
+
+    required public init(_ monthControlVM: NNMonthControlViewModelType,
+                         _ dependency: NNMonthSectionViewModelDependency,
                          _ model: NNMonthSectionModelType) {
+      self.monthControlVM = monthControlVM
       self.dependency = dependency
       self.model = model
+      monthSbj = BehaviorSubject(value: nil)
+      disposable = DisposeBag()
+    }
+
+    convenience public init(_ dependency: NNMonthSectionViewModelDependency,
+                            _ model: NNMonthSectionModelType) {
+      let monthControlVM = NNCalendar.MonthControl.ViewModel(model)
+      self.init(monthControlVM, dependency, model)
     }
 
     convenience public init(
@@ -82,6 +102,35 @@ extension NNCalendar.MonthSection.ViewModel: NNMonthSectionViewModelFunctionalit
   }
 }
 
+// MARK: - NNMonthControlViewModelType
+extension NNCalendar.MonthSection.ViewModel: NNMonthControlViewModelType {
+  public var currentMonthForwardReceiver: AnyObserver<UInt> {
+    return monthControlVM.currentMonthForwardReceiver
+  }
+
+  public var currentMonthBackwardReceiver: AnyObserver<UInt> {
+    return monthControlVM.currentMonthBackwardReceiver
+  }
+
+  public func setupBindings() {
+    monthControlVM.setupBindings()
+    let disposable = self.disposable
+    let pCount = dependency.pastMonthCountFromCurrent
+    let fCount = dependency.futureMonthCountFromCurrent
+    let dayCount = dependency.rowCount * dependency.columnCount
+
+    /// Must call onNext manually to avoid completed event, since this is
+    /// most likely a cold stream.
+    model.initialComponentStream
+      .map({[weak self] in self?.model.componentRange($0, pCount, fCount)})
+      .filter({$0.isSome}).map({$0!})
+      .map({$0.map({NNCalendar.Month($0, dayCount)})})
+      .asObservable()
+      .subscribe(onNext: {[weak self] in self?.monthSbj.onNext($0)})
+      .disposed(by: disposable)
+  }
+}
+
 // MARK: - NNMonthSectionViewModelType
 extension NNCalendar.MonthSection.ViewModel: NNMonthSectionViewModelType {
   public var totalMonthCount: Int {
@@ -91,15 +140,15 @@ extension NNCalendar.MonthSection.ViewModel: NNMonthSectionViewModelType {
   }
 
   public var monthStream: Observable<[NNCalendar.Month]> {
-    let pCount = dependency.pastMonthCountFromCurrent
-    let fCount = dependency.futureMonthCountFromCurrent
-    let dayCount = dependency.rowCount * dependency.columnCount
+    return monthSbj.filter({$0.isSome}).map({$0!})
+  }
 
-    return model.initialComponentStream
-      .map({[weak self] in self?.model.componentRange($0, pCount, fCount)})
+  public var currentMonthSelectionIndex: Observable<Int> {
+    return model.currentComponentStream
+      .withLatestFrom(monthStream) {($0, $1)}
+      .map({$1.map({$0.monthComp}).index(of: $0)})
       .filter({$0.isSome}).map({$0!})
-      .map({$0.map({NNCalendar.Month($0, dayCount)})})
-      .asObservable()
+      .distinctUntilChanged()
   }
 
   public func calculateDay(_ comps: NNCalendar.MonthComp,

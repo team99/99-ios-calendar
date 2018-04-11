@@ -24,10 +24,10 @@ internal enum MonthDirection {
   }
 }
 
-// MARK: - monthComponent.
+// MARK: - MonthComp.
 public extension NNCalendar {
 
-  /// Represents components that can be controlled by the user.
+  /// Represents a month-based component that can be controlled by the user.
   public struct MonthComp: Equatable, CustomStringConvertible {
     public let month: Int
     public let year: Int
@@ -119,7 +119,7 @@ public extension NNCalendar {
     }
 
     public static func ==(_ lhs: Month, _ rhs: Month) -> Bool {
-      return lhs.monthComp == rhs.monthComp
+      return lhs.monthComp == rhs.monthComp && lhs.dayCount == rhs.dayCount
     }
   }
 }
