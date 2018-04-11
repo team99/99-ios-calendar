@@ -28,7 +28,7 @@
                                             <constraint firstAttribute="height" constant="50" id="Gn8-uA-dTC"/>
                                         </constraints>
                                     </view>
-                                    <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="2bo-eT-edI" customClass="NNMonthView" customModule="calendar99">
+                                    <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="2bo-eT-edI" customClass="NNMonthSectionView" customModule="calendar99">
                                         <rect key="frame" x="0.0" y="50" width="375" height="300"/>
                                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                         <constraints>
@@ -64,7 +64,7 @@
                     </view>
                     <connections>
                         <outlet property="monthHeader" destination="OAw-Fd-26I" id="h4Q-TN-wRQ"/>
-                        <outlet property="monthView" destination="2bo-eT-edI" id="0za-gj-fCs"/>
+                        <outlet property="monthView" destination="2bo-eT-edI" id="FO1-AY-ghn"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

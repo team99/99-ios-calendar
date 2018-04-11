@@ -11,6 +11,8 @@
 		8B35A294FF4D72D4892DCE2F /* Pods_calendar99_demo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F059406167C331B65DF17BCE /* Pods_calendar99_demo.framework */; };
 		99EB1FCC7C144B9EC432DFCF /* Pods_calendar99.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D938B372CAFDEAD5B7917D27 /* Pods_calendar99.framework */; };
 		A9FC60253899F296B3E614F9 /* Pods_calendar99_logic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FA7759958763D8ADC1A0A33 /* Pods_calendar99_logic.framework */; };
+		D314670B207DFBEA00A6B186 /* MonthSectionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D314670A207DFBEA00A6B186 /* MonthSectionModel.swift */; };
+		D314670D207E029A00A6B186 /* MonthSectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D314670C207E029A00A6B186 /* MonthSectionViewModel.swift */; };
 		D319C2C0207D9FE0005D1828 /* MonthHeader.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D319C2BF207D9FE0005D1828 /* MonthHeader.xcassets */; };
 		D319C2C3207DA50A005D1828 /* MonthSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D319C2C2207DA50A005D1828 /* MonthSectionView.swift */; };
 		D31C0429207D1649000C2C75 /* MonthControlViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D31C0428207D1649000C2C75 /* MonthControlViewModel.swift */; };
@@ -114,6 +116,8 @@
 		B83FD4052FC070AEB5AC9F55 /* Pods-calendar99-logicTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-calendar99-logicTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-calendar99-logicTests/Pods-calendar99-logicTests.release.xcconfig"; sourceTree = "<group>"; };
 		C737F71F74B500EA998EB22F /* Pods_calendar99_logicTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_calendar99_logicTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CA2363311704BDDCFECB5053 /* Pods-calendar99-logic.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-calendar99-logic.debug.xcconfig"; path = "Pods/Target Support Files/Pods-calendar99-logic/Pods-calendar99-logic.debug.xcconfig"; sourceTree = "<group>"; };
+		D314670A207DFBEA00A6B186 /* MonthSectionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthSectionModel.swift; sourceTree = "<group>"; };
+		D314670C207E029A00A6B186 /* MonthSectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthSectionViewModel.swift; sourceTree = "<group>"; };
 		D319C2BF207D9FE0005D1828 /* MonthHeader.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = MonthHeader.xcassets; sourceTree = "<group>"; };
 		D319C2C2207DA50A005D1828 /* MonthSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthSectionView.swift; sourceTree = "<group>"; };
 		D31C0428207D1649000C2C75 /* MonthControlViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthControlViewModel.swift; sourceTree = "<group>"; };
@@ -234,6 +238,15 @@
 				C737F71F74B500EA998EB22F /* Pods_calendar99_logicTests.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		D3146709207DFBD800A6B186 /* MonthSection */ = {
+			isa = PBXGroup;
+			children = (
+				D314670A207DFBEA00A6B186 /* MonthSectionModel.swift */,
+				D314670C207E029A00A6B186 /* MonthSectionViewModel.swift */,
+			);
+			path = MonthSection;
 			sourceTree = "<group>";
 		};
 		D319C2B3207D9E15005D1828 /* MonthHeader */ = {
@@ -361,6 +374,7 @@
 				D319C2B6207D9E94005D1828 /* MonthControl */,
 				D319C2B7207D9E9B005D1828 /* MonthDisplay */,
 				D319C2B8207D9EA2005D1828 /* MonthHeader */,
+				D3146709207DFBD800A6B186 /* MonthSection */,
 				D3DA7022207C977200A3DFE1 /* Util.swift */,
 			);
 			path = "calendar99-logic";
@@ -893,12 +907,14 @@
 			files = (
 				D3DA6FD4207C6EC700A3DFE1 /* Entry.swift in Sources */,
 				D31C042D207D1BA6000C2C75 /* DateCalculator.swift in Sources */,
+				D314670B207DFBEA00A6B186 /* MonthSectionModel.swift in Sources */,
 				D3DA7023207C977200A3DFE1 /* Util.swift in Sources */,
 				D3DA702D207CBDE900A3DFE1 /* MonthDisplayModel.swift in Sources */,
 				D3DA7010207C805300A3DFE1 /* Entity.swift in Sources */,
 				D31C042B207D17C5000C2C75 /* MonthControlModel.swift in Sources */,
 				D3DA6FCE207C6E7800A3DFE1 /* MonthHeaderViewModel.swift in Sources */,
 				D31C0429207D1649000C2C75 /* MonthControlViewModel.swift in Sources */,
+				D314670D207E029A00A6B186 /* MonthSectionViewModel.swift in Sources */,
 				D3DA6FD0207C6E7E00A3DFE1 /* MonthHeaderModel.swift in Sources */,
 				D3DA702F207CBF3D00A3DFE1 /* MonthDisplayViewModel.swift in Sources */,
 			);

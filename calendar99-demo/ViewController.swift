@@ -13,19 +13,19 @@ import calendar99
 
 public final class ViewController: UIViewController  {
   @IBOutlet fileprivate weak var monthHeader: NNMonthHeaderView!
-  @IBOutlet fileprivate weak var monthView: NNMonthView!
-  fileprivate var componentSb: BehaviorSubject<NNCalendar.MonthComponents?>!
+  @IBOutlet fileprivate weak var monthView: NNMonthSectionView!
+  fileprivate var componentSb: BehaviorSubject<NNCalendar.MonthComp>!
 
   override public func viewDidLoad() {
     super.viewDidLoad()
-    componentSb = BehaviorSubject(value: nil)
+    componentSb = BehaviorSubject(value: NNCalendar.MonthComp(Date()))
 
     let monthHeaderModel = NNCalendar.MonthHeader.Model(self)
     let monthHeaderVM = NNCalendar.MonthHeader.ViewModel(monthHeaderModel)
     monthHeader.viewModel = monthHeaderVM
 
-    let monthViewModel = NNCalendar.MonthDisplay.Model(self)
-    let monthViewVM = NNCalendar.MonthDisplay.ViewModel(monthViewModel)
+    let monthViewModel = NNCalendar.MonthSection.Model(self)
+    let monthViewVM = NNCalendar.MonthSection.ViewModel(self, monthViewModel)
     monthView.viewModel = monthViewVM
   }
 }
@@ -33,28 +33,24 @@ public final class ViewController: UIViewController  {
 /// BEWARE MEMORY LEAKS HERE. THIS IS ONLY TEMPORARY.
 
 extension ViewController: NNMonthHeaderModelDependency {
-  public var currentComponentStream: Observable<NNCalendar.MonthComponents> {
-    return componentSb.map({$0!})
+  public var currentComponentStream: Observable<NNCalendar.MonthComp> {
+    return componentSb
   }
 
-  public var initialComponentStream: Single<NNCalendar.MonthComponents> {
+  public var initialComponentStream: Single<NNCalendar.MonthComp> {
     let date = Date()
     let month = Calendar.current.component(.month, from: date)
     let year = Calendar.current.component(.year, from: date)
-    let comps = NNCalendar.MonthComponents(month: month, year: year)
+    let comps = NNCalendar.MonthComp(month: month, year: year)
     return Single.just(comps)
   }
 
-  public var currentComponentReceiver: AnyObserver<NNCalendar.MonthComponents> {
-    return componentSb.mapObserver(Optional.some)
+  public var currentComponentReceiver: AnyObserver<NNCalendar.MonthComp> {
+    return componentSb.asObserver()
   }
 
-  public func formatMonthDescription(_ components: NNCalendar.MonthComponents) -> String {
-    let month = components.month
-    let year = components.year
-    var components = DateComponents()
-    components.setValue(month, for: .month)
-    components.setValue(year, for: .year)
+  public func formatMonthDescription(_ comps: NNCalendar.MonthComp) -> String {
+    let components = comps.dateComponents()
     let date = Calendar.current.date(from: components)!
     let dateFormatter = DateFormatter()
     dateFormatter.dateFormat = "MMM yyyy"
@@ -62,4 +58,14 @@ extension ViewController: NNMonthHeaderModelDependency {
   }
 }
 
-extension ViewController: NNMonthDisplayNonDefaultableModelDependency {}
+extension ViewController: NNMonthSectionNonDefaultableModelDependency {}
+
+extension ViewController: NNMonthSectionNonDefaultableViewModelDependency {
+  public var pastMonthCountFromCurrent: Int {
+    return 1000
+  }
+
+  public var futureMonthCountFromCurrent: Int {
+    return 1000
+  }
+}

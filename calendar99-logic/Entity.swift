@@ -24,11 +24,11 @@ internal enum MonthDirection {
   }
 }
 
-// MARK: - MonthComponents.
+// MARK: - monthComponent.
 public extension NNCalendar {
 
   /// Represents components that can be controlled by the user.
-  public struct MonthComponents: Equatable, CustomStringConvertible {
+  public struct MonthComp: Equatable, CustomStringConvertible {
     public let month: Int
     public let year: Int
 
@@ -41,6 +41,13 @@ public extension NNCalendar {
       self.year = year
     }
 
+    public init(_ date: Date) {
+      let calendar = Calendar.current
+      let month = calendar.component(.month, from: date)
+      let year = calendar.component(.year, from: date)
+      self.init(month: month, year: year)
+    }
+
     public func dateComponents() -> DateComponents {
       var components = DateComponents()
       components.setValue(month, for: .month)
@@ -48,7 +55,7 @@ public extension NNCalendar {
       return components
     }
 
-    public static func ==(_ lhs: MonthComponents, _ rhs: MonthComponents) -> Bool {
+    public static func ==(_ lhs: MonthComp, _ rhs: MonthComp) -> Bool {
       return lhs.month == rhs.month && lhs.year == rhs.year
     }
   }
@@ -80,26 +87,28 @@ public extension NNCalendar {
   /// Represents a container for months that can be used to display on the
   /// month section view.
   public struct Month: Equatable, CustomStringConvertible {
-    fileprivate let monthComponents: MonthComponents
+    public let dayCount: Int
+    public let monthComponent: MonthComp
 
     public var month: Int {
-      return monthComponents.month
+      return monthComponent.month
     }
 
     public var year: Int {
-      return monthComponents.year
+      return monthComponent.year
     }
 
     public var description: String {
-      return monthComponents.description
+      return monthComponent.description
     }
 
-    public init(_ monthComponents: MonthComponents) {
-      self.monthComponents = monthComponents
+    public init(_ monthComponent: MonthComp, _ dayCount: Int) {
+      self.monthComponent = monthComponent
+      self.dayCount = dayCount
     }
 
     public static func ==(_ lhs: Month, _ rhs: Month) -> Bool {
-      return lhs.monthComponents == rhs.monthComponents
+      return lhs.monthComponent == rhs.monthComponent
     }
   }
 }

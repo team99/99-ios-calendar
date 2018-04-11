@@ -71,7 +71,6 @@ public final class NNMonthHeaderView: UIView {
 public extension NNMonthHeaderView {
   fileprivate func setupViews() {
     let bundle = Bundle(for: NNMonthHeaderView.classForCoder())
-    print(backwardImg, forwardImg)
 
     guard
       let backwardImg = self.backwardImg,

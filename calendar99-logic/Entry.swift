@@ -18,8 +18,11 @@ public extension NNCalendar {
   /// Represents the month header display view.
   public final class MonthHeader {}
 
-  /// Represents the month view display view.
+  /// Represents the month display view.
   public final class MonthDisplay {}
+
+  /// Represents the month section view.
+  public final class MonthSection {}
 
   /// Represents date calculators.
   public final class DateCalculator {}

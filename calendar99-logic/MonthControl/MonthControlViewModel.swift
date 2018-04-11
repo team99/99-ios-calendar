@@ -24,15 +24,7 @@ public protocol NNMonthControlViewModelType {
 
 internal extension NNCalendar.MonthControl {
   /// Month control view model implementation.
-  internal final class ViewModel: NNMonthControlViewModelType {
-    internal var currentMonthForwardReceiver: AnyObserver<UInt> {
-      return currentMonthMovementSb.mapObserver(MonthDirection.forward)
-    }
-
-    internal var currentMonthBackwardReceiver: AnyObserver<UInt> {
-      return currentMonthMovementSb.mapObserver(MonthDirection.backward)
-    }
-
+  internal final class ViewModel {
     fileprivate let disposable: DisposeBag
     fileprivate let currentMonthMovementSb: PublishSubject<MonthDirection>
     fileprivate let model: NNMonthControlModelType
@@ -42,21 +34,31 @@ internal extension NNCalendar.MonthControl {
       disposable = DisposeBag()
       currentMonthMovementSb = PublishSubject()
     }
+  }
+}
 
-    internal func setupBindings() {
-      let disposable = self.disposable
+// MARK: - NNMonthControlViewModelType
+extension NNCalendar.MonthControl.ViewModel: NNMonthControlViewModelType {
+  internal var currentMonthForwardReceiver: AnyObserver<UInt> {
+    return currentMonthMovementSb.mapObserver(MonthDirection.forward)
+  }
 
-      let monthMovementStream = currentMonthMovementSb
-        .withLatestFrom(model.currentComponentStream) {($1, $0.monthOffset)}
-        .map({[weak self] in self?.model.newComponents($0, $1)})
-        .filter({$0.isSome}).map({$0!})
-        .share(replay: 1)
+  internal var currentMonthBackwardReceiver: AnyObserver<UInt> {
+    return currentMonthMovementSb.mapObserver(MonthDirection.backward)
+  }
 
-      Observable
-        .merge(model.initialComponentStream.asObservable(), monthMovementStream)
-        .distinctUntilChanged()
-        .subscribe(model.currentComponentReceiver)
-        .disposed(by: disposable)
-    }
+  internal func setupBindings() {
+    let disposable = self.disposable
+
+    let monthMovementStream = currentMonthMovementSb
+      .withLatestFrom(model.currentComponentStream) {($1, $0.monthOffset)}
+      .map({[weak self] in self?.model.newComponents($0, $1)})
+      .filter({$0.isSome}).map({$0!})
+      .share(replay: 1)
+
+    monthMovementStream
+      .distinctUntilChanged()
+      .subscribe(model.currentComponentReceiver)
+      .disposed(by: disposable)
   }
 }

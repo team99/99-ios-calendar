@@ -15,16 +15,7 @@ public protocol NNMonthHeaderModelDependency: NNMonthControlModelDependency {
   ///
   /// - Parameter components: A ControlComponents instance.
   /// - Returns: A String value.
-  func formatMonthDescription(_ components: NNCalendar.MonthComponents) -> String
-}
-
-/// Factory for month header model dependency.
-public protocol NNMonthHeaderDependencyFactory {
-
-  /// Create a model dependency for month header view.
-  ///
-  /// - Returns: A Calendar99ModelDependency instance.
-  func monthHeaderModelDependency() -> NNMonthHeaderModelDependency
+  func formatMonthDescription(_ comps: NNCalendar.MonthComp) -> String
 }
 
 /// Model for month header view.
@@ -35,19 +26,7 @@ public protocol NNMonthHeaderModelType:
 public extension NNCalendar.MonthHeader {
 
   /// Model implementation.
-  public final class Model: NNMonthHeaderModelType {
-    public var currentComponentStream: Observable<NNCalendar.MonthComponents> {
-      return monthControlModel.currentComponentStream
-    }
-
-    public var initialComponentStream: Single<NNCalendar.MonthComponents> {
-      return monthControlModel.initialComponentStream
-    }
-
-    public var currentComponentReceiver: AnyObserver<NNCalendar.MonthComponents> {
-      return monthControlModel.currentComponentReceiver
-    }
-
+  public final class Model {
     /// Delegate month-related calculations to this model.
     fileprivate let monthControlModel: NNMonthControlModelType
     fileprivate let dependency: NNMonthHeaderModelDependency
@@ -62,14 +41,31 @@ public extension NNCalendar.MonthHeader {
       let monthControlModel = NNCalendar.MonthControl.Model(dependency)
       self.init(monthControlModel, dependency)
     }
-
-    public func newComponents(_ prevComponents: NNCalendar.MonthComponents,
-                              _ monthOffset: Int) -> NNCalendar.MonthComponents? {
-      return monthControlModel.newComponents(prevComponents, monthOffset)
-    }
-
-    public func formatMonthDescription(_ comps: NNCalendar.MonthComponents) -> String {
-      return dependency.formatMonthDescription(comps)
-    }
   }
 }
+
+// MARK: - NNMonthHeaderModelDependency
+extension NNCalendar.MonthHeader.Model: NNMonthHeaderModelDependency {
+  public func formatMonthDescription(_ comps: NNCalendar.MonthComp) -> String {
+    return dependency.formatMonthDescription(comps)
+  }
+}
+
+// MARK: - NNMonthControlModelType
+extension NNCalendar.MonthHeader.Model: NNMonthControlModelType {
+  public var currentComponentStream: Observable<NNCalendar.MonthComp> {
+    return monthControlModel.currentComponentStream
+  }
+
+  public var currentComponentReceiver: AnyObserver<NNCalendar.MonthComp> {
+    return monthControlModel.currentComponentReceiver
+  }
+
+  public func newComponents(_ prevComponents: NNCalendar.MonthComp,
+                            _ monthOffset: Int) -> NNCalendar.MonthComp? {
+    return monthControlModel.newComponents(prevComponents, monthOffset)
+  }
+}
+
+// MARK: - NNMonthHeaderModelType
+extension NNCalendar.MonthHeader.Model: NNMonthHeaderModelType {}

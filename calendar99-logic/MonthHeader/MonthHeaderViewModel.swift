@@ -10,7 +10,7 @@ import RxSwift
 
 /// View model for month header view.
 public protocol NNMonthHeaderViewModelType: NNMonthControlViewModelType {
-  
+
   /// Stream month descriptions to populate the month display label.
   var monthDescriptionStream: Observable<String> { get }
 }
@@ -18,21 +18,7 @@ public protocol NNMonthHeaderViewModelType: NNMonthControlViewModelType {
 public extension NNCalendar.MonthHeader {
   
   /// View model implementation.
-  public final class ViewModel: NNMonthHeaderViewModelType {
-    public var currentMonthForwardReceiver: AnyObserver<UInt> {
-      return monthControlVM.currentMonthForwardReceiver
-    }
-
-    public var currentMonthBackwardReceiver: AnyObserver<UInt> {
-      return monthControlVM.currentMonthBackwardReceiver
-    }
-
-    public var monthDescriptionStream: Observable<String> {
-      return model.currentComponentStream
-        .map({[weak self] in self?.model.formatMonthDescription($0)})
-        .filter({$0.isSome}).map({$0!})
-        .distinctUntilChanged()
-    }
+  public final class ViewModel {
 
     /// Delegate month controlling to this view model.
     fileprivate let monthControlVM: NNMonthControlViewModelType
@@ -50,11 +36,32 @@ public extension NNCalendar.MonthHeader {
       let monthControlVM = NNCalendar.MonthControl.ViewModel(model)
       self.init(monthControlVM, model)
     }
+  }
+}
 
-    public func setupBindings() {
-      /// Set up bindings in the month control view model to kickstart the
-      /// month/year calculations.
-      monthControlVM.setupBindings()
-    }
+// MARK: - NNMonthControlViewModelType
+extension NNCalendar.MonthHeader.ViewModel: NNMonthControlViewModelType {
+  public var currentMonthForwardReceiver: AnyObserver<UInt> {
+    return monthControlVM.currentMonthForwardReceiver
+  }
+
+  public var currentMonthBackwardReceiver: AnyObserver<UInt> {
+    return monthControlVM.currentMonthBackwardReceiver
+  }
+
+  public func setupBindings() {
+    /// Set up bindings in the month control view model to kickstart the
+    /// month/year calculations.
+    monthControlVM.setupBindings()
+  }
+}
+
+// MARK: - NNMonthHeaderViewModelType
+extension NNCalendar.MonthHeader.ViewModel: NNMonthHeaderViewModelType {
+  public var monthDescriptionStream: Observable<String> {
+    return model.currentComponentStream
+      .map({[weak self] in self?.model.formatMonthDescription($0)})
+      .filter({$0.isSome}).map({$0!})
+      .distinctUntilChanged()
   }
 }
