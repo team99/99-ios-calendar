@@ -26,7 +26,12 @@ public final class ViewController: UIViewController  {
 
     let monthViewModel = NNCalendar.MonthSection.Model(self)
     let monthViewVM = NNCalendar.MonthSection.ViewModel(self, monthViewModel)
+    let pageCount = monthViewVM.totalMonthCount
+    let rowCount = monthViewVM.rowCount
+    let columnCount = monthViewVM.columnCount
+    let layout = NNMonthSectionHorizontalFlowLayout(pageCount, rowCount, columnCount)
     monthView.viewModel = monthViewVM
+    monthView.collectionViewLayout = layout
   }
 }
 

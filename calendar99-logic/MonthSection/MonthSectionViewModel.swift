@@ -26,12 +26,14 @@ public protocol NNMonthSectionNonDefaultableViewModelDependency {
 
 /// Dependency for month section view model.
 public protocol NNMonthSectionViewModelDependency:
-  NNMonthSectionViewModelFunctionality,
   NNMonthSectionNonDefaultableViewModelDependency,
   NNMonthDisplayViewModelDependency {}
 
 /// View model for month section view.
 public protocol NNMonthSectionViewModelType: NNMonthSectionViewModelFunctionality {
+
+  /// Get the total month count.
+  var totalMonthCount: Int { get }
   
   /// Stream months to display on the month section view.
   var monthStream: Observable<[NNCalendar.Month]> { get }
@@ -82,6 +84,12 @@ extension NNCalendar.MonthSection.ViewModel: NNMonthSectionViewModelFunctionalit
 
 // MARK: - NNMonthSectionViewModelType
 extension NNCalendar.MonthSection.ViewModel: NNMonthSectionViewModelType {
+  public var totalMonthCount: Int {
+    return 1
+      + dependency.pastMonthCountFromCurrent
+      + dependency.futureMonthCountFromCurrent
+  }
+
   public var monthStream: Observable<[NNCalendar.Month]> {
     let pCount = dependency.pastMonthCountFromCurrent
     let fCount = dependency.futureMonthCountFromCurrent

@@ -100,6 +100,9 @@ public extension NNMonthSectionView {
     let bundle = Bundle(for: NNDateCell.classForCoder())
     let cellNib = UINib(nibName: "DateCell", bundle: bundle)
     register(cellNib, forCellWithReuseIdentifier: cellId)
+    showsVerticalScrollIndicator = false
+    showsHorizontalScrollIndicator = false
+    isPagingEnabled = true
   }
 }
 
@@ -167,7 +170,7 @@ public extension NNMonthSectionView {
 
     let disposable = self.disposable
     let dataSource = setupDataSource()
-    self.rx.setDelegate(self).disposed(by: disposable)
+//    self.rx.setDelegate(self).disposed(by: disposable)
 
     viewModel.monthStream
       .observeOn(MainScheduler.instance)
