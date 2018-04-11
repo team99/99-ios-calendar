@@ -121,11 +121,11 @@ public extension NNMonthHeaderView {
     viewModel.setupBindings()
 
     backwardBtn.rx.tap.map({1})
-      .bind(to: viewModel.monthBackwardReceiver)
+      .bind(to: viewModel.currentMonthBackwardReceiver)
       .disposed(by: disposable)
 
     forwardBtn.rx.tap.map({1})
-      .bind(to: viewModel.monthForwardReceiver)
+      .bind(to: viewModel.currentMonthForwardReceiver)
       .disposed(by: disposable)
 
     viewModel.monthDescriptionStream

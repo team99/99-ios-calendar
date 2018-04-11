@@ -9,10 +9,8 @@
 import RxSwift
 
 /// View model for month header view.
-public protocol NNMonthHeaderViewModelType:
-  NNMonthHeaderFunctionality,
-  NNMonthControlViewModelType
-{
+public protocol NNMonthHeaderViewModelType: NNMonthControlViewModelType {
+  
   /// Stream month descriptions to populate the month display label.
   var monthDescriptionStream: Observable<String> { get }
 }
@@ -21,16 +19,16 @@ public extension NNCalendar.MonthHeader {
   
   /// View model implementation.
   public final class ViewModel: NNMonthHeaderViewModelType {
-    public var monthForwardReceiver: AnyObserver<UInt> {
-      return monthControlVM.monthForwardReceiver
+    public var currentMonthForwardReceiver: AnyObserver<UInt> {
+      return monthControlVM.currentMonthForwardReceiver
     }
 
-    public var monthBackwardReceiver: AnyObserver<UInt> {
-      return monthControlVM.monthBackwardReceiver
+    public var currentMonthBackwardReceiver: AnyObserver<UInt> {
+      return monthControlVM.currentMonthBackwardReceiver
     }
 
     public var monthDescriptionStream: Observable<String> {
-      return model.componentStream
+      return model.currentComponentStream
         .map({[weak self] in self?.model.formatMonthDescription($0)})
         .filter({$0.isSome}).map({$0!})
         .distinctUntilChanged()

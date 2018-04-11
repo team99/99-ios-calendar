@@ -9,10 +9,8 @@
 import RxSwift
 
 /// Dependency for month header model.
-public protocol NNMonthHeaderModelDependency:
-  NNMonthHeaderFunctionality,
-  NNMonthControlModelDependency
-{
+public protocol NNMonthHeaderModelDependency: NNMonthControlModelDependency {
+  
   /// Format month description.
   ///
   /// - Parameter components: A ControlComponents instance.
@@ -38,16 +36,16 @@ public extension NNCalendar.MonthHeader {
 
   /// Model implementation.
   public final class Model: NNMonthHeaderModelType {
-    public var componentStream: Observable<NNCalendar.MonthComponents> {
-      return monthControlModel.componentStream
+    public var currentComponentStream: Observable<NNCalendar.MonthComponents> {
+      return monthControlModel.currentComponentStream
     }
 
     public var initialComponentStream: Single<NNCalendar.MonthComponents> {
       return monthControlModel.initialComponentStream
     }
 
-    public var componentReceiver: AnyObserver<NNCalendar.MonthComponents> {
-      return monthControlModel.componentReceiver
+    public var currentComponentReceiver: AnyObserver<NNCalendar.MonthComponents> {
+      return monthControlModel.currentComponentReceiver
     }
 
     /// Delegate month-related calculations to this model.

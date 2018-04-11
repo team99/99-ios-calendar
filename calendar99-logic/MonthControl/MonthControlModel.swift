@@ -9,16 +9,16 @@
 import RxSwift
 
 /// Dependency for month control model.
-public protocol NNMonthControlModelDependency: NNMonthControlFunctionality {
+public protocol NNMonthControlModelDependency {
 
   /// Stream the current selected components.
-  var componentStream: Observable<NNCalendar.MonthComponents> { get }
+  var currentComponentStream: Observable<NNCalendar.MonthComponents> { get }
 
   /// Emit the initial components.
   var initialComponentStream: Single<NNCalendar.MonthComponents> { get }
 
   /// Receive the current components.
-  var componentReceiver: AnyObserver<NNCalendar.MonthComponents> { get }
+  var currentComponentReceiver: AnyObserver<NNCalendar.MonthComponents> { get }
 }
 
 /// Model for month header view.
@@ -40,16 +40,16 @@ internal extension NNCalendar.MonthControl {
   internal final class Model: NNMonthControlModelType {
     fileprivate let dependency: NNMonthHeaderModelDependency
 
-    public var componentStream: Observable<NNCalendar.MonthComponents> {
-      return dependency.componentStream
+    public var currentComponentStream: Observable<NNCalendar.MonthComponents> {
+      return dependency.currentComponentStream
     }
 
     public var initialComponentStream: Single<NNCalendar.MonthComponents> {
       return dependency.initialComponentStream
     }
 
-    public var componentReceiver: AnyObserver<NNCalendar.MonthComponents> {
-      return dependency.componentReceiver
+    public var currentComponentReceiver: AnyObserver<NNCalendar.MonthComponents> {
+      return dependency.currentComponentReceiver
     }
 
     public init(_ dependency: NNMonthHeaderModelDependency) {

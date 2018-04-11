@@ -25,7 +25,7 @@ public final class ViewController: UIViewController  {
     monthHeader.viewModel = monthHeaderVM
 
     let monthViewModel = NNCalendar.MonthDisplay.Model(self)
-    let monthViewVM = NNCalendar.MonthDisplay.ViewModel(self, monthViewModel)
+    let monthViewVM = NNCalendar.MonthDisplay.ViewModel(monthViewModel)
     monthView.viewModel = monthViewVM
   }
 }
@@ -33,7 +33,7 @@ public final class ViewController: UIViewController  {
 /// BEWARE MEMORY LEAKS HERE. THIS IS ONLY TEMPORARY.
 
 extension ViewController: NNMonthHeaderModelDependency {
-  public var componentStream: Observable<NNCalendar.MonthComponents> {
+  public var currentComponentStream: Observable<NNCalendar.MonthComponents> {
     return componentSb.map({$0!})
   }
 
@@ -45,7 +45,7 @@ extension ViewController: NNMonthHeaderModelDependency {
     return Single.just(comps)
   }
 
-  public var componentReceiver: AnyObserver<NNCalendar.MonthComponents> {
+  public var currentComponentReceiver: AnyObserver<NNCalendar.MonthComponents> {
     return componentSb.mapObserver(Optional.some)
   }
 
@@ -63,5 +63,3 @@ extension ViewController: NNMonthHeaderModelDependency {
 }
 
 extension ViewController: NNMonthDisplayNonDefaultableModelDependency {}
-
-extension ViewController: NNMonthDisplayViewModelDependency {}
