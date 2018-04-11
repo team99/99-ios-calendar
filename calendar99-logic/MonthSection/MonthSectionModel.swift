@@ -8,27 +8,32 @@
 
 import RxSwift
 
+/// Shared functionalities between the model and its dependency, so that the
+/// model expose the same properties.
+public protocol NNMonthSectionModelFunctionality: NNMonthControlModelDependency {
+
+  /// Stream the initial components.
+  var initialComponentStream: Single<NNCalendar.MonthComp> { get }
+}
+
 /// Dependency for month section model, which contains components that can have
 /// defaults.
-public protocol NNMonthSectionDefaultableModelDependency:
-  NNMonthDisplayDefaultableModelDependency {}
+public protocol NNMonthSectionDefaultableModelDependency: NNSingleDateCalculatorType {}
 
 /// Dependency for month section model, which contains components that cannot
 /// have defaults.
 public protocol NNMonthSectionNonDefaultableModelDependency:
-  NNMonthDisplayNonDefaultableModelDependency {}
+  NNMonthSectionModelFunctionality {}
 
-/// Dependency for month section model. Since the month section view can be
-/// considered a superset of the month view, many of the latter's functionalities
-/// are repeated here.
+/// Dependency for month section model.
 public protocol NNMonthSectionModelDependency:
   NNMonthSectionDefaultableModelDependency,
   NNMonthSectionNonDefaultableModelDependency {}
 
 /// Model for month section view.
 public protocol NNMonthSectionModelType:
-  NNMonthSectionModelDependency,
-  NNMonthDisplayModelType
+  NNMonthSectionModelFunctionality,
+  NNMonthControlModelType
 {
   /// Calculate the month component range, which is anchored by a specified
   /// month comp and goes as far back in the past/forward in the future as we
@@ -42,6 +47,17 @@ public protocol NNMonthSectionModelType:
   func componentRange(_ currentComp: NNCalendar.MonthComp,
                       _ pastMonthCount: Int,
                       _ futureMonthCount: Int) -> [NNCalendar.MonthComp]
+
+  /// Calculate the day for a month components and a first date offset.
+  ///
+  /// - Parameters:
+  ///   - comps: A MonthComp instance.
+  ///   - firstDayOfWeek: The first day in a week.
+  ///   - firstDateOffset: Offset from the initial date in the grid.
+  /// - Returns: A Day instance.
+  func calculateDay(_ comps: NNCalendar.MonthComp,
+                    _ firstDayOfWeek: Int,
+                    _ firstDateOffset: Int) -> NNCalendar.Day?
 }
 
 public extension NNCalendar.MonthSection {
@@ -50,65 +66,60 @@ public extension NNCalendar.MonthSection {
   public final class Model {
 
     /// Delegate display-related properties to this model.
-    fileprivate let monthDisplayModel: NNMonthDisplayModelType
+    fileprivate let monthControlModel: NNMonthControlModelType
     fileprivate let dependency: NNMonthSectionModelDependency
 
-    required public init(_ monthDisplayModel: NNMonthDisplayModelType,
+    required public init(_ monthControlModel: NNMonthControlModelType,
                          _ dependency: NNMonthSectionModelDependency) {
-      self.monthDisplayModel = monthDisplayModel
+      self.monthControlModel = monthControlModel
       self.dependency = dependency
     }
 
     convenience public init(_ dependency: NNMonthSectionModelDependency) {
-      let monthDisplayModel = NNCalendar.MonthDisplay.Model(dependency)
-      self.init(monthDisplayModel, dependency)
+      let monthControlModel = NNCalendar.MonthControl.Model(dependency)
+      self.init(monthControlModel, dependency)
     }
 
     convenience public init(_ dependency: NNMonthSectionNonDefaultableModelDependency) {
       let defaultDp = DefaultDependency(dependency)
       self.init(defaultDp)
     }
+
+    public func calculateDay(_ comps: NNCalendar.MonthComp,
+                             _ firstDayOfWeek: Int,
+                             _ firstDateOffset: Int) -> NNCalendar.Day? {
+      return dependency.calculateDate(comps, firstDayOfWeek, firstDateOffset)
+        .map({
+          let description = Calendar.current.component(.day, from: $0).description
+
+          return NNCalendar.Day(date: $0,
+                                dateDescription: description,
+                                isCurrentMonth: comps.contains($0))
+        })
+    }
   }
 }
 
 // MARK: - NNMonthSectionModelDependency
-extension NNCalendar.MonthSection.Model: NNMonthSectionModelDependency {
+extension NNCalendar.MonthSection.Model: NNMonthSectionModelFunctionality {
   public var initialComponentStream: Single<NNCalendar.MonthComp> {
     return dependency.initialComponentStream
   }
 }
 
 // MARK: - NNMonthDisplayModelType
-extension NNCalendar.MonthSection.Model: NNMonthDisplayModelType {
+extension NNCalendar.MonthSection.Model: NNMonthControlModelType {
   public var currentComponentStream: Observable<NNCalendar.MonthComp> {
-    return monthDisplayModel.currentComponentStream
+    return monthControlModel.currentComponentStream
   }
 
   public var currentComponentReceiver: AnyObserver<NNCalendar.MonthComp> {
-    return monthDisplayModel.currentComponentReceiver
-  }
-
-  public func dateDescription(_ date: Date) -> String {
-    return monthDisplayModel.dateDescription(date)
-  }
-
-  public func isInMonth(_ comps: NNCalendar.MonthComp, _ date: Date) -> Bool {
-    return monthDisplayModel.isInMonth(comps, date)
-  }
-
-  public func calculateRange(_ comps: NNCalendar.MonthComp,
-                             _ firstDayOfWeek: Int,
-                             _ rowCount: Int,
-                             _ columnCount: Int) -> [Date] {
-    return monthDisplayModel.calculateRange(comps,
-                                            firstDayOfWeek,
-                                            rowCount,
-                                            columnCount)
+    return monthControlModel.currentComponentReceiver
   }
 
   public func newComponents(_ prevComps: NNCalendar.MonthComp,
                             _ monthOffset: Int) -> NNCalendar.MonthComp? {
-    return monthDisplayModel.newComponents(prevComps, monthOffset)
+    return monthControlModel.newComponents(prevComps, monthOffset)
   }
 }
 
@@ -117,13 +128,15 @@ extension NNCalendar.MonthSection.Model: NNMonthSectionModelType {
   public func componentRange(_ currentComp: NNCalendar.MonthComp,
                              _ pastMonthCount: Int,
                              _ futureMonthCount: Int) -> [NNCalendar.MonthComp] {
-    let earliest = monthDisplayModel.newComponents(currentComp, pastMonthCount)
+    let earliest = monthControlModel.newComponents(currentComp, pastMonthCount)
     let totalMonths = pastMonthCount + 1 + futureMonthCount
 
     return (0..<totalMonths).flatMap({offset in
-      earliest.flatMap({monthDisplayModel.newComponents($0, offset)})
+      earliest.flatMap({monthControlModel.newComponents($0, offset)})
     })
   }
+
+
 }
 
 extension NNCalendar.MonthSection.Model {
@@ -131,31 +144,29 @@ extension NNCalendar.MonthSection.Model {
   /// Default dependency for month section model.
   internal final class DefaultDependency: NNMonthSectionModelDependency {
     public var initialComponentStream: Single<NNCalendar.MonthComp> {
-      return defaultable.initialComponentStream
+      return nonDefaultable.initialComponentStream
     }
 
     public var currentComponentStream: Observable<NNCalendar.MonthComp> {
-      return defaultable.currentComponentStream
+      return nonDefaultable.currentComponentStream
     }
 
     public var currentComponentReceiver: AnyObserver<NNCalendar.MonthComp> {
-      return defaultable.currentComponentReceiver
+      return nonDefaultable.currentComponentReceiver
     }
 
-    private let defaultable: NNMonthDisplayModelDependency
+    private let nonDefaultable: NNMonthSectionNonDefaultableModelDependency
+    private let dateCalculator: NNSingleDateCalculatorType
 
     internal init(_ dependency: NNMonthSectionNonDefaultableModelDependency) {
-      defaultable = NNCalendar.MonthDisplay.Model.DefaultDependency(dependency)
+      self.nonDefaultable = dependency
+      dateCalculator = NNCalendar.DateCalculator.Sequential()
     }
 
-    func calculateRange(_ comps: NNCalendar.MonthComp,
-                        _ firstDayOfWeek: Int,
-                        _ rowCount: Int,
-                        _ columnCount: Int) -> [Date] {
-      return defaultable.calculateRange(comps,
-                                        firstDayOfWeek,
-                                        rowCount,
-                                        columnCount)
+    func calculateDate(_ comps: NNCalendar.MonthComp,
+                       _ firstDayOfWeek: Int,
+                       _ firstDateOffset: Int) -> Date? {
+      return dateCalculator.calculateDate(comps, firstDayOfWeek, firstDateOffset)
     }
   }
 }

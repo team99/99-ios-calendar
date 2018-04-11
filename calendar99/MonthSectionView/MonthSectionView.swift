@@ -129,17 +129,25 @@ public extension NNMonthSectionView {
                              _ item: Section.Item)
     -> UICollectionViewCell
   {
-    guard let cell = view.dequeueReusableCell(
-      withReuseIdentifier: cellId,
-      for: indexPath) as? NNDateCell else
+    let sections = source.sectionModels
+    let section = indexPath.section
+
+    guard
+      section >= 0 && section < source.sectionModels.count,
+      let viewModel = self.viewModel,
+      let day = viewModel.calculateDay(sections[section].monthComp, item),
+      let cell = view.dequeueReusableCell(
+        withReuseIdentifier: cellId,
+        for: indexPath) as? NNDateCell else
     {
       #if DEBUG
-      fatalError("Unrecognized cell")
+      fatalError("Invalid properties")
       #else
       return UICollectionViewCell()
       #endif
     }
 
+    cell.setupWithDay(day)
     return cell
   }
 }
@@ -179,6 +187,6 @@ extension NNCalendar.Month: SectionModelType {
   }
 
   public init(original: NNCalendar.Month, items: [Item]) {
-    self.init(original.monthComponent, items.count)
+    self.init(original.monthComp, items.count)
   }
 }

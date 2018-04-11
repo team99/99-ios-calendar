@@ -23,6 +23,7 @@ public protocol NNMonthControlViewModelType {
 }
 
 internal extension NNCalendar.MonthControl {
+  
   /// Month control view model implementation.
   internal final class ViewModel {
     fileprivate let disposable: DisposeBag

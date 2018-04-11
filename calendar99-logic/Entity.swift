@@ -55,6 +55,17 @@ public extension NNCalendar {
       return components
     }
 
+    /// Check if the current month component contains a Date.
+    ///
+    /// - Parameter date: A Date instance.
+    /// - Returns: A Bool value.
+    public func contains(_ date: Date) -> Bool {
+      let calendar = Calendar.current
+      let month = calendar.component(.month, from: date)
+      let year = calendar.component(.year, from: date)
+      return self.month == month && self.year == year
+    }
+
     public static func ==(_ lhs: MonthComp, _ rhs: MonthComp) -> Bool {
       return lhs.month == rhs.month && lhs.year == rhs.year
     }
@@ -88,27 +99,27 @@ public extension NNCalendar {
   /// month section view.
   public struct Month: Equatable, CustomStringConvertible {
     public let dayCount: Int
-    public let monthComponent: MonthComp
+    public let monthComp: MonthComp
 
     public var month: Int {
-      return monthComponent.month
+      return monthComp.month
     }
 
     public var year: Int {
-      return monthComponent.year
+      return monthComp.year
     }
 
     public var description: String {
-      return monthComponent.description
+      return monthComp.description
     }
 
     public init(_ monthComponent: MonthComp, _ dayCount: Int) {
-      self.monthComponent = monthComponent
+      self.monthComp = monthComponent
       self.dayCount = dayCount
     }
 
     public static func ==(_ lhs: Month, _ rhs: Month) -> Bool {
-      return lhs.monthComponent == rhs.monthComponent
+      return lhs.monthComp == rhs.monthComp
     }
   }
 }

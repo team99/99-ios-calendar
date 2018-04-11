@@ -35,6 +35,15 @@ public protocol NNMonthSectionViewModelType: NNMonthSectionViewModelFunctionalit
   
   /// Stream months to display on the month section view.
   var monthStream: Observable<[NNCalendar.Month]> { get }
+
+  /// Calculate the day for a month components and a first date offset.
+  ///
+  /// - Parameters:
+  ///   - comps: A MonthComp instance.
+  ///   - firstDateOffset: Offset from the initial date in the grid.
+  /// - Returns: A Day instance.
+  func calculateDay(_ comps: NNCalendar.MonthComp,
+                    _ firstDateOffset: Int) -> NNCalendar.Day?
 }
 
 public extension NNCalendar.MonthSection {
@@ -84,10 +93,18 @@ extension NNCalendar.MonthSection.ViewModel: NNMonthSectionViewModelType {
       .map({$0.map({NNCalendar.Month($0, dayCount)})})
       .asObservable()
   }
+
+  public func calculateDay(_ comps: NNCalendar.MonthComp,
+                           _ firstDateOffset: Int) -> NNCalendar.Day? {
+    return model.calculateDay(comps, dependency.firstDayOfWeek, firstDateOffset)
+  }
 }
 
 // MARK: - Default dependency.
 extension NNCalendar.MonthSection.ViewModel {
+
+  /// Default dependency for month section view model. We reuse the default
+  /// dependency for the month view because they have many similarities.
   internal final class DefaultDependency: NNMonthSectionViewModelDependency {
     public var pastMonthCountFromCurrent: Int {
       return nonDefaultable.pastMonthCountFromCurrent

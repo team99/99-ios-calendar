@@ -100,19 +100,10 @@ extension NNCalendar.MonthDisplay.ViewModel: NNMonthDisplayViewModelType {
 
     return model.currentComponentStream
       .map({[weak self] components in
-        return (self?.model.calculateRange(components,
-                                           firstDayOfWeek,
-                                           rowCount,
-                                           columnCount))
-          .map({(components, $0)})
-      })
-      .filter({$0.isSome}).map({$0!})
-      .map({[weak self] (comps, dates) in (self?.model)
-        .map({model in dates.map({
-          NNCalendar.Day(date: $0,
-                         dateDescription: model.dateDescription($0),
-                         isCurrentMonth: model.isInMonth(comps, $0))
-        })})
+        return self?.model.calculateDayRange(components,
+                                             firstDayOfWeek,
+                                             rowCount,
+                                             columnCount)
       })
       .filter({$0.isSome}).map({$0!})
   }
