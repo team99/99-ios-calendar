@@ -8,9 +8,7 @@
 
 /// This is the entry point to all features, and acts as a namespace to the
 /// underlying logic.
-public final class NNCalendar {}
-
-public extension NNCalendar {
+public final class NNCalendar {
 
   /// Represents views that can control months.
   internal final class MonthControl {}
@@ -26,4 +24,7 @@ public extension NNCalendar {
 
   /// Represents date calculators.
   public final class DateCalculator {}
+
+  /// Represents day selection views.
+  public final class DaySelection {}
 }

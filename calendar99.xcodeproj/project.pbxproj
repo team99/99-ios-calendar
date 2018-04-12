@@ -19,6 +19,9 @@
 		D31C042B207D17C5000C2C75 /* MonthControlModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D31C042A207D17C5000C2C75 /* MonthControlModel.swift */; };
 		D31C042D207D1BA6000C2C75 /* DateCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D31C042C207D1BA6000C2C75 /* DateCalculator.swift */; };
 		D31C042F207D2106000C2C75 /* DateCalculatorTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D31C042E207D2106000C2C75 /* DateCalculatorTest.swift */; };
+		D31DA881207EF28800FB4355 /* DaySelectionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D31DA880207EF28800FB4355 /* DaySelectionModel.swift */; };
+		D31DA883207EF33C00FB4355 /* DaySelectionFunctionality.swift in Sources */ = {isa = PBXBuildFile; fileRef = D31DA882207EF33C00FB4355 /* DaySelectionFunctionality.swift */; };
+		D31DA885207EF47E00FB4355 /* DaySelectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D31DA884207EF47E00FB4355 /* DaySelectionViewModel.swift */; };
 		D3D63C68207E49A700772F53 /* MonthSectionLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3D63C67207E49A700772F53 /* MonthSectionLayout.swift */; };
 		D3DA6FA1207C6CEE00A3DFE1 /* calendar99.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3DA6F97207C6CEE00A3DFE1 /* calendar99.framework */; };
 		D3DA6FA8207C6CEE00A3DFE1 /* calendar99.h in Headers */ = {isa = PBXBuildFile; fileRef = D3DA6F9A207C6CEE00A3DFE1 /* calendar99.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -125,6 +128,9 @@
 		D31C042A207D17C5000C2C75 /* MonthControlModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthControlModel.swift; sourceTree = "<group>"; };
 		D31C042C207D1BA6000C2C75 /* DateCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateCalculator.swift; sourceTree = "<group>"; };
 		D31C042E207D2106000C2C75 /* DateCalculatorTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateCalculatorTest.swift; sourceTree = "<group>"; };
+		D31DA880207EF28800FB4355 /* DaySelectionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DaySelectionModel.swift; sourceTree = "<group>"; };
+		D31DA882207EF33C00FB4355 /* DaySelectionFunctionality.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DaySelectionFunctionality.swift; sourceTree = "<group>"; };
+		D31DA884207EF47E00FB4355 /* DaySelectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DaySelectionViewModel.swift; sourceTree = "<group>"; };
 		D3D63C67207E49A700772F53 /* MonthSectionLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthSectionLayout.swift; sourceTree = "<group>"; };
 		D3DA6F97207C6CEE00A3DFE1 /* calendar99.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = calendar99.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D3DA6F9A207C6CEE00A3DFE1 /* calendar99.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = calendar99.h; sourceTree = "<group>"; };
@@ -314,6 +320,16 @@
 			path = MonthSectionView;
 			sourceTree = "<group>";
 		};
+		D31DA87F207EF26F00FB4355 /* DaySelection */ = {
+			isa = PBXGroup;
+			children = (
+				D31DA880207EF28800FB4355 /* DaySelectionModel.swift */,
+				D31DA882207EF33C00FB4355 /* DaySelectionFunctionality.swift */,
+				D31DA884207EF47E00FB4355 /* DaySelectionViewModel.swift */,
+			);
+			path = DaySelection;
+			sourceTree = "<group>";
+		};
 		D3DA6F8D207C6CEE00A3DFE1 = {
 			isa = PBXGroup;
 			children = (
@@ -371,6 +387,7 @@
 			children = (
 				D3DA6FB8207C6D2300A3DFE1 /* calendar99_logic.h */,
 				D31C042C207D1BA6000C2C75 /* DateCalculator.swift */,
+				D31DA87F207EF26F00FB4355 /* DaySelection */,
 				D3DA700F207C805300A3DFE1 /* Entity.swift */,
 				D3DA6FD3207C6EC700A3DFE1 /* Entry.swift */,
 				D3DA6FB9207C6D2300A3DFE1 /* Info.plist */,
@@ -909,9 +926,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D31DA881207EF28800FB4355 /* DaySelectionModel.swift in Sources */,
 				D3DA6FD4207C6EC700A3DFE1 /* Entry.swift in Sources */,
 				D31C042D207D1BA6000C2C75 /* DateCalculator.swift in Sources */,
 				D314670B207DFBEA00A6B186 /* MonthSectionModel.swift in Sources */,
+				D31DA885207EF47E00FB4355 /* DaySelectionViewModel.swift in Sources */,
 				D3DA7023207C977200A3DFE1 /* Util.swift in Sources */,
 				D3DA702D207CBDE900A3DFE1 /* MonthDisplayModel.swift in Sources */,
 				D3DA7010207C805300A3DFE1 /* Entity.swift in Sources */,
@@ -919,6 +938,7 @@
 				D3DA6FCE207C6E7800A3DFE1 /* MonthHeaderViewModel.swift in Sources */,
 				D31C0429207D1649000C2C75 /* MonthControlViewModel.swift in Sources */,
 				D314670D207E029A00A6B186 /* MonthSectionViewModel.swift in Sources */,
+				D31DA883207EF33C00FB4355 /* DaySelectionFunctionality.swift in Sources */,
 				D3DA6FD0207C6E7E00A3DFE1 /* MonthHeaderModel.swift in Sources */,
 				D3DA702F207CBF3D00A3DFE1 /* MonthDisplayViewModel.swift in Sources */,
 			);

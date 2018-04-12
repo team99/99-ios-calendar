@@ -10,8 +10,10 @@ import RxSwift
 
 /// Shared functionalities between the model and its dependency, so that the
 /// model expose the same properties.
-public protocol NNMonthSectionModelFunctionality: NNMonthControlModelDependency {
-
+public protocol NNMonthSectionModelFunctionality:
+  NNMonthControlModelDependency,
+  NNDaySelectionModelDependency
+{
   /// Stream the initial components.
   var initialComponentStream: Single<NNCalendar.MonthComp> { get }
 }
@@ -33,7 +35,8 @@ public protocol NNMonthSectionModelDependency:
 /// Model for month section view.
 public protocol NNMonthSectionModelType:
   NNMonthSectionModelFunctionality,
-  NNMonthControlModelType
+  NNMonthControlModelType,
+  NNDaySelectionModelType
 {
   /// Calculate the month component range, which is anchored by a specified
   /// month comp and goes as far back in the past/forward in the future as we
@@ -67,17 +70,23 @@ public extension NNCalendar.MonthSection {
 
     /// Delegate display-related properties to this model.
     fileprivate let monthControlModel: NNMonthControlModelType
+
+    /// Delegate day selection to this model.
+    fileprivate let daySelectionModel: NNDaySelectionModelType
     fileprivate let dependency: NNMonthSectionModelDependency
 
     required public init(_ monthControlModel: NNMonthControlModelType,
+                         _ daySelectionModel: NNDaySelectionModelType,
                          _ dependency: NNMonthSectionModelDependency) {
       self.monthControlModel = monthControlModel
+      self.daySelectionModel = daySelectionModel
       self.dependency = dependency
     }
 
     convenience public init(_ dependency: NNMonthSectionModelDependency) {
       let monthControlModel = NNCalendar.MonthControl.Model(dependency)
-      self.init(monthControlModel, dependency)
+      let daySelectionModel = NNCalendar.DaySelection.Model(dependency)
+      self.init(monthControlModel, daySelectionModel, dependency)
     }
 
     convenience public init(_ dependency: NNMonthSectionNonDefaultableModelDependency) {
@@ -104,6 +113,14 @@ public extension NNCalendar.MonthSection {
 extension NNCalendar.MonthSection.Model: NNMonthSectionModelFunctionality {
   public var initialComponentStream: Single<NNCalendar.MonthComp> {
     return dependency.initialComponentStream
+  }
+
+  public var dateSelectionReceiver: AnyObserver<Set<Date>> {
+    return daySelectionModel.dateSelectionReceiver
+  }
+
+  public var dateSelectionStream: Observable<Set<Date>> {
+    return daySelectionModel.dateSelectionStream
   }
 }
 
@@ -151,6 +168,14 @@ extension NNCalendar.MonthSection.Model {
 
     public var currentComponentReceiver: AnyObserver<NNCalendar.MonthComp> {
       return nonDefaultable.currentComponentReceiver
+    }
+
+    public var dateSelectionReceiver: AnyObserver<Set<Date>> {
+      return nonDefaultable.dateSelectionReceiver
+    }
+
+    public var dateSelectionStream: Observable<Set<Date>> {
+      return nonDefaultable.dateSelectionStream
     }
 
     private let nonDefaultable: NNMonthSectionNonDefaultableModelDependency

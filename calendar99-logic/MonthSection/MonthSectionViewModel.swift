@@ -15,8 +15,9 @@ public protocol NNMonthSectionViewModelFunctionality:
 
 /// Dependency for month section view model with components that cannot have
 /// defaults.
-public protocol NNMonthSectionNonDefaultableViewModelDependency {
-
+public protocol NNMonthSectionNonDefaultableViewModelDependency:
+  NNDaySelectionViewModelDependency
+{
   /// Get the number of past months to include in the month data stream.
   var pastMonthCountFromCurrent: Int { get }
 
@@ -32,7 +33,8 @@ public protocol NNMonthSectionViewModelDependency:
 /// View model for month section view.
 public protocol NNMonthSectionViewModelType:
   NNMonthSectionViewModelFunctionality,
-  NNMonthControlViewModelType
+  NNMonthControlViewModelType,
+  NNDaySelectionViewModelType
 {
   /// Get the total month count.
   var totalMonthCount: Int { get }
@@ -58,6 +60,7 @@ public extension NNCalendar.MonthSection {
   /// View model implementation for the month section view.
   public final class ViewModel {
     fileprivate let monthControlVM: NNMonthControlViewModelType
+    fileprivate let daySelectionVM: NNDaySelectionViewModelType
     fileprivate let dependency: NNMonthSectionViewModelDependency
     fileprivate let model: NNMonthSectionModelType
     fileprivate let disposable: DisposeBag
@@ -66,9 +69,11 @@ public extension NNCalendar.MonthSection {
     fileprivate let monthSbj: BehaviorSubject<[NNCalendar.Month]?>
 
     required public init(_ monthControlVM: NNMonthControlViewModelType,
+                         _ daySelectionVM: NNDaySelectionViewModelType,
                          _ dependency: NNMonthSectionViewModelDependency,
                          _ model: NNMonthSectionModelType) {
       self.monthControlVM = monthControlVM
+      self.daySelectionVM = daySelectionVM
       self.dependency = dependency
       self.model = model
       monthSbj = BehaviorSubject(value: nil)
@@ -78,7 +83,8 @@ public extension NNCalendar.MonthSection {
     convenience public init(_ dependency: NNMonthSectionViewModelDependency,
                             _ model: NNMonthSectionModelType) {
       let monthControlVM = NNCalendar.MonthControl.ViewModel(model)
-      self.init(monthControlVM, dependency, model)
+      let daySelectionVM = NNCalendar.DaySelection.ViewModel(dependency, model)
+      self.init(monthControlVM, daySelectionVM, dependency, model)
     }
 
     convenience public init(
@@ -114,6 +120,7 @@ extension NNCalendar.MonthSection.ViewModel: NNMonthControlViewModelType {
 
   public func setupBindings() {
     monthControlVM.setupBindings()
+    daySelectionVM.setupBindings()
     let disposable = self.disposable
     let pCount = dependency.pastMonthCountFromCurrent
     let fCount = dependency.futureMonthCountFromCurrent
@@ -128,6 +135,13 @@ extension NNCalendar.MonthSection.ViewModel: NNMonthControlViewModelType {
       .asObservable()
       .subscribe(onNext: {[weak self] in self?.monthSbj.onNext($0)})
       .disposed(by: disposable)
+  }
+}
+
+// MARK: - NNDaySelectionViewModelType
+extension NNCalendar.MonthSection.ViewModel: NNDaySelectionViewModelType {
+  public var dateSelectionReceiver: AnyObserver<Date> {
+    return daySelectionVM.dateSelectionReceiver
   }
 }
 

@@ -16,10 +16,14 @@ public final class ViewController: UIViewController  {
   @IBOutlet fileprivate weak var monthSectionView: NNMonthSectionView!
   @IBOutlet fileprivate weak var monthView: NNMonthView!
   fileprivate var componentSb: BehaviorSubject<NNCalendar.MonthComp>!
+  fileprivate var dateSelectionSb: BehaviorSubject<Set<Date>>!
+  fileprivate var disposable: DisposeBag!
 
   override public func viewDidLoad() {
     super.viewDidLoad()
     componentSb = BehaviorSubject(value: NNCalendar.MonthComp(Date()))
+    dateSelectionSb = BehaviorSubject(value: Set())
+    disposable = DisposeBag()
 
     let monthHeaderModel = NNCalendar.MonthHeader.Model(self)
     let monthHeaderVM = NNCalendar.MonthHeader.ViewModel(monthHeaderModel)
@@ -37,6 +41,8 @@ public final class ViewController: UIViewController  {
     let monthViewModel = NNCalendar.MonthDisplay.Model(self)
     let monthViewVM = NNCalendar.MonthDisplay.ViewModel(monthViewModel)
     monthView.viewModel = monthViewVM
+
+    dateSelectionSb.do(onNext: {print($0)}).subscribe().disposed(by: disposable!)
   }
 }
 
@@ -68,11 +74,19 @@ extension ViewController: NNMonthHeaderModelDependency {
   }
 }
 
-extension ViewController: NNMonthSectionNonDefaultableModelDependency {}
+extension ViewController: NNMonthSectionNonDefaultableModelDependency {
+  public var dateSelectionReceiver: AnyObserver<Set<Date>> {
+    return dateSelectionSb.asObserver()
+  }
+
+  public var dateSelectionStream: Observable<Set<Date>> {
+    return dateSelectionSb.asObservable()
+  }
+}
 
 extension ViewController: NNMonthSectionNonDefaultableViewModelDependency {
   public var pastMonthCountFromCurrent: Int {
-    return 0
+    return 100
   }
 
   public var futureMonthCountFromCurrent: Int {

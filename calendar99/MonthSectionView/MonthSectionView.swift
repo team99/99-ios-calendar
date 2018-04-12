@@ -142,7 +142,7 @@ public extension NNMonthSectionView {
     guard
       section >= 0 && section < source.sectionModels.count,
       let viewModel = self.viewModel,
-      let day = viewModel.calculateDay(sections[section].monthComp, item.index),
+      let day = viewModel.calculateDay(sections[section].monthComp, item),
       let cell = view.dequeueReusableCell(
         withReuseIdentifier: cellId,
         for: indexPath) as? NNDateCell else
@@ -172,9 +172,9 @@ public extension NNMonthSectionView {
       #endif
     }
 
+    viewModel.setupBindings()
     let disposable = self.disposable
     let dataSource = setupDataSource()
-    viewModel.setupBindings()
 
     viewModel.monthStream
       .observeOn(MainScheduler.instance)
@@ -210,6 +210,23 @@ public extension NNMonthSectionView {
       .map({UInt(Swift.abs($0))})
       .bind(to: viewModel.currentMonthBackwardReceiver)
       .disposed(by: disposable)
+
+    self.rx.itemSelected
+      .map({[weak self, weak dataSource] (indexPath) -> Date? in
+        if
+          let viewModel = self?.viewModel,
+          let models = dataSource?.sectionModels,
+          indexPath.section >= 0 && indexPath.section < models.count
+        {
+          let monthComp = models[indexPath.section].monthComp
+          return viewModel.calculateDay(monthComp, indexPath.row).map({$0.date})
+        } else {
+          return Optional.nothing()
+        }
+      })
+      .filter({$0.isSome}).map({$0!})
+      .bind(to: viewModel.dateSelectionReceiver)
+      .disposed(by: disposable)
   }
 
   /// Calculate the change in offset relative to the previous selection index.
@@ -230,22 +247,6 @@ public extension NNMonthSectionView {
   }
 }
 
-/// Temp data for animatable section.
-public struct NNMonthCompIndex: IdentifiableType, Equatable {
-  public typealias Identity = String
-
-  public var identity: Identity {
-    return "\(monthComp.month)-\(monthComp.year):\(index)"
-  }
-
-  fileprivate let monthComp: NNCalendar.MonthComp
-  fileprivate let index: Int
-
-  public static func ==(_ lhs: NNMonthCompIndex, _ rhs: NNMonthCompIndex) -> Bool {
-    return lhs.monthComp == rhs.monthComp && lhs.index == rhs.index
-  }
-}
-
 extension NNCalendar.Month: IdentifiableType {
   public typealias Identity = String
 
@@ -258,10 +259,10 @@ extension NNCalendar.Month: IdentifiableType {
 /// the memory footprint is as small as possible. If a cell requires data to
 /// display, that data will be calculated at the time it's requested.
 extension NNCalendar.Month: AnimatableSectionModelType {
-  public typealias Item = NNMonthCompIndex
+  public typealias Item = Int
 
   public var items: [Item] {
-    return (0..<dayCount).map({NNMonthCompIndex(monthComp: monthComp, index: $0)})
+    return (0..<dayCount).map({$0})
   }
 
   public init(original: NNCalendar.Month, items: [Item]) {
