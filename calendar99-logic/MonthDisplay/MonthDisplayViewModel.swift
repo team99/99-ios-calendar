@@ -8,29 +8,14 @@
 
 import RxSwift
 
-/// Shared functionalities between the view model and its dependency, in order
-/// to allow the view model to expose the same properties to the outside world.
-public protocol NNMonthDisplayViewModelFunctionality {
-
-  /// Represents the number of columns. Should be 7 in most cases.
-  var columnCount: Int { get }
-
-  /// Represents the number of rows. Generally should be 6.
-  var rowCount: Int { get }
-}
-
 /// Dependency for month display view model.
-public protocol NNMonthDisplayViewModelDependency:
-  NNMonthDisplayViewModelFunctionality
-{
-  /// Get the first day of a week (e.g. Monday).
-  var firstDayOfWeek: Int { get }
-}
+public protocol NNMonthDisplayViewModelDependency: NNMonthGridViewModelDependency {}
 
 /// View model for month display view.
 public protocol NNMonthDisplayViewModelType:
   NNMonthControlViewModelType,
-  NNMonthDisplayViewModelFunctionality
+  NNMonthGridViewModelType,
+  NNDaySelectionViewModelType
 {
   /// Stream days to display on the month view.
   var dayStream: Observable<[NNCalendar.Day]> { get }
@@ -41,21 +26,33 @@ public extension NNCalendar.MonthDisplay {
   /// Month display view model implementation.
   public final class ViewModel {
     fileprivate let monthControlVM: NNMonthControlViewModelType
+    fileprivate let monthGridVM: NNMonthGridViewModelType
+    fileprivate let daySelectionVM: NNDaySelectionViewModelType
     fileprivate let dependency: NNMonthDisplayViewModelDependency
     fileprivate let model: NNMonthDisplayModelType
+    fileprivate let daySbj: BehaviorSubject<[NNCalendar.Day]?>
+    fileprivate let disposable: DisposeBag
 
     required public init(_ monthControlVM: NNMonthControlViewModelType,
+                         _ monthGridVM: NNMonthGridViewModelType,
+                         _ daySelectionVM: NNDaySelectionViewModelType,
                          _ dependency: NNMonthDisplayViewModelDependency,
                          _ model: NNMonthDisplayModelType) {
       self.monthControlVM = monthControlVM
+      self.monthGridVM = monthGridVM
+      self.daySelectionVM = daySelectionVM
       self.dependency = dependency
       self.model = model
+      disposable = DisposeBag()
+      daySbj = BehaviorSubject(value: nil)
     }
 
     convenience public init(_ dependency: NNMonthDisplayViewModelDependency,
                             _ model: NNMonthDisplayModelType) {
       let monthControlVM = NNCalendar.MonthControl.ViewModel(model)
-      self.init(monthControlVM, dependency, model)
+      let monthGridVM = NNCalendar.MonthGrid.ViewModel(dependency, model)
+      let daySelectionVM = NNCalendar.DaySelection.ViewModel(model)
+      self.init(monthControlVM, monthGridVM, daySelectionVM, dependency, model)
     }
 
     convenience public init(_ model: NNMonthDisplayModelType) {
@@ -77,11 +74,37 @@ extension NNCalendar.MonthDisplay.ViewModel: NNMonthControlViewModelType {
 
   public func setupBindings() {
     monthControlVM.setupBindings()
+    daySelectionVM.setupBindings()
+    let firstDayOfWeek = dependency.firstDayOfWeek
+    let rowCount = dependency.rowCount
+    let columnCount = dependency.columnCount
+
+    /// Every time the user switches the month component, we need to update the
+    /// day stream.
+    model.currentMonthCompStream
+      .map({[weak self] components in
+        self?.model.calculateDayRange(components,
+                                      firstDayOfWeek,
+                                      rowCount,
+                                      columnCount)
+      })
+      .filter({$0.isSome}).map({$0!})
+      .distinctUntilChanged()
+      .map(Optional.some)
+      .subscribe(daySbj)
+      .disposed(by: disposable)
+
+    gridSelectionStream
+      .withLatestFrom(dayStream) {($1, $0)}
+      .filter({$1.dayIndex >= 0 && $1.dayIndex < $0.count})
+      .map({(days, index) in days[index.dayIndex].date})
+      .subscribe(dateSelectionReceiver)
+      .disposed(by: disposable)
   }
 }
 
-// MARK: - NNMonthDisplayViewModelFunctionality
-extension NNCalendar.MonthDisplay.ViewModel: NNMonthDisplayViewModelFunctionality {
+// MARK: - NNMonthGridViewModelFunctionality
+extension NNCalendar.MonthDisplay.ViewModel: NNMonthGridViewModelFunctionality {
   public var rowCount: Int {
     return dependency.rowCount
   }
@@ -91,21 +114,39 @@ extension NNCalendar.MonthDisplay.ViewModel: NNMonthDisplayViewModelFunctionalit
   }
 }
 
+// MARK: - NNMonthGridViewModelType
+extension NNCalendar.MonthDisplay.ViewModel: NNMonthGridViewModelType {
+  public var gridSelectionReceiver: AnyObserver<NNCalendar.GridSelection> {
+    return monthGridVM.gridSelectionReceiver
+  }
+
+  public var gridSelectionStream: Observable<NNCalendar.GridSelection> {
+    return monthGridVM.gridSelectionStream
+  }
+}
+
 // MARK: - NNMonthDisplayViewModelType
 extension NNCalendar.MonthDisplay.ViewModel: NNMonthDisplayViewModelType {
   public var dayStream: Observable<[NNCalendar.Day]> {
-    let firstDayOfWeek = dependency.firstDayOfWeek
-    let rowCount = dependency.rowCount
-    let columnCount = dependency.columnCount
+    return daySbj.filter({$0.isSome}).map({$0!})
+  }
+}
 
-    return model.currentComponentStream
-      .map({[weak self] components in
-        return self?.model.calculateDayRange(components,
-                                             firstDayOfWeek,
-                                             rowCount,
-                                             columnCount)
-      })
-      .filter({$0.isSome}).map({$0!})
+// MARK: - NNDaySelectionFunctionality
+extension NNCalendar.MonthDisplay.ViewModel: NNDaySelectionFunctionality {
+  public var allDateSelectionStream: Observable<Set<Date>> {
+    return daySelectionVM.allDateSelectionStream
+  }
+
+  public func isDateSelected(_ date: Date) -> Bool {
+    return daySelectionVM.isDateSelected(date)
+  }
+}
+
+// MARK: - NNDaySelectionViewModelType
+extension NNCalendar.MonthDisplay.ViewModel: NNDaySelectionViewModelType {
+  public var dateSelectionReceiver: AnyObserver<Date> {
+    return daySelectionVM.dateSelectionReceiver
   }
 }
 

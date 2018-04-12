@@ -24,8 +24,8 @@ public extension NNCalendar {
         let nibView = UINib
           .init(nibName: named, bundle: Bundle(for: cls))
           .instantiate(withOwner: view, options: nil)[0]
-          as? UIView
-      else {
+          as? UIView else
+      {
         return
       }
 

@@ -8,16 +8,10 @@
 
 import RxSwift
 
-/// Shared functionalities between the view model and its dependency, so that
-/// the former can expose the same properties.
-public protocol NNMonthSectionViewModelFunctionality:
-  NNMonthDisplayViewModelFunctionality {}
-
 /// Dependency for month section view model with components that cannot have
 /// defaults.
-public protocol NNMonthSectionNonDefaultableViewModelDependency:
-  NNDaySelectionViewModelDependency
-{
+public protocol NNMonthSectionNonDefaultableViewModelDependency {
+
   /// Get the number of past months to include in the month data stream.
   var pastMonthCountFromCurrent: Int { get }
 
@@ -28,11 +22,11 @@ public protocol NNMonthSectionNonDefaultableViewModelDependency:
 /// Dependency for month section view model.
 public protocol NNMonthSectionViewModelDependency:
   NNMonthSectionNonDefaultableViewModelDependency,
-  NNMonthDisplayViewModelDependency {}
+  NNMonthGridViewModelDependency {}
 
 /// View model for month section view.
 public protocol NNMonthSectionViewModelType:
-  NNMonthSectionViewModelFunctionality,
+  NNMonthGridViewModelType,
   NNMonthControlViewModelType,
   NNDaySelectionViewModelType
 {
@@ -45,7 +39,7 @@ public protocol NNMonthSectionViewModelType:
   /// Stream the current month selection index.
   var currentMonthSelectionIndex: Observable<Int> { get }
 
-  /// Calculate the day for a month components and a first date offset.
+  /// Calculate the day for a month component and a first date offset.
   ///
   /// - Parameters:
   ///   - comps: A MonthComp instance.
@@ -60,6 +54,7 @@ public extension NNCalendar.MonthSection {
   /// View model implementation for the month section view.
   public final class ViewModel {
     fileprivate let monthControlVM: NNMonthControlViewModelType
+    fileprivate let monthGridVM: NNMonthGridViewModelType
     fileprivate let daySelectionVM: NNDaySelectionViewModelType
     fileprivate let dependency: NNMonthSectionViewModelDependency
     fileprivate let model: NNMonthSectionModelType
@@ -69,10 +64,12 @@ public extension NNCalendar.MonthSection {
     fileprivate let monthSbj: BehaviorSubject<[NNCalendar.Month]?>
 
     required public init(_ monthControlVM: NNMonthControlViewModelType,
+                         _ monthGridVM: NNMonthGridViewModelType,
                          _ daySelectionVM: NNDaySelectionViewModelType,
                          _ dependency: NNMonthSectionViewModelDependency,
                          _ model: NNMonthSectionModelType) {
       self.monthControlVM = monthControlVM
+      self.monthGridVM = monthGridVM
       self.daySelectionVM = daySelectionVM
       self.dependency = dependency
       self.model = model
@@ -83,8 +80,9 @@ public extension NNCalendar.MonthSection {
     convenience public init(_ dependency: NNMonthSectionViewModelDependency,
                             _ model: NNMonthSectionModelType) {
       let monthControlVM = NNCalendar.MonthControl.ViewModel(model)
-      let daySelectionVM = NNCalendar.DaySelection.ViewModel(dependency, model)
-      self.init(monthControlVM, daySelectionVM, dependency, model)
+      let monthGridVM = NNCalendar.MonthGrid.ViewModel(dependency, model)
+      let daySelectionVM = NNCalendar.DaySelection.ViewModel(model)
+      self.init(monthControlVM, monthGridVM, daySelectionVM, dependency, model)
     }
 
     convenience public init(
@@ -97,14 +95,25 @@ public extension NNCalendar.MonthSection {
   }
 }
 
-// MARK: - NNMonthSectionViewModelFunctionality
-extension NNCalendar.MonthSection.ViewModel: NNMonthSectionViewModelFunctionality {
+// MARK: - NNMonthGridViewModelFunctionality
+extension NNCalendar.MonthSection.ViewModel: NNMonthGridViewModelFunctionality {
   public var columnCount: Int {
     return dependency.columnCount
   }
 
   public var rowCount: Int {
     return dependency.rowCount
+  }
+}
+
+// MARK: - NNMonthGridViewModelType
+extension NNCalendar.MonthSection.ViewModel: NNMonthGridViewModelType {
+  public var gridSelectionReceiver: AnyObserver<NNCalendar.GridSelection> {
+    return monthGridVM.gridSelectionReceiver
+  }
+
+  public var gridSelectionStream: Observable<NNCalendar.GridSelection> {
+    return monthGridVM.gridSelectionStream
   }
 }
 
@@ -126,15 +135,37 @@ extension NNCalendar.MonthSection.ViewModel: NNMonthControlViewModelType {
     let fCount = dependency.futureMonthCountFromCurrent
     let dayCount = dependency.rowCount * dependency.columnCount
 
-    /// Must call onNext manually to avoid completed event, since this is
-    /// most likely a cold stream.
-    model.initialComponentStream
+    /// Must call onNext manually to avoid completed event, since this is a
+    /// cold stream.
+    model.initialMonthCompStream
       .map({[weak self] in self?.model.componentRange($0, pCount, fCount)})
       .filter({$0.isSome}).map({$0!})
       .map({$0.map({NNCalendar.Month($0, dayCount)})})
       .asObservable()
       .subscribe(onNext: {[weak self] in self?.monthSbj.onNext($0)})
       .disposed(by: disposable)
+
+    gridSelectionStream
+      .withLatestFrom(monthStream) {($1, $0)}
+      .filter({$1.monthIndex >= 0 && $1.monthIndex < $0.count})
+      .map({[weak self] (months, index) -> Date? in
+        let monthComp = months[index.monthIndex].monthComp
+        return self?.calculateDay(monthComp, index.dayIndex)?.date
+      })
+      .filter({$0.isSome}).map({$0!})
+      .subscribe(dateSelectionReceiver)
+      .disposed(by: disposable)
+  }
+}
+
+// MARK: - NNDaySelectionFunctionality
+extension NNCalendar.MonthSection.ViewModel: NNDaySelectionFunctionality {
+  public var allDateSelectionStream: Observable<Set<Date>> {
+    return daySelectionVM.allDateSelectionStream
+  }
+
+  public func isDateSelected(_ date: Date) -> Bool {
+    return daySelectionVM.isDateSelected(date)
   }
 }
 
@@ -158,7 +189,7 @@ extension NNCalendar.MonthSection.ViewModel: NNMonthSectionViewModelType {
   }
 
   public var currentMonthSelectionIndex: Observable<Int> {
-    return model.currentComponentStream
+    return model.currentMonthCompStream
       .withLatestFrom(monthStream) {($0, $1)}
       .map({$1.map({$0.monthComp}).index(of: $0)})
       .filter({$0.isSome}).map({$0!})

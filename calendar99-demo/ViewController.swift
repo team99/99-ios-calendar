@@ -41,19 +41,13 @@ public final class ViewController: UIViewController  {
     let monthViewModel = NNCalendar.MonthDisplay.Model(self)
     let monthViewVM = NNCalendar.MonthDisplay.ViewModel(monthViewModel)
     monthView.viewModel = monthViewVM
-
-    dateSelectionSb.do(onNext: {print($0)}).subscribe().disposed(by: disposable!)
   }
 }
 
 /// BEWARE MEMORY LEAKS HERE. THIS IS ONLY TEMPORARY.
 
 extension ViewController: NNMonthHeaderModelDependency {
-  public var currentComponentStream: Observable<NNCalendar.MonthComp> {
-    return componentSb
-  }
-
-  public var initialComponentStream: Single<NNCalendar.MonthComp> {
+  public var initialMonthCompStream: Single<NNCalendar.MonthComp> {
     let date = Date()
     let month = Calendar.current.component(.month, from: date)
     let year = Calendar.current.component(.year, from: date)
@@ -61,8 +55,12 @@ extension ViewController: NNMonthHeaderModelDependency {
     return Single.just(comps)
   }
 
-  public var currentComponentReceiver: AnyObserver<NNCalendar.MonthComp> {
+  public var currentMonthCompReceiver: AnyObserver<NNCalendar.MonthComp> {
     return componentSb.asObserver()
+  }
+
+  public var currentMonthCompStream: Observable<NNCalendar.MonthComp> {
+    return componentSb
   }
 
   public func formatMonthDescription(_ comps: NNCalendar.MonthComp) -> String {
@@ -75,12 +73,16 @@ extension ViewController: NNMonthHeaderModelDependency {
 }
 
 extension ViewController: NNMonthSectionNonDefaultableModelDependency {
-  public var dateSelectionReceiver: AnyObserver<Set<Date>> {
+  public var allDateSelectionReceiver: AnyObserver<Set<Date>> {
     return dateSelectionSb.asObserver()
   }
 
-  public var dateSelectionStream: Observable<Set<Date>> {
+  public var allDateSelectionStream: Observable<Set<Date>> {
     return dateSelectionSb.asObservable()
+  }
+
+  public func isDateSelected(_ date: Date) -> Bool {
+    return (try? dateSelectionSb.value().contains(date)) ?? false
   }
 }
 

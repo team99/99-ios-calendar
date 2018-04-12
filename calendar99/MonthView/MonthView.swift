@@ -145,9 +145,11 @@ public extension NNMonthView {
                              _ item: Section.Item)
     -> UICollectionViewCell
   {
-    guard let cell = view.dequeueReusableCell(
-      withReuseIdentifier: cellId,
-      for: indexPath) as? NNDateCell else
+    guard
+      let viewModel = self.viewModel,
+      let cell = view.dequeueReusableCell(
+        withReuseIdentifier: cellId,
+        for: indexPath) as? NNDateCell else
     {
       #if DEBUG
       fatalError("Unrecognized cell")
@@ -156,7 +158,8 @@ public extension NNMonthView {
       #endif
     }
 
-    cell.setupWithDay(item)
+    let selected = viewModel.isDateSelected(item.date)
+    cell.setupWithDay(item.with(selected: selected))
     return cell
   }
 
@@ -181,6 +184,7 @@ public extension NNMonthView {
       #endif
     }
 
+    viewModel.setupBindings()
     let disposable = self.disposable
     let dataSource = setupDataSource()
     self.rx.setDelegate(self).disposed(by: disposable)
@@ -189,6 +193,21 @@ public extension NNMonthView {
       .map({[Section(model: "", items: $0)]})
       .observeOn(MainScheduler.instance)
       .bind(to: self.rx.items(dataSource: dataSource))
+      .disposed(by: disposable)
+
+    self.rx.itemSelected
+      .map({NNCalendar.GridSelection(monthIndex: 0, dayIndex: $0.row)})
+      .bind(to: viewModel.gridSelectionReceiver)
+      .disposed(by: disposable)
+
+    /// Since we compute the selection lazily, we need to make sure that the
+    /// cell being selected is reloaded to reflect the change.
+    viewModel.allDateSelectionStream
+      .observeOn(MainScheduler.instance)
+      .subscribe(onNext: {[weak self] _ in
+        self.zipWith(self.flatMap({$0.indexPathsForSelectedItems}),
+                     {$0.reloadItems(at: $1)})
+      })
       .disposed(by: disposable)
   }
 }

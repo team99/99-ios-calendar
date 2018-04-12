@@ -16,6 +16,12 @@ public final class NNCalendar {
   /// Represents the month header display view.
   public final class MonthHeader {}
 
+  /// A month grid is a view that displays the days of a month in a grid-like
+  /// structure. For e.g., a convential grid has 7 columns corresponding to 7
+  /// days in a week, and 6 rows to contain all days in a month, for a total of
+  /// 42 cells.
+  public final class MonthGrid {}
+
   /// Represents the month display view.
   public final class MonthDisplay {}
 

@@ -53,12 +53,12 @@ extension NNCalendar.MonthHeader.Model: NNMonthHeaderModelDependency {
 
 // MARK: - NNMonthControlModelType
 extension NNCalendar.MonthHeader.Model: NNMonthControlModelType {
-  public var currentComponentStream: Observable<NNCalendar.MonthComp> {
-    return monthControlModel.currentComponentStream
+  public var currentMonthCompStream: Observable<NNCalendar.MonthComp> {
+    return monthControlModel.currentMonthCompStream
   }
 
-  public var currentComponentReceiver: AnyObserver<NNCalendar.MonthComp> {
-    return monthControlModel.currentComponentReceiver
+  public var currentMonthCompReceiver: AnyObserver<NNCalendar.MonthComp> {
+    return monthControlModel.currentMonthCompReceiver
   }
 
   public func newComponents(_ prevComponents: NNCalendar.MonthComp,

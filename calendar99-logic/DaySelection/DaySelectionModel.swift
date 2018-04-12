@@ -8,15 +8,11 @@
 
 import RxSwift
 
-/// Shared functionalities between the model and its dependency so that the
-/// model exposes the same properties.
+/// Functionalities that can be exposed to the outside world.
 public protocol NNDaySelectionModelFunctionality: NNDaySelectionFunctionality {
 
   /// Trigger date selections.
-  var dateSelectionReceiver: AnyObserver<Set<Date>> { get }
-
-  /// Stream date selections.
-  var dateSelectionStream: Observable<Set<Date>> { get }
+  var allDateSelectionReceiver: AnyObserver<Set<Date>> { get }
 }
 
 /// Dependency for day selection model.
@@ -38,14 +34,21 @@ public extension NNCalendar.DaySelection {
   }
 }
 
+// MARK: - NNDaySelectionFunctionality
+extension NNCalendar.DaySelection.Model: NNDaySelectionFunctionality {
+  public func isDateSelected(_ date: Date) -> Bool {
+    return dependency.isDateSelected(date)
+  }
+}
+
 // MARK: - NNDaySelectionModelFunctionality
 extension NNCalendar.DaySelection.Model: NNDaySelectionModelFunctionality {
-  public var dateSelectionReceiver: AnyObserver<Set<Date>> {
-    return dependency.dateSelectionReceiver
+  public var allDateSelectionReceiver: AnyObserver<Set<Date>> {
+    return dependency.allDateSelectionReceiver
   }
 
-  public var dateSelectionStream: Observable<Set<Date>> {
-    return dependency.dateSelectionStream
+  public var allDateSelectionStream: Observable<Set<Date>> {
+    return dependency.allDateSelectionStream
   }
 }
 

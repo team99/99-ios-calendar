@@ -154,7 +154,8 @@ public extension NNMonthSectionView {
       #endif
     }
 
-    cell.setupWithDay(day)
+    let selected = viewModel.isDateSelected(day.date)
+    cell.setupWithDay(day.with(selected: selected))
     return cell
   }
 }
@@ -212,20 +213,18 @@ public extension NNMonthSectionView {
       .disposed(by: disposable)
 
     self.rx.itemSelected
-      .map({[weak self, weak dataSource] (indexPath) -> Date? in
-        if
-          let viewModel = self?.viewModel,
-          let models = dataSource?.sectionModels,
-          indexPath.section >= 0 && indexPath.section < models.count
-        {
-          let monthComp = models[indexPath.section].monthComp
-          return viewModel.calculateDay(monthComp, indexPath.row).map({$0.date})
-        } else {
-          return Optional.nothing()
-        }
+      .map({NNCalendar.GridSelection(monthIndex: $0.section, dayIndex: $0.row)})
+      .bind(to: viewModel.gridSelectionReceiver)
+      .disposed(by: disposable)
+
+    /// Since we compute the selection lazily, we need to make sure that the
+    /// cell being selected is reloaded to reflect the change.
+    viewModel.allDateSelectionStream
+      .observeOn(MainScheduler.instance)
+      .subscribe(onNext: {[weak self] _ in
+        self.zipWith(self.flatMap({$0.indexPathsForSelectedItems}),
+                     {$0.reloadItems(at: $1)})
       })
-      .filter({$0.isSome}).map({$0!})
-      .bind(to: viewModel.dateSelectionReceiver)
       .disposed(by: disposable)
   }
 

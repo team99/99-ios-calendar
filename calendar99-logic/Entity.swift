@@ -24,6 +24,13 @@ internal enum MonthDirection {
   }
 }
 
+// MARK: - DaySelectionIndex.
+public extension NNCalendar {
+
+  /// Represents a month-grid selection.
+  public typealias GridSelection = (monthIndex: Int, dayIndex: Int)
+}
+
 // MARK: - MonthComp.
 public extension NNCalendar {
 
@@ -81,13 +88,30 @@ public extension NNCalendar {
     public let date: Date
     public let dateDescription: String
     public let isCurrentMonth: Bool
+    public let isSelected: Bool
 
     public var description: String {
       return date.description
     }
 
+    /// Copy the current Day, but change its selection status.
+    ///
+    /// - Parameter selected: A Bool value.
+    /// - Returns: A Day instance.
+    public func with(selected: Bool) -> Day {
+      return Day(date: date,
+                 dateDescription: dateDescription,
+                 isCurrentMonth: isCurrentMonth,
+                 isSelected: selected)
+    }
+
+    /// Toggle selection status.
+    public func toggleSelection() -> Day {
+      return with(selected: !isSelected)
+    }
+
     public static func ==(_ lhs: Day, _ rhs: Day) -> Bool {
-      return lhs.date == rhs.date
+      return lhs.date == rhs.date && lhs.isSelected == rhs.isSelected
     }
   }
 }
