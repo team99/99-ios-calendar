@@ -19,6 +19,18 @@ public protocol NNMonthDisplayViewModelType:
 {
   /// Stream days to display on the month view.
   var dayStream: Observable<[NNCalendar.Day]> { get }
+
+  /// Set up month display bindings.
+  func setupMonthDisplayBindings()
+}
+
+// MARK: - All bindings.
+public extension NNMonthDisplayViewModelType {
+  public func setupAllBindingsAndSubBindings() {
+    setupMonthControlBindings()
+    setupDaySelectionBindings()
+    setupMonthDisplayBindings()
+  }
 }
 
 public extension NNCalendar.MonthDisplay {
@@ -72,34 +84,8 @@ extension NNCalendar.MonthDisplay.ViewModel: NNMonthControlViewModelType {
     return monthControlVM.currentMonthBackwardReceiver
   }
 
-  public func setupBindings() {
-    monthControlVM.setupBindings()
-    daySelectionVM.setupBindings()
-    let firstDayOfWeek = dependency.firstDayOfWeek
-    let rowCount = dependency.rowCount
-    let columnCount = dependency.columnCount
-
-    /// Every time the user switches the month component, we need to update the
-    /// day stream.
-    model.currentMonthCompStream
-      .map({[weak self] components in
-        self?.model.calculateDayRange(components,
-                                      firstDayOfWeek,
-                                      rowCount,
-                                      columnCount)
-      })
-      .filter({$0.isSome}).map({$0!})
-      .distinctUntilChanged()
-      .map(Optional.some)
-      .subscribe(daySbj)
-      .disposed(by: disposable)
-
-    gridSelectionStream
-      .withLatestFrom(dayStream) {($1, $0)}
-      .filter({$1.dayIndex >= 0 && $1.dayIndex < $0.count})
-      .map({(days, index) in days[index.dayIndex].date})
-      .subscribe(dateSelectionReceiver)
-      .disposed(by: disposable)
+  public func setupMonthControlBindings() {
+    monthControlVM.setupMonthControlBindings()
   }
 }
 
@@ -130,14 +116,38 @@ extension NNCalendar.MonthDisplay.ViewModel: NNMonthDisplayViewModelType {
   public var dayStream: Observable<[NNCalendar.Day]> {
     return daySbj.filter({$0.isSome}).map({$0!})
   }
+
+  public func setupMonthDisplayBindings() {
+    let firstDayOfWeek = dependency.firstDayOfWeek
+    let rowCount = dependency.rowCount
+    let columnCount = dependency.columnCount
+
+    /// Every time the user switches the month component, we need to update the
+    /// day stream.
+    model.currentMonthCompStream
+      .map({[weak self] components in
+        self?.model.calculateDayRange(components,
+                                      firstDayOfWeek,
+                                      rowCount,
+                                      columnCount)
+      })
+      .filter({$0.isSome}).map({$0!})
+      .distinctUntilChanged()
+      .map(Optional.some)
+      .subscribe(daySbj)
+      .disposed(by: disposable)
+
+    gridSelectionStream
+      .withLatestFrom(dayStream) {($1, $0)}
+      .filter({$1.dayIndex >= 0 && $1.dayIndex < $0.count})
+      .map({(days, index) in days[index.dayIndex].date})
+      .subscribe(dateSelectionReceiver)
+      .disposed(by: disposable)
+  }
 }
 
 // MARK: - NNDaySelectionFunctionality
 extension NNCalendar.MonthDisplay.ViewModel: NNDaySelectionFunctionality {
-  public var allDateSelectionStream: Observable<Set<Date>> {
-    return daySelectionVM.allDateSelectionStream
-  }
-
   public func isDateSelected(_ date: Date) -> Bool {
     return daySelectionVM.isDateSelected(date)
   }
@@ -147,6 +157,10 @@ extension NNCalendar.MonthDisplay.ViewModel: NNDaySelectionFunctionality {
 extension NNCalendar.MonthDisplay.ViewModel: NNDaySelectionViewModelType {
   public var dateSelectionReceiver: AnyObserver<Date> {
     return daySelectionVM.dateSelectionReceiver
+  }
+
+  public func setupDaySelectionBindings() {
+    daySelectionVM.setupDaySelectionBindings()
   }
 }
 

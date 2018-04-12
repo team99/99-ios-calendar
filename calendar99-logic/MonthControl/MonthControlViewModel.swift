@@ -19,7 +19,7 @@ public protocol NNMonthControlViewModelType {
   var currentMonthBackwardReceiver: AnyObserver<UInt> { get }
 
   /// Set up stream bindings.
-  func setupBindings()
+  func setupMonthControlBindings()
 }
 
 internal extension NNCalendar.MonthControl {
@@ -48,16 +48,13 @@ extension NNCalendar.MonthControl.ViewModel: NNMonthControlViewModelType {
     return currentMonthMovementSb.mapObserver(MonthDirection.backward)
   }
 
-  internal func setupBindings() {
+  internal func setupMonthControlBindings() {
     let disposable = self.disposable
 
-    let monthMovementStream = currentMonthMovementSb
+    currentMonthMovementSb
       .withLatestFrom(model.currentMonthCompStream) {($1, $0.monthOffset)}
       .map({[weak self] in self?.model.newComponents($0, $1)})
       .filter({$0.isSome}).map({$0!})
-      .share(replay: 1)
-
-    monthMovementStream
       .distinctUntilChanged()
       .subscribe(model.currentMonthCompReceiver)
       .disposed(by: disposable)

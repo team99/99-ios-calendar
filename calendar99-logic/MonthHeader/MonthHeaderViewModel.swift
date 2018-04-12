@@ -15,6 +15,13 @@ public protocol NNMonthHeaderViewModelType: NNMonthControlViewModelType {
   var monthDescriptionStream: Observable<String> { get }
 }
 
+// MARK: - All bindings.
+public extension NNMonthHeaderViewModelType {
+  public func setupAllBindingsAndSubBindings() {
+    setupMonthControlBindings()
+  }
+}
+
 public extension NNCalendar.MonthHeader {
   
   /// View model implementation.
@@ -49,10 +56,8 @@ extension NNCalendar.MonthHeader.ViewModel: NNMonthControlViewModelType {
     return monthControlVM.currentMonthBackwardReceiver
   }
 
-  public func setupBindings() {
-    /// Set up bindings in the month control view model to kickstart the
-    /// month/year calculations.
-    monthControlVM.setupBindings()
+  public func setupMonthControlBindings() {
+    monthControlVM.setupMonthControlBindings()
   }
 }
 

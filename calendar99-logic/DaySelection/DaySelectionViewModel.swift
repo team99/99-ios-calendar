@@ -16,7 +16,7 @@ public protocol NNDaySelectionViewModelType: NNDaySelectionFunctionality {
   var dateSelectionReceiver: AnyObserver<Date> { get }
 
   /// Set up selection bindings.
-  func setupBindings()
+  func setupDaySelectionBindings()
 }
 
 // MARK: - View model.
@@ -53,7 +53,7 @@ extension NNCalendar.DaySelection.ViewModel: NNDaySelectionViewModelType {
     return dateSelectionSbj.asObserver()
   }
 
-  public func setupBindings() {
+  public func setupDaySelectionBindings() {
     let disposable = self.disposable
 
     dateSelectionSbj

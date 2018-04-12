@@ -184,7 +184,7 @@ public extension NNMonthView {
       #endif
     }
 
-    viewModel.setupBindings()
+    viewModel.setupAllBindingsAndSubBindings()
     let disposable = self.disposable
     let dataSource = setupDataSource()
     self.rx.setDelegate(self).disposed(by: disposable)
@@ -198,16 +198,6 @@ public extension NNMonthView {
     self.rx.itemSelected
       .map({NNCalendar.GridSelection(monthIndex: 0, dayIndex: $0.row)})
       .bind(to: viewModel.gridSelectionReceiver)
-      .disposed(by: disposable)
-
-    /// Since we compute the selection lazily, we need to make sure that the
-    /// cell being selected is reloaded to reflect the change.
-    viewModel.allDateSelectionStream
-      .observeOn(MainScheduler.instance)
-      .subscribe(onNext: {[weak self] _ in
-        self.zipWith(self.flatMap({$0.indexPathsForSelectedItems}),
-                     {$0.reloadItems(at: $1)})
-      })
       .disposed(by: disposable)
   }
 }

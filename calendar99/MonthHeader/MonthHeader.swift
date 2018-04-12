@@ -117,7 +117,7 @@ public extension NNMonthHeaderView {
     }
 
     let disposable = self.disposable
-    viewModel.setupBindings()
+    viewModel.setupAllBindingsAndSubBindings()
 
     backwardBtn.rx.tap.map({1})
       .bind(to: viewModel.currentMonthBackwardReceiver)

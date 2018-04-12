@@ -47,6 +47,20 @@ public protocol NNMonthSectionViewModelType:
   /// - Returns: A Day instance.
   func calculateDay(_ comps: NNCalendar.MonthComp,
                     _ firstDateOffset: Int) -> NNCalendar.Day?
+
+  /// Set up month section bindings.
+  func setupMonthSectionBindings()
+}
+
+// MARK: - All bindings.
+public extension NNMonthSectionViewModelType {
+
+  /// Set up all bindings and sub-bindings.
+  public func setupAllBindingsAndSubBindings() {
+    setupDaySelectionBindings()
+    setupMonthControlBindings()
+    setupMonthSectionBindings()
+  }
 }
 
 public extension NNCalendar.MonthSection {
@@ -127,43 +141,13 @@ extension NNCalendar.MonthSection.ViewModel: NNMonthControlViewModelType {
     return monthControlVM.currentMonthBackwardReceiver
   }
 
-  public func setupBindings() {
-    monthControlVM.setupBindings()
-    daySelectionVM.setupBindings()
-    let disposable = self.disposable
-    let pCount = dependency.pastMonthCountFromCurrent
-    let fCount = dependency.futureMonthCountFromCurrent
-    let dayCount = dependency.rowCount * dependency.columnCount
-
-    /// Must call onNext manually to avoid completed event, since this is a
-    /// cold stream.
-    model.initialMonthCompStream
-      .map({[weak self] in self?.model.componentRange($0, pCount, fCount)})
-      .filter({$0.isSome}).map({$0!})
-      .map({$0.map({NNCalendar.Month($0, dayCount)})})
-      .asObservable()
-      .subscribe(onNext: {[weak self] in self?.monthSbj.onNext($0)})
-      .disposed(by: disposable)
-
-    gridSelectionStream
-      .withLatestFrom(monthStream) {($1, $0)}
-      .filter({$1.monthIndex >= 0 && $1.monthIndex < $0.count})
-      .map({[weak self] (months, index) -> Date? in
-        let monthComp = months[index.monthIndex].monthComp
-        return self?.calculateDay(monthComp, index.dayIndex)?.date
-      })
-      .filter({$0.isSome}).map({$0!})
-      .subscribe(dateSelectionReceiver)
-      .disposed(by: disposable)
+  public func setupMonthControlBindings() {
+    monthControlVM.setupMonthControlBindings()
   }
 }
 
 // MARK: - NNDaySelectionFunctionality
 extension NNCalendar.MonthSection.ViewModel: NNDaySelectionFunctionality {
-  public var allDateSelectionStream: Observable<Set<Date>> {
-    return daySelectionVM.allDateSelectionStream
-  }
-
   public func isDateSelected(_ date: Date) -> Bool {
     return daySelectionVM.isDateSelected(date)
   }
@@ -173,6 +157,10 @@ extension NNCalendar.MonthSection.ViewModel: NNDaySelectionFunctionality {
 extension NNCalendar.MonthSection.ViewModel: NNDaySelectionViewModelType {
   public var dateSelectionReceiver: AnyObserver<Date> {
     return daySelectionVM.dateSelectionReceiver
+  }
+
+  public func setupDaySelectionBindings() {
+    daySelectionVM.setupDaySelectionBindings()
   }
 }
 
@@ -199,6 +187,34 @@ extension NNCalendar.MonthSection.ViewModel: NNMonthSectionViewModelType {
   public func calculateDay(_ comps: NNCalendar.MonthComp,
                            _ firstDateOffset: Int) -> NNCalendar.Day? {
     return model.calculateDay(comps, dependency.firstDayOfWeek, firstDateOffset)
+  }
+
+  public func setupMonthSectionBindings() {
+    let disposable = self.disposable
+    let pCount = dependency.pastMonthCountFromCurrent
+    let fCount = dependency.futureMonthCountFromCurrent
+    let dayCount = dependency.rowCount * dependency.columnCount
+
+    /// Must call onNext manually to avoid completed event, since this is a
+    /// cold stream.
+    model.initialMonthCompStream
+      .map({[weak self] in self?.model.componentRange($0, pCount, fCount)})
+      .filter({$0.isSome}).map({$0!})
+      .map({$0.map({NNCalendar.Month($0, dayCount)})})
+      .asObservable()
+      .subscribe(onNext: {[weak self] in self?.monthSbj.onNext($0)})
+      .disposed(by: disposable)
+
+    gridSelectionStream
+      .withLatestFrom(monthStream) {($1, $0)}
+      .filter({$1.monthIndex >= 0 && $1.monthIndex < $0.count})
+      .map({[weak self] (months, index) -> Date? in
+        let monthComp = months[index.monthIndex].monthComp
+        return self?.calculateDay(monthComp, index.dayIndex)?.date
+      })
+      .filter({$0.isSome}).map({$0!})
+      .subscribe(dateSelectionReceiver)
+      .disposed(by: disposable)
   }
 }
 

@@ -13,6 +13,9 @@ public protocol NNDaySelectionModelFunctionality: NNDaySelectionFunctionality {
 
   /// Trigger date selections.
   var allDateSelectionReceiver: AnyObserver<Set<Date>> { get }
+
+  /// Stream date selections.
+  var allDateSelectionStream: Observable<Set<Date>> { get }
 }
 
 /// Dependency for day selection model.
