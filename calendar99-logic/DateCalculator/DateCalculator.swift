@@ -23,10 +23,10 @@ public protocol NNDateCalculatorType {
   ///   - rowCount: The number of rows in a calendar grid.
   ///   - columnCount: The number of columns in a calendar grid.
   /// - Returns: An Array of Date.
-  func calculateRange(_ comps: NNCalendar.MonthComp,
-                      _ firstDayOfWeek: Int,
-                      _ rowCount: Int,
-                      _ columnCount: Int) -> [Date]
+  func calculateDateRange(_ comps: NNCalendar.MonthComp,
+                          _ firstDayOfWeek: Int,
+                          _ rowCount: Int,
+                          _ columnCount: Int) -> [Date]
 }
 
 /// This is similar to the date calculator, but it calculates only single dates
@@ -43,9 +43,9 @@ public protocol NNSingleDateCalculatorType {
   ///   - firstDayOfWeek: The first day of a week (e.g. Monday).
   ///   - firstDateOffset: The offset from the first date in the grid.
   /// - Returns: A Date instance.
-  func calculateDate(_ comps: NNCalendar.MonthComp,
-                     _ firstDayOfWeek: Int,
-                     _ firstDateOffset: Int) -> Date?
+  func calculateDateWithOffset(_ comps: NNCalendar.MonthComp,
+                               _ firstDayOfWeek: Int,
+                               _ firstDateOffset: Int) -> Date?
 }
 
 /// Calculate grid selection for date selections based on an Array of Months.
@@ -89,5 +89,46 @@ public extension NNGridSelectionCalculatorType {
     return prevSelections.subtracting(currentSelections)
       .union(currentSelections.subtracting(prevSelections))
       .flatMap({calculateGridSelection(months, firstDayOfWeek, $0)})
+  }
+}
+
+/// The functionality of this calculator is almost the same as the one above,
+/// but now we only have a Month.
+public protocol NNSingleMonthGridSelectionCalculatorType {
+
+  /// Instead of having an Array of Months, we now have only one month, so we
+  /// need to create an Array of Months from this one Month if necessary. (For
+  /// e.g. we may include the previous and next Months in the Array so we can
+  /// calculate all possible grid selections).
+  ///
+  /// - Parameters:
+  ///   - month: A Month instance.
+  ///   - firstDayOfWeek: The first day of the week (e.g. Monday).
+  ///   - prevSelections: The previous selected dates.
+  ///   - selection: A Date instance.
+  func calculateGridSelection(_ month: NNCalendar.Month,
+                              _ firstDayOfWeek: Int,
+                              _ selection: Date)
+    -> [NNCalendar.GridSelection]
+}
+
+public extension NNSingleMonthGridSelectionCalculatorType {
+
+  /// The logic here is similar to the normal grid selection calculator.
+  ///
+  /// - Parameters:
+  ///   - month: A Month instance.
+  ///   - firstDayOfWeek: The first day of the week (e.g. Monday).
+  ///   - prevSelections: The previous selected dates.
+  ///   - currentSelections: The current selected dates.
+  func calculateGridSelection(_ month: NNCalendar.Month,
+                              _ firstDayOfWeek: Int,
+                              _ prevSelections: Set<Date>,
+                              _ currentSelections: Set<Date>)
+    -> [NNCalendar.GridSelection]
+  {
+    return prevSelections.subtracting(currentSelections)
+      .union(currentSelections.subtracting(prevSelections))
+      .flatMap({calculateGridSelection(month, firstDayOfWeek, $0)})
   }
 }

@@ -199,6 +199,13 @@ public extension NNMonthView {
       .map({NNCalendar.GridSelection(monthIndex: 0, dayIndex: $0.row)})
       .bind(to: viewModel.gridSelectionReceiver)
       .disposed(by: disposable)
+
+    // Listen to day index selection to know where to reload.
+    viewModel.gridDayIndexSelectionStream
+      .map({$0.map({IndexPath(row: $0, section: 0)})})
+      .observeOn(MainScheduler.instance)
+      .subscribe(onNext: {[weak self] in self?.reloadItems(at: $0)})
+      .disposed(by: disposable)
   }
 }
 

@@ -20,6 +20,13 @@ public protocol NNMonthDisplayViewModelType:
   /// Stream days to display on the month view.
   var dayStream: Observable<[NNCalendar.Day]> { get }
 
+  /// Stream day index selections based on the selected dates. These indexes
+  /// can be used to reload the cells with said selected dates.
+  ///
+  /// We only return the day indexes because for this view, there is only one
+  /// month active at any time.
+  var gridDayIndexSelectionStream: Observable<[Int]> { get }
+
   /// Set up month display bindings.
   func setupMonthDisplayBindings()
 }
@@ -115,6 +122,25 @@ extension NNCalendar.MonthDisplay.ViewModel: NNMonthGridViewModelType {
 extension NNCalendar.MonthDisplay.ViewModel: NNMonthDisplayViewModelType {
   public var dayStream: Observable<[NNCalendar.Day]> {
     return daySbj.filter({$0.isSome}).map({$0!})
+  }
+
+  /// Convenient stream to emits Month.
+  private var monthStream: Observable<NNCalendar.Month> {
+    let dayCount = rowCount * columnCount
+    return model.currentMonthCompStream.map({NNCalendar.Month($0, dayCount)})
+  }
+
+  public var gridDayIndexSelectionStream: Observable<[Int]> {
+    let firstDayOfWeek = dependency.firstDayOfWeek
+
+    return model.allDateSelectionStream
+      .scan((prev: Set<Date>(), current: Set<Date>()),
+            accumulator: {(prev: $0.current, current: $1)})
+      .withLatestFrom(monthStream) {($1, $0)}
+      .map({[weak self] in self?.model
+        .calculateGridSelection($0, firstDayOfWeek, $1.prev, $1.current)})
+      .filter({$0.isSome}).map({$0!})
+      .map({$0.map({$0.dayIndex})})
   }
 
   public func setupMonthDisplayBindings() {

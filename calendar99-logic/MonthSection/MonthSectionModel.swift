@@ -170,7 +170,7 @@ extension NNCalendar.MonthSection.Model: NNMonthSectionModelType {
   public func calculateDay(_ comps: NNCalendar.MonthComp,
                            _ firstDayOfWeek: Int,
                            _ firstDateOffset: Int) -> NNCalendar.Day? {
-    return dependency.calculateDate(comps, firstDayOfWeek, firstDateOffset).map({
+    return dependency.calculateDateWithOffset(comps, firstDayOfWeek, firstDateOffset).map({
       let description = Calendar.current.component(.day, from: $0).description
 
       return NNCalendar.Day(date: $0,
@@ -213,10 +213,10 @@ extension NNCalendar.MonthSection.Model {
       dateCalc = NNCalendar.DateCalculator.Sequential()
     }
 
-    internal func calculateDate(_ comps: NNCalendar.MonthComp,
-                                _ firstDayOfWeek: Int,
-                                _ firstDateOffset: Int) -> Date? {
-      return dateCalc.calculateDate(comps, firstDayOfWeek, firstDateOffset)
+    internal func calculateDateWithOffset(_ comps: NNCalendar.MonthComp,
+                                          _ firstDayOfWeek: Int,
+                                          _ firstDateOffset: Int) -> Date? {
+      return dateCalc.calculateDateWithOffset(comps, firstDayOfWeek, firstDateOffset)
     }
 
     internal func calculateGridSelection(_ months: [NNCalendar.Month],

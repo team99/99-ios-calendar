@@ -331,8 +331,8 @@
 		D319C2C1207DA4F9005D1828 /* MonthSectionView */ = {
 			isa = PBXGroup;
 			children = (
-				D319C2C2207DA50A005D1828 /* MonthSectionView.swift */,
 				D3D63C67207E49A700772F53 /* MonthSectionLayout.swift */,
+				D319C2C2207DA50A005D1828 /* MonthSectionView.swift */,
 			);
 			path = MonthSectionView;
 			sourceTree = "<group>";

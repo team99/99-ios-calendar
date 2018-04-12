@@ -44,7 +44,7 @@ public final class ViewController: UIViewController  {
   }
 }
 
-/// BEWARE MEMORY LEAKS HERE. THIS IS ONLY TEMPORARY.
+/// BEWARE: INTENTIONAL MEMORY LEAKS HERE. THIS IS ONLY TEMPORARY.
 
 extension ViewController: NNMonthHeaderModelDependency {
   public var initialMonthCompStream: Single<NNCalendar.MonthComp> {
@@ -88,11 +88,11 @@ extension ViewController: NNMonthSectionNonDefaultableModelDependency {
 
 extension ViewController: NNMonthSectionNonDefaultableViewModelDependency {
   public var pastMonthCountFromCurrent: Int {
-    return 1000
+    return 100
   }
 
   public var futureMonthCountFromCurrent: Int {
-    return 1000
+    return 100
   }
 }
 

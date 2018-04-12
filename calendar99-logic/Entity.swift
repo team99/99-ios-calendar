@@ -158,6 +158,11 @@ public extension NNCalendar {
       self.dayCount = dayCount
     }
 
+    /// Clone the current Month but change the month component.
+    public func with(monthComp: MonthComp) -> Month {
+      return Month(monthComp, dayCount)
+    }
+
     public static func ==(_ lhs: Month, _ rhs: Month) -> Bool {
       return lhs.monthComp == rhs.monthComp && lhs.dayCount == rhs.dayCount
     }
