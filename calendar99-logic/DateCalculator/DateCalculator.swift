@@ -48,64 +48,46 @@ public protocol NNSingleDateCalculatorType {
                      _ firstDateOffset: Int) -> Date?
 }
 
-public extension NNCalendar.DateCalculator {
+/// Calculate grid selection for date selections based on an Array of Months.
+public protocol NNGridSelectionCalculatorType {
 
-  /// Sequential date calculator.
-  public final class Sequential {
-    public init() {}
-
-    /// Calculate the first date in the grid.
-    fileprivate func calculateFirstDate(_ comps: NNCalendar.MonthComp,
-                                        _ firstDayOfWeek: Int) -> Date? {
-      let calendar = Calendar.current
-      let dateComponents = comps.dateComponents()
-
-      return calendar.date(from: dateComponents)
-        .flatMap({(date: Date) -> Date? in
-          let weekday = calendar.component(.weekday, from: date)
-          let offset: Int
-
-          if weekday < firstDayOfWeek {
-            offset = 7 - (firstDayOfWeek - weekday)
-          } else {
-            offset = weekday - firstDayOfWeek
-          }
-
-          return calendar.date(byAdding: .day, value: -offset, to: date)
-        })
-    }
-  }
+  /// Calculate grid selection for a single date, based on a specified Month
+  /// Array.
+  ///
+  /// - Parameters:
+  ///   - months: A Month Array.
+  ///   - firstDayOfWeek: The first day of the week (e.g. Monday).
+  ///   - selection: A Date instance.
+  /// - Returns: A GridSelection Array.
+  func calculateGridSelection(_ months: [NNCalendar.Month],
+                              _ firstDayOfWeek: Int,
+                              _ selection: Date)
+    -> [NNCalendar.GridSelection]
 }
 
-// MARK: - NNDateCalculatorType
-extension NNCalendar.DateCalculator.Sequential: NNDateCalculatorType {
+public extension NNGridSelectionCalculatorType {
 
-  /// We need to find the first day of the week in which the current month
-  /// starts (not necessarily the first day of the month).
-  public func calculateRange(_ comps: NNCalendar.MonthComp,
-                             _ firstDayOfWeek: Int,
-                             _ rowCount: Int,
-                             _ columnCount: Int) -> [Date] {
-    let calendar = Calendar.current
-
-    return calculateFirstDate(comps, firstDayOfWeek)
-      .map({(date: Date) -> [Date] in
-        (0..<rowCount * columnCount).flatMap({
-          return calendar.date(byAdding: .day, value: $0, to: date)
-        })
-      })
-      .getOrElse([])
-  }
-}
-
-// MARK: - NNSingleDateCalculatorType
-extension NNCalendar.DateCalculator.Sequential: NNSingleDateCalculatorType {
-  public func calculateDate(_ comps: NNCalendar.MonthComp,
-                            _ firstDayOfWeek: Int,
-                            _ firstDateOffset: Int) -> Date? {
-    let calendar = Calendar.current
-
-    return calculateFirstDate(comps, firstDayOfWeek)
-      .flatMap({calendar.date(byAdding: .day, value: firstDateOffset, to: $0)})
+  /// Calculate grid selections for selected dates, based on a specified Month
+  /// Array. These indexes can then be used to reload the relevant calendar
+  /// view right where selections changed.
+  ///
+  /// - Parameters:
+  ///   - months: A Month Array.
+  ///   - firstDayOfWeek: The first day of the week (e.g. Monday).
+  ///   - prevSelections: The previous selected dates.
+  ///   - currentSelections: The current selected dates.
+  /// - Returns: An Array of GridSelection.
+  public func calculateGridSelection(_ months: [NNCalendar.Month],
+                                     _ firstDayOfWeek: Int,
+                                     _ prevSelections: Set<Date>,
+                                     _ currentSelections: Set<Date>)
+    -> [NNCalendar.GridSelection]
+  {
+    /// Since it's either the previous selections set is larger than the
+    /// current selections or vice versa, so unioning these subtracted sets
+    /// should give us all the changed selections.
+    return prevSelections.subtracting(currentSelections)
+      .union(currentSelections.subtracting(prevSelections))
+      .flatMap({calculateGridSelection(months, firstDayOfWeek, $0)})
   }
 }

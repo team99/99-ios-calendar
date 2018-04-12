@@ -39,6 +39,10 @@ public protocol NNMonthSectionViewModelType:
   /// Stream the current month selection index.
   var currentMonthSelectionIndex: Observable<Int> { get }
 
+  /// Stream grid selections based on selected dates. We need to calculate the
+  /// grid selections in a way that memory usage is minimized.
+  var allGridSelectionStream: Observable<[NNCalendar.GridSelection]> { get }
+
   /// Calculate the day for a month component and a first date offset.
   ///
   /// - Parameters:
@@ -182,6 +186,20 @@ extension NNCalendar.MonthSection.ViewModel: NNMonthSectionViewModelType {
       .map({$1.map({$0.monthComp}).index(of: $0)})
       .filter({$0.isSome}).map({$0!})
       .distinctUntilChanged()
+  }
+
+  /// Keep track of the previous selections to know what have been deselected.
+  public var allGridSelectionStream: Observable<[NNCalendar.GridSelection]> {
+    let firstDayOfWeek = dependency.firstDayOfWeek
+
+    return model.allDateSelectionStream
+      .scan((prev: Set<Date>(), current: Set<Date>()), accumulator: {(a, b) in
+        return (prev: a.current, current: b)
+      })
+      .withLatestFrom(monthStream) {($1, prev: $0.prev, current: $0.current)}
+      .map({[weak self] in self?.model
+        .calculateGridSelection($0.0, firstDayOfWeek, $0.prev, $0.current)})
+      .filter({$0.isSome}).map({$0!})
   }
 
   public func calculateDay(_ comps: NNCalendar.MonthComp,

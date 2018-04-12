@@ -38,10 +38,6 @@ public extension NNCalendar.DaySelection {
 
 // MARK: - NNDaySelectionFunctionality
 extension NNCalendar.DaySelection.ViewModel: NNDaySelectionFunctionality {
-  public var allDateSelectionStream: Observable<Set<Date>> {
-    return model.allDateSelectionStream
-  }
-
   public func isDateSelected(_ date: Date) -> Bool {
     return model.isDateSelected(date)
   }

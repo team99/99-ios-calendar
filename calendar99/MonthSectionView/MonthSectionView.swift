@@ -154,7 +154,7 @@ public extension NNMonthSectionView {
       #endif
     }
 
-    let selected = viewModel.isDateSelected(day.date)
+    let selected = viewModel.isDateSelected(day.date)    
     cell.setupWithDay(day.with(selected: selected))
     return cell
   }
@@ -215,6 +215,15 @@ public extension NNMonthSectionView {
     self.rx.itemSelected
       .map({NNCalendar.GridSelection(monthIndex: $0.section, dayIndex: $0.row)})
       .bind(to: viewModel.gridSelectionReceiver)
+      .disposed(by: disposable)
+
+    /// The grid selections here are calculated by looking for each selected
+    /// date in the Month Array. We need to be careful in terms of performance
+    /// though.
+    viewModel.allGridSelectionStream
+      .map({$0.map({IndexPath(row: $0.dayIndex, section: $0.monthIndex)})})
+      .observeOn(MainScheduler.instance)
+      .bind(onNext: {[weak self] in self?.reloadItems(at: $0)})
       .disposed(by: disposable)
   }
 

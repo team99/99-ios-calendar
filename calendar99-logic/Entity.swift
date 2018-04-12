@@ -28,7 +28,23 @@ internal enum MonthDirection {
 public extension NNCalendar {
 
   /// Represents a month-grid selection.
-  public typealias GridSelection = (monthIndex: Int, dayIndex: Int)
+  public struct GridSelection: Equatable, Hashable, CustomStringConvertible {
+    public let monthIndex: Int
+    public let dayIndex: Int
+
+    public init(monthIndex: Int, dayIndex: Int) {
+      self.monthIndex = monthIndex
+      self.dayIndex = dayIndex
+    }
+
+    public var description: String {
+      return "month index: \(monthIndex) - day index: \(dayIndex)"
+    }
+
+    public static func ==(_ lhs: GridSelection, _ rhs: GridSelection) -> Bool {
+      return lhs.monthIndex == rhs.monthIndex && lhs.dayIndex == rhs.dayIndex
+    }
+  }
 }
 
 // MARK: - MonthComp.

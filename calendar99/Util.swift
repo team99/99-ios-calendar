@@ -33,7 +33,5 @@ public extension NNCalendar {
       nibView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
       view.addSubview(nibView)
     }
-
-    private init() {}
   }
 }

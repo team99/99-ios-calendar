@@ -18,7 +18,9 @@ public protocol NNMonthSectionModelFunctionality {
 
 /// Dependency for month section model, which contains components that can have
 /// defaults.
-public protocol NNMonthSectionDefaultableModelDependency: NNSingleDateCalculatorType {}
+public protocol NNMonthSectionDefaultableModelDependency:
+  NNSingleDateCalculatorType,
+  NNGridSelectionCalculatorType {}
 
 /// Dependency for month section model, which contains components that cannot
 /// have defaults.
@@ -38,7 +40,8 @@ public protocol NNMonthSectionModelType:
   NNMonthSectionModelFunctionality,
   NNMonthControlModelType,
   NNMonthGridModelType,
-  NNDaySelectionModelType
+  NNDaySelectionModelType,
+  NNGridSelectionCalculatorType
 {
   /// Calculate the month component range, which is anchored by a specified
   /// month comp and goes as far back in the past/forward in the future as we
@@ -96,6 +99,17 @@ public extension NNCalendar.MonthSection {
       let defaultDp = DefaultDependency(dependency)
       self.init(defaultDp)
     }
+  }
+}
+
+// MARK: - NNGridSelectionCalculatorType
+extension NNCalendar.MonthSection.Model: NNGridSelectionCalculatorType {
+  public func calculateGridSelection(_ months: [NNCalendar.Month],
+                                     _ firstDayOfWeek: Int,
+                                     _ selection: Date)
+    -> [NNCalendar.GridSelection]
+  {
+    return dependency.calculateGridSelection(months, firstDayOfWeek, selection)
   }
 }
 
@@ -192,20 +206,28 @@ extension NNCalendar.MonthSection.Model {
     }
 
     private let nonDefaultable: NNMonthSectionNonDefaultableModelDependency
-    private let dateCalculator: NNSingleDateCalculatorType
+    private let dateCalc: NNCalendar.DateCalculator.Sequential
 
     internal init(_ dependency: NNMonthSectionNonDefaultableModelDependency) {
       self.nonDefaultable = dependency
-      dateCalculator = NNCalendar.DateCalculator.Sequential()
+      dateCalc = NNCalendar.DateCalculator.Sequential()
     }
 
-    func calculateDate(_ comps: NNCalendar.MonthComp,
-                       _ firstDayOfWeek: Int,
-                       _ firstDateOffset: Int) -> Date? {
-      return dateCalculator.calculateDate(comps, firstDayOfWeek, firstDateOffset)
+    internal func calculateDate(_ comps: NNCalendar.MonthComp,
+                                _ firstDayOfWeek: Int,
+                                _ firstDateOffset: Int) -> Date? {
+      return dateCalc.calculateDate(comps, firstDayOfWeek, firstDateOffset)
     }
 
-    func isDateSelected(_ date: Date) -> Bool {
+    internal func calculateGridSelection(_ months: [NNCalendar.Month],
+                                         _ firstDayOfWeek: Int,
+                                         _ selection: Date)
+      -> [NNCalendar.GridSelection]
+    {
+      return dateCalc.calculateGridSelection(months, firstDayOfWeek, selection)
+    }
+
+    internal func isDateSelected(_ date: Date) -> Bool {
       return nonDefaultable.isDateSelected(date)
     }
   }

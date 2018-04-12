@@ -37,7 +37,5 @@ public extension NNCalendar {
           calendar.component(.year, from: $0
         ))})
     }
-
-    private init() {}
   }
 }
