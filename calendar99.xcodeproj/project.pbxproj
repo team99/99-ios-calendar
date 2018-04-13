@@ -20,6 +20,7 @@
 		D31431B0208068300044B936 /* WeekdayCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D31431AF208068300044B936 /* WeekdayCell.swift */; };
 		D31431B22080684C0044B936 /* WeekdayCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D31431B12080684C0044B936 /* WeekdayCell.xib */; };
 		D31431B7208074150044B936 /* MonthAwareModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D31431B6208074150044B936 /* MonthAwareModel.swift */; };
+		D31431B9208076FC0044B936 /* SelectableWeekdayDisplayModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D31431B8208076FC0044B936 /* SelectableWeekdayDisplayModel.swift */; };
 		D314670B207DFBEA00A6B186 /* MonthSectionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D314670A207DFBEA00A6B186 /* MonthSectionModel.swift */; };
 		D314670D207E029A00A6B186 /* MonthSectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D314670C207E029A00A6B186 /* MonthSectionViewModel.swift */; };
 		D319C2C0207D9FE0005D1828 /* MonthHeader.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D319C2BF207D9FE0005D1828 /* MonthHeader.xcassets */; };
@@ -124,6 +125,7 @@
 		D31431AF208068300044B936 /* WeekdayCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekdayCell.swift; sourceTree = "<group>"; };
 		D31431B12080684C0044B936 /* WeekdayCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WeekdayCell.xib; sourceTree = "<group>"; };
 		D31431B6208074150044B936 /* MonthAwareModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthAwareModel.swift; sourceTree = "<group>"; };
+		D31431B8208076FC0044B936 /* SelectableWeekdayDisplayModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectableWeekdayDisplayModel.swift; sourceTree = "<group>"; };
 		D314670A207DFBEA00A6B186 /* MonthSectionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthSectionModel.swift; sourceTree = "<group>"; };
 		D314670C207E029A00A6B186 /* MonthSectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthSectionViewModel.swift; sourceTree = "<group>"; };
 		D319C2BF207D9FE0005D1828 /* MonthHeader.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = MonthHeader.xcassets; sourceTree = "<group>"; };
@@ -264,8 +266,9 @@
 		D31431AA20805F610044B936 /* WeekdayDisplay */ = {
 			isa = PBXGroup;
 			children = (
-				D31431AB20805FD50044B936 /* WeekdayDisplayViewModel.swift */,
+				D31431B8208076FC0044B936 /* SelectableWeekdayDisplayModel.swift */,
 				D31431AD208062FB0044B936 /* WeekdayDisplayModel.swift */,
+				D31431AB20805FD50044B936 /* WeekdayDisplayViewModel.swift */,
 			);
 			path = WeekdayDisplay;
 			sourceTree = "<group>";
@@ -921,6 +924,7 @@
 				D31C042B207D17C5000C2C75 /* MonthControlModel.swift in Sources */,
 				D31431A920805EA10044B936 /* WeekdayAwareViewModel.swift in Sources */,
 				D3DA6FCE207C6E7800A3DFE1 /* MonthHeaderViewModel.swift in Sources */,
+				D31431B9208076FC0044B936 /* SelectableWeekdayDisplayModel.swift in Sources */,
 				D31DA890207F5BB100FB4355 /* MonthGridViewModel.swift in Sources */,
 				D31C0429207D1649000C2C75 /* MonthControlViewModel.swift in Sources */,
 				D314670D207E029A00A6B186 /* MonthSectionViewModel.swift in Sources */,
