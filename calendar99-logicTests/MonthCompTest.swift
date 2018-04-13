@@ -16,7 +16,7 @@ public final class MonthCompTest: XCTestCase {
 
   override public func setUp() {
     super.setUp()
-    iterations = 10000
+    iterations = 1000
   }
 
   public func test_newMonthCompWithMonthOffset_shouldWork() {
@@ -57,6 +57,28 @@ public final class MonthCompTest: XCTestCase {
         XCTAssertEqual(newComp, newDateMonthComp)
       } else {
         XCTAssertNotEqual(newComp, newDateMonthComp)
+      }
+    }
+  }
+
+  public func test_getDatesWithWeekday_shouldWork() {
+    /// Setup
+    let calendar = Calendar.current
+    let firstComp = NNCalendar.MonthComp(Date())
+
+    /// When
+    for i in 0..<iterations! {
+      let monthComp = firstComp.with(monthOffset: i)!
+
+      for weekday in 1...7 {
+        let dates = monthComp.datesWithWeekday(weekday)
+
+        /// Then
+        for date in dates {
+          let weekdayComp = calendar.component(.weekday, from: date)
+          XCTAssertEqual(weekdayComp, weekday)
+          XCTAssertEqual(NNCalendar.MonthComp(date), monthComp)
+        }
       }
     }
   }
