@@ -11,17 +11,15 @@ import XCTest
 @testable import calendar99_logic
 
 /// Tests for date calculator.
-public final class SequentialDateCalculatorTest: XCTestCase {
+public final class SequentialDateCalculatorTest: RootTest {
   fileprivate var calculator: NNCalendar.DateCalculator.Sequential!
   fileprivate var currentMonthComp: NNCalendar.MonthComp!
-  fileprivate var iterations: Int!
   fileprivate var dayCount: Int!
 
   override public func setUp() {
     super.setUp()
     calculator = NNCalendar.DateCalculator.Sequential()
     currentMonthComp = NNCalendar.MonthComp(month: 4, year: 2018)
-    iterations = 1000
     dayCount = 42
     continueAfterFailure = false
   }

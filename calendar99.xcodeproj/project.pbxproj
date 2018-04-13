@@ -23,6 +23,8 @@
 		D31431B9208076FC0044B936 /* SelectableWeekdayModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D31431B8208076FC0044B936 /* SelectableWeekdayModel.swift */; };
 		D31431BB208079D70044B936 /* SelectableWeekdayViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D31431BA208079D70044B936 /* SelectableWeekdayViewModel.swift */; };
 		D31431BF20809A4A0044B936 /* MultiDaySelectionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D31431BE20809A4A0044B936 /* MultiDaySelectionModel.swift */; };
+		D31431C12080B1EF0044B936 /* SingleDaySelectionTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D31431C02080B1EF0044B936 /* SingleDaySelectionTest.swift */; };
+		D31431C32080B4E70044B936 /* RootTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D31431C22080B4E70044B936 /* RootTest.swift */; };
 		D314670B207DFBEA00A6B186 /* MonthSectionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D314670A207DFBEA00A6B186 /* MonthSectionModel.swift */; };
 		D314670D207E029A00A6B186 /* MonthSectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D314670C207E029A00A6B186 /* MonthSectionViewModel.swift */; };
 		D319C2C0207D9FE0005D1828 /* MonthHeader.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D319C2BF207D9FE0005D1828 /* MonthHeader.xcassets */; };
@@ -129,6 +131,8 @@
 		D31431B8208076FC0044B936 /* SelectableWeekdayModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectableWeekdayModel.swift; sourceTree = "<group>"; };
 		D31431BA208079D70044B936 /* SelectableWeekdayViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectableWeekdayViewModel.swift; sourceTree = "<group>"; };
 		D31431BE20809A4A0044B936 /* MultiDaySelectionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiDaySelectionModel.swift; sourceTree = "<group>"; };
+		D31431C02080B1EF0044B936 /* SingleDaySelectionTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleDaySelectionTest.swift; sourceTree = "<group>"; };
+		D31431C22080B4E70044B936 /* RootTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootTest.swift; sourceTree = "<group>"; };
 		D314670A207DFBEA00A6B186 /* MonthSectionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthSectionModel.swift; sourceTree = "<group>"; };
 		D314670C207E029A00A6B186 /* MonthSectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthSectionViewModel.swift; sourceTree = "<group>"; };
 		D319C2BF207D9FE0005D1828 /* MonthHeader.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = MonthHeader.xcassets; sourceTree = "<group>"; };
@@ -453,6 +457,8 @@
 				D3DA6FC5207C6D2300A3DFE1 /* Info.plist */,
 				D3DA7024207C97F100A3DFE1 /* MonthCompTest.swift */,
 				D31C042E207D2106000C2C75 /* SequentialDateCalculatorTest.swift */,
+				D31431C02080B1EF0044B936 /* SingleDaySelectionTest.swift */,
+				D31431C22080B4E70044B936 /* RootTest.swift */,
 			);
 			path = "calendar99-logicTests";
 			sourceTree = "<group>";
@@ -941,6 +947,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D31431C12080B1EF0044B936 /* SingleDaySelectionTest.swift in Sources */,
+				D31431C32080B4E70044B936 /* RootTest.swift in Sources */,
 				D3DA7025207C97F100A3DFE1 /* MonthCompTest.swift in Sources */,
 				D31C042F207D2106000C2C75 /* SequentialDateCalculatorTest.swift in Sources */,
 			);

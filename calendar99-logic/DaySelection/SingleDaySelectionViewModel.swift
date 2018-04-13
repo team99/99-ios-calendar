@@ -56,16 +56,9 @@ extension NNCalendar.DaySelection.ViewModel: NNSingleDaySelectionViewModelType {
 
     dateSelectionSbj
       .withLatestFrom(model.allDateSelectionStream) {($1, $0)}
-      .map({(prev: Set<Date>, date: Date) -> Set<Date> in
-        if prev.contains(date) {
-          return prev.filter({$0 != date})
-        } else {
-          var newSet = Set(prev)
-          newSet.insert(date)
-          return newSet
-        }
-      })
-      .distinctUntilChanged()
+      .map({$0.contains($1)
+          ? $0.subtracting(Set<Date>(arrayLiteral: $1))
+          : $0.union(Set<Date>(arrayLiteral: $1))})
       .subscribe(model.allDateSelectionReceiver)
       .disposed(by: disposable)
   }

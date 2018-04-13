@@ -10,15 +10,8 @@ import SwiftUtilities
 import XCTest
 @testable import calendar99_logic
 
-/// Month comp tests.
-public final class MonthCompTest: XCTestCase {
-  fileprivate var iterations: Int?
-
-  override public func setUp() {
-    super.setUp()
-    iterations = 1000
-  }
-
+/// Tests for month components.
+public final class MonthCompTest: RootTest {
   public func test_newMonthCompWithMonthOffset_shouldWork() {
     /// Setup
     var date = Date()
