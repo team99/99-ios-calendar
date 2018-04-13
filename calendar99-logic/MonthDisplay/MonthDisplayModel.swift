@@ -102,12 +102,7 @@ public extension NNCalendar.MonthDisplay {
 }
 
 // MARK: - NNMonthControlModelType
-extension NNCalendar.MonthDisplay.Model: NNMonthControlModelType {
-  public func newComponents(_ prevComps: NNCalendar.MonthComp,
-                            _ monthOffset: Int) -> NNCalendar.MonthComp? {
-    return monthControlModel.newComponents(prevComps, monthOffset)
-  }
-}
+extension NNCalendar.MonthDisplay.Model: NNMonthControlModelType {}
 
 // MARK: - NNMonthControlModelDependency
 extension NNCalendar.MonthDisplay.Model: NNMonthControlModelDependency {

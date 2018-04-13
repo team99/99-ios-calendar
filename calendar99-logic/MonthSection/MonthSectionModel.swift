@@ -136,11 +136,6 @@ extension NNCalendar.MonthSection.Model: NNMonthControlModelType {
   public var currentMonthCompReceiver: AnyObserver<NNCalendar.MonthComp> {
     return monthControlModel.currentMonthCompReceiver
   }
-
-  public func newComponents(_ prevComps: NNCalendar.MonthComp,
-                            _ monthOffset: Int) -> NNCalendar.MonthComp? {
-    return monthControlModel.newComponents(prevComps, monthOffset)
-  }
 }
 
 // MARK: - NNDaySelectionModelType
@@ -159,11 +154,11 @@ extension NNCalendar.MonthSection.Model: NNMonthSectionModelType {
   public func componentRange(_ currentComp: NNCalendar.MonthComp,
                              _ pastMonthCount: Int,
                              _ futureMonthCount: Int) -> [NNCalendar.MonthComp] {
-    let earliest = monthControlModel.newComponents(currentComp, -pastMonthCount)
+    let earliest = currentComp.with(monthOffset: -pastMonthCount)
     let totalMonths = pastMonthCount + 1 + futureMonthCount
 
     return (0..<totalMonths).flatMap({offset in
-      earliest.flatMap({monthControlModel.newComponents($0, offset)})
+      earliest.flatMap({$0.with(monthOffset: offset)})
     })
   }
 

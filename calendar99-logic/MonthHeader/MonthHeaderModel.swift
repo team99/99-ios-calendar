@@ -60,11 +60,6 @@ extension NNCalendar.MonthHeader.Model: NNMonthControlModelType {
   public var currentMonthCompReceiver: AnyObserver<NNCalendar.MonthComp> {
     return monthControlModel.currentMonthCompReceiver
   }
-
-  public func newComponents(_ prevComponents: NNCalendar.MonthComp,
-                            _ monthOffset: Int) -> NNCalendar.MonthComp? {
-    return monthControlModel.newComponents(prevComponents, monthOffset)
-  }
 }
 
 // MARK: - NNMonthHeaderModelType

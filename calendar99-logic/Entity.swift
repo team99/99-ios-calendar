@@ -89,6 +89,26 @@ public extension NNCalendar {
       return self.month == month && self.year == year
     }
 
+    /// Get the month component that is some month offsets away from the current
+    /// component.
+    ///
+    /// - Parameter monthOffset: An Int value.
+    /// - Returns: A MonthComp instance.
+    public func with(monthOffset: Int) -> MonthComp? {
+      let calendar = Calendar.current
+      let components = dateComponents()
+      var componentOffset = DateComponents()
+      componentOffset.setValue(monthOffset, for: .month)
+
+      return calendar.date(from: components)
+        .flatMap({calendar.date(byAdding: componentOffset, to: $0)})
+        .flatMap({(
+          calendar.component(.month, from: $0),
+          calendar.component(.year, from: $0
+        ))})
+        .map({NNCalendar.MonthComp(month: $0, year: $1)})
+    }
+
     public static func ==(_ lhs: MonthComp, _ rhs: MonthComp) -> Bool {
       return lhs.month == rhs.month && lhs.year == rhs.year
     }

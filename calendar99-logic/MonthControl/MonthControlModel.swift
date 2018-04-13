@@ -19,17 +19,7 @@ public protocol NNMonthControlModelDependency {
 }
 
 /// Model for month header view.
-public protocol NNMonthControlModelType: NNMonthControlModelDependency {
-
-  /// Calculate a new components based on a month offset.
-  ///
-  /// - Parameters:
-  ///   - prevComps: The previous components.
-  ///   - monthOffset: A month offset value.
-  /// - Returns: A tuple of month and year.
-  func newComponents(_ prevComps: NNCalendar.MonthComp,
-                     _ monthOffset: Int) -> NNCalendar.MonthComp?
-}
+public protocol NNMonthControlModelType: NNMonthControlModelDependency {}
 
 internal extension NNCalendar.MonthControl {
 
@@ -55,11 +45,4 @@ extension NNCalendar.MonthControl.Model: NNMonthControlModelDependency {
 }
 
 // MARK: - NNMonthControlModelType
-extension NNCalendar.MonthControl.Model: NNMonthControlModelType {
-  public func newComponents(_ prevComponents: NNCalendar.MonthComp,
-                            _ monthOffset: Int) -> NNCalendar.MonthComp? {
-    let prevMonth = prevComponents.month
-    let prevYear = prevComponents.year
-    return NNCalendar.DateUtil.newMonthComp(prevComponents, monthOffset)
-  }
-}
+extension NNCalendar.MonthControl.Model: NNMonthControlModelType {}

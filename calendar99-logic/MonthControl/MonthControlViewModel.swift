@@ -53,7 +53,7 @@ extension NNCalendar.MonthControl.ViewModel: NNMonthControlViewModelType {
 
     currentMonthMovementSb
       .withLatestFrom(model.currentMonthCompStream) {($1, $0.monthOffset)}
-      .map({[weak self] in self?.model.newComponents($0, $1)})
+      .map({$0.with(monthOffset: $1)})
       .filter({$0.isSome}).map({$0!})
       .distinctUntilChanged()
       .subscribe(model.currentMonthCompReceiver)

@@ -15,12 +15,14 @@ public final class SequentialDateCalculatorTest: XCTestCase {
   fileprivate var calculator: NNCalendar.DateCalculator.Sequential!
   fileprivate var currentMonthComp: NNCalendar.MonthComp!
   fileprivate var iterations: Int!
+  fileprivate var dayCount: Int!
 
   override public func setUp() {
     super.setUp()
     calculator = NNCalendar.DateCalculator.Sequential()
     currentMonthComp = NNCalendar.MonthComp(month: 4, year: 2018)
     iterations = 1000
+    dayCount = 42
     continueAfterFailure = false
   }
 
@@ -28,12 +30,12 @@ public final class SequentialDateCalculatorTest: XCTestCase {
     /// Setup & When
     for _ in 0..<iterations! {
       let range = calculator.calculateDateRange(currentMonthComp, 1, 6, 7)
-      currentMonthComp = NNCalendar.DateUtil.newMonthComp(currentMonthComp, 1)!
+      currentMonthComp = currentMonthComp.with(monthOffset: 1)!
 
       /// Then
       let firstDate = range.first!
       let weekdayComp = Calendar.current.component(.weekday, from: firstDate)
-      XCTAssertEqual(range.count, 42)
+      XCTAssertEqual(range.count, dayCount!)
       XCTAssertEqual(weekdayComp, 1)
 
       for (ix, date) in range.enumerated() {
@@ -51,7 +53,7 @@ public final class SequentialDateCalculatorTest: XCTestCase {
     /// Setup
     var monthComp = currentMonthComp!
 
-    for ix in 0..<100 {
+    for ix in 0..<200 {
       var prevDate: Date?
 
       /// When
@@ -66,16 +68,15 @@ public final class SequentialDateCalculatorTest: XCTestCase {
         prevDate = date
       }
 
-      monthComp = NNCalendar.DateUtil.newMonthComp(monthComp, ix)!
+      monthComp = monthComp.with(monthOffset: ix)!
     }
   }
 
-  public func test_calculateGridSelections_shouldWork() {
+  public func test_calculateMultiMonthGridSelections_shouldWork() {
     /// Setup
-    let dayCount = 42
     let firstComp = NNCalendar.MonthComp(Date())
-    let monthComps = (0..<100).map({NNCalendar.DateUtil.newMonthComp(firstComp, $0)!})
-    let months = monthComps.map({NNCalendar.Month($0, dayCount)})
+    let monthComps = (0..<100).map({firstComp.with(monthOffset: $0)!})
+    let months = monthComps.map({NNCalendar.Month($0, dayCount!)})
     var prevSelect = Set<Date>()
 
     /// When
@@ -104,6 +105,44 @@ public final class SequentialDateCalculatorTest: XCTestCase {
         XCTAssertTrue(changedSelect.contains(selectedDate))
       }
 
+      prevSelect = currentSelect
+    }
+  }
+
+  public func test_calculateSingleMonthGridSelection_shouldWork() {
+    /// Setup
+    var currentComp = NNCalendar.MonthComp(Date())
+    var prevSelect = Set<Date>()
+
+    /// When
+    for i in 0..<iterations! {
+      let currentMonth = NNCalendar.Month(currentComp, dayCount!)
+      let selectionCount = Int.random(1, dayCount!)
+
+      let currentSelect = Set((0..<selectionCount).map({
+        calculator.calculateDateWithOffset(currentComp, 1, $0)!
+      }))
+
+      let changedSelect = calculator.extractChanges(prevSelect, currentSelect)
+
+      let gridSelections = calculator
+        .calculateGridSelection(currentMonth, 1, prevSelect, currentSelect)
+
+      /// Then
+      for gridSelection in gridSelections {
+
+        // The month index is not necessary the same as the month in the current
+        // month comp, because we calculate for the previous and next months as
+        // well.
+        if gridSelection.monthIndex == currentComp.month {
+          let selectedDate = calculator
+            .calculateDateWithOffset(currentComp, 1, gridSelection.dayIndex)!
+
+          XCTAssertTrue(changedSelect.contains(selectedDate))
+        }
+      }
+
+      currentComp = currentComp.with(monthOffset: i)!
       prevSelect = currentSelect
     }
   }

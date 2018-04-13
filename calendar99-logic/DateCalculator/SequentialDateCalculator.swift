@@ -6,6 +6,8 @@
 //  Copyright © 2018 Hai Pham. All rights reserved.
 //
 
+import SwiftFP
+
 public extension NNCalendar.DateCalculator {
 
   /// Sequential date calculator.

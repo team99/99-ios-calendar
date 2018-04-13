@@ -47,8 +47,7 @@
 		D3DA701F207C8E0F00A3DFE1 /* calendar99_logic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3DA6FB6207C6D2200A3DFE1 /* calendar99_logic.framework */; };
 		D3DA7020207C8E0F00A3DFE1 /* calendar99.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3DA6F97207C6CEE00A3DFE1 /* calendar99.framework */; };
 		D3DA7021207C8E2300A3DFE1 /* calendar99_logic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3DA6FB6207C6D2200A3DFE1 /* calendar99_logic.framework */; };
-		D3DA7023207C977200A3DFE1 /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3DA7022207C977200A3DFE1 /* Util.swift */; };
-		D3DA7025207C97F100A3DFE1 /* DateUtilTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3DA7024207C97F100A3DFE1 /* DateUtilTest.swift */; };
+		D3DA7025207C97F100A3DFE1 /* MonthCompTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3DA7024207C97F100A3DFE1 /* MonthCompTest.swift */; };
 		D3DA7027207CA55300A3DFE1 /* DateCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D3DA7026207CA55300A3DFE1 /* DateCell.xib */; };
 		D3DA7029207CA98400A3DFE1 /* MonthHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = D3DA7028207CA98400A3DFE1 /* MonthHeader.xib */; };
 		D3DA702D207CBDE900A3DFE1 /* MonthDisplayModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3DA702C207CBDE900A3DFE1 /* MonthDisplayModel.swift */; };
@@ -149,8 +148,7 @@
 		D3DA700F207C805300A3DFE1 /* Entity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Entity.swift; sourceTree = "<group>"; };
 		D3DA7013207C868F00A3DFE1 /* MonthHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthHeader.swift; sourceTree = "<group>"; };
 		D3DA7015207C876300A3DFE1 /* Util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
-		D3DA7022207C977200A3DFE1 /* Util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
-		D3DA7024207C97F100A3DFE1 /* DateUtilTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateUtilTest.swift; sourceTree = "<group>"; };
+		D3DA7024207C97F100A3DFE1 /* MonthCompTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthCompTest.swift; sourceTree = "<group>"; };
 		D3DA7026207CA55300A3DFE1 /* DateCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DateCell.xib; sourceTree = "<group>"; };
 		D3DA7028207CA98400A3DFE1 /* MonthHeader.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MonthHeader.xib; sourceTree = "<group>"; };
 		D3DA702C207CBDE900A3DFE1 /* MonthDisplayModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthDisplayModel.swift; sourceTree = "<group>"; };
@@ -377,7 +375,6 @@
 				D3DA6FB9207C6D2300A3DFE1 /* Info.plist */,
 				D3DA700F207C805300A3DFE1 /* Entity.swift */,
 				D3DA6FD3207C6EC700A3DFE1 /* Entry.swift */,
-				D3DA7022207C977200A3DFE1 /* Util.swift */,
 				D31DA87F207EF26F00FB4355 /* DaySelection */,
 				D319C2B6207D9E94005D1828 /* MonthControl */,
 				D319C2B7207D9E9B005D1828 /* MonthDisplay */,
@@ -392,7 +389,7 @@
 			isa = PBXGroup;
 			children = (
 				D3DA6FC5207C6D2300A3DFE1 /* Info.plist */,
-				D3DA7024207C97F100A3DFE1 /* DateUtilTest.swift */,
+				D3DA7024207C97F100A3DFE1 /* MonthCompTest.swift */,
 				D31C042E207D2106000C2C75 /* SequentialDateCalculatorTest.swift */,
 			);
 			path = "calendar99-logicTests";
@@ -853,7 +850,6 @@
 				D31C042D207D1BA6000C2C75 /* DateCalculator.swift in Sources */,
 				D314670B207DFBEA00A6B186 /* MonthSectionModel.swift in Sources */,
 				D31DA885207EF47E00FB4355 /* DaySelectionViewModel.swift in Sources */,
-				D3DA7023207C977200A3DFE1 /* Util.swift in Sources */,
 				D31DA889207F221B00FB4355 /* DaySelectionFunctionality.swift in Sources */,
 				D3136209207FBC9E0090263A /* SequentialDateCalculator.swift in Sources */,
 				D31DA894207F686B00FB4355 /* MonthGridFunctionality.swift in Sources */,
@@ -873,7 +869,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D3DA7025207C97F100A3DFE1 /* DateUtilTest.swift in Sources */,
+				D3DA7025207C97F100A3DFE1 /* MonthCompTest.swift in Sources */,
 				D31C042F207D2106000C2C75 /* SequentialDateCalculatorTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1071,7 +1067,11 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = calendar99/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = org.swiften.calendar99;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -1095,7 +1095,11 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = calendar99/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = org.swiften.calendar99;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -1112,7 +1116,11 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 5FF785XRZ6;
 				INFOPLIST_FILE = calendar99Tests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = org.swiften.calendar99Tests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -1128,7 +1136,11 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 5FF785XRZ6;
 				INFOPLIST_FILE = calendar99Tests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = org.swiften.calendar99Tests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -1150,7 +1162,11 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = "calendar99-logic/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.swiften.calendar99-logic";
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -1174,7 +1190,11 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = "calendar99-logic/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.swiften.calendar99-logic";
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -1192,7 +1212,11 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 5FF785XRZ6;
 				INFOPLIST_FILE = "calendar99-logicTests/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.swiften.calendar99-logicTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -1210,7 +1234,11 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 5FF785XRZ6;
 				INFOPLIST_FILE = "calendar99-logicTests/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.swiften.calendar99-logicTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -1227,7 +1255,10 @@
 				DEVELOPMENT_TEAM = 5FF785XRZ6;
 				INFOPLIST_FILE = "calendar99-demo/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.swiften.calendar99-demo";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -1244,7 +1275,10 @@
 				DEVELOPMENT_TEAM = 5FF785XRZ6;
 				INFOPLIST_FILE = "calendar99-demo/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.swiften.calendar99-demo";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
