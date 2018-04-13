@@ -11,6 +11,11 @@ def allViewPods
   pod 'RxDataSources'
 end
 
+def allTestPods
+  pod 'SwiftUtilities/Main+Rx', git: 'https://github.com/protoman92/SwiftUtilities.git'
+  pod 'SwiftUtilitiesTests/Main+Rx', git: 'https://github.com/protoman92/SwiftUtilities.git'
+end
+
 target 'calendar99' do
   use_frameworks!
   allLogicPods
@@ -34,5 +39,6 @@ target 'calendar99-logic' do
 
   target 'calendar99-logicTests' do
     inherit! :search_paths
+    allTestPods
   end
 end

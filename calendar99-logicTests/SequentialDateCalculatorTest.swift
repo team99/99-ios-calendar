@@ -6,6 +6,7 @@
 //  Copyright © 2018 Hai Pham. All rights reserved.
 //
 
+import SwiftUtilities
 import XCTest
 @testable import calendar99_logic
 
@@ -71,9 +72,39 @@ public final class SequentialDateCalculatorTest: XCTestCase {
 
   public func test_calculateGridSelections_shouldWork() {
     /// Setup
+    let dayCount = 42
+    let firstComp = NNCalendar.MonthComp(Date())
+    let monthComps = (0..<100).map({NNCalendar.DateUtil.newMonthComp(firstComp, $0)!})
+    let months = monthComps.map({NNCalendar.Month($0, dayCount)})
+    var prevSelect = Set<Date>()
 
     /// When
+    for _ in 0..<iterations! {
+      let selectionCount = Int.random(10, 20)
 
-    /// Then
+      let currentSelect = Set((0..<selectionCount)
+        .map({(_) -> Date in
+          let month = months.randomElement()!
+          let dayIndex = Int.random(0, month.dayCount)
+          return calculator.calculateDateWithOffset(month.monthComp, 1, dayIndex)!
+        }))
+
+      let changedSelect = calculator.extractChanges(prevSelect, currentSelect)
+
+      let gridSelections = calculator
+        .calculateGridSelection(months, 1, prevSelect, currentSelect)
+
+      /// Then
+      for gridSelection in gridSelections {
+        let selectedMonth = months[gridSelection.monthIndex].monthComp
+
+        let selectedDate = calculator
+          .calculateDateWithOffset(selectedMonth, 1, gridSelection.dayIndex)!
+
+        XCTAssertTrue(changedSelect.contains(selectedDate))
+      }
+
+      prevSelect = currentSelect
+    }
   }
 }

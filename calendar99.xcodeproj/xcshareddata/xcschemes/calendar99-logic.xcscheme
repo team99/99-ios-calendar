@@ -27,14 +27,15 @@
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       codeCoverageEnabled = "YES"
+      onlyGenerateCoverageForSpecifiedTargets = "YES"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <CodeCoverageTargets>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "47CF25300BBB276A731BDABE72361B31"
-            BuildableName = "Pods_calendar99_logic.framework"
-            BlueprintName = "Pods-calendar99-logic"
-            ReferencedContainer = "container:Pods/Pods.xcodeproj">
+            BlueprintIdentifier = "D3DA6FB5207C6D2200A3DFE1"
+            BuildableName = "calendar99_logic.framework"
+            BlueprintName = "calendar99-logic"
+            ReferencedContainer = "container:calendar99.xcodeproj">
          </BuildableReference>
       </CodeCoverageTargets>
       <Testables>

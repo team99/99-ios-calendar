@@ -24,7 +24,7 @@ public protocol NNMonthDisplayModelFunctionality:
 /// for date range calculations.
 public protocol NNMonthDisplayDefaultableModelDependency:
   NNDateCalculatorType,
-  NNSingleMonthGridSelectionCalculatorType {}
+  NNSingleMonthGridSelectionCalculator {}
 
 /// Dependency for month display model with non-defaultable components. These
 /// must be provided by the injector.
@@ -52,7 +52,7 @@ public protocol NNMonthDisplayModelType:
   NNMonthControlModelType,
   NNMonthGridModelType,
   NNDaySelectionModelType,
-  NNSingleMonthGridSelectionCalculatorType
+  NNSingleMonthGridSelectionCalculator
 {
   /// Calculate the Day range for a MonthComponent.
   ///

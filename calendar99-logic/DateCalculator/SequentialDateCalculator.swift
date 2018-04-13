@@ -68,7 +68,7 @@ extension NNCalendar.DateCalculator.Sequential: NNSingleDateCalculatorType {
 }
 
 // MARK: - NNGridSelectionCalculatorType
-extension NNCalendar.DateCalculator.Sequential: NNGridSelectionCalculatorType {
+extension NNCalendar.DateCalculator.Sequential: NNMultiMonthGridSelectionCalculator {
   public func calculateGridSelection(_ months: [NNCalendar.Month],
                                      _ firstDayOfWeek: Int,
                                      _ selection: Date)
@@ -130,7 +130,7 @@ extension NNCalendar.DateCalculator.Sequential: NNGridSelectionCalculatorType {
 }
 
 // MARK: - NNSingleMonthGridSelectionCalculatorType
-extension NNCalendar.DateCalculator.Sequential: NNSingleMonthGridSelectionCalculatorType {
+extension NNCalendar.DateCalculator.Sequential: NNSingleMonthGridSelectionCalculator {
 
   /// We need to include the previous and next months here as well, and call
   /// the pre-specified method that deals with Month Array. We also assume that

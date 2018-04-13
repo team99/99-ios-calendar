@@ -16,7 +16,7 @@ public final class NNDateCell: UICollectionViewCell {
   ///
   /// - Parameter day: A Day instance.
   public func setupWithDay(_ day: NNCalendar.Day) {
-    backgroundColor = day.isCurrentMonth ? .clear : .lightGray
+    backgroundColor = day.isCurrentMonth ? .white : .lightGray
     backgroundColor = day.isSelected ? .red : backgroundColor
     dateLbl?.text = day.dateDescription
   }

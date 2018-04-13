@@ -20,7 +20,7 @@ public protocol NNMonthSectionModelFunctionality {
 /// defaults.
 public protocol NNMonthSectionDefaultableModelDependency:
   NNSingleDateCalculatorType,
-  NNGridSelectionCalculatorType {}
+  NNMultiMonthGridSelectionCalculator {}
 
 /// Dependency for month section model, which contains components that cannot
 /// have defaults.
@@ -41,7 +41,7 @@ public protocol NNMonthSectionModelType:
   NNMonthControlModelType,
   NNMonthGridModelType,
   NNDaySelectionModelType,
-  NNGridSelectionCalculatorType
+  NNMultiMonthGridSelectionCalculator
 {
   /// Calculate the month component range, which is anchored by a specified
   /// month comp and goes as far back in the past/forward in the future as we
@@ -103,7 +103,7 @@ public extension NNCalendar.MonthSection {
 }
 
 // MARK: - NNGridSelectionCalculatorType
-extension NNCalendar.MonthSection.Model: NNGridSelectionCalculatorType {
+extension NNCalendar.MonthSection.Model: NNMultiMonthGridSelectionCalculator {
   public func calculateGridSelection(_ months: [NNCalendar.Month],
                                      _ firstDayOfWeek: Int,
                                      _ selection: Date)

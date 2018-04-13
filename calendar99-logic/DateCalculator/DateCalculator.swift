@@ -48,8 +48,30 @@ public protocol NNSingleDateCalculatorType {
                                _ firstDateOffset: Int) -> Date?
 }
 
+/// Represents a grid selection calculator.
+public protocol NNGridSelectionCalculator {}
+
+public extension NNGridSelectionCalculator {
+
+  /// Extract actual changes between the previous selections and the current
+  /// selections.
+  ///
+  /// - Parameters:
+  ///   - prevSelections: A Set of Date.
+  ///   - currentSelections: A Set of Date.
+  /// - Returns: A Set of Date selections that were actually changed.
+  internal func extractChanges(_ prevSelections: Set<Date>,
+                               _ currentSelections: Set<Date>) -> Set<Date> {
+    /// Since it's either the previous selections set is larger than the
+    /// current selections or vice versa, so unioning these subtracted sets
+    /// should give us all the changed selections.
+    return prevSelections.subtracting(currentSelections)
+      .union(currentSelections.subtracting(prevSelections))
+  }
+}
+
 /// Calculate grid selection for date selections based on an Array of Months.
-public protocol NNGridSelectionCalculatorType {
+public protocol NNMultiMonthGridSelectionCalculator: NNGridSelectionCalculator {
 
   /// Calculate grid selection for a single date, based on a specified Month
   /// Array.
@@ -65,7 +87,7 @@ public protocol NNGridSelectionCalculatorType {
     -> [NNCalendar.GridSelection]
 }
 
-public extension NNGridSelectionCalculatorType {
+public extension NNMultiMonthGridSelectionCalculator {
 
   /// Calculate grid selections for selected dates, based on a specified Month
   /// Array. These indexes can then be used to reload the relevant calendar
@@ -83,18 +105,14 @@ public extension NNGridSelectionCalculatorType {
                                      _ currentSelections: Set<Date>)
     -> [NNCalendar.GridSelection]
   {
-    /// Since it's either the previous selections set is larger than the
-    /// current selections or vice versa, so unioning these subtracted sets
-    /// should give us all the changed selections.
-    return prevSelections.subtracting(currentSelections)
-      .union(currentSelections.subtracting(prevSelections))
+    return extractChanges(prevSelections, currentSelections)
       .flatMap({calculateGridSelection(months, firstDayOfWeek, $0)})
   }
 }
 
 /// The functionality of this calculator is almost the same as the one above,
 /// but now we only have a Month.
-public protocol NNSingleMonthGridSelectionCalculatorType {
+public protocol NNSingleMonthGridSelectionCalculator: NNGridSelectionCalculator {
 
   /// Instead of having an Array of Months, we now have only one month, so we
   /// need to create an Array of Months from this one Month if necessary. (For
@@ -112,7 +130,7 @@ public protocol NNSingleMonthGridSelectionCalculatorType {
     -> [NNCalendar.GridSelection]
 }
 
-public extension NNSingleMonthGridSelectionCalculatorType {
+public extension NNSingleMonthGridSelectionCalculator {
 
   /// The logic here is similar to the normal grid selection calculator.
   ///
@@ -127,8 +145,7 @@ public extension NNSingleMonthGridSelectionCalculatorType {
                               _ currentSelections: Set<Date>)
     -> [NNCalendar.GridSelection]
   {
-    return prevSelections.subtracting(currentSelections)
-      .union(currentSelections.subtracting(prevSelections))
+    return extractChanges(prevSelections, currentSelections)
       .flatMap({calculateGridSelection(month, firstDayOfWeek, $0)})
   }
 }
