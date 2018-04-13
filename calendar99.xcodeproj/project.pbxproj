@@ -12,6 +12,7 @@
 		99EB1FCC7C144B9EC432DFCF /* Pods_calendar99.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D938B372CAFDEAD5B7917D27 /* Pods_calendar99.framework */; };
 		A9FC60253899F296B3E614F9 /* Pods_calendar99_logic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FA7759958763D8ADC1A0A33 /* Pods_calendar99_logic.framework */; };
 		D3136209207FBC9E0090263A /* SequentialDateCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3136208207FBC9E0090263A /* SequentialDateCalculator.swift */; };
+		D3140145208130930029BA0C /* MonthGridTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3140144208130930029BA0C /* MonthGridTest.swift */; };
 		D31431A320805A240044B936 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = D31431A220805A240044B936 /* README.md */; };
 		D31431A620805D150044B936 /* WeekdayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D31431A520805D150044B936 /* WeekdayView.swift */; };
 		D31431A920805EA10044B936 /* WeekdayAwareViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D31431A820805EA10044B936 /* WeekdayAwareViewModel.swift */; };
@@ -121,6 +122,7 @@
 		C737F71F74B500EA998EB22F /* Pods_calendar99_logicTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_calendar99_logicTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CA2363311704BDDCFECB5053 /* Pods-calendar99-logic.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-calendar99-logic.debug.xcconfig"; path = "Pods/Target Support Files/Pods-calendar99-logic/Pods-calendar99-logic.debug.xcconfig"; sourceTree = "<group>"; };
 		D3136208207FBC9E0090263A /* SequentialDateCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SequentialDateCalculator.swift; sourceTree = "<group>"; };
+		D3140144208130930029BA0C /* MonthGridTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthGridTest.swift; sourceTree = "<group>"; };
 		D31431A220805A240044B936 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		D31431A520805D150044B936 /* WeekdayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekdayView.swift; sourceTree = "<group>"; };
 		D31431A820805EA10044B936 /* WeekdayAwareViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekdayAwareViewModel.swift; sourceTree = "<group>"; };
@@ -462,6 +464,7 @@
 				D31431C02080B1EF0044B936 /* SingleDaySelectionTest.swift */,
 				D31431C22080B4E70044B936 /* RootTest.swift */,
 				D3B510A52080DEC100A2E8EF /* MonthControlTest.swift */,
+				D3140144208130930029BA0C /* MonthGridTest.swift */,
 			);
 			path = "calendar99-logicTests";
 			sourceTree = "<group>";
@@ -950,6 +953,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D3140145208130930029BA0C /* MonthGridTest.swift in Sources */,
 				D31431C12080B1EF0044B936 /* SingleDaySelectionTest.swift in Sources */,
 				D31431C32080B4E70044B936 /* RootTest.swift in Sources */,
 				D3DA7025207C97F100A3DFE1 /* MonthCompTest.swift in Sources */,

@@ -8,14 +8,14 @@ If ever so required, we can write bridges that connect imperative and reactive t
 
 The relevant components included in this repository are:
 
-- **MonthView**: A simple calendar view that does date calculations lazily depending on the currently selected month. It's very lightweight, but lacks the flipping animations present in **MonthSectionView**. It is capable of: **MonthGrid**, **MonthControl**, **SingleDaySelection**.
+- **MonthView**: A simple calendar view that does date calculations lazily depending on the currently selected month. It's very lightweight, but lacks the flipping animations present in **MonthSectionView**. It's capable of: **MonthGrid**, **MonthControl**, **SingleDaySelection**.
 
-- **MonthSectionView**: Traditional swipe calendar view that caches months as specified. Since this view needs to store months and cell attributes, it is a bit slower than **MonthView**. It is capable of: **MonthGrid**, **MonthControl**, **SingleDaySelection**.
+- **MonthSectionView**: Traditional swipe calendar view that caches months as specified. Since this view needs to store months and cell attributes, it is a bit slower than **MonthView**. It's capable of: **MonthGrid**, **MonthControl**, **SingleDaySelection**.
 
-- **MonthHeaderView**: Header view that displays the currently selected month and possesses buttons that allow month navigations. It is capable of: **MonthControl**.
+- **MonthHeaderView**: Header view that displays the currently selected month and possesses buttons that allow month navigations. It's capable of: **MonthControl**.
 
-- **WeekdayView**: Simple list-based view that displays weekdays.
+- **WeekdayView**: Simple list-based view that displays weekdays. It's capable of: **WeedayDisplay**.
 
-- **SelectableWeekdayView**: **WeekdayView** decorator that allows the user to select all dates with a particular weekday. It is capable of: **WeekdayDisplay**, **MultiDaySelection**. 
+- **SelectableWeekdayView**: **WeekdayView** decorator that allows the user to select all dates with a particular weekday. It's capable of: **WeekdayDisplay**, **MultiDaySelection**. 
 
 Each of these views requires its own **ViewModel** and **Model**, so we must be sure to inject those after creating them.

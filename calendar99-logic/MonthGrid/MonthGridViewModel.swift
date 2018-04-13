@@ -27,7 +27,8 @@ public protocol NNMonthGridViewModelDependency:
 /// View model for month-grid based views.
 public protocol NNMonthGridViewModelType: NNMonthGridViewModelFunction {
 
-  /// Trigger grid item selection.
+  /// Trigger grid item selection. Each grid selection corresponds to an Index
+  /// Path in the current month grid.
   var gridSelectionReceiver: AnyObserver<NNCalendar.GridSelection> { get }
 
   /// Stream grid selections.

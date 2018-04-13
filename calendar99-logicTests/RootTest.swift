@@ -6,19 +6,22 @@
 //  Copyright © 2018 Hai Pham. All rights reserved.
 //
 
+import RxSwift
 import XCTest
 
 /// Root tests.
 public class RootTest: XCTestCase {
   public var iterations: Int!
   public var waitDuration: TimeInterval!
-  public var firstDayOfWeek: Int!
+  public var firstWeekDay: Int!
+  public var disposable: DisposeBag!
 
   override public func setUp() {
     super.setUp()
     iterations = 1000
     waitDuration = 0.2
-    firstDayOfWeek = 2
+    firstWeekDay = 2
+    disposable = DisposeBag()
     continueAfterFailure = false
   }
 }
