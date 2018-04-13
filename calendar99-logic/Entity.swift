@@ -36,13 +36,21 @@ public extension NNCalendar {
     public let monthIndex: Int
     public let dayIndex: Int
 
+    public var description: String {
+      return "month index: \(monthIndex) - day index: \(dayIndex)"
+    }
+
+    /// [Hashcode Algorithm]: https://stackoverflow.com/questions/263400/what-is-the-best-algorithm-for-an-overridden-system-object-gethashcode
+    public var hashValue: Int {
+      var hash = 17
+      hash = hash * 486187739 + monthIndex.hashValue
+      hash = hash * 486187739 + dayIndex.hashValue
+      return hash
+    }
+
     public init(monthIndex: Int, dayIndex: Int) {
       self.monthIndex = monthIndex
       self.dayIndex = dayIndex
-    }
-
-    public var description: String {
-      return "month index: \(monthIndex) - day index: \(dayIndex)"
     }
 
     public static func ==(_ lhs: GridSelection, _ rhs: GridSelection) -> Bool {
@@ -114,6 +122,15 @@ public extension NNCalendar {
           calendar.component(.year, from: $0
         ))})
         .map({NNCalendar.MonthComp(month: $0, year: $1)})
+    }
+
+    /// Get the difference between the current month component and a specified
+    /// month component in terms of month.
+    ///
+    /// - Parameter comp: A MonthComp instance.
+    /// - Returns: An Int value.
+    public func monthOffset(from comp: MonthComp) -> Int {
+      return (year - comp.year) * 12 + (month - comp.month)
     }
 
     /// Get all Dates with a particular weekday that lies within this month

@@ -1,14 +1,14 @@
 osx_image: xcode9.2
 language: objective-c
 xcode_workspace: calendar99.xcworkspace
-xcode_scheme: calendar99-logic
+xcode_scheme: calendar99
 xcode_sdk: iphonesimulator11.2
 before_install:
 - gem install cocoapods slather xcpretty
 - pod repo update
 
 script:
-- set -o pipefail && xcodebuild clean test -sdk iphonesimulator -workspace calendar99.xcworkspace -scheme calendar99-logic -destination 'platform=iOS Simulator,name=iPhone 7' CODE_SIGNING_REQUIRED=NO GCC_INSTRUMENT_PROGRAM_FLOW_ARCS=YES GCC_GENERATE_TEST_COVERAGE_FILES=YES | xcpretty
+- set -o pipefail && xcodebuild clean test -sdk iphonesimulator -workspace calendar99.xcworkspace -scheme calendar99 -destination 'platform=iOS Simulator,name=iPhone 7' CODE_SIGNING_REQUIRED=NO GCC_INSTRUMENT_PROGRAM_FLOW_ARCS=YES GCC_GENERATE_TEST_COVERAGE_FILES=YES | xcpretty
 - pod lib lint --quick
 
 after_success: slather
