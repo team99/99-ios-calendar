@@ -154,5 +154,9 @@ public extension NNWeekdayView {
       .observeOn(MainScheduler.instance)
       .bind(to: self.rx.items(dataSource: dataSource))
       .disposed(by: disposable)
+
+    self.rx.itemSelected.map({$0.row})
+      .bind(to: viewModel.weekdaySelectionReceiver)
+      .disposed(by: disposable)
   }
 }

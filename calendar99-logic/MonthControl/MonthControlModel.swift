@@ -8,18 +8,18 @@
 
 import RxSwift
 
-/// Dependency for month control model.
-public protocol NNMonthControlModelDependency {
-
-  /// Stream the current selected components.
-  var currentMonthCompStream: Observable<NNCalendar.MonthComp> { get }
+/// Shared functionalities between the model and its dependency.
+public protocol NNMonthControlModelFunctionality: NNMonthAwareModelFunctionality {
 
   /// Receive the current components.
   var currentMonthCompReceiver: AnyObserver<NNCalendar.MonthComp> { get }
 }
 
+/// Dependency for month control model.
+public protocol NNMonthControlModelDependency: NNMonthControlModelFunctionality {}
+
 /// Model for month header view.
-public protocol NNMonthControlModelType: NNMonthControlModelDependency {}
+public protocol NNMonthControlModelType: NNMonthControlModelFunctionality {}
 
 internal extension NNCalendar.MonthControl {
 

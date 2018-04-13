@@ -217,9 +217,7 @@ public extension NNMonthSectionView {
       .bind(to: viewModel.gridSelectionReceiver)
       .disposed(by: disposable)
 
-    /// The grid selections here are calculated by looking for each selected
-    /// date in the Month Array.
-    viewModel.allGridSelectionStream
+    viewModel.gridSelectionChangesStream
       .map({$0.map({IndexPath(row: $0.dayIndex, section: $0.monthIndex)})})
       .observeOn(MainScheduler.instance)
       .bind(onNext: {[weak self] in self?.reloadItems(at: $0)})

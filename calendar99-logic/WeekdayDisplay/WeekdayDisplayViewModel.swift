@@ -25,6 +25,9 @@ public protocol NNWeekdayDisplayViewModelType: NNWeekdayDisplayViewModelFunction
 
   /// Stream weekdays.
   var weekdayStream: Observable<[NNCalendar.Weekday]> { get }
+
+  /// Receive weekday selections.
+  var weekdaySelectionReceiver: AnyObserver<Int> { get }
 }
 
 // MARK: - View model.
@@ -32,11 +35,13 @@ public extension NNCalendar.WeekdayView {
   public final class ViewModel {
     fileprivate let dependency: NNWeekdayDisplayViewModelDependency
     fileprivate let model: NNWeekdayDisplayModelType
+    fileprivate let selectionSb: PublishSubject<Int>
 
     required public init(_ dependency: NNWeekdayDisplayViewModelDependency,
                          _ model: NNWeekdayDisplayModelType) {
       self.dependency = dependency
       self.model = model
+      selectionSb = PublishSubject()
     }
 
     convenience public init(_ model: NNWeekdayDisplayModelType) {
@@ -64,6 +69,10 @@ extension NNCalendar.WeekdayView.ViewModel: NNWeekdayDisplayViewModelType {
       .map({NNCalendar.Weekday(dayIndex: $0.weekday, description: $0.description)})
 
     return Observable.just(weekdays)
+  }
+
+  public var weekdaySelectionReceiver: AnyObserver<Int> {
+    return selectionSb.asObserver()
   }
 }
 

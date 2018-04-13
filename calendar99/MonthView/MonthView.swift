@@ -201,7 +201,7 @@ public extension NNMonthView {
       .disposed(by: disposable)
 
     // Listen to day index selection to know where to reload.
-    viewModel.gridDayIndexSelectionStream
+    viewModel.gridDayIndexSelectionChangesStream
       .map({$0.map({IndexPath(row: $0, section: 0)})})
       .observeOn(MainScheduler.instance)
       .subscribe(onNext: {[weak self] in self?.reloadItems(at: $0)})

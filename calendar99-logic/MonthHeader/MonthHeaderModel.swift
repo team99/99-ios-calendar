@@ -8,15 +8,24 @@
 
 import RxSwift
 
-/// Dependency for month header model.
-public protocol NNMonthHeaderModelDependency: NNMonthControlModelDependency {
-  
+/// Dependency for month header whose components can have defaults.
+public protocol NNMonthHeaderDefaultableModelDependency {
+
   /// Format month description.
   ///
   /// - Parameter components: A ControlComponents instance.
   /// - Returns: A String value.
   func formatMonthDescription(_ comps: NNCalendar.MonthComp) -> String
 }
+
+/// Dependency for month header whose components cannot have defaults.
+public protocol NNMonthHeaderNonDefaultableModelDependency:
+  NNMonthControlModelDependency{}
+
+/// Dependency for month header model.
+public protocol NNMonthHeaderModelDependency:
+  NNMonthHeaderDefaultableModelDependency,
+  NNMonthHeaderNonDefaultableModelDependency {}
 
 /// Model for month header view.
 public protocol NNMonthHeaderModelType:
@@ -41,6 +50,11 @@ public extension NNCalendar.MonthHeader {
       let monthControlModel = NNCalendar.MonthControl.Model(dependency)
       self.init(monthControlModel, dependency)
     }
+
+    convenience public init(_ dependency: NNMonthHeaderNonDefaultableModelDependency) {
+      let defaultDp = DefaultDependency(dependency)
+      self.init(defaultDp)
+    }
   }
 }
 
@@ -64,3 +78,30 @@ extension NNCalendar.MonthHeader.Model: NNMonthControlModelType {
 
 // MARK: - NNMonthHeaderModelType
 extension NNCalendar.MonthHeader.Model: NNMonthHeaderModelType {}
+
+// MARK: - Default dependency.
+public extension NNCalendar.MonthHeader.Model {
+  internal final class DefaultDependency: NNMonthHeaderModelDependency {
+    internal var currentMonthCompReceiver: AnyObserver<NNCalendar.MonthComp> {
+      return nonDefaultable.currentMonthCompReceiver
+    }
+
+    internal var currentMonthCompStream: Observable<NNCalendar.MonthComp> {
+      return nonDefaultable.currentMonthCompStream
+    }
+
+    private let nonDefaultable: NNMonthHeaderNonDefaultableModelDependency
+
+    internal init(_ dependency: NNMonthHeaderNonDefaultableModelDependency) {
+      self.nonDefaultable = dependency
+    }
+
+    internal func formatMonthDescription(_ comps: NNCalendar.MonthComp) -> String {
+      let components = comps.dateComponents()
+      let date = Calendar.current.date(from: components)!
+      let dateFormatter = DateFormatter()
+      dateFormatter.dateFormat = "MMM yyyy"
+      return dateFormatter.string(from: date)
+    }
+  }
+}

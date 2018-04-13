@@ -20,7 +20,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uN7-km-d0J">
-                                <rect key="frame" x="15" y="33.5" width="345" height="601.5"/>
+                                <rect key="frame" x="15" y="33" width="345" height="603"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OAw-Fd-26I" customClass="NNMonthHeaderView" customModule="calendar99">
                                         <rect key="frame" x="0.0" y="0.0" width="345" height="40"/>
@@ -30,7 +30,7 @@
                                         </constraints>
                                     </view>
                                     <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="2bo-eT-edI" customClass="NNMonthSectionView" customModule="calendar99">
-                                        <rect key="frame" x="0.0" y="80" width="345" height="258"/>
+                                        <rect key="frame" x="0.0" y="80" width="345" height="258.5"/>
                                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                         <constraints>
                                             <constraint firstAttribute="height" secondItem="2bo-eT-edI" secondAttribute="width" multiplier="3 / 4" id="2iP-yv-mjW"/>
@@ -44,7 +44,7 @@
                                         <cells/>
                                     </collectionView>
                                     <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="PlQ-do-Q55" customClass="NNMonthView" customModule="calendar99">
-                                        <rect key="frame" x="0.0" y="343" width="345" height="258.5"/>
+                                        <rect key="frame" x="0.0" y="343.5" width="345" height="259.5"/>
                                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                         <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="n1V-TA-W8N">
                                             <size key="itemSize" width="50" height="50"/>

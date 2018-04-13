@@ -10,8 +10,11 @@
 /// underlying logic.
 public final class NNCalendar {
 
+  /// Represents views that are aware of the current month.
+  public final class MonthAware {}
+
   /// Represents views that can control months.
-  internal final class MonthControl {}
+  public final class MonthControl {}
 
   /// Represents the month header display view.
   public final class MonthHeader {}

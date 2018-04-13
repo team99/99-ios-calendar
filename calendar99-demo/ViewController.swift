@@ -51,7 +51,7 @@ public final class ViewController: UIViewController  {
 
 /// BEWARE: INTENTIONAL MEMORY LEAKS HERE. THIS IS ONLY TEMPORARY.
 
-extension ViewController: NNMonthHeaderModelDependency {
+extension ViewController: NNMonthHeaderNonDefaultableModelDependency {
   public var initialMonthCompStream: Single<NNCalendar.MonthComp> {
     let date = Date()
     let month = Calendar.current.component(.month, from: date)
@@ -66,14 +66,6 @@ extension ViewController: NNMonthHeaderModelDependency {
 
   public var currentMonthCompStream: Observable<NNCalendar.MonthComp> {
     return componentSb
-  }
-
-  public func formatMonthDescription(_ comps: NNCalendar.MonthComp) -> String {
-    let components = comps.dateComponents()
-    let date = Calendar.current.date(from: components)!
-    let dateFormatter = DateFormatter()
-    dateFormatter.dateFormat = "MMM yyyy"
-    return dateFormatter.string(from: date)
   }
 }
 
@@ -93,7 +85,7 @@ extension ViewController: NNMonthSectionNonDefaultableModelDependency {
 
 extension ViewController: NNMonthSectionNonDefaultableViewModelDependency {
   public var pastMonthCountFromCurrent: Int {
-    return 1000
+    return 10
   }
 
   public var futureMonthCountFromCurrent: Int {

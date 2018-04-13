@@ -19,6 +19,7 @@
 		D31431AE208062FB0044B936 /* WeekdayDisplayModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D31431AD208062FB0044B936 /* WeekdayDisplayModel.swift */; };
 		D31431B0208068300044B936 /* WeekdayCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D31431AF208068300044B936 /* WeekdayCell.swift */; };
 		D31431B22080684C0044B936 /* WeekdayCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D31431B12080684C0044B936 /* WeekdayCell.xib */; };
+		D31431B7208074150044B936 /* MonthAwareModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D31431B6208074150044B936 /* MonthAwareModel.swift */; };
 		D314670B207DFBEA00A6B186 /* MonthSectionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D314670A207DFBEA00A6B186 /* MonthSectionModel.swift */; };
 		D314670D207E029A00A6B186 /* MonthSectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D314670C207E029A00A6B186 /* MonthSectionViewModel.swift */; };
 		D319C2C0207D9FE0005D1828 /* MonthHeader.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D319C2BF207D9FE0005D1828 /* MonthHeader.xcassets */; };
@@ -122,6 +123,7 @@
 		D31431AD208062FB0044B936 /* WeekdayDisplayModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekdayDisplayModel.swift; sourceTree = "<group>"; };
 		D31431AF208068300044B936 /* WeekdayCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekdayCell.swift; sourceTree = "<group>"; };
 		D31431B12080684C0044B936 /* WeekdayCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WeekdayCell.xib; sourceTree = "<group>"; };
+		D31431B6208074150044B936 /* MonthAwareModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthAwareModel.swift; sourceTree = "<group>"; };
 		D314670A207DFBEA00A6B186 /* MonthSectionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthSectionModel.swift; sourceTree = "<group>"; };
 		D314670C207E029A00A6B186 /* MonthSectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthSectionViewModel.swift; sourceTree = "<group>"; };
 		D319C2BF207D9FE0005D1828 /* MonthHeader.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = MonthHeader.xcassets; sourceTree = "<group>"; };
@@ -268,6 +270,14 @@
 			path = WeekdayDisplay;
 			sourceTree = "<group>";
 		};
+		D31431B3208073AD0044B936 /* MonthAware */ = {
+			isa = PBXGroup;
+			children = (
+				D31431B6208074150044B936 /* MonthAwareModel.swift */,
+			);
+			path = MonthAware;
+			sourceTree = "<group>";
+		};
 		D3146709207DFBD800A6B186 /* MonthSection */ = {
 			isa = PBXGroup;
 			children = (
@@ -391,12 +401,12 @@
 			isa = PBXGroup;
 			children = (
 				D3DA6F9A207C6CEE00A3DFE1 /* calendar99.h */,
-				D319C2B5207D9E2A005D1828 /* DateCell */,
 				D3DA6F9B207C6CEE00A3DFE1 /* Info.plist */,
+				D3DA7015207C876300A3DFE1 /* Util.swift */,
+				D319C2B5207D9E2A005D1828 /* DateCell */,
 				D319C2B3207D9E15005D1828 /* MonthHeader */,
 				D319C2C1207DA4F9005D1828 /* MonthSectionView */,
 				D319C2B4207D9E20005D1828 /* MonthView */,
-				D3DA7015207C876300A3DFE1 /* Util.swift */,
 				D31431A420805CFB0044B936 /* WeekdayView */,
 			);
 			path = calendar99;
@@ -419,6 +429,7 @@
 				D3DA6FD3207C6EC700A3DFE1 /* Entry.swift */,
 				D3136207207FBC860090263A /* DateCalculator */,
 				D31DA87F207EF26F00FB4355 /* DaySelection */,
+				D31431B3208073AD0044B936 /* MonthAware */,
 				D319C2B6207D9E94005D1828 /* MonthControl */,
 				D319C2B7207D9E9B005D1828 /* MonthDisplay */,
 				D31DA88E207F5BA600FB4355 /* MonthGrid */,
@@ -904,6 +915,7 @@
 				D3136209207FBC9E0090263A /* SequentialDateCalculator.swift in Sources */,
 				D31DA894207F686B00FB4355 /* MonthGridFunctionality.swift in Sources */,
 				D3DA702D207CBDE900A3DFE1 /* MonthDisplayModel.swift in Sources */,
+				D31431B7208074150044B936 /* MonthAwareModel.swift in Sources */,
 				D3DA7010207C805300A3DFE1 /* Entity.swift in Sources */,
 				D31431AE208062FB0044B936 /* WeekdayDisplayModel.swift in Sources */,
 				D31C042B207D17C5000C2C75 /* MonthControlModel.swift in Sources */,
