@@ -8,7 +8,8 @@
 
 import calendar99_logic
 
-/// Date implementation for calendar view.
+/// Date cell implementation for calendar view. This is the default cell that
+/// will be used if no custom cells are specified.
 public final class NNDateCell: UICollectionViewCell {
   @IBOutlet fileprivate weak var dateLbl: UILabel!
 

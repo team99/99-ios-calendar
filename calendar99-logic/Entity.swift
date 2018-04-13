@@ -152,6 +152,20 @@ public extension NNCalendar {
   }
 }
 
+/// Weekdays.
+public extension NNCalendar {
+
+  /// Represents a weekday.
+  public struct Weekday: Equatable, CustomStringConvertible {
+    public let dayIndex: Int
+    public let description: String
+
+    public static func ==(_ lhs: Weekday, _ rhs: Weekday) -> Bool {
+      return lhs.dayIndex == rhs.dayIndex
+    }
+  }
+}
+
 // MARK: - Months.
 public extension NNCalendar {
 

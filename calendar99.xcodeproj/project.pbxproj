@@ -12,6 +12,13 @@
 		99EB1FCC7C144B9EC432DFCF /* Pods_calendar99.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D938B372CAFDEAD5B7917D27 /* Pods_calendar99.framework */; };
 		A9FC60253899F296B3E614F9 /* Pods_calendar99_logic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FA7759958763D8ADC1A0A33 /* Pods_calendar99_logic.framework */; };
 		D3136209207FBC9E0090263A /* SequentialDateCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3136208207FBC9E0090263A /* SequentialDateCalculator.swift */; };
+		D31431A320805A240044B936 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = D31431A220805A240044B936 /* README.md */; };
+		D31431A620805D150044B936 /* WeekdayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D31431A520805D150044B936 /* WeekdayView.swift */; };
+		D31431A920805EA10044B936 /* WeekdayAwareViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D31431A820805EA10044B936 /* WeekdayAwareViewModel.swift */; };
+		D31431AC20805FD50044B936 /* WeekdayDisplayViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D31431AB20805FD50044B936 /* WeekdayDisplayViewModel.swift */; };
+		D31431AE208062FB0044B936 /* WeekdayDisplayModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D31431AD208062FB0044B936 /* WeekdayDisplayModel.swift */; };
+		D31431B0208068300044B936 /* WeekdayCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D31431AF208068300044B936 /* WeekdayCell.swift */; };
+		D31431B22080684C0044B936 /* WeekdayCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D31431B12080684C0044B936 /* WeekdayCell.xib */; };
 		D314670B207DFBEA00A6B186 /* MonthSectionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D314670A207DFBEA00A6B186 /* MonthSectionModel.swift */; };
 		D314670D207E029A00A6B186 /* MonthSectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D314670C207E029A00A6B186 /* MonthSectionViewModel.swift */; };
 		D319C2C0207D9FE0005D1828 /* MonthHeader.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D319C2BF207D9FE0005D1828 /* MonthHeader.xcassets */; };
@@ -108,6 +115,13 @@
 		C737F71F74B500EA998EB22F /* Pods_calendar99_logicTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_calendar99_logicTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CA2363311704BDDCFECB5053 /* Pods-calendar99-logic.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-calendar99-logic.debug.xcconfig"; path = "Pods/Target Support Files/Pods-calendar99-logic/Pods-calendar99-logic.debug.xcconfig"; sourceTree = "<group>"; };
 		D3136208207FBC9E0090263A /* SequentialDateCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SequentialDateCalculator.swift; sourceTree = "<group>"; };
+		D31431A220805A240044B936 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		D31431A520805D150044B936 /* WeekdayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekdayView.swift; sourceTree = "<group>"; };
+		D31431A820805EA10044B936 /* WeekdayAwareViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekdayAwareViewModel.swift; sourceTree = "<group>"; };
+		D31431AB20805FD50044B936 /* WeekdayDisplayViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekdayDisplayViewModel.swift; sourceTree = "<group>"; };
+		D31431AD208062FB0044B936 /* WeekdayDisplayModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekdayDisplayModel.swift; sourceTree = "<group>"; };
+		D31431AF208068300044B936 /* WeekdayCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekdayCell.swift; sourceTree = "<group>"; };
+		D31431B12080684C0044B936 /* WeekdayCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WeekdayCell.xib; sourceTree = "<group>"; };
 		D314670A207DFBEA00A6B186 /* MonthSectionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthSectionModel.swift; sourceTree = "<group>"; };
 		D314670C207E029A00A6B186 /* MonthSectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthSectionViewModel.swift; sourceTree = "<group>"; };
 		D319C2BF207D9FE0005D1828 /* MonthHeader.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = MonthHeader.xcassets; sourceTree = "<group>"; };
@@ -227,6 +241,33 @@
 			path = DateCalculator;
 			sourceTree = "<group>";
 		};
+		D31431A420805CFB0044B936 /* WeekdayView */ = {
+			isa = PBXGroup;
+			children = (
+				D31431A520805D150044B936 /* WeekdayView.swift */,
+				D31431AF208068300044B936 /* WeekdayCell.swift */,
+				D31431B12080684C0044B936 /* WeekdayCell.xib */,
+			);
+			path = WeekdayView;
+			sourceTree = "<group>";
+		};
+		D31431A720805E790044B936 /* WeekdayAware */ = {
+			isa = PBXGroup;
+			children = (
+				D31431A820805EA10044B936 /* WeekdayAwareViewModel.swift */,
+			);
+			path = WeekdayAware;
+			sourceTree = "<group>";
+		};
+		D31431AA20805F610044B936 /* WeekdayDisplay */ = {
+			isa = PBXGroup;
+			children = (
+				D31431AB20805FD50044B936 /* WeekdayDisplayViewModel.swift */,
+				D31431AD208062FB0044B936 /* WeekdayDisplayModel.swift */,
+			);
+			path = WeekdayDisplay;
+			sourceTree = "<group>";
+		};
 		D3146709207DFBD800A6B186 /* MonthSection */ = {
 			isa = PBXGroup;
 			children = (
@@ -312,9 +353,9 @@
 		D31DA88E207F5BA600FB4355 /* MonthGrid */ = {
 			isa = PBXGroup;
 			children = (
-				D31DA88F207F5BB100FB4355 /* MonthGridViewModel.swift */,
-				D31DA891207F685C00FB4355 /* MonthGridModel.swift */,
 				D31DA893207F686B00FB4355 /* MonthGridFunctionality.swift */,
+				D31DA891207F685C00FB4355 /* MonthGridModel.swift */,
+				D31DA88F207F5BB100FB4355 /* MonthGridViewModel.swift */,
 			);
 			path = MonthGrid;
 			sourceTree = "<group>";
@@ -322,6 +363,7 @@
 		D3DA6F8D207C6CEE00A3DFE1 = {
 			isa = PBXGroup;
 			children = (
+				D31431A220805A240044B936 /* README.md */,
 				D3DA6F99207C6CEE00A3DFE1 /* calendar99 */,
 				D3DA6FDE207C739400A3DFE1 /* calendar99-demo */,
 				D3DA6FB7207C6D2200A3DFE1 /* calendar99-logic */,
@@ -349,12 +391,13 @@
 			isa = PBXGroup;
 			children = (
 				D3DA6F9A207C6CEE00A3DFE1 /* calendar99.h */,
-				D3DA6F9B207C6CEE00A3DFE1 /* Info.plist */,
-				D3DA7015207C876300A3DFE1 /* Util.swift */,
 				D319C2B5207D9E2A005D1828 /* DateCell */,
+				D3DA6F9B207C6CEE00A3DFE1 /* Info.plist */,
 				D319C2B3207D9E15005D1828 /* MonthHeader */,
 				D319C2C1207DA4F9005D1828 /* MonthSectionView */,
 				D319C2B4207D9E20005D1828 /* MonthView */,
+				D3DA7015207C876300A3DFE1 /* Util.swift */,
+				D31431A420805CFB0044B936 /* WeekdayView */,
 			);
 			path = calendar99;
 			sourceTree = "<group>";
@@ -370,17 +413,19 @@
 		D3DA6FB7207C6D2200A3DFE1 /* calendar99-logic */ = {
 			isa = PBXGroup;
 			children = (
-				D3136207207FBC860090263A /* DateCalculator */,
 				D3DA6FB8207C6D2300A3DFE1 /* calendar99_logic.h */,
 				D3DA6FB9207C6D2300A3DFE1 /* Info.plist */,
 				D3DA700F207C805300A3DFE1 /* Entity.swift */,
 				D3DA6FD3207C6EC700A3DFE1 /* Entry.swift */,
+				D3136207207FBC860090263A /* DateCalculator */,
 				D31DA87F207EF26F00FB4355 /* DaySelection */,
 				D319C2B6207D9E94005D1828 /* MonthControl */,
 				D319C2B7207D9E9B005D1828 /* MonthDisplay */,
 				D31DA88E207F5BA600FB4355 /* MonthGrid */,
 				D319C2B8207D9EA2005D1828 /* MonthHeader */,
 				D3146709207DFBD800A6B186 /* MonthSection */,
+				D31431A720805E790044B936 /* WeekdayAware */,
+				D31431AA20805F610044B936 /* WeekdayDisplay */,
 			);
 			path = "calendar99-logic";
 			sourceTree = "<group>";
@@ -398,12 +443,12 @@
 		D3DA6FDE207C739400A3DFE1 /* calendar99-demo */ = {
 			isa = PBXGroup;
 			children = (
+				D3DA6FEB207C739500A3DFE1 /* Info.plist */,
 				D3DA6FDF207C739400A3DFE1 /* AppDelegate.swift */,
 				D3DA6FE1207C739400A3DFE1 /* ViewController.swift */,
-				D3DA6FE3207C739400A3DFE1 /* Main.storyboard */,
 				D3DA6FE6207C739500A3DFE1 /* Assets.xcassets */,
 				D3DA6FE8207C739500A3DFE1 /* LaunchScreen.storyboard */,
-				D3DA6FEB207C739500A3DFE1 /* Info.plist */,
+				D3DA6FE3207C739400A3DFE1 /* Main.storyboard */,
 			);
 			path = "calendar99-demo";
 			sourceTree = "<group>";
@@ -606,6 +651,8 @@
 			files = (
 				D3DA7029207CA98400A3DFE1 /* MonthHeader.xib in Resources */,
 				D319C2C0207D9FE0005D1828 /* MonthHeader.xcassets in Resources */,
+				D31431B22080684C0044B936 /* WeekdayCell.xib in Resources */,
+				D31431A320805A240044B936 /* README.md in Resources */,
 				D3DA7027207CA55300A3DFE1 /* DateCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -825,10 +872,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				D3DA6FD6207C72D700A3DFE1 /* MonthView.swift in Sources */,
+				D31431A620805D150044B936 /* WeekdayView.swift in Sources */,
 				D3DA7014207C868F00A3DFE1 /* MonthHeader.swift in Sources */,
 				D319C2C3207DA50A005D1828 /* MonthSectionView.swift in Sources */,
 				D3DA6FD8207C735300A3DFE1 /* DateCell.swift in Sources */,
 				D3D63C68207E49A700772F53 /* MonthSectionLayout.swift in Sources */,
+				D31431B0208068300044B936 /* WeekdayCell.swift in Sources */,
 				D3DA7016207C876300A3DFE1 /* Util.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -844,6 +893,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D31431AC20805FD50044B936 /* WeekdayDisplayViewModel.swift in Sources */,
 				D31DA881207EF28800FB4355 /* DaySelectionModel.swift in Sources */,
 				D31DA892207F685C00FB4355 /* MonthGridModel.swift in Sources */,
 				D3DA6FD4207C6EC700A3DFE1 /* Entry.swift in Sources */,
@@ -855,7 +905,9 @@
 				D31DA894207F686B00FB4355 /* MonthGridFunctionality.swift in Sources */,
 				D3DA702D207CBDE900A3DFE1 /* MonthDisplayModel.swift in Sources */,
 				D3DA7010207C805300A3DFE1 /* Entity.swift in Sources */,
+				D31431AE208062FB0044B936 /* WeekdayDisplayModel.swift in Sources */,
 				D31C042B207D17C5000C2C75 /* MonthControlModel.swift in Sources */,
+				D31431A920805EA10044B936 /* WeekdayAwareViewModel.swift in Sources */,
 				D3DA6FCE207C6E7800A3DFE1 /* MonthHeaderViewModel.swift in Sources */,
 				D31DA890207F5BB100FB4355 /* MonthGridViewModel.swift in Sources */,
 				D31C0429207D1649000C2C75 /* MonthControlViewModel.swift in Sources */,

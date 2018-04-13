@@ -20,11 +20,9 @@ public protocol NNMonthGridViewModelFunctionality {
 }
 
 /// Dependency for month-grid view model.
-public protocol NNMonthGridViewModelDependency: NNMonthGridViewModelFunctionality {
-
-  /// Get the first day of a week (e.g. Monday).
-  var firstDayOfWeek: Int { get }
-}
+public protocol NNMonthGridViewModelDependency:
+  NNMonthGridViewModelFunctionality,
+  NNWeekdayAwareViewModelDependency {}
 
 /// View model for month-grid based views.
 public protocol NNMonthGridViewModelType:

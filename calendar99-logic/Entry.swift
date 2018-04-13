@@ -33,4 +33,11 @@ public final class NNCalendar {
 
   /// Represents day selection views.
   public final class DaySelection {}
+
+  /// Represents views that are weekday-aware, such as the weekday view and
+  /// month-grid based views.
+  public final class WeekdayAware {}
+
+  /// Represents a view that displays week days.
+  public final class WeekdayView {}
 }
