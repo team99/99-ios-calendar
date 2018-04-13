@@ -56,9 +56,9 @@ public extension NNCalendar.WeekdayDisplay.Model {
   internal final class DefaultDependency: NNWeekdayDisplayModelDependency {
     func weekdayDescription(_ weekday: Int) -> String {
       let date = Calendar.current.date(bySetting: .weekday, value: weekday, of: Date())
-      let dateFormatter = DateFormatter()
-      dateFormatter.dateFormat = "EEE"
-      return date.map({dateFormatter.string(from: $0)}).getOrElse("")
+      let formatter = DateFormatter()
+      formatter.dateFormat = "EEE"
+      return date.map({formatter.string(from: $0).uppercased()}).getOrElse("")
     }
   }
 }

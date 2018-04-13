@@ -44,7 +44,8 @@ public final class NNCalendar {
   /// Represents date calculators.
   public final class DateCalculator {}
 
-  /// Represents day selection views.
+  /// Represents day selection views, including the month view and month section
+  /// view.
   public final class DaySelection {}
 
   /// Represents views that are weekday-aware, such as the weekday view and

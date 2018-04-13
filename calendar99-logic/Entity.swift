@@ -180,6 +180,15 @@ public extension NNCalendar {
     public let isCurrentMonth: Bool
     public let isSelected: Bool
 
+    /// Check if this Day is today.
+    public var isToday: Bool {
+      let calendar = Calendar.current
+      let calendarComponents: Set<Calendar.Component> = [.day, .month, .year]
+      let components = calendar.dateComponents(calendarComponents, from: date)
+      let todayComps = calendar.dateComponents(calendarComponents, from: Date())
+      return components == todayComps
+    }
+
     public var description: String {
       return date.description
     }
