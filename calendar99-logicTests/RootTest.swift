@@ -12,11 +12,13 @@ import XCTest
 public class RootTest: XCTestCase {
   public var iterations: Int!
   public var waitDuration: TimeInterval!
+  public var firstDayOfWeek: Int!
 
   override public func setUp() {
     super.setUp()
     iterations = 1000
     waitDuration = 0.2
+    firstDayOfWeek = 2
     continueAfterFailure = false
   }
 }

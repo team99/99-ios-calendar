@@ -13,28 +13,29 @@ import XCTest
 /// Tests for date calculator.
 public final class SequentialDateCalculatorTest: RootTest {
   fileprivate var calculator: NNCalendar.DateCalculator.Sequential!
-  fileprivate var currentMonthComp: NNCalendar.MonthComp!
   fileprivate var dayCount: Int!
 
   override public func setUp() {
     super.setUp()
     calculator = NNCalendar.DateCalculator.Sequential()
-    currentMonthComp = NNCalendar.MonthComp(month: 4, year: 2018)
     dayCount = 42
     continueAfterFailure = false
   }
 
   public func test_calculateDayRange_shouldWork() {
-    /// Setup & When
+    /// Setup
+    var monthComp = NNCalendar.MonthComp(Date())
+
+    /// When
     for _ in 0..<iterations! {
-      let range = calculator.calculateDateRange(currentMonthComp, 1, 6, 7)
-      currentMonthComp = currentMonthComp.with(monthOffset: 1)!
+      let range = calculator.calculateDateRange(monthComp, firstDayOfWeek!, 6, 7)
+      monthComp = monthComp.with(monthOffset: 1)!
 
       /// Then
       let firstDate = range.first!
       let weekdayComp = Calendar.current.component(.weekday, from: firstDate)
       XCTAssertEqual(range.count, dayCount!)
-      XCTAssertEqual(weekdayComp, 1)
+      XCTAssertEqual(weekdayComp, firstDayOfWeek!)
 
       for (ix, date) in range.enumerated() {
         if ix != range.count - 1 {
@@ -49,14 +50,14 @@ public final class SequentialDateCalculatorTest: RootTest {
 
   public func test_calculateDateWithOffset_shouldWork() {
     /// Setup
-    var monthComp = currentMonthComp!
+    var monthComp = NNCalendar.MonthComp(Date())
 
     for ix in 0..<200 {
       var prevDate: Date?
 
       /// When
       for jx in 0..<iterations! {
-        let date = calculator.calculateDateWithOffset(monthComp, 1, jx)!
+        let date = calculator.calculateDateWithOffset(monthComp, firstDayOfWeek!, jx)!
 
         if let prevDate = prevDate {
           let diff = date.timeIntervalSince(prevDate) / 60 / 60 / 24
@@ -90,15 +91,22 @@ public final class SequentialDateCalculatorTest: RootTest {
 
       let changedSelect = calculator.extractChanges(prevSelect, currentSelect)
 
-      let gridSelections = calculator
-        .calculateGridSelection(months, 1, prevSelect, currentSelect)
+      let gridSelections = calculator.calculateGridSelection(
+          months,
+          firstDayOfWeek!,
+          prevSelect,
+          currentSelect
+      )
 
       /// Then
       for gridSelection in gridSelections {
         let selectedMonth = months[gridSelection.monthIndex].monthComp
 
-        let selectedDate = calculator
-          .calculateDateWithOffset(selectedMonth, 1, gridSelection.dayIndex)!
+        let selectedDate = calculator.calculateDateWithOffset(
+          selectedMonth,
+          firstDayOfWeek!,
+          gridSelection.dayIndex
+        )!
 
         XCTAssertTrue(changedSelect.contains(selectedDate))
       }
@@ -118,13 +126,17 @@ public final class SequentialDateCalculatorTest: RootTest {
       let selectionCount = Int.random(1, dayCount!)
 
       let currentSelect = Set((0..<selectionCount).map({
-        calculator.calculateDateWithOffset(currentComp, 1, $0)!
+        calculator.calculateDateWithOffset(currentComp, firstDayOfWeek!, $0)!
       }))
 
       let changedSelect = calculator.extractChanges(prevSelect, currentSelect)
 
-      let gridSelections = calculator
-        .calculateGridSelection(currentMonth, 1, prevSelect, currentSelect)
+      let gridSelections = calculator.calculateGridSelection(
+        currentMonth,
+        firstDayOfWeek!,
+        prevSelect,
+        currentSelect
+      )
 
       /// Then
       for gridSelection in gridSelections {
@@ -133,8 +145,11 @@ public final class SequentialDateCalculatorTest: RootTest {
         // month comp, because we calculate for the previous and next months as
         // well.
         if gridSelection.monthIndex == currentComp.month {
-          let selectedDate = calculator
-            .calculateDateWithOffset(currentComp, 1, gridSelection.dayIndex)!
+          let selectedDate = calculator.calculateDateWithOffset(
+            currentComp,
+            firstDayOfWeek!,
+            gridSelection.dayIndex
+          )!
 
           XCTAssertTrue(changedSelect.contains(selectedDate))
         }
