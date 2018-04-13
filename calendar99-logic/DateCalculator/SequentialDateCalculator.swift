@@ -10,8 +10,7 @@ public extension NNCalendar.DateCalculator {
 
   /// Sequential date calculator.
   public final class Sequential {
-    public init() {}
-
+    
     /// Calculate the first date in the grid.
     fileprivate func calculateFirstDate(_ comps: NNCalendar.MonthComp,
                                         _ firstDayOfWeek: Int) -> Date? {
@@ -78,9 +77,11 @@ extension NNCalendar.DateCalculator.Sequential: NNGridSelectionCalculatorType {
     let monthComp = NNCalendar.MonthComp(selection)
 
     return months.enumerated()
-      .first(where: {$0.1.month == monthComp.month && $0.1.year == monthComp.year})
+      .first(where: {
+        $0.1.month == monthComp.month && $0.1.year == monthComp.year
+      })
       .map({(offset: Int, month: NNCalendar.Month) in
-        self.calculateGridSelection(months, month, offset, firstDayOfWeek, selection)
+        calculateGridSelection(months, month, offset, firstDayOfWeek, selection)
       })
       .getOrElse([])
   }

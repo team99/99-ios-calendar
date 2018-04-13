@@ -12,7 +12,6 @@ def allViewPods
 end
 
 target 'calendar99' do
-  # Comment the next line if you're not using Swift and don't want to use dynamic frameworks
   use_frameworks!
   allLogicPods
   allViewPods
@@ -21,26 +20,19 @@ target 'calendar99' do
 
   target 'calendar99Tests' do
     inherit! :search_paths
-    # Pods for testing
-    allLogicPods
-  end
-
-  target 'calendar99-logic' do
-    inherit! :search_paths
-    # Pods for testing
-    allLogicPods
-  end
-
-  target 'calendar99-logicTests' do
-    inherit! :search_paths
-    # Pods for testing
-    allLogicPods
   end
 
   target 'calendar99-demo' do
     inherit! :search_paths
-    # Pods for testing
-    allLogicPods
-    allViewPods
+  end
+end
+
+target 'calendar99-logic' do
+  inherit! :search_paths
+  use_frameworks!
+  allLogicPods
+
+  target 'calendar99-logicTests' do
+    inherit! :search_paths
   end
 end

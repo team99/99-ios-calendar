@@ -60,9 +60,6 @@ extension NNCalendar.MonthControl.Model: NNMonthControlModelType {
                             _ monthOffset: Int) -> NNCalendar.MonthComp? {
     let prevMonth = prevComponents.month
     let prevYear = prevComponents.year
-
-    return NNCalendar.DateUtil
-      .newMonthAndYear(prevMonth, prevYear, monthOffset)
-      .map({NNCalendar.MonthComp(month: $0.month, year: $0.year)})
+    return NNCalendar.DateUtil.newMonthComp(prevComponents, monthOffset)
   }
 }

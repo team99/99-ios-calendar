@@ -21,20 +21,16 @@ public final class DateUtilTest: XCTestCase {
   public func test_newMonthAndYear_shouldWork() {
     /// Setup
     var date = Date()
-    var month = Calendar.current.component(.month, from: date)
-    var year = Calendar.current.component(.year, from: date)
+    var components = NNCalendar.MonthComp(date)
 
     /// When
     for _ in 0..<iterations! {
-      let newMonthAndYear = NNCalendar.DateUtil.newMonthAndYear(month, year, 1)
-      month = newMonthAndYear!.month
-      year = newMonthAndYear!.year
-      var components = DateComponents()
-      components.setValue(month, for: .month)
-      components.setValue(year, for: .year)
-      let newDate = Calendar.current.date(from: components)!
+      let newComps = NNCalendar.DateUtil.newMonthComp(components, 1)!
+      let dateComponents = newComps.dateComponents()
+      let newDate = Calendar.current.date(from: dateComponents)!
       let oldDate = date
       date = newDate
+      components = newComps
 
       /// Then
       XCTAssertGreaterThan(newDate, oldDate)
