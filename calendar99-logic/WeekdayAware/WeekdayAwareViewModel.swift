@@ -20,6 +20,8 @@ public extension NNCalendar.WeekdayAware {
 
 // MARK: - Default dependencies.
 public extension NNCalendar.WeekdayAware.ViewModel {
+
+  /// Default dependency for weekday-aware view models.
   internal final class DefaultDependency: NNWeekdayAwareViewModelDependency {
     internal var firstDayOfWeek: Int {
       return 1

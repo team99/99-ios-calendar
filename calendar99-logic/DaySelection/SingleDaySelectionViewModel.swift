@@ -1,5 +1,5 @@
 //
-//  DaySelectionViewModel.swift
+//  SingleDaySelectionViewModel.swift
 //  calendar99-logic
 //
 //  Created by Hai Pham on 12/4/18.
@@ -8,8 +8,8 @@
 
 import RxSwift
 
-/// View model for day selection views.
-public protocol NNDaySelectionViewModelType: NNDaySelectionFunctionality {
+/// View model for single day selection views.
+public protocol NNSingleDaySelectionViewModelType: NNSingleDaySelectionFunction {
 
   /// Receive single dates and compare them against the global selections to
   /// decide whether to select or deselect.
@@ -24,11 +24,11 @@ public extension NNCalendar.DaySelection {
 
   /// View model implementation.
   public final class ViewModel {
-    fileprivate let model: NNDaySelectionModelType
+    fileprivate let model: NNSingleDaySelectionModelType
     fileprivate let dateSelectionSbj: PublishSubject<Date>
     fileprivate let disposable: DisposeBag
 
-    public init(_ model: NNDaySelectionModelType) {
+    public init(_ model: NNSingleDaySelectionModelType) {
       self.model = model
       disposable = DisposeBag()
       dateSelectionSbj = PublishSubject()
@@ -36,19 +36,21 @@ public extension NNCalendar.DaySelection {
   }
 }
 
-// MARK: - NNDaySelectionFunctionality
-extension NNCalendar.DaySelection.ViewModel: NNDaySelectionFunctionality {
+// MARK: - NNDaySelectionFunction
+extension NNCalendar.DaySelection.ViewModel: NNSingleDaySelectionFunction {
   public func isDateSelected(_ date: Date) -> Bool {
     return model.isDateSelected(date)
   }
 }
 
 // MARK: - NNDaySelectionViewModelType
-extension NNCalendar.DaySelection.ViewModel: NNDaySelectionViewModelType {
+extension NNCalendar.DaySelection.ViewModel: NNSingleDaySelectionViewModelType {
   public var dateSelectionReceiver: AnyObserver<Date> {
     return dateSelectionSbj.asObserver()
   }
 
+  /// Every time a day is selected, we need to check whether it is already in
+  /// the selection set. If it is, remove it.
   public func setupDaySelectionBindings() {
     let disposable = self.disposable
 

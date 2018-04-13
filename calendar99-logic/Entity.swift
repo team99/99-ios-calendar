@@ -27,7 +27,11 @@ internal enum MonthDirection {
 // MARK: - DaySelectionIndex.
 public extension NNCalendar {
 
-  /// Represents a month-grid selection.
+  /// Represents a month-grid selection. A GridSelection comprises the month
+  /// index (with which we can identify the particular Month in question in
+  /// a Month Array) and the day index (i.e. the index of the Date in a Month).
+  /// This is essentially an IndexPath, but since we cannot include UIKit in
+  /// logic code, we have this to replace.
   public struct GridSelection: Equatable, Hashable, CustomStringConvertible {
     public let monthIndex: Int
     public let dayIndex: Int
@@ -51,6 +55,9 @@ public extension NNCalendar {
 public extension NNCalendar {
 
   /// Represents a month-based component that can be controlled by the user.
+  /// This is used throughout the library, esp. by the month header (whereby
+  /// there are forward and backward arrows to control the currently selected
+  /// month component).
   public struct MonthComp: Equatable, CustomStringConvertible {
     public let month: Int
     public let year: Int
@@ -107,6 +114,53 @@ public extension NNCalendar {
           calendar.component(.year, from: $0
         ))})
         .map({NNCalendar.MonthComp(month: $0, year: $1)})
+    }
+
+    /// Get all Dates with a particular weekday that lies within this month
+    /// component.
+    ///
+    /// - Parameter weekday: A weekday value.
+    /// - Returns: A Set of Date.
+    public func datesWithWeekday(_ weekday: Int) -> Set<Date> {
+      let calendar = Calendar.current
+      let dateComponents = self.dateComponents()
+
+      return calendar.date(from: dateComponents)
+        .flatMap({date -> Date? in
+          let firstDateWeekday = calendar.component(.weekday, from: date)
+          let dateOffset: Int
+
+          if firstDateWeekday > weekday {
+            dateOffset = 7 - (firstDateWeekday - weekday)
+          } else {
+            dateOffset = weekday - firstDateWeekday
+          }
+
+          // Need to find the first day in a month that has the specified
+          // weekday.
+          return calendar.date(byAdding: .day, value: dateOffset, to: date)
+        })
+        .map({(date: Date) -> Set<Date> in
+          var results = Set<Date>()
+          var currentDate = date
+
+          // Only consider dates that lie within this month component. As soon
+          // as the current date gets out of range, skip it.
+          while contains(currentDate) {
+            results.insert(currentDate)
+
+            guard let newCurrentDate = calendar
+              .date(byAdding: .day, value: 7, to: currentDate) else
+            {
+              break
+            }
+
+            currentDate = newCurrentDate
+          }
+
+          return results
+        })
+        .getOrElse([])
     }
 
     public static func ==(_ lhs: MonthComp, _ rhs: MonthComp) -> Bool {
@@ -169,8 +223,11 @@ public extension NNCalendar {
 // MARK: - Months.
 public extension NNCalendar {
 
-  /// Represents a container for months that can be used to display on the
-  /// month section view.
+  /// Represents a container for months that can be used to display on the month
+  /// section view. Each Month will have a number of Days (generally 42), but
+  /// we calculate Days lazily when they are requested, instead of upfront, in
+  /// order to minimize storage esp. when we have a large number of Months to
+  /// display.
   public struct Month: Equatable, CustomStringConvertible {
     public let dayCount: Int
     public let monthComp: MonthComp

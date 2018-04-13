@@ -74,7 +74,7 @@ extension NNCalendar.DateCalculator.Sequential: NNMultiMonthGridSelectionCalcula
   public func calculateGridSelection(_ months: [NNCalendar.Month],
                                      _ firstDayOfWeek: Int,
                                      _ selection: Date)
-    -> [NNCalendar.GridSelection]
+    -> Set<NNCalendar.GridSelection>
   {
     let monthComp = NNCalendar.MonthComp(selection)
 
@@ -97,7 +97,7 @@ extension NNCalendar.DateCalculator.Sequential: NNMultiMonthGridSelectionCalcula
                                           _ monthOffset: Int,
                                           _ firstDayOfWeek: Int,
                                           _ selection: Date)
-    -> [NNCalendar.GridSelection]
+    -> Set<NNCalendar.GridSelection>
   {
     let calculate = {(month: NNCalendar.Month, offset: Int) -> NNCalendar.GridSelection? in
       if let firstDate = self.calculateFirstDate(month.monthComp, firstDayOfWeek) {
@@ -112,19 +112,19 @@ extension NNCalendar.DateCalculator.Sequential: NNMultiMonthGridSelectionCalcula
       return Optional.nothing()
     }
 
-    var gridSelections = [NNCalendar.GridSelection]()
-    calculate(month, monthOffset).map({gridSelections.append($0)})
+    var gridSelections = Set<NNCalendar.GridSelection>()
+    _ = calculate(month, monthOffset).map({gridSelections.insert($0)})
     let prevMonthOffset = monthOffset - 1
     let nextMonthOffset = monthOffset + 1
 
     if prevMonthOffset >= 0 && prevMonthOffset < months.count {
       let prevMonth = months[prevMonthOffset]
-      calculate(prevMonth, prevMonthOffset).map({gridSelections.append($0)})
+      _ = calculate(prevMonth, prevMonthOffset).map({gridSelections.insert($0)})
     }
 
     if nextMonthOffset >= 0 && nextMonthOffset < months.count {
       let nextMonth = months[nextMonthOffset]
-      calculate(nextMonth, nextMonthOffset).map({gridSelections.append($0)})
+      _ = calculate(nextMonth, nextMonthOffset).map({gridSelections.insert($0)})
     }
 
     return gridSelections
@@ -140,7 +140,7 @@ extension NNCalendar.DateCalculator.Sequential: NNSingleMonthGridSelectionCalcul
   public func calculateGridSelection(_ month: NNCalendar.Month,
                                      _ firstDayOfWeek: Int,
                                      _ selection: Date)
-    -> [NNCalendar.GridSelection]
+    -> Set<NNCalendar.GridSelection>
   {
     var months = [NNCalendar.Month]()
     let calendar = Calendar.current

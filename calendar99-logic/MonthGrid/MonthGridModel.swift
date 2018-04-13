@@ -9,10 +9,10 @@
 import RxSwift
 
 /// Dependency for month grid model.
-public protocol NNMonthGridModelDependency: NNMonthGridFunctionality {}
+public protocol NNMonthGridModelDependency {}
 
 /// Model for month grid views.
-public protocol NNMonthGridModelType: NNMonthGridFunctionality {}
+public protocol NNMonthGridModelType {}
 
 // MARK: - Model.
 public extension NNCalendar.MonthGrid {

@@ -15,7 +15,7 @@ public protocol NNMonthDisplayViewModelDependency: NNMonthGridViewModelDependenc
 public protocol NNMonthDisplayViewModelType:
   NNMonthControlViewModelType,
   NNMonthGridViewModelType,
-  NNDaySelectionViewModelType
+  NNSingleDaySelectionViewModelType
 {
   /// Stream days to display on the month view.
   var dayStream: Observable<[NNCalendar.Day]> { get }
@@ -25,9 +25,12 @@ public protocol NNMonthDisplayViewModelType:
   /// that this stream only emits changes between the previous and current
   /// selections.
   ///
-  /// We only return the day indexes because for this view, there is only one
-  /// month active at any time.
-  var gridDayIndexSelectionChangesStream: Observable<[Int]> { get }
+  /// For e.g., the previous selections were [1, 2, 3] and the new selections
+  /// are [1, 2, 3, 4], only 4 is emitted.
+  ///
+  /// We only return the day indexes because for this view since there is only
+  /// one month active at any time.
+  var gridDayIndexSelectionChangesStream: Observable<Set<Int>> { get }
 
   /// Set up month display bindings.
   func setupMonthDisplayBindings()
@@ -48,7 +51,7 @@ public extension NNCalendar.MonthDisplay {
   public final class ViewModel {
     fileprivate let monthControlVM: NNMonthControlViewModelType
     fileprivate let monthGridVM: NNMonthGridViewModelType
-    fileprivate let daySelectionVM: NNDaySelectionViewModelType
+    fileprivate let daySelectionVM: NNSingleDaySelectionViewModelType
     fileprivate let dependency: NNMonthDisplayViewModelDependency
     fileprivate let model: NNMonthDisplayModelType
     fileprivate let daySbj: BehaviorSubject<[NNCalendar.Day]?>
@@ -56,7 +59,7 @@ public extension NNCalendar.MonthDisplay {
 
     required public init(_ monthControlVM: NNMonthControlViewModelType,
                          _ monthGridVM: NNMonthGridViewModelType,
-                         _ daySelectionVM: NNDaySelectionViewModelType,
+                         _ daySelectionVM: NNSingleDaySelectionViewModelType,
                          _ dependency: NNMonthDisplayViewModelDependency,
                          _ model: NNMonthDisplayModelType) {
       self.monthControlVM = monthControlVM
@@ -98,8 +101,8 @@ extension NNCalendar.MonthDisplay.ViewModel: NNMonthControlViewModelType {
   }
 }
 
-// MARK: - NNMonthGridViewModelFunctionality
-extension NNCalendar.MonthDisplay.ViewModel: NNMonthGridViewModelFunctionality {
+// MARK: - NNMonthGridViewModelFunction
+extension NNCalendar.MonthDisplay.ViewModel: NNMonthGridViewModelFunction {
   public var rowCount: Int {
     return dependency.rowCount
   }
@@ -132,7 +135,7 @@ extension NNCalendar.MonthDisplay.ViewModel: NNMonthDisplayViewModelType {
     return model.currentMonthCompStream.map({NNCalendar.Month($0, dayCount)})
   }
 
-  public var gridDayIndexSelectionChangesStream: Observable<[Int]> {
+  public var gridDayIndexSelectionChangesStream: Observable<Set<Int>> {
     let firstDayOfWeek = dependency.firstDayOfWeek
 
     return model.allDateSelectionStream
@@ -142,7 +145,7 @@ extension NNCalendar.MonthDisplay.ViewModel: NNMonthDisplayViewModelType {
       .map({[weak self] in self?.model
         .calculateGridSelection($0, firstDayOfWeek, $1.prev, $1.current)})
       .filter({$0.isSome}).map({$0!})
-      .map({$0.map({$0.dayIndex})})
+      .map({Set($0.map({$0.dayIndex}))})
   }
 
   public func setupMonthDisplayBindings() {
@@ -174,15 +177,15 @@ extension NNCalendar.MonthDisplay.ViewModel: NNMonthDisplayViewModelType {
   }
 }
 
-// MARK: - NNDaySelectionFunctionality
-extension NNCalendar.MonthDisplay.ViewModel: NNDaySelectionFunctionality {
+// MARK: - NNDaySelectionFunction
+extension NNCalendar.MonthDisplay.ViewModel: NNSingleDaySelectionFunction {
   public func isDateSelected(_ date: Date) -> Bool {
     return daySelectionVM.isDateSelected(date)
   }
 }
 
 // MARK: - NNDaySelectionViewModelType
-extension NNCalendar.MonthDisplay.ViewModel: NNDaySelectionViewModelType {
+extension NNCalendar.MonthDisplay.ViewModel: NNSingleDaySelectionViewModelType {
   public var dateSelectionReceiver: AnyObserver<Date> {
     return daySelectionVM.dateSelectionReceiver
   }

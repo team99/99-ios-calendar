@@ -9,11 +9,11 @@
 import RxSwift
 
 /// Shared functionalities between the model and its dependency.
-public protocol NNMonthAwareModelFunctionality {
+public protocol NNMonthAwareModelFunction {
 
   /// Stream the current selected components.
   var currentMonthCompStream: Observable<NNCalendar.MonthComp> { get }
 }
 
 /// Dependency for month-aware model.
-public protocol NNMonthAwareModelDependency: NNMonthAwareModelFunctionality {}
+public protocol NNMonthAwareModelDependency: NNMonthAwareModelFunction {}

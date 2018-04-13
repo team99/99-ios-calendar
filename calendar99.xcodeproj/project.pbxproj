@@ -20,7 +20,9 @@
 		D31431B0208068300044B936 /* WeekdayCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D31431AF208068300044B936 /* WeekdayCell.swift */; };
 		D31431B22080684C0044B936 /* WeekdayCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D31431B12080684C0044B936 /* WeekdayCell.xib */; };
 		D31431B7208074150044B936 /* MonthAwareModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D31431B6208074150044B936 /* MonthAwareModel.swift */; };
-		D31431B9208076FC0044B936 /* SelectableWeekdayDisplayModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D31431B8208076FC0044B936 /* SelectableWeekdayDisplayModel.swift */; };
+		D31431B9208076FC0044B936 /* SelectableWeekdayModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D31431B8208076FC0044B936 /* SelectableWeekdayModel.swift */; };
+		D31431BB208079D70044B936 /* SelectableWeekdayViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D31431BA208079D70044B936 /* SelectableWeekdayViewModel.swift */; };
+		D31431BF20809A4A0044B936 /* MultiDaySelectionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D31431BE20809A4A0044B936 /* MultiDaySelectionModel.swift */; };
 		D314670B207DFBEA00A6B186 /* MonthSectionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D314670A207DFBEA00A6B186 /* MonthSectionModel.swift */; };
 		D314670D207E029A00A6B186 /* MonthSectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D314670C207E029A00A6B186 /* MonthSectionViewModel.swift */; };
 		D319C2C0207D9FE0005D1828 /* MonthHeader.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D319C2BF207D9FE0005D1828 /* MonthHeader.xcassets */; };
@@ -29,12 +31,11 @@
 		D31C042B207D17C5000C2C75 /* MonthControlModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D31C042A207D17C5000C2C75 /* MonthControlModel.swift */; };
 		D31C042D207D1BA6000C2C75 /* DateCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D31C042C207D1BA6000C2C75 /* DateCalculator.swift */; };
 		D31C042F207D2106000C2C75 /* SequentialDateCalculatorTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D31C042E207D2106000C2C75 /* SequentialDateCalculatorTest.swift */; };
-		D31DA881207EF28800FB4355 /* DaySelectionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D31DA880207EF28800FB4355 /* DaySelectionModel.swift */; };
-		D31DA885207EF47E00FB4355 /* DaySelectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D31DA884207EF47E00FB4355 /* DaySelectionViewModel.swift */; };
-		D31DA889207F221B00FB4355 /* DaySelectionFunctionality.swift in Sources */ = {isa = PBXBuildFile; fileRef = D31DA888207F221B00FB4355 /* DaySelectionFunctionality.swift */; };
+		D31DA881207EF28800FB4355 /* SingleDaySelectionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D31DA880207EF28800FB4355 /* SingleDaySelectionModel.swift */; };
+		D31DA885207EF47E00FB4355 /* SingleDaySelectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D31DA884207EF47E00FB4355 /* SingleDaySelectionViewModel.swift */; };
+		D31DA889207F221B00FB4355 /* SingleDaySelectionFunctionality.swift in Sources */ = {isa = PBXBuildFile; fileRef = D31DA888207F221B00FB4355 /* SingleDaySelectionFunctionality.swift */; };
 		D31DA890207F5BB100FB4355 /* MonthGridViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D31DA88F207F5BB100FB4355 /* MonthGridViewModel.swift */; };
 		D31DA892207F685C00FB4355 /* MonthGridModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D31DA891207F685C00FB4355 /* MonthGridModel.swift */; };
-		D31DA894207F686B00FB4355 /* MonthGridFunctionality.swift in Sources */ = {isa = PBXBuildFile; fileRef = D31DA893207F686B00FB4355 /* MonthGridFunctionality.swift */; };
 		D3D63C68207E49A700772F53 /* MonthSectionLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3D63C67207E49A700772F53 /* MonthSectionLayout.swift */; };
 		D3DA6FA1207C6CEE00A3DFE1 /* calendar99.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3DA6F97207C6CEE00A3DFE1 /* calendar99.framework */; };
 		D3DA6FA8207C6CEE00A3DFE1 /* calendar99.h in Headers */ = {isa = PBXBuildFile; fileRef = D3DA6F9A207C6CEE00A3DFE1 /* calendar99.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -125,7 +126,9 @@
 		D31431AF208068300044B936 /* WeekdayCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekdayCell.swift; sourceTree = "<group>"; };
 		D31431B12080684C0044B936 /* WeekdayCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WeekdayCell.xib; sourceTree = "<group>"; };
 		D31431B6208074150044B936 /* MonthAwareModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthAwareModel.swift; sourceTree = "<group>"; };
-		D31431B8208076FC0044B936 /* SelectableWeekdayDisplayModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectableWeekdayDisplayModel.swift; sourceTree = "<group>"; };
+		D31431B8208076FC0044B936 /* SelectableWeekdayModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectableWeekdayModel.swift; sourceTree = "<group>"; };
+		D31431BA208079D70044B936 /* SelectableWeekdayViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectableWeekdayViewModel.swift; sourceTree = "<group>"; };
+		D31431BE20809A4A0044B936 /* MultiDaySelectionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiDaySelectionModel.swift; sourceTree = "<group>"; };
 		D314670A207DFBEA00A6B186 /* MonthSectionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthSectionModel.swift; sourceTree = "<group>"; };
 		D314670C207E029A00A6B186 /* MonthSectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthSectionViewModel.swift; sourceTree = "<group>"; };
 		D319C2BF207D9FE0005D1828 /* MonthHeader.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = MonthHeader.xcassets; sourceTree = "<group>"; };
@@ -134,12 +137,11 @@
 		D31C042A207D17C5000C2C75 /* MonthControlModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthControlModel.swift; sourceTree = "<group>"; };
 		D31C042C207D1BA6000C2C75 /* DateCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateCalculator.swift; sourceTree = "<group>"; };
 		D31C042E207D2106000C2C75 /* SequentialDateCalculatorTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SequentialDateCalculatorTest.swift; sourceTree = "<group>"; };
-		D31DA880207EF28800FB4355 /* DaySelectionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DaySelectionModel.swift; sourceTree = "<group>"; };
-		D31DA884207EF47E00FB4355 /* DaySelectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DaySelectionViewModel.swift; sourceTree = "<group>"; };
-		D31DA888207F221B00FB4355 /* DaySelectionFunctionality.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DaySelectionFunctionality.swift; sourceTree = "<group>"; };
+		D31DA880207EF28800FB4355 /* SingleDaySelectionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleDaySelectionModel.swift; sourceTree = "<group>"; };
+		D31DA884207EF47E00FB4355 /* SingleDaySelectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleDaySelectionViewModel.swift; sourceTree = "<group>"; };
+		D31DA888207F221B00FB4355 /* SingleDaySelectionFunctionality.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleDaySelectionFunctionality.swift; sourceTree = "<group>"; };
 		D31DA88F207F5BB100FB4355 /* MonthGridViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthGridViewModel.swift; sourceTree = "<group>"; };
 		D31DA891207F685C00FB4355 /* MonthGridModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthGridModel.swift; sourceTree = "<group>"; };
-		D31DA893207F686B00FB4355 /* MonthGridFunctionality.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthGridFunctionality.swift; sourceTree = "<group>"; };
 		D3D63C67207E49A700772F53 /* MonthSectionLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthSectionLayout.swift; sourceTree = "<group>"; };
 		D3DA6F97207C6CEE00A3DFE1 /* calendar99.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = calendar99.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D3DA6F9A207C6CEE00A3DFE1 /* calendar99.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = calendar99.h; sourceTree = "<group>"; };
@@ -266,7 +268,8 @@
 		D31431AA20805F610044B936 /* WeekdayDisplay */ = {
 			isa = PBXGroup;
 			children = (
-				D31431B8208076FC0044B936 /* SelectableWeekdayDisplayModel.swift */,
+				D31431B8208076FC0044B936 /* SelectableWeekdayModel.swift */,
+				D31431BA208079D70044B936 /* SelectableWeekdayViewModel.swift */,
 				D31431AD208062FB0044B936 /* WeekdayDisplayModel.swift */,
 				D31431AB20805FD50044B936 /* WeekdayDisplayViewModel.swift */,
 			);
@@ -356,9 +359,10 @@
 		D31DA87F207EF26F00FB4355 /* DaySelection */ = {
 			isa = PBXGroup;
 			children = (
-				D31DA880207EF28800FB4355 /* DaySelectionModel.swift */,
-				D31DA884207EF47E00FB4355 /* DaySelectionViewModel.swift */,
-				D31DA888207F221B00FB4355 /* DaySelectionFunctionality.swift */,
+				D31431BE20809A4A0044B936 /* MultiDaySelectionModel.swift */,
+				D31DA888207F221B00FB4355 /* SingleDaySelectionFunctionality.swift */,
+				D31DA880207EF28800FB4355 /* SingleDaySelectionModel.swift */,
+				D31DA884207EF47E00FB4355 /* SingleDaySelectionViewModel.swift */,
 			);
 			path = DaySelection;
 			sourceTree = "<group>";
@@ -366,7 +370,6 @@
 		D31DA88E207F5BA600FB4355 /* MonthGrid */ = {
 			isa = PBXGroup;
 			children = (
-				D31DA893207F686B00FB4355 /* MonthGridFunctionality.swift */,
 				D31DA891207F685C00FB4355 /* MonthGridModel.swift */,
 				D31DA88F207F5BB100FB4355 /* MonthGridViewModel.swift */,
 			);
@@ -908,23 +911,24 @@
 			buildActionMask = 2147483647;
 			files = (
 				D31431AC20805FD50044B936 /* WeekdayDisplayViewModel.swift in Sources */,
-				D31DA881207EF28800FB4355 /* DaySelectionModel.swift in Sources */,
+				D31DA881207EF28800FB4355 /* SingleDaySelectionModel.swift in Sources */,
+				D31431BB208079D70044B936 /* SelectableWeekdayViewModel.swift in Sources */,
 				D31DA892207F685C00FB4355 /* MonthGridModel.swift in Sources */,
 				D3DA6FD4207C6EC700A3DFE1 /* Entry.swift in Sources */,
 				D31C042D207D1BA6000C2C75 /* DateCalculator.swift in Sources */,
 				D314670B207DFBEA00A6B186 /* MonthSectionModel.swift in Sources */,
-				D31DA885207EF47E00FB4355 /* DaySelectionViewModel.swift in Sources */,
-				D31DA889207F221B00FB4355 /* DaySelectionFunctionality.swift in Sources */,
+				D31DA885207EF47E00FB4355 /* SingleDaySelectionViewModel.swift in Sources */,
+				D31DA889207F221B00FB4355 /* SingleDaySelectionFunctionality.swift in Sources */,
 				D3136209207FBC9E0090263A /* SequentialDateCalculator.swift in Sources */,
-				D31DA894207F686B00FB4355 /* MonthGridFunctionality.swift in Sources */,
 				D3DA702D207CBDE900A3DFE1 /* MonthDisplayModel.swift in Sources */,
+				D31431BF20809A4A0044B936 /* MultiDaySelectionModel.swift in Sources */,
 				D31431B7208074150044B936 /* MonthAwareModel.swift in Sources */,
 				D3DA7010207C805300A3DFE1 /* Entity.swift in Sources */,
 				D31431AE208062FB0044B936 /* WeekdayDisplayModel.swift in Sources */,
 				D31C042B207D17C5000C2C75 /* MonthControlModel.swift in Sources */,
 				D31431A920805EA10044B936 /* WeekdayAwareViewModel.swift in Sources */,
 				D3DA6FCE207C6E7800A3DFE1 /* MonthHeaderViewModel.swift in Sources */,
-				D31431B9208076FC0044B936 /* SelectableWeekdayDisplayModel.swift in Sources */,
+				D31431B9208076FC0044B936 /* SelectableWeekdayModel.swift in Sources */,
 				D31DA890207F5BB100FB4355 /* MonthGridViewModel.swift in Sources */,
 				D31C0429207D1649000C2C75 /* MonthControlViewModel.swift in Sources */,
 				D314670D207E029A00A6B186 /* MonthSectionViewModel.swift in Sources */,

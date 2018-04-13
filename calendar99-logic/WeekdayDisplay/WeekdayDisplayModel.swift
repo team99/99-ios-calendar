@@ -8,7 +8,7 @@
 
 /// Shared functionalities between the weekday model and its dependency, so that
 /// the model can expose the same properties.
-public protocol NNWeekdayDisplayModelFunctionality {
+public protocol NNWeekdayDisplayModelFunction {
 
   /// Get the description for a weekday.
   ///
@@ -18,13 +18,13 @@ public protocol NNWeekdayDisplayModelFunctionality {
 }
 
 /// Dependency for weekday model.
-public protocol NNWeekdayDisplayModelDependency: NNWeekdayDisplayModelFunctionality {}
+public protocol NNWeekdayDisplayModelDependency: NNWeekdayDisplayModelFunction {}
 
 /// Model for weekday display view.
-public protocol NNWeekdayDisplayModelType: NNWeekdayDisplayModelFunctionality {}
+public protocol NNWeekdayDisplayModelType: NNWeekdayDisplayModelFunction {}
 
 // MARK: - Model.
-public extension NNCalendar.WeekdayView {
+public extension NNCalendar.WeekdayDisplay {
 
   /// Model implementation.
   public final class Model {
@@ -41,18 +41,18 @@ public extension NNCalendar.WeekdayView {
   }
 }
 
-// MARK: - NNWeekdayDisplayModelFunctionality
-extension NNCalendar.WeekdayView.Model: NNWeekdayDisplayModelFunctionality {
+// MARK: - NNWeekdayDisplayModelFunction
+extension NNCalendar.WeekdayDisplay.Model: NNWeekdayDisplayModelFunction {
   public func weekdayDescription(_ weekday: Int) -> String {
     return dependency.weekdayDescription(weekday)
   }
 }
 
 // MARK: - NNWeekdayDisplayModelType
-extension NNCalendar.WeekdayView.Model: NNWeekdayDisplayModelType {}
+extension NNCalendar.WeekdayDisplay.Model: NNWeekdayDisplayModelType {}
 
 // MARK: - Default dependency.
-public extension NNCalendar.WeekdayView.Model {
+public extension NNCalendar.WeekdayDisplay.Model {
   internal final class DefaultDependency: NNWeekdayDisplayModelDependency {
     func weekdayDescription(_ weekday: Int) -> String {
       let date = Calendar.current.date(bySetting: .weekday, value: weekday, of: Date())

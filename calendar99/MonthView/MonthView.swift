@@ -109,7 +109,7 @@ public extension NNMonthView {
 public extension NNMonthView {
   typealias Section = AnimatableSectionModel<String, NNCalendar.Day>
   typealias CVSource = CollectionViewSectionedDataSource<Section>
-  typealias RxDataSource = RxCollectionViewSectionedAnimatedDataSource<Section>
+  typealias RxDataSource = RxCollectionViewSectionedReloadDataSource<Section>
 
   /// Use RxDataSources to drive data.
   fileprivate func setupDataSource() -> RxDataSource {
@@ -128,12 +128,6 @@ public extension NNMonthView {
           return UICollectionReusableView()
         }
     })
-
-    dataSource.animationConfiguration = AnimationConfiguration(
-      insertAnimation: .left,
-      reloadAnimation: .left,
-      deleteAnimation: .left
-    )
 
     dataSource.canMoveItemAtIndexPath = {(_, _) in false}
     return dataSource

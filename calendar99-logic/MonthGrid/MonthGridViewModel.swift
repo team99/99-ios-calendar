@@ -10,7 +10,7 @@ import RxSwift
 
 /// Shared functionalities for the view model and its dependency for month-grid
 /// views.
-public protocol NNMonthGridViewModelFunctionality {
+public protocol NNMonthGridViewModelFunction {
 
   /// Represents the number of columns. Should be 7 in most cases.
   var columnCount: Int { get }
@@ -21,14 +21,12 @@ public protocol NNMonthGridViewModelFunctionality {
 
 /// Dependency for month-grid view model.
 public protocol NNMonthGridViewModelDependency:
-  NNMonthGridViewModelFunctionality,
+  NNMonthGridViewModelFunction,
   NNWeekdayAwareViewModelDependency {}
 
 /// View model for month-grid based views.
-public protocol NNMonthGridViewModelType:
-  NNMonthGridFunctionality,
-  NNMonthGridViewModelFunctionality
-{
+public protocol NNMonthGridViewModelType: NNMonthGridViewModelFunction {
+
   /// Trigger grid item selection.
   var gridSelectionReceiver: AnyObserver<NNCalendar.GridSelection> { get }
 
@@ -59,8 +57,8 @@ public extension NNCalendar.MonthGrid {
   }
 }
 
-// MARK: - NNMonthGridViewModelFunctionality
-extension NNCalendar.MonthGrid.ViewModel: NNMonthGridViewModelFunctionality {
+// MARK: - NNMonthGridViewModelFunction
+extension NNCalendar.MonthGrid.ViewModel: NNMonthGridViewModelFunction {
   public var columnCount: Int {
     return dependency.columnCount
   }

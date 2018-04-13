@@ -9,17 +9,17 @@
 import RxSwift
 
 /// Shared functionalities between the model and its dependency.
-public protocol NNMonthControlModelFunctionality: NNMonthAwareModelFunctionality {
+public protocol NNMonthControlModelFunction: NNMonthAwareModelFunction {
 
   /// Receive the current components.
   var currentMonthCompReceiver: AnyObserver<NNCalendar.MonthComp> { get }
 }
 
 /// Dependency for month control model.
-public protocol NNMonthControlModelDependency: NNMonthControlModelFunctionality {}
+public protocol NNMonthControlModelDependency: NNMonthControlModelFunction {}
 
 /// Model for month header view.
-public protocol NNMonthControlModelType: NNMonthControlModelFunctionality {}
+public protocol NNMonthControlModelType: NNMonthControlModelFunction {}
 
 internal extension NNCalendar.MonthControl {
 

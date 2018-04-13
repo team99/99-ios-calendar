@@ -1,5 +1,5 @@
 //
-//  DaySelectionFunctionality.swift
+//  SingleDaySelectionFunction.swift
 //  calendar99-logic
 //
 //  Created by Hai Pham on 12/4/18.
@@ -8,8 +8,8 @@
 
 import RxSwift
 
-/// Shared functionalities between the day selection model & view model.
-public protocol NNDaySelectionFunctionality {
+/// Shared functionalities between the single day selection model & view model.
+public protocol NNSingleDaySelectionFunction {
 
   /// Check if a date is selected. The application running the calendar view
   /// should have a cache of selected dates that it can query, for e.g. in a

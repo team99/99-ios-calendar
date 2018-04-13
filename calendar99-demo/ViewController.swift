@@ -26,8 +26,8 @@ public final class ViewController: UIViewController  {
     dateSelectionSb = BehaviorSubject(value: Set())
     disposable = DisposeBag()
 
-    let weekdayModel = NNCalendar.WeekdayView.Model()
-    let weekdayVM = NNCalendar.WeekdayView.ViewModel(weekdayModel)
+    let weekdayModel = NNCalendar.SelectableWeekday.Model(self)
+    let weekdayVM = NNCalendar.SelectableWeekday.ViewModel(weekdayModel)
     weekdayView.viewModel = weekdayVM
 
     let monthHeaderModel = NNCalendar.MonthHeader.Model(self)
@@ -51,7 +51,7 @@ public final class ViewController: UIViewController  {
 
 /// BEWARE: INTENTIONAL MEMORY LEAKS HERE. THIS IS ONLY TEMPORARY.
 
-extension ViewController: NNMonthHeaderNonDefaultableModelDependency {
+extension ViewController: NNMonthHeaderNoDefaultModelDependency {
   public var initialMonthCompStream: Single<NNCalendar.MonthComp> {
     let date = Date()
     let month = Calendar.current.component(.month, from: date)
@@ -69,7 +69,7 @@ extension ViewController: NNMonthHeaderNonDefaultableModelDependency {
   }
 }
 
-extension ViewController: NNMonthSectionNonDefaultableModelDependency {
+extension ViewController: NNMonthSectionNoDefaultModelDependency {
   public var allDateSelectionReceiver: AnyObserver<Set<Date>> {
     return dateSelectionSb.asObserver()
   }
@@ -83,7 +83,7 @@ extension ViewController: NNMonthSectionNonDefaultableModelDependency {
   }
 }
 
-extension ViewController: NNMonthSectionNonDefaultableViewModelDependency {
+extension ViewController: NNMonthSectionNoDefaultViewModelDependency {
   public var pastMonthCountFromCurrent: Int {
     return 10
   }
@@ -93,4 +93,6 @@ extension ViewController: NNMonthSectionNonDefaultableViewModelDependency {
   }
 }
 
-extension ViewController: NNMonthDisplayNonDefaultableModelDependency {}
+extension ViewController: NNMonthDisplayNoDefaultModelDependency {}
+
+extension ViewController: NNSelectableWeekdayNoDefaultModelDependency {}

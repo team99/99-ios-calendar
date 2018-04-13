@@ -145,6 +145,7 @@ public extension NNWeekdayView {
       #endif
     }
 
+    viewModel.setupWeekDisplayBindings()
     let disposable = self.disposable
     let dataSource = setupDataSource()
     self.rx.setDelegate(self).disposed(by: disposable)
@@ -156,7 +157,7 @@ public extension NNWeekdayView {
       .disposed(by: disposable)
 
     self.rx.itemSelected.map({$0.row})
-      .bind(to: viewModel.weekdaySelectionReceiver)
+      .bind(to: viewModel.weekdaySelectionIndexReceiver)
       .disposed(by: disposable)
   }
 }
