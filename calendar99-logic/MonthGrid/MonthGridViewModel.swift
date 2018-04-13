@@ -45,11 +45,16 @@ public extension NNCalendar.MonthGrid {
     fileprivate let model: NNMonthGridModelType
     fileprivate let gridSelectionSb: PublishSubject<NNCalendar.GridSelection>
 
-    public init(_ dependency: NNMonthGridViewModelDependency,
-                _ model: NNMonthGridModelType) {
+    required public init(_ dependency: NNMonthGridViewModelDependency,
+                         _ model: NNMonthGridModelType) {
       self.dependency = dependency
       self.model = model
       gridSelectionSb = PublishSubject()
+    }
+
+    convenience public init(_ model: NNMonthGridModelType) {
+      let defaultDp = DefaultDependency()
+      self.init(defaultDp, model)
     }
   }
 }
@@ -73,5 +78,32 @@ extension NNCalendar.MonthGrid.ViewModel: NNMonthGridViewModelType {
 
   public var gridSelectionReceiver: AnyObserver<NNCalendar.GridSelection> {
     return gridSelectionSb.asObserver()
+  }
+}
+
+// MARK: - Default dependency.
+public extension NNCalendar.MonthGrid.ViewModel {
+  internal final class DefaultDependency: NNMonthGridViewModelDependency {
+
+    /// Corresponds to 7 days in a week.
+    internal var columnCount: Int {
+      return 7
+    }
+
+    /// Seems like most calendar apps have 6 rows, so in total 42 date cells.
+    internal var rowCount: Int {
+      return 6
+    }
+
+    /// Corresponds to a Sunday.
+    internal var firstDayOfWeek: Int {
+      return weekdayAwareDp.firstDayOfWeek
+    }
+
+    private let weekdayAwareDp: NNWeekdayAwareViewModelDependency
+
+    internal init() {
+      weekdayAwareDp = NNCalendar.WeekdayAware.ViewModel.DefaultDependency()
+    }
   }
 }

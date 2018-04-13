@@ -197,20 +197,22 @@ public extension NNCalendar.MonthDisplay.ViewModel {
   /// most commonly used set-up, for e.g. horizontal calendar with 42 date cells
   /// in total.
   internal final class DefaultDependency: NNMonthDisplayViewModelDependency {
-
-    /// Corresponds to a Sunday.
     public var firstDayOfWeek: Int {
-      return 1
+      return monthGridDp.firstDayOfWeek
     }
 
-    /// Corresponds to 7 days in a week.
     public var columnCount: Int {
-      return 7
+      return monthGridDp.columnCount
     }
 
-    /// Seems like most calendar apps have 6 rows, so in total 42 date cells.
     public var rowCount: Int {
-      return 6
+      return monthGridDp.rowCount
+    }
+
+    private let monthGridDp: NNMonthGridViewModelDependency
+
+    internal init() {
+      monthGridDp = NNCalendar.MonthGrid.ViewModel.DefaultDependency()
     }
   }
 }

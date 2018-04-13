@@ -8,15 +8,20 @@
 
 import RxSwift
 
-/// Dependency for weekday display view model.
-public protocol NNWeekdayDisplayViewModelDependency: NNWeekdayAwareViewModelDependency {
+/// Shared functionalities between the view model and its dependency.
+public protocol NNWeekdayDisplayViewModelFunctionality {
 
   /// Get the number of weekdays we would like to display.
   var weekdayCount: Int { get }
 }
 
+/// Dependency for weekday display view model.
+public protocol NNWeekdayDisplayViewModelDependency:
+  NNWeekdayDisplayViewModelFunctionality,
+  NNWeekdayAwareViewModelDependency {}
+
 /// View model for weekday display view.
-public protocol NNWeekdayDisplayViewModelType {
+public protocol NNWeekdayDisplayViewModelType: NNWeekdayDisplayViewModelFunctionality {
 
   /// Stream weekdays.
   var weekdayStream: Observable<[NNCalendar.Weekday]> { get }
@@ -28,11 +33,23 @@ public extension NNCalendar.WeekdayView {
     fileprivate let dependency: NNWeekdayDisplayViewModelDependency
     fileprivate let model: NNWeekdayDisplayModelType
 
-    public init(_ dependency: NNWeekdayDisplayViewModelDependency,
-                _ model: NNWeekdayDisplayModelType) {
+    required public init(_ dependency: NNWeekdayDisplayViewModelDependency,
+                         _ model: NNWeekdayDisplayModelType) {
       self.dependency = dependency
       self.model = model
     }
+
+    convenience public init(_ model: NNWeekdayDisplayModelType) {
+      let defaultDp = DefaultDependency()
+      self.init(defaultDp, model)
+    }
+  }
+}
+
+// MARK: - NNWeekdayDisplayViewModelFunctionality
+extension NNCalendar.WeekdayView.ViewModel: NNWeekdayDisplayViewModelFunctionality {
+  public var weekdayCount: Int {
+    return dependency.weekdayCount
   }
 }
 
@@ -47,5 +64,26 @@ extension NNCalendar.WeekdayView.ViewModel: NNWeekdayDisplayViewModelType {
       .map({NNCalendar.Weekday(dayIndex: $0.weekday, description: $0.description)})
 
     return Observable.just(weekdays)
+  }
+}
+
+// MARK: - Default dependency.
+public extension NNCalendar.WeekdayView.ViewModel {
+  internal final class DefaultDependency: NNWeekdayDisplayViewModelDependency {
+
+    /// Most common choice would be just to have 7 days in a week.
+    public var weekdayCount: Int {
+      return 7
+    }
+
+    public var firstDayOfWeek: Int {
+      return weekdayAwareDp.firstDayOfWeek
+    }
+
+    private let weekdayAwareDp: NNWeekdayAwareViewModelDependency
+
+    internal init() {
+      weekdayAwareDp = NNCalendar.WeekdayAware.ViewModel.DefaultDependency()
+    }
   }
 }

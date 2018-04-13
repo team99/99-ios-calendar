@@ -12,6 +12,7 @@ import calendar99_logic
 import calendar99
 
 public final class ViewController: UIViewController  {
+  @IBOutlet weak var weekdayView: NNWeekdayView!
   @IBOutlet fileprivate weak var monthHeader: NNMonthHeaderView!
   @IBOutlet fileprivate weak var monthSectionView: NNMonthSectionView!
   @IBOutlet fileprivate weak var monthView: NNMonthView!
@@ -24,6 +25,10 @@ public final class ViewController: UIViewController  {
     componentSb = BehaviorSubject(value: NNCalendar.MonthComp(Date()))
     dateSelectionSb = BehaviorSubject(value: Set())
     disposable = DisposeBag()
+
+    let weekdayModel = NNCalendar.WeekdayView.Model()
+    let weekdayVM = NNCalendar.WeekdayView.ViewModel(weekdayModel)
+    weekdayView.viewModel = weekdayVM
 
     let monthHeaderModel = NNCalendar.MonthHeader.Model(self)
     let monthHeaderVM = NNCalendar.MonthHeader.ViewModel(monthHeaderModel)

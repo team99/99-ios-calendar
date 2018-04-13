@@ -20,20 +20,20 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uN7-km-d0J">
-                                <rect key="frame" x="30" y="39" width="315" height="589"/>
+                                <rect key="frame" x="15" y="33.5" width="345" height="601.5"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OAw-Fd-26I" customClass="NNMonthHeaderView" customModule="calendar99">
-                                        <rect key="frame" x="0.0" y="0.0" width="315" height="44"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="345" height="40"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="44" id="Gn8-uA-dTC"/>
+                                            <constraint firstAttribute="height" constant="40" id="Gn8-uA-dTC"/>
                                         </constraints>
                                     </view>
                                     <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="2bo-eT-edI" customClass="NNMonthSectionView" customModule="calendar99">
-                                        <rect key="frame" x="0.0" y="44" width="315" height="270"/>
+                                        <rect key="frame" x="0.0" y="80" width="345" height="258"/>
                                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" secondItem="2bo-eT-edI" secondAttribute="width" multiplier="6 / 7" id="2iP-yv-mjW"/>
+                                            <constraint firstAttribute="height" secondItem="2bo-eT-edI" secondAttribute="width" multiplier="3 / 4" id="2iP-yv-mjW"/>
                                         </constraints>
                                         <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="KtD-AR-WfU">
                                             <size key="itemSize" width="50" height="50"/>
@@ -44,7 +44,7 @@
                                         <cells/>
                                     </collectionView>
                                     <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="PlQ-do-Q55" customClass="NNMonthView" customModule="calendar99">
-                                        <rect key="frame" x="0.0" y="319" width="315" height="270"/>
+                                        <rect key="frame" x="0.0" y="343" width="345" height="258.5"/>
                                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                         <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="n1V-TA-W8N">
                                             <size key="itemSize" width="50" height="50"/>
@@ -54,26 +54,50 @@
                                         </collectionViewFlowLayout>
                                         <cells/>
                                     </collectionView>
+                                    <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="0BL-Sr-OGf" customClass="NNWeekdayView" customModule="calendar99">
+                                        <rect key="frame" x="0.0" y="40" width="345" height="40"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Gkh-2M-LAN">
+                                            <size key="itemSize" width="50" height="50"/>
+                                            <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                        </collectionViewFlowLayout>
+                                        <cells>
+                                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="Tbh-GH-DJ4">
+                                                <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
+                                                    <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                </view>
+                                            </collectionViewCell>
+                                        </cells>
+                                    </collectionView>
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="OAw-Fd-26I" firstAttribute="leading" secondItem="uN7-km-d0J" secondAttribute="leading" id="10c-eF-1i6"/>
+                                    <constraint firstItem="0BL-Sr-OGf" firstAttribute="leading" secondItem="OAw-Fd-26I" secondAttribute="leading" id="2vf-bb-fjU"/>
                                     <constraint firstAttribute="trailing" secondItem="OAw-Fd-26I" secondAttribute="trailing" id="39X-NG-L11"/>
                                     <constraint firstItem="OAw-Fd-26I" firstAttribute="leading" secondItem="2bo-eT-edI" secondAttribute="leading" id="EOt-Uh-aSL"/>
                                     <constraint firstItem="PlQ-do-Q55" firstAttribute="top" secondItem="2bo-eT-edI" secondAttribute="bottom" constant="5" id="LdZ-nf-Mea"/>
+                                    <constraint firstItem="2bo-eT-edI" firstAttribute="top" secondItem="0BL-Sr-OGf" secondAttribute="bottom" id="Sb4-0b-VaU"/>
+                                    <constraint firstItem="0BL-Sr-OGf" firstAttribute="height" secondItem="OAw-Fd-26I" secondAttribute="height" id="XOf-8h-Kin"/>
                                     <constraint firstAttribute="bottom" secondItem="PlQ-do-Q55" secondAttribute="bottom" id="YGp-0F-KMD"/>
+                                    <constraint firstItem="0BL-Sr-OGf" firstAttribute="top" secondItem="OAw-Fd-26I" secondAttribute="bottom" id="csF-AX-w5D"/>
                                     <constraint firstItem="PlQ-do-Q55" firstAttribute="height" secondItem="2bo-eT-edI" secondAttribute="height" id="ee6-6b-DDX"/>
                                     <constraint firstItem="OAw-Fd-26I" firstAttribute="trailing" secondItem="2bo-eT-edI" secondAttribute="trailing" id="hGl-ET-vWr"/>
                                     <constraint firstItem="OAw-Fd-26I" firstAttribute="top" secondItem="uN7-km-d0J" secondAttribute="top" id="lBf-hh-8Xz"/>
                                     <constraint firstItem="PlQ-do-Q55" firstAttribute="leading" secondItem="2bo-eT-edI" secondAttribute="leading" id="mIL-IA-J2d"/>
-                                    <constraint firstItem="OAw-Fd-26I" firstAttribute="bottom" secondItem="2bo-eT-edI" secondAttribute="top" id="rRx-2L-d0R"/>
                                     <constraint firstItem="PlQ-do-Q55" firstAttribute="trailing" secondItem="2bo-eT-edI" secondAttribute="trailing" id="wKD-cy-trq"/>
+                                    <constraint firstItem="0BL-Sr-OGf" firstAttribute="trailing" secondItem="OAw-Fd-26I" secondAttribute="trailing" id="yEw-Wp-jbs"/>
                                 </constraints>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="uN7-km-d0J" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="30" id="IOZ-WM-BmB"/>
-                            <constraint firstAttribute="trailing" secondItem="uN7-km-d0J" secondAttribute="trailing" constant="30" id="auU-0m-f2g"/>
+                            <constraint firstItem="uN7-km-d0J" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="15" id="IOZ-WM-BmB"/>
+                            <constraint firstAttribute="trailing" secondItem="uN7-km-d0J" secondAttribute="trailing" constant="15" id="auU-0m-f2g"/>
                             <constraint firstItem="uN7-km-d0J" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="obp-hH-S1g"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
@@ -82,6 +106,7 @@
                         <outlet property="monthHeader" destination="OAw-Fd-26I" id="h4Q-TN-wRQ"/>
                         <outlet property="monthSectionView" destination="2bo-eT-edI" id="FO1-AY-ghn"/>
                         <outlet property="monthView" destination="PlQ-do-Q55" id="t7W-jB-APG"/>
+                        <outlet property="weekdayView" destination="0BL-Sr-OGf" id="5gl-w9-brV"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
