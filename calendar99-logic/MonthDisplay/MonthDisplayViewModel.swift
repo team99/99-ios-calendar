@@ -164,6 +164,7 @@ extension NNCalendar.MonthDisplay.ViewModel: NNMonthDisplayViewModelType {
       })
       .filter({$0.isSome}).map({$0!})
       .distinctUntilChanged({$0 == $1})
+      .map(Optional.some)
       .subscribe(daySbj)
       .disposed(by: disposable)
 

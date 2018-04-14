@@ -1,4 +1,4 @@
-osx_image: xcode9.2
+osx_image: xcode9.3
 language: objective-c
 xcode_workspace: calendar99.xcworkspace
 xcode_scheme: calendar99-logic
@@ -9,3 +9,5 @@ before_install:
 
 script:
 - set -o pipefail && xcodebuild clean test -sdk iphonesimulator -workspace calendar99.xcworkspace -scheme calendar99-logic -destination 'platform=iOS Simulator,name=iPhone 7' CODE_SIGNING_REQUIRED=NO GCC_INSTRUMENT_PROGRAM_FLOW_ARCS=YES GCC_GENERATE_TEST_COVERAGE_FILES=YES | xcpretty
+
+after_success: slather

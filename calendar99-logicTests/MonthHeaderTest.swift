@@ -12,6 +12,7 @@ import SwiftFP
 import XCTest
 @testable import calendar99_logic
 
+/// Tests for month header.
 public final class MonthHeaderTest: RootTest {
   fileprivate var model: NNCalendar.MonthHeader.Model!
   fileprivate var viewModel: NNCalendar.MonthHeader.ViewModel!
