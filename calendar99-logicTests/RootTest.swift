@@ -22,7 +22,7 @@ public class RootTest: XCTestCase {
     super.setUp()
     testScheduler = TestScheduler(initialClock: 0)
     disposable = DisposeBag()
-    iterations = 1000
+    iterations = 5000
     waitDuration = 0.2
     firstWeekDay = 2
     continueAfterFailure = false

@@ -23,7 +23,7 @@ public protocol NNSelectableWeekdayViewModelType:
   NNWeekdayDisplayViewModelType {}
 
 // MARK: - View model.
-public extension NNCalendar.SelectableWeekday {
+public extension NNCalendar.SelectWeekday {
 
   /// View model implementation.
   public final class ViewModel {
@@ -55,7 +55,7 @@ public extension NNCalendar.SelectableWeekday {
 }
 
 // MARK: - NNWeekdayDisplayViewModelType
-extension NNCalendar.SelectableWeekday.ViewModel: NNWeekdayDisplayViewModelType {
+extension NNCalendar.SelectWeekday.ViewModel: NNWeekdayDisplayViewModelType {
   public var weekdayCount: Int {
     return weekdayVM.weekdayCount
   }
@@ -76,9 +76,7 @@ extension NNCalendar.SelectableWeekday.ViewModel: NNWeekdayDisplayViewModelType 
     weekdayVM.setupWeekDisplayBindings()
     let disposable = self.disposable
 
-    // We do not allow deselects for weekday selection because it will become
-    // rather confusing for the user, esp. if the user has already deselected
-    // a date within the latest emitted weekday range. This can happen if:
+    // In case:
     // - The user selects a weekday range (e.g. all Mondays).
     // - The user then deselects a Monday within said weekday range.
     // - The next time they selects the same range, some cells will be selected
@@ -86,17 +84,17 @@ extension NNCalendar.SelectableWeekday.ViewModel: NNWeekdayDisplayViewModelType 
     weekdaySelectionStream
       .withLatestFrom(model.currentMonthCompStream) {($1, $0)}
       .map({$0.datesWithWeekday($1)})
-      .withLatestFrom(model.allDateSelectionStream) {$0.union($1)}
+      .withLatestFrom(model.allDateSelectionStream) {$0.symmetricDifference($1)}
       .subscribe(model.allDateSelectionReceiver)
       .disposed(by: disposable)
   }
 }
 
 // MARK: - NNSelectableWeekdayViewModelType
-extension NNCalendar.SelectableWeekday.ViewModel: NNSelectableWeekdayViewModelType {}
+extension NNCalendar.SelectWeekday.ViewModel: NNSelectableWeekdayViewModelType {}
 
 // MARK: - Default dependency.
-public extension NNCalendar.SelectableWeekday.ViewModel {
+public extension NNCalendar.SelectWeekday.ViewModel {
   internal final class DefaultDependency: NNSelectableWeekdayViewModelDependency {
     internal var weekdayCount: Int {
       return weekdayDp.weekdayCount

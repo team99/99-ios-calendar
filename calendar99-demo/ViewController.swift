@@ -26,8 +26,8 @@ public final class ViewController: UIViewController  {
     dateSelectionSb = BehaviorSubject(value: Set())
     disposable = DisposeBag()
 
-    let weekdayModel = NNCalendar.SelectableWeekday.Model(self)
-    let weekdayVM = NNCalendar.SelectableWeekday.ViewModel(weekdayModel)
+    let weekdayModel = NNCalendar.SelectWeekday.Model(self)
+    let weekdayVM = NNCalendar.SelectWeekday.ViewModel(weekdayModel)
     weekdayView.viewModel = weekdayVM
 
     let monthHeaderModel = NNCalendar.MonthHeader.Model(self)

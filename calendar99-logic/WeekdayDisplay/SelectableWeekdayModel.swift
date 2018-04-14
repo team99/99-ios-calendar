@@ -32,7 +32,7 @@ public protocol NNSelectableWeekdayModelType:
   NNWeekdayDisplayModelType {}
 
 // MARK: - Model.
-public extension NNCalendar.SelectableWeekday {
+public extension NNCalendar.SelectWeekday {
 
   /// Model implementation.
   public final class Model {
@@ -58,21 +58,21 @@ public extension NNCalendar.SelectableWeekday {
 }
 
 // MARK: - NNMonthAwareModelFunction
-extension NNCalendar.SelectableWeekday.Model: NNWeekdayDisplayModelFunction {
+extension NNCalendar.SelectWeekday.Model: NNWeekdayDisplayModelFunction {
   public func weekdayDescription(_ weekday: Int) -> String {
     return weekdayModel.weekdayDescription(weekday)
   }
 }
 
 // MARK: - NNMonthAwareModelFunction
-extension NNCalendar.SelectableWeekday.Model: NNMonthAwareModelFunction {
+extension NNCalendar.SelectWeekday.Model: NNMonthAwareModelFunction {
   public var currentMonthCompStream: Observable<NNCalendar.MonthComp> {
     return dependency.currentMonthCompStream
   }
 }
 
 // MARK: - NNMultiDaySelectionModelFunction
-extension NNCalendar.SelectableWeekday.Model: NNMultiDaySelectionModelFunction {
+extension NNCalendar.SelectWeekday.Model: NNMultiDaySelectionModelFunction {
   public var allDateSelectionReceiver: AnyObserver<Set<Date>> {
     return dependency.allDateSelectionReceiver
   }
@@ -83,10 +83,10 @@ extension NNCalendar.SelectableWeekday.Model: NNMultiDaySelectionModelFunction {
 }
 
 // MARK: - NNSelectableWeekdayModelType
-extension NNCalendar.SelectableWeekday.Model: NNSelectableWeekdayModelType {}
+extension NNCalendar.SelectWeekday.Model: NNSelectableWeekdayModelType {}
 
 // MARK: - Default dependency.
-public extension NNCalendar.SelectableWeekday.Model {
+public extension NNCalendar.SelectWeekday.Model {
   internal final class DefaultDependency: NNSelectableWeekdayModelDependency {
     internal var currentMonthCompStream: Observable<NNCalendar.MonthComp> {
       return noDefault.currentMonthCompStream

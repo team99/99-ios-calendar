@@ -58,5 +58,5 @@ public final class NNCalendar {
   /// Reprsents a weekday view that allows weekday selection to affect date
   /// selection (e.g. if the user clicks on Monday, all Mondays in the current
   /// month will be selected).
-  public final class SelectableWeekday {}
+  public final class SelectWeekday {}
 }
