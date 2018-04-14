@@ -66,9 +66,17 @@ public extension NNCalendar {
   /// This is used throughout the library, esp. by the month header (whereby
   /// there are forward and backward arrows to control the currently selected
   /// month component).
-  public struct MonthComp: Equatable, CustomStringConvertible {
+  public struct MonthComp: Equatable, Hashable, CustomStringConvertible {
     public let month: Int
     public let year: Int
+
+    /// [Hashcode Algorithm]: https://stackoverflow.com/questions/263400/what-is-the-best-algorithm-for-an-overridden-system-object-gethashcode
+    public var hashValue: Int {
+      var hash = 17
+      hash = hash * 486187739 + month.hashValue
+      hash = hash * 486187739 + year.hashValue
+      return hash
+    }
 
     public var description: String {
       return "month: \(month), year: \(year)"

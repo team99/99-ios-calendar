@@ -38,8 +38,7 @@ public extension MonthGridTest {
 
   public func test_gridSelectionReceiverAndStream_shouldWork() {
     /// Setup
-    let testScheduler = TestScheduler(initialClock: 0)
-    let observer = testScheduler.createObserver(NNCalendar.GridSelection.self)
+    let observer = testScheduler!.createObserver(NNCalendar.GridSelection.self)
     var selections = [NNCalendar.GridSelection]()
     viewModel.gridSelectionStream.subscribe(observer).disposed(by: disposable!)
 

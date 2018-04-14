@@ -7,21 +7,24 @@
 //
 
 import RxSwift
+import RxTest
 import XCTest
 
 /// Root tests.
 public class RootTest: XCTestCase {
+  public var testScheduler: TestScheduler!
+  public var disposable: DisposeBag!
   public var iterations: Int!
   public var waitDuration: TimeInterval!
   public var firstWeekDay: Int!
-  public var disposable: DisposeBag!
 
   override public func setUp() {
     super.setUp()
+    testScheduler = TestScheduler(initialClock: 0)
+    disposable = DisposeBag()
     iterations = 1000
     waitDuration = 0.2
     firstWeekDay = 2
-    disposable = DisposeBag()
     continueAfterFailure = false
   }
 }
