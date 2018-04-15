@@ -52,10 +52,10 @@ public final class MockMonthSectionModel: NNMonthSectionModelType {
     return model.isDateSelected(date)
   }
 
-  public func componentRange(_ currentMonth: NNCalendar.Month,
-                             _ pastMonthCount: Int,
-                             _ futureMonthCount: Int) -> [NNCalendar.Month] {
-    return model.componentRange(currentMonth, pastMonthCount, futureMonthCount)
+  public func getAvailableMonths(_ currentMonth: NNCalendar.Month,
+                                 _ pastMonths: Int,
+                                 _ futureMonths: Int) -> [NNCalendar.Month] {
+    return model.getAvailableMonths(currentMonth,pastMonths, futureMonths)
   }
 
   public func calculateDayFromFirstDate(_ month: NNCalendar.Month,
@@ -74,6 +74,7 @@ public final class MonthSectionTest: RootTest {
   fileprivate var currentMonth: NNCalendar.Month!
   fileprivate var allDateSelectionSb: BehaviorSubject<Set<Date>>!
   fileprivate var currentMonthSb: BehaviorSubject<NNCalendar.Month>!
+  fileprivate var defaultModelDp: NNMonthSectionModelDependency!
   fileprivate var defaultViewModelDp: NNMonthSectionViewModelDependency!
 
   override public func setUp() {
@@ -83,11 +84,48 @@ public final class MonthSectionTest: RootTest {
     currentMonth = NNCalendar.Month(Date())
     allDateSelectionSb = BehaviorSubject(value: Set())
     currentMonthSb = BehaviorSubject(value: currentMonth!)
+    defaultModelDp = NNCalendar.MonthSection.Model.DefaultDependency(self)
     defaultViewModelDp = NNCalendar.MonthSection.ViewModel.DefaultDependency(self)
   }
 }
 
 public extension MonthSectionTest {
+  public func test_defaultDependencies_shouldWork() {
+    let monthControlModel = NNCalendar.MonthControl.Model(self)
+    let monthGridModel = NNCalendar.MonthGrid.Model(self)
+    let daySelectionModel = NNCalendar.DaySelection.Model(self)
+
+    let model1 = NNCalendar.MonthSection.Model(monthControlModel,
+                                               monthGridModel,
+                                               daySelectionModel,
+                                               defaultModelDp)
+
+    let model2 = NNCalendar.MonthSection.Model(defaultModelDp)
+    let currentMonth = self.currentMonth!
+    let pastMonths = pastMonthsFromCurrent
+    let futureMonths = futureMonthsFromCurrent
+    let months1 = model1.getAvailableMonths(currentMonth, pastMonths, futureMonths)
+    let months2 = model2.getAvailableMonths(currentMonth, pastMonths, futureMonths)
+    XCTAssertEqual(months1, months2)
+
+    let monthControlVM = NNCalendar.MonthControl.ViewModel(monthControlModel)
+    let monthGridVM = NNCalendar.MonthGrid.ViewModel(monthGridModel)
+    let daySelectionVM = NNCalendar.DaySelection.ViewModel(daySelectionModel)
+
+    let viewModel1 = NNCalendar.MonthSection.ViewModel(monthControlVM,
+                                                       monthGridVM,
+                                                       daySelectionVM,
+                                                       defaultViewModelDp,
+                                                       model1)
+
+    let viewModel2 = NNCalendar.MonthSection.ViewModel(defaultViewModelDp, model2)
+    viewModel1.setupAllBindingsAndSubBindings()
+    viewModel2.setupAllBindingsAndSubBindings()
+    let monthComp1 = try! viewModel1.monthCompStream.take(1).toBlocking().first()!
+    let monthComp2 = try! viewModel2.monthCompStream.take(1).toBlocking().first()!
+    XCTAssertEqual(monthComp1, monthComp2)
+  }
+
   public func test_monthComponentStream_shouldEmitCorrectMonths() {
     /// Setup
     viewModel!.setupMonthSectionBindings()
@@ -96,8 +134,8 @@ public extension MonthSectionTest {
     let monthComps = try! viewModel!.monthCompStream.take(1).toBlocking().first()!
 
     /// Then
-    let pastOffset = pastMonthCountFromCurrent
-    let futureOffset = futureMonthCountFromCurrent
+    let pastOffset = pastMonthsFromCurrent
+    let futureOffset = futureMonthsFromCurrent
     let firstMonth = currentMonth!.with(monthOffset: -pastOffset)!
     let lastMonth = currentMonth!.with(monthOffset: futureOffset)!
     XCTAssertEqual(monthComps.count, viewModel.totalMonthCount)
@@ -109,8 +147,8 @@ public extension MonthSectionTest {
     /// Setup
     viewModel!.setupMonthSectionBindings()
     viewModel!.setupDaySelectionBindings()
-    let pastOffset = pastMonthCountFromCurrent
-    let futureOffset = futureMonthCountFromCurrent * 2
+    let pastOffset = pastMonthsFromCurrent
+    let futureOffset = futureMonthsFromCurrent * 2
     let rowCount = viewModel!.rowCount
     let columnCount = viewModel!.columnCount
     let months = try! viewModel!.monthCompStream.take(1).toBlocking().first()!
@@ -199,6 +237,47 @@ public extension MonthSectionTest {
       }
     }
   }
+
+  public func test_monthSelectionIndex_shouldWorkCorrectly() {
+    /// Setup
+    let indexObs = scheduler.createObserver(Int.self)
+    var currentMonth = self.currentMonth!
+
+    viewModel!.currentMonthSelectionIndexStream
+      .subscribe(indexObs)
+      .disposed(by: disposable!)
+
+    viewModel!.setupMonthControlBindings()
+    viewModel!.setupMonthSectionBindings()
+    let months = try! viewModel!.monthCompStream.take(1).toBlocking().first()!
+    var previousIndex = pastMonthsFromCurrent
+
+    /// When
+    for _ in 0..<iterations! {
+      let forward = Bool.random()
+      currentMonth = currentMonth.with(monthOffset: forward ? 1 : -1)!
+      let index = months.index(where: {$0.month == currentMonth})
+
+      if forward {
+        viewModel!.currentMonthForwardReceiver.onNext(1)
+      } else {
+        viewModel!.currentMonthBackwardReceiver.onNext(1)
+      }
+
+      waitOnMainThread(waitDuration!)
+
+      /// Then
+      let lastIndex = indexObs.nextElements().last!
+
+      if index != nil {
+        XCTAssertEqual(lastIndex, index)
+      } else {
+        XCTAssertEqual(lastIndex, previousIndex)
+      }
+
+      previousIndex = lastIndex
+    }
+  }
 }
 
 extension MonthSectionTest: NNMonthSectionNoDefaultModelDependency {
@@ -228,11 +307,11 @@ extension MonthSectionTest: NNMonthSectionNoDefaultModelDependency {
 }
 
 extension MonthSectionTest: NNMonthSectionNoDefaultViewModelDependency {
-  public var pastMonthCountFromCurrent: Int {
+  public var pastMonthsFromCurrent: Int {
     return 100
   }
 
-  public var futureMonthCountFromCurrent: Int {
+  public var futureMonthsFromCurrent: Int {
     return 100
   }
 }

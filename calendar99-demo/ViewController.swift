@@ -83,12 +83,12 @@ extension ViewController: NNMonthSectionNoDefaultModelDependency {
 }
 
 extension ViewController: NNMonthSectionNoDefaultViewModelDependency {
-  public var pastMonthCountFromCurrent: Int {
-    return 1000
+  public var pastMonthsFromCurrent: Int {
+    return 100
   }
 
-  public var futureMonthCountFromCurrent: Int {
-    return 1000
+  public var futureMonthsFromCurrent: Int {
+    return 100
   }
 }
 

@@ -48,12 +48,12 @@ public protocol NNMonthSectionModelType:
   ///
   /// - Parameters:
   ///   - currentMonth: The current Month.
-  ///   - pastMonthCount: An Int value.
-  ///   - futureMonthCount: An Int value.
+  ///   - pastMonths: An Int value.
+  ///   - futureMonths: An Int value.
   /// - Returns: An Array of Month.
-  func componentRange(_ currentMonth: NNCalendar.Month,
-                      _ pastMonthCount: Int,
-                      _ futureMonthCount: Int) -> [NNCalendar.Month]
+  func getAvailableMonths(_ currentMonth: NNCalendar.Month,
+                          _ pastMonths: Int,
+                          _ futureMonths: Int) -> [NNCalendar.Month]
 
   /// Calculate the day for a month and a first date offset (i.e. how distant
   /// the day is from the first date in the grid).
@@ -150,11 +150,11 @@ extension NNCalendar.MonthSection.Model: NNSingleDaySelectionModelType {
 
 // MARK: - NNMonthSectionModelType
 extension NNCalendar.MonthSection.Model: NNMonthSectionModelType {
-  public func componentRange(_ currentComp: NNCalendar.Month,
-                             _ pastMonthCount: Int,
-                             _ futureMonthCount: Int) -> [NNCalendar.Month] {
-    let earliest = currentComp.with(monthOffset: -pastMonthCount)
-    let totalMonths = pastMonthCount + 1 + futureMonthCount
+  public func getAvailableMonths(_ currentComp: NNCalendar.Month,
+                                 _ pastMonths: Int,
+                                 _ futureMonths: Int) -> [NNCalendar.Month] {
+    let earliest = currentComp.with(monthOffset: -pastMonths)
+    let totalMonths = pastMonths + 1 + futureMonths
 
     return (0..<totalMonths).flatMap({offset in
       earliest.flatMap({$0.with(monthOffset: offset)})

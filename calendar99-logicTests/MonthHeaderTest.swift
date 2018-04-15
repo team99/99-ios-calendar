@@ -39,7 +39,8 @@ public extension MonthHeaderTest {
                    model2.formatMonthDescription(currentMonth!))
 
     let monthControlVM = NNCalendar.MonthControl.ViewModel(monthControlModel)
-    _ = NNCalendar.MonthHeader.ViewModel(monthControlVM, model1)
+    let viewModel1 = NNCalendar.MonthHeader.ViewModel(monthControlVM, model1)
+    viewModel1.setupAllBindingsAndSubBindings()
   }
 
   public func test_monthDescriptionStream_shouldEmitCorrectDescriptions() {

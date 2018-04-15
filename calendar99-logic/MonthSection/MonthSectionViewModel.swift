@@ -13,10 +13,10 @@ import RxSwift
 public protocol NNMonthSectionNoDefaultViewModelDependency {
 
   /// Get the number of past months to include in the month data stream.
-  var pastMonthCountFromCurrent: Int { get }
+  var pastMonthsFromCurrent: Int { get }
 
   /// Get the number of future months to include in the month data stream.
-  var futureMonthCountFromCurrent: Int { get }
+  var futureMonthsFromCurrent: Int { get }
 }
 
 /// Dependency for month section view model.
@@ -174,8 +174,8 @@ extension NNCalendar.MonthSection.ViewModel: NNSingleDaySelectionViewModelType {
 extension NNCalendar.MonthSection.ViewModel: NNMonthSectionViewModelType {
   public var totalMonthCount: Int {
     return 1
-      + dependency.pastMonthCountFromCurrent
-      + dependency.futureMonthCountFromCurrent
+      + dependency.pastMonthsFromCurrent
+      + dependency.futureMonthsFromCurrent
   }
 
   public var monthCompStream: Observable<[NNCalendar.MonthComp]> {
@@ -211,14 +211,14 @@ extension NNCalendar.MonthSection.ViewModel: NNMonthSectionViewModelType {
 
   public func setupMonthSectionBindings() {
     let disposable = self.disposable
-    let pCount = dependency.pastMonthCountFromCurrent
-    let fCount = dependency.futureMonthCountFromCurrent
+    let pCount = dependency.pastMonthsFromCurrent
+    let fCount = dependency.futureMonthsFromCurrent
     let dayCount = dependency.rowCount * dependency.columnCount
 
     /// Must call onNext manually to avoid completed event, since this is a
     /// cold stream.
     model.initialMonthStream
-      .map({[weak self] in self?.model.componentRange($0, pCount, fCount)})
+      .map({[weak self] in self?.model.getAvailableMonths($0, pCount, fCount)})
       .filter({$0.isSome}).map({$0!})
       .map({$0.map({NNCalendar.MonthComp($0, dayCount)})})
       .asObservable()
@@ -256,12 +256,12 @@ extension NNCalendar.MonthSection.ViewModel {
       return defaulted.rowCount
     }
 
-    internal var pastMonthCountFromCurrent: Int {
-      return noDefault.pastMonthCountFromCurrent
+    internal var pastMonthsFromCurrent: Int {
+      return noDefault.pastMonthsFromCurrent
     }
 
-    internal var futureMonthCountFromCurrent: Int {
-      return noDefault.futureMonthCountFromCurrent
+    internal var futureMonthsFromCurrent: Int {
+      return noDefault.futureMonthsFromCurrent
     }
 
     private let noDefault: NNMonthSectionNoDefaultViewModelDependency
