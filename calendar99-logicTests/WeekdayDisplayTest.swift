@@ -48,7 +48,7 @@ public extension WeekdayDisplayTest {
 
     /// When & Then
     let weekdayCount = viewModel.weekdayCount
-    let firstWeekday = defaultViewModelDep.firstDayOfWeek
+    let firstWeekday = defaultViewModelDep.firstWeekday
     let actualRange = (firstWeekday..<(firstWeekday + weekdayCount)).map({$0})
 
     let emittedWeekdays = weekdayObserver.nextElements()
@@ -88,7 +88,7 @@ extension WeekdayDisplayTest: NNWeekdayDisplayViewModelDependency {
     return 5
   }
 
-  public var firstDayOfWeek: Int {
+  public var firstWeekday: Int {
     return 1
   }
 }

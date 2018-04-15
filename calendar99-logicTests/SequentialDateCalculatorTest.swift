@@ -24,12 +24,12 @@ public final class SequentialDateCalculatorTest: RootTest {
 
   public func test_calculateDayRange_shouldWork() {
     /// Setup
-    var monthComp = NNCalendar.MonthComp(Date())
+    var month = NNCalendar.Month(Date())
 
     /// When
     for _ in 0..<iterations! {
-      let range = calculator.calculateDateRange(monthComp, firstWeekDay!, 6, 7)
-      monthComp = monthComp.with(monthOffset: 1)!
+      let range = calculator.calculateDateRange(month, firstWeekDay!, 6, 7)
+      month = month.with(monthOffset: 1)!
 
       /// Then
       let firstDate = range.first!
@@ -50,14 +50,14 @@ public final class SequentialDateCalculatorTest: RootTest {
 
   public func test_calculateDateWithOffset_shouldWork() {
     /// Setup
-    var monthComp = NNCalendar.MonthComp(Date())
+    var month = NNCalendar.Month(Date())
 
     for ix in 0..<200 {
       var prevDate: Date?
 
       /// When
       for jx in 0..<iterations! {
-        let date = calculator.calculateDateWithOffset(monthComp, firstWeekDay!, jx)!
+        let date = calculator.calculateDateWithOffset(month, firstWeekDay!, jx)!
 
         if let prevDate = prevDate {
           let diff = date.timeIntervalSince(prevDate) / 60 / 60 / 24
@@ -67,15 +67,15 @@ public final class SequentialDateCalculatorTest: RootTest {
         prevDate = date
       }
 
-      monthComp = monthComp.with(monthOffset: ix)!
+      month = month.with(monthOffset: ix)!
     }
   }
 
   public func test_calculateMultiMonthGridSelections_shouldWork() {
     /// Setup
-    let firstComp = NNCalendar.MonthComp(Date())
-    let monthComps = (0..<100).map({firstComp.with(monthOffset: $0)!})
-    let months = monthComps.map({NNCalendar.Month($0, dayCount!)})
+    let firstMonth = NNCalendar.Month(Date())
+    let allMonths = (0..<100).map({firstMonth.with(monthOffset: $0)!})
+    let months = allMonths.map({NNCalendar.MonthComp($0, dayCount!)})
     var prevSelect = Set<Date>()
 
     /// When
@@ -86,7 +86,7 @@ public final class SequentialDateCalculatorTest: RootTest {
         .map({(_) -> Date in
           let month = months.randomElement()!
           let dayIndex = Int.random(0, month.dayCount)
-          return calculator.calculateDateWithOffset(month.monthComp, 1, dayIndex)!
+          return calculator.calculateDateWithOffset(month.month, 1, dayIndex)!
         }))
 
       let changedSelect = calculator.extractChanges(prevSelect, currentSelect)
@@ -100,7 +100,7 @@ public final class SequentialDateCalculatorTest: RootTest {
 
       /// Then
       for gridSelection in gridSelections {
-        let selectedMonth = months[gridSelection.monthIndex].monthComp
+        let selectedMonth = months[gridSelection.monthIndex].month
 
         let selectedDate = calculator.calculateDateWithOffset(
           selectedMonth,
@@ -117,22 +117,22 @@ public final class SequentialDateCalculatorTest: RootTest {
 
   public func test_calculateSingleMonthGridSelection_shouldWork() {
     /// Setup
-    var currentComp = NNCalendar.MonthComp(Date())
+    var currentMonth = NNCalendar.Month(Date())
     var prevSelect = Set<Date>()
 
     /// When
     for i in 0..<iterations! {
-      let currentMonth = NNCalendar.Month(currentComp, dayCount!)
+      let currentMonthComp = NNCalendar.MonthComp(currentMonth, dayCount!)
       let selectionCount = Int.random(1, dayCount!)
 
       let currentSelect = Set((0..<selectionCount).map({
-        calculator.calculateDateWithOffset(currentComp, firstWeekDay!, $0)!
+        calculator.calculateDateWithOffset(currentMonth, firstWeekDay!, $0)!
       }))
 
       let changedSelect = calculator.extractChanges(prevSelect, currentSelect)
 
       let gridSelections = calculator.calculateGridSelection(
-        currentMonth,
+        currentMonthComp,
         firstWeekDay!,
         prevSelect,
         currentSelect
@@ -144,9 +144,9 @@ public final class SequentialDateCalculatorTest: RootTest {
         // The month index is not necessary the same as the month in the current
         // month comp, because we calculate for the previous and next months as
         // well.
-        if gridSelection.monthIndex == currentComp.month {
+        if gridSelection.monthIndex == currentMonth.month {
           let selectedDate = calculator.calculateDateWithOffset(
-            currentComp,
+            currentMonth,
             firstWeekDay!,
             gridSelection.dayIndex
           )!
@@ -155,7 +155,7 @@ public final class SequentialDateCalculatorTest: RootTest {
         }
       }
 
-      currentComp = currentComp.with(monthOffset: i)!
+      currentMonth = currentMonth.with(monthOffset: i)!
       prevSelect = currentSelect
     }
   }

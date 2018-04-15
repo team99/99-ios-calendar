@@ -45,5 +45,7 @@ public final class NNDateCell: UICollectionViewCell {
         .first(where: {$0.accessibilityIdentifier == circleMarkerId})?
         .removeFromSuperview()
     }
+
+    dateLbl.textColor = day.isSelected ? .white : dateLbl.textColor
   }
 }

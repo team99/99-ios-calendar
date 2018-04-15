@@ -129,39 +129,34 @@ extension NNCalendar.MonthDisplay.ViewModel: NNMonthDisplayViewModelType {
     return daySbj.filter({$0.isSome}).map({$0!})
   }
 
-  /// Convenient stream to emits Month.
-  private var monthStream: Observable<NNCalendar.Month> {
+  /// Convenient stream that emits month components.
+  private var monthCompStream: Observable<NNCalendar.MonthComp> {
     let dayCount = rowCount * columnCount
-    return model.currentMonthCompStream.map({NNCalendar.Month($0, dayCount)})
+    return model.currentMonthStream.map({NNCalendar.MonthComp($0, dayCount)})
   }
 
   public var gridDayIndexSelectionChangesStream: Observable<Set<Int>> {
-    let firstDayOfWeek = dependency.firstDayOfWeek
+    let firstWeekday = dependency.firstWeekday
 
     return model.allDateSelectionStream
       .scan((prev: Set<Date>(), current: Set<Date>()),
             accumulator: {(prev: $0.current, current: $1)})
-      .withLatestFrom(monthStream) {($1, $0)}
+      .withLatestFrom(monthCompStream) {($1, $0)}
       .map({[weak self] in self?.model
-        .calculateGridSelection($0, firstDayOfWeek, $1.prev, $1.current)})
+        .calculateGridSelection($0, firstWeekday, $1.prev, $1.current)})
       .filter({$0.isSome}).map({$0!})
       .map({Set($0.map({$0.dayIndex}))})
   }
 
   public func setupMonthDisplayBindings() {
-    let firstDayOfWeek = dependency.firstDayOfWeek
+    let firstWeekday = dependency.firstWeekday
     let rowCount = dependency.rowCount
     let columnCount = dependency.columnCount
 
-    /// Every time the user switches the month component, we need to update the
-    /// day stream.
-    model.currentMonthCompStream
-      .map({[weak self] components in
-        self?.model.calculateDayRange(components,
-                                      firstDayOfWeek,
-                                      rowCount,
-                                      columnCount)
-      })
+    /// Every time the user switches month, we need to update the day stream.
+    model.currentMonthStream
+      .map({[weak self] month in self?.model
+        .calculateDayRange(month, firstWeekday, rowCount, columnCount)})
       .filter({$0.isSome}).map({$0!})
       .distinctUntilChanged({$0 == $1})
       .map(Optional.some)
@@ -202,8 +197,8 @@ public extension NNCalendar.MonthDisplay.ViewModel {
   /// most commonly used set-up, for e.g. horizontal calendar with 42 date cells
   /// in total.
   internal final class DefaultDependency: NNMonthDisplayViewModelDependency {
-    public var firstDayOfWeek: Int {
-      return monthGridDp.firstDayOfWeek
+    public var firstWeekday: Int {
+      return monthGridDp.firstWeekday
     }
 
     public var columnCount: Int {

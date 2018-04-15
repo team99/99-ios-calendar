@@ -33,7 +33,7 @@ public extension MonthGridTest {
     XCTAssertEqual(vmWithDefault.rowCount, 6)
     XCTAssertEqual(viewModel.columnCount, 7)
     XCTAssertEqual(viewModel.rowCount, 6)
-    XCTAssertEqual(firstDayOfWeek, 1)
+    XCTAssertEqual(firstWeekday, 1)
   }
 
   public func test_gridSelectionReceiverAndStream_shouldWork() {
@@ -67,7 +67,7 @@ extension MonthGridTest: NNMonthGridViewModelDependency {
     return defaultViewModelDp!.rowCount
   }
 
-  public var firstDayOfWeek: Int {
-    return defaultViewModelDp!.firstDayOfWeek
+  public var firstWeekday: Int {
+    return defaultViewModelDp!.firstWeekday
   }
 }

@@ -82,7 +82,7 @@ extension NNCalendar.SelectWeekday.ViewModel: NNWeekdayDisplayViewModelType {
     // - The next time they selects the same range, some cells will be selected
     // (i.e. the previously deselected date) while the rest becomes deselected.
     weekdaySelectionStream
-      .withLatestFrom(model.currentMonthCompStream) {($1, $0)}
+      .withLatestFrom(model.currentMonthStream) {($1, $0)}
       .map({$0.datesWithWeekday($1)})
       .withLatestFrom(model.allDateSelectionStream) {$0.symmetricDifference($1)}
       .subscribe(model.allDateSelectionReceiver)
@@ -100,8 +100,8 @@ public extension NNCalendar.SelectWeekday.ViewModel {
       return weekdayDp.weekdayCount
     }
 
-    internal var firstDayOfWeek: Int {
-      return weekdayDp.firstDayOfWeek
+    internal var firstWeekday: Int {
+      return weekdayDp.firstWeekday
     }
 
     private let weekdayDp: NNWeekdayDisplayViewModelDependency

@@ -95,8 +95,8 @@ public extension NNCalendar.MonthGrid.ViewModel {
     }
 
     /// Corresponds to a Sunday.
-    internal var firstDayOfWeek: Int {
-      return weekdayAwareDp.firstDayOfWeek
+    internal var firstWeekday: Int {
+      return weekdayAwareDp.firstWeekday
     }
 
     private let weekdayAwareDp: NNWeekdayAwareViewModelDependency

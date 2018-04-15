@@ -68,7 +68,7 @@ extension NNCalendar.WeekdayDisplay.ViewModel: NNWeekdayDisplayViewModelFunction
 // MARK: - NNWeekdayDisplayViewModelType
 extension NNCalendar.WeekdayDisplay.ViewModel: NNWeekdayDisplayViewModelType {
   public var weekdayStream: Observable<[NNCalendar.Weekday]> {
-    let firstWeekday = dependency.firstDayOfWeek
+    let firstWeekday = dependency.firstWeekday
     let weekdayCount = dependency.weekdayCount
 
     let weekdays = (firstWeekday..<firstWeekday + weekdayCount)
@@ -100,8 +100,8 @@ public extension NNCalendar.WeekdayDisplay.ViewModel {
       return 7
     }
 
-    public var firstDayOfWeek: Int {
-      return weekdayAwareDp.firstDayOfWeek
+    public var firstWeekday: Int {
+      return weekdayAwareDp.firstWeekday
     }
 
     private let weekdayAwareDp: NNWeekdayAwareViewModelDependency

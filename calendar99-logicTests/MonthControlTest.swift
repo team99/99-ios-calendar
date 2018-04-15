@@ -14,21 +14,21 @@ import XCTest
 public final class MonthControlTest: RootTest {
   fileprivate var model: NNCalendar.MonthControl.Model!
   fileprivate var viewModel: NNMonthControlViewModelType!
-  fileprivate var initialComp: NNCalendar.MonthComp!
-  fileprivate var currentMonthComp: BehaviorSubject<NNCalendar.MonthComp>!
+  fileprivate var initialMonth: NNCalendar.Month!
+  fileprivate var currentMonthSb: BehaviorSubject<NNCalendar.Month>!
 
   override public func setUp() {
     super.setUp()
     model = NNCalendar.MonthControl.Model(self)
     viewModel = NNCalendar.MonthControl.ViewModel(model!)
-    initialComp = NNCalendar.MonthComp(Date())
-    currentMonthComp = BehaviorSubject(value: initialComp!)
+    initialMonth = NNCalendar.Month(Date())
+    currentMonthSb = BehaviorSubject(value: initialMonth!)
   }
 
   public func test_navigateToPreviousOrNextMonth_shouldWork() {
     /// Setup
     viewModel.setupMonthControlBindings()
-    var prevComp = initialComp!
+    var prevMonth = initialMonth!
 
     /// When
     for _ in 0..<iterations! {
@@ -42,9 +42,9 @@ public final class MonthControlTest: RootTest {
       }
 
       /// Then
-      let currentComp = try! currentMonthComp.value()
-      let monthOffset = prevComp.monthOffset(from: currentComp)
-      prevComp = currentComp
+      let currentMonth = try! currentMonthSb.value()
+      let monthOffset = prevMonth.monthOffset(from: currentMonth)
+      prevMonth = currentMonth
 
       if forward {
         XCTAssertEqual(monthOffset, -Int(jump))
@@ -56,11 +56,11 @@ public final class MonthControlTest: RootTest {
 }
 
 extension MonthControlTest: NNMonthControlModelDependency {
-  public var currentMonthCompReceiver: AnyObserver<NNCalendar.MonthComp> {
-    return currentMonthComp.asObserver()
+  public var currentMonthReceiver: AnyObserver<NNCalendar.Month> {
+    return currentMonthSb.asObserver()
   }
 
-  public var currentMonthCompStream: Observable<NNCalendar.MonthComp> {
-    return currentMonthComp.asObservable()
+  public var currentMonthStream: Observable<NNCalendar.Month> {
+    return currentMonthSb.asObservable()
   }
 }

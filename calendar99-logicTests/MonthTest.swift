@@ -1,5 +1,5 @@
 //
-//  MonthCompTest.swift
+//  MonthTest.swift
 //  calendar99-logicTests
 //
 //  Created by Hai Pham on 10/4/18.
@@ -10,21 +10,21 @@ import SwiftUtilities
 import XCTest
 @testable import calendar99_logic
 
-/// Tests for month components.
-public final class MonthCompTest: RootTest {
-  public func test_newMonthCompWithMonthOffset_shouldWork() {
+/// Tests for months.
+public final class MonthTest: RootTest {
+  public func test_newMonthWithMonthOffset_shouldWork() {
     /// Setup
     var date = Date()
-    var components = NNCalendar.MonthComp(date)
+    var month = NNCalendar.Month(date)
 
     /// When
     for _ in 0..<iterations! {
-      let newComps = components.with(monthOffset: 1)!
-      let dateComponents = newComps.dateComponents()
+      let newMonth = month.with(monthOffset: 1)!
+      let dateComponents = newMonth.dateComponents()
       let newDate = Calendar.current.date(from: dateComponents)!
       let oldDate = date
       date = newDate
-      components = newComps
+      month = newMonth
 
       /// Then
       XCTAssertGreaterThan(newDate, oldDate)
@@ -35,21 +35,21 @@ public final class MonthCompTest: RootTest {
     /// Setup
     let calendar = Calendar.current
     let date = Date()
-    let firstComp = NNCalendar.MonthComp(date)
+    let firstMonth = NNCalendar.Month(date)
 
     /// When
     for i in 0..<iterations! {
-      let newComp = firstComp.with(monthOffset: i)!
+      let newComp = firstMonth.with(monthOffset: i)!
       let dateOffset = Int.random(0, 40)
       let newDate = calendar.date(byAdding: .day, value: dateOffset, to: date)!
 
       /// Then
-      let newDateMonthComp = NNCalendar.MonthComp(newDate)
+      let newMonthForDate = NNCalendar.Month(newDate)
 
       if newComp.contains(newDate) {
-        XCTAssertEqual(newComp, newDateMonthComp)
+        XCTAssertEqual(newComp, newMonthForDate)
       } else {
-        XCTAssertNotEqual(newComp, newDateMonthComp)
+        XCTAssertNotEqual(newComp, newMonthForDate)
       }
     }
   }
@@ -57,20 +57,20 @@ public final class MonthCompTest: RootTest {
   public func test_getDatesWithWeekday_shouldWork() {
     /// Setup
     let calendar = Calendar.current
-    let firstComp = NNCalendar.MonthComp(Date())
+    let firstMonth = NNCalendar.Month(Date())
 
     /// When
     for i in 0..<iterations! {
-      let monthComp = firstComp.with(monthOffset: i)!
+      let month = firstMonth.with(monthOffset: i)!
 
       for weekday in 1...7 {
-        let dates = monthComp.datesWithWeekday(weekday)
+        let dates = month.datesWithWeekday(weekday)
 
         /// Then
         for date in dates {
           let weekdayComp = calendar.component(.weekday, from: date)
           XCTAssertEqual(weekdayComp, weekday)
-          XCTAssertEqual(NNCalendar.MonthComp(date), monthComp)
+          XCTAssertEqual(NNCalendar.Month(date), month)
         }
       }
     }

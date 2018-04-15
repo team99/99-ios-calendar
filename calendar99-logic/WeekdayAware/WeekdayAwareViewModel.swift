@@ -10,7 +10,7 @@
 public protocol NNWeekdayAwareViewModelDependency {
 
   /// Get the first day of a week (e.g. Monday).
-  var firstDayOfWeek: Int { get }
+  var firstWeekday: Int { get }
 }
 
 // MARK: - View model.
@@ -23,7 +23,7 @@ public extension NNCalendar.WeekdayAware.ViewModel {
 
   /// Default dependency for weekday-aware view models.
   internal final class DefaultDependency: NNWeekdayAwareViewModelDependency {
-    internal var firstDayOfWeek: Int {
+    internal var firstWeekday: Int {
       return 1
     }
   }

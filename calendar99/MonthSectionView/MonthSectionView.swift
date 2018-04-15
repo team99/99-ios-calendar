@@ -109,7 +109,7 @@ public extension NNMonthSectionView {
 
 // MARK: - Data source.
 public extension NNMonthSectionView {
-  typealias Section = NNCalendar.Month
+  typealias Section = NNCalendar.MonthComp
   typealias CVSource = CollectionViewSectionedDataSource<Section>
   typealias RxDataSource = RxCollectionViewSectionedAnimatedDataSource<Section>
 
@@ -142,7 +142,7 @@ public extension NNMonthSectionView {
     guard
       section >= 0 && section < source.sectionModels.count,
       let viewModel = self.viewModel,
-      let day = viewModel.calculateDay(sections[section].monthComp, item),
+      let day = viewModel.calculateDayFromFirstDate(sections[section].month, item),
       let cell = view.dequeueReusableCell(
         withReuseIdentifier: cellId,
         for: indexPath) as? NNDateCell else
@@ -177,12 +177,12 @@ public extension NNMonthSectionView {
     let disposable = self.disposable
     let dataSource = setupDataSource()
 
-    viewModel.monthStream
+    viewModel.monthCompStream
       .observeOn(MainScheduler.instance)
       .bind(to: self.rx.items(dataSource: dataSource))
       .disposed(by: disposable)
 
-    let selectionStream = viewModel.currentMonthSelectionIndex.share(replay: 1)
+    let selectionStream = viewModel.currentMonthSelectionIndexStream.share(replay: 1)
 
     // The scroll position actually affects the cell layout, so be sure to
     // choose carefully.
@@ -242,25 +242,26 @@ public extension NNMonthSectionView {
   }
 }
 
-extension NNCalendar.Month: IdentifiableType {
+// MARK: - IdentifiableType
+extension NNCalendar.MonthComp: IdentifiableType {
   public typealias Identity = String
 
   public var identity: String {
-    return "\(monthComp.month)-\(monthComp.year)"
+    return "\(month.month)-\(month.year)"
   }
 }
 
 /// Notice that we don't actually store any data here - this is done so that
 /// the memory footprint is as small as possible. If a cell requires data to
 /// display, that data will be calculated at the time it's requested.
-extension NNCalendar.Month: AnimatableSectionModelType {
+extension NNCalendar.MonthComp: AnimatableSectionModelType {
   public typealias Item = Int
 
   public var items: [Item] {
     return (0..<dayCount).map({$0})
   }
 
-  public init(original: NNCalendar.Month, items: [Item]) {
-    self.init(original.monthComp, items.count)
+  public init(original: NNCalendar.MonthComp, items: [Item]) {
+    self.init(original.month, items.count)
   }
 }

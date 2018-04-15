@@ -15,8 +15,8 @@ public final class SelectableWeekdayTest: RootTest {
   fileprivate var model: NNCalendar.SelectWeekday.Model!
   fileprivate var viewModel: NNCalendar.SelectWeekday.ViewModel!
   fileprivate var allDateSelectionSb: BehaviorSubject<Set<Date>>!
-  fileprivate var currentComp: NNCalendar.MonthComp!
-  fileprivate var currentCompSb: BehaviorSubject<NNCalendar.MonthComp>!
+  fileprivate var currentMonth: NNCalendar.Month!
+  fileprivate var currentMonthSb: BehaviorSubject<NNCalendar.Month>!
   fileprivate var defaultModelDp: NNSelectableWeekdayModelDependency!
   fileprivate var defaultViewModelDp: NNSelectableWeekdayViewModelDependency!
 
@@ -25,8 +25,8 @@ public final class SelectableWeekdayTest: RootTest {
     model = NNCalendar.SelectWeekday.Model(self)
     viewModel = NNCalendar.SelectWeekday.ViewModel(model!)
     allDateSelectionSb = BehaviorSubject(value: Set())
-    currentComp = NNCalendar.MonthComp(Date())
-    currentCompSb = BehaviorSubject(value: currentComp!)
+    currentMonth = NNCalendar.Month(Date())
+    currentMonthSb = BehaviorSubject(value: currentMonth!)
     defaultModelDp = NNCalendar.SelectWeekday.Model.DefaultDependency(self)
     defaultViewModelDp = NNCalendar.SelectWeekday.ViewModel.DefaultDependency()
   }
@@ -47,10 +47,10 @@ public extension SelectableWeekdayTest {
     let viewModel1 = NNCalendar.SelectWeekday.ViewModel(weekdayVM, defaultViewModelDp, model1)
     let viewModel2 = NNCalendar.SelectWeekday.ViewModel(defaultViewModelDp, model2)
     XCTAssertEqual(viewModel1.weekdayCount, viewModel2.weekdayCount)
-    XCTAssertEqual(defaultViewModelDp.firstDayOfWeek, 1)
+    XCTAssertEqual(defaultViewModelDp.firstWeekday, 1)
 
     let weekdays = try! viewModel!.weekdayStream.take(1).toBlocking().first()!
-    let firstWeekday = defaultViewModelDp!.firstDayOfWeek
+    let firstWeekday = defaultViewModelDp!.firstWeekday
     let weekdayCount = viewModel!.weekdayCount
 
     XCTAssertEqual((firstWeekday..<(firstWeekday + weekdayCount)).map({$0}),
@@ -64,8 +64,8 @@ public extension SelectableWeekdayTest {
 
     /// When && Then
     for i in 0..<iterations! {
-      let currentComp = self.currentComp!.with(monthOffset: i)
-      currentCompSb.onNext(currentComp!)
+      let currentMonth = self.currentMonth!.with(monthOffset: i)
+      currentMonthSb.onNext(currentMonth!)
 
       for weekdayIndex in 0..<6 {
         viewModel!.weekdaySelectionIndexReceiver.onNext(weekdayIndex)
@@ -93,7 +93,7 @@ extension SelectableWeekdayTest: NNSelectableWeekdayNoDefaultModelDependency {
     return allDateSelectionSb.asObservable()
   }
 
-  public var currentMonthCompStream: Observable<NNCalendar.MonthComp> {
-    return currentCompSb.asObservable()
+  public var currentMonthStream: Observable<NNCalendar.Month> {
+    return currentMonthSb.asObservable()
   }
 }

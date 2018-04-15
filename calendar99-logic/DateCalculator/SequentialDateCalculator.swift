@@ -14,20 +14,20 @@ public extension NNCalendar.DateCalculator {
   public final class Sequential {
     
     /// Calculate the first date in the grid.
-    fileprivate func calculateFirstDate(_ comps: NNCalendar.MonthComp,
-                                        _ firstDayOfWeek: Int) -> Date? {
+    fileprivate func calculateFirstDate(_ month: NNCalendar.Month,
+                                        _ firstWeekday: Int) -> Date? {
       let calendar = Calendar.current
-      let dateComponents = comps.dateComponents()
+      let dateComponents = month.dateComponents()
 
       return calendar.date(from: dateComponents)
         .flatMap({(date: Date) -> Date? in
           let weekday = calendar.component(.weekday, from: date)
           let offset: Int
 
-          if weekday < firstDayOfWeek {
-            offset = 7 - (firstDayOfWeek - weekday)
+          if weekday < firstWeekday {
+            offset = 7 - (firstWeekday - weekday)
           } else {
-            offset = weekday - firstDayOfWeek
+            offset = weekday - firstWeekday
           }
 
           return calendar.date(byAdding: .day, value: -offset, to: date)
@@ -41,13 +41,13 @@ extension NNCalendar.DateCalculator.Sequential: NNDateCalculatorType {
 
   /// We need to find the first day of the week in which the current month
   /// starts (not necessarily the first day of the month).
-  public func calculateDateRange(_ comps: NNCalendar.MonthComp,
-                                 _ firstDayOfWeek: Int,
+  public func calculateDateRange(_ month: NNCalendar.Month,
+                                 _ firstWeekday: Int,
                                  _ rowCount: Int,
                                  _ columnCount: Int) -> [Date] {
     let calendar = Calendar.current
 
-    return calculateFirstDate(comps, firstDayOfWeek)
+    return calculateFirstDate(month, firstWeekday)
       .map({(date: Date) -> [Date] in
         (0..<rowCount * columnCount).flatMap({
           return calendar.date(byAdding: .day, value: $0, to: date)
@@ -59,31 +59,29 @@ extension NNCalendar.DateCalculator.Sequential: NNDateCalculatorType {
 
 // MARK: - NNSingleDateCalculatorType
 extension NNCalendar.DateCalculator.Sequential: NNSingleDateCalculatorType {
-  public func calculateDateWithOffset(_ comps: NNCalendar.MonthComp,
-                                      _ firstDayOfWeek: Int,
+  public func calculateDateWithOffset(_ month: NNCalendar.Month,
+                                      _ firstWeekday: Int,
                                       _ firstDateOffset: Int) -> Date? {
     let calendar = Calendar.current
 
-    return calculateFirstDate(comps, firstDayOfWeek)
+    return calculateFirstDate(month, firstWeekday)
       .flatMap({calendar.date(byAdding: .day, value: firstDateOffset, to: $0)})
   }
 }
 
 // MARK: - NNGridSelectionCalculatorType
 extension NNCalendar.DateCalculator.Sequential: NNMultiMonthGridSelectionCalculator {
-  public func calculateGridSelection(_ months: [NNCalendar.Month],
-                                     _ firstDayOfWeek: Int,
+  public func calculateGridSelection(_ monthComps: [NNCalendar.MonthComp],
+                                     _ firstWeekday: Int,
                                      _ selection: Date)
     -> Set<NNCalendar.GridSelection>
   {
-    let monthComp = NNCalendar.MonthComp(selection)
+    let month = NNCalendar.Month(selection)
 
-    return months.enumerated()
-      .first(where: {
-        $0.1.month == monthComp.month && $0.1.year == monthComp.year
-      })
-      .map({(offset: Int, month: NNCalendar.Month) in
-        calculateGridSelection(months, month, offset, firstDayOfWeek, selection)
+    return monthComps.enumerated()
+      .first(where: {$0.1.month == month})
+      .map({(offset: Int, month: NNCalendar.MonthComp) in
+        calculateGridSelection(monthComps, month, offset, firstWeekday, selection)
       })
       .getOrElse([])
   }
@@ -92,15 +90,15 @@ extension NNCalendar.DateCalculator.Sequential: NNMultiMonthGridSelectionCalcula
   /// more than 31 cells, the calendar view may include dates from previous/
   /// next months). To be safe, we calculate the selection for one month before
   /// and after the specified month.
-  fileprivate func calculateGridSelection(_ months: [NNCalendar.Month],
-                                          _ month: NNCalendar.Month,
+  fileprivate func calculateGridSelection(_ monthComps: [NNCalendar.MonthComp],
+                                          _ monthComp: NNCalendar.MonthComp,
                                           _ monthOffset: Int,
-                                          _ firstDayOfWeek: Int,
+                                          _ firstWeekday: Int,
                                           _ selection: Date)
     -> Set<NNCalendar.GridSelection>
   {
-    let calculate = {(month: NNCalendar.Month, offset: Int) -> NNCalendar.GridSelection? in
-      if let firstDate = self.calculateFirstDate(month.monthComp, firstDayOfWeek) {
+    let calculate = {(month: NNCalendar.MonthComp, offset: Int) -> NNCalendar.GridSelection? in
+      if let firstDate = self.calculateFirstDate(month.month, firstWeekday) {
         let interval = selection.timeIntervalSince(firstDate)
         let diff = Int(interval / 60 / 60 / 24)
 
@@ -113,17 +111,17 @@ extension NNCalendar.DateCalculator.Sequential: NNMultiMonthGridSelectionCalcula
     }
 
     var gridSelections = Set<NNCalendar.GridSelection>()
-    _ = calculate(month, monthOffset).map({gridSelections.insert($0)})
+    _ = calculate(monthComp, monthOffset).map({gridSelections.insert($0)})
     let prevMonthOffset = monthOffset - 1
     let nextMonthOffset = monthOffset + 1
 
-    if prevMonthOffset >= 0 && prevMonthOffset < months.count {
-      let prevMonth = months[prevMonthOffset]
+    if prevMonthOffset >= 0 && prevMonthOffset < monthComps.count {
+      let prevMonth = monthComps[prevMonthOffset]
       _ = calculate(prevMonth, prevMonthOffset).map({gridSelections.insert($0)})
     }
 
-    if nextMonthOffset >= 0 && nextMonthOffset < months.count {
-      let nextMonth = months[nextMonthOffset]
+    if nextMonthOffset >= 0 && nextMonthOffset < monthComps.count {
+      let nextMonth = monthComps[nextMonthOffset]
       _ = calculate(nextMonth, nextMonthOffset).map({gridSelections.insert($0)})
     }
 
@@ -134,32 +132,32 @@ extension NNCalendar.DateCalculator.Sequential: NNMultiMonthGridSelectionCalcula
 // MARK: - NNSingleMonthGridSelectionCalculatorType
 extension NNCalendar.DateCalculator.Sequential: NNSingleMonthGridSelectionCalculator {
 
-  /// We need to include the previous and next months here as well, and call
-  /// the pre-specified method that deals with Month Array. We also assume that
-  /// the day count remains the same for all Months.
-  public func calculateGridSelection(_ month: NNCalendar.Month,
-                                     _ firstDayOfWeek: Int,
+  /// We need to include the previous and next month components here as well,
+  /// and call the pre-specified method that deals with Month Array. We also
+  /// assume that the day count remains the same for all Months.
+  public func calculateGridSelection(_ monthComp: NNCalendar.MonthComp,
+                                     _ firstWeekday: Int,
                                      _ selection: Date)
     -> Set<NNCalendar.GridSelection>
   {
-    var months = [NNCalendar.Month]()
+    var monthComps = [NNCalendar.MonthComp]()
     let calendar = Calendar.current
-    let dateComponents = month.monthComp.dateComponents()
+    let dateComponents = monthComp.month.dateComponents()
 
     calendar.date(from: dateComponents)
       .flatMap({calendar.date(byAdding: .month, value: -1, to: $0)})
-      .map({NNCalendar.MonthComp($0)})
-      .map({month.with(monthComp: $0)})
-      .map({months.append($0)})
+      .map({NNCalendar.Month($0)})
+      .map({monthComp.with(month: $0)})
+      .map({monthComps.append($0)})
 
-    months.append(month)
+    monthComps.append(monthComp)
 
     calendar.date(from: dateComponents)
       .flatMap({calendar.date(byAdding: .month, value: 1, to: $0)})
-      .map({NNCalendar.MonthComp($0)})
-      .map({month.with(monthComp: $0)})
-      .map({months.append($0)})
+      .map({NNCalendar.Month($0)})
+      .map({monthComp.with(month: $0)})
+      .map({monthComps.append($0)})
 
-    return calculateGridSelection(months, firstDayOfWeek, selection)
+    return calculateGridSelection(monthComps, firstWeekday, selection)
   }
 }

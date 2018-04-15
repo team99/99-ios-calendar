@@ -52,11 +52,11 @@ extension NNCalendar.MonthControl.ViewModel: NNMonthControlViewModelType {
     let disposable = self.disposable
 
     currentMonthMovementSb
-      .withLatestFrom(model.currentMonthCompStream) {($1, $0.monthOffset)}      
+      .withLatestFrom(model.currentMonthStream) {($1, $0.monthOffset)}      
       .map({$0.with(monthOffset: $1)})
       .filter({$0.isSome}).map({$0!})
       .distinctUntilChanged()
-      .subscribe(model.currentMonthCompReceiver)
+      .subscribe(model.currentMonthReceiver)
       .disposed(by: disposable)
   }
 }

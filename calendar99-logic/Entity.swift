@@ -59,14 +59,13 @@ public extension NNCalendar {
   }
 }
 
-// MARK: - MonthComp.
+// MARK: - Month.
 public extension NNCalendar {
 
-  /// Represents a month-based component that can be controlled by the user.
-  /// This is used throughout the library, esp. by the month header (whereby
-  /// there are forward and backward arrows to control the currently selected
-  /// month component).
-  public struct MonthComp: Equatable, Hashable, CustomStringConvertible {
+  /// Represents a month that can be controlled by the user. This is used
+  /// throughout the library, esp. by the month header (whereby there are
+  // forward and backward arrows to control the currently selected month).
+  public struct Month: Equatable, Hashable, CustomStringConvertible {
     public let month: Int
     public let year: Int
 
@@ -89,9 +88,9 @@ public extension NNCalendar {
 
     public init(_ date: Date) {
       let calendar = Calendar.current
-      let month = calendar.component(.month, from: date)
-      let year = calendar.component(.year, from: date)
-      self.init(month: month, year: year)
+      let monthValue = calendar.component(.month, from: date)
+      let yearValue = calendar.component(.year, from: date)
+      self.init(month: monthValue, year: yearValue)
     }
 
     public func dateComponents() -> DateComponents {
@@ -101,23 +100,22 @@ public extension NNCalendar {
       return components
     }
 
-    /// Check if the current month component contains a Date.
+    /// Check if the current month contains a Date.
     ///
     /// - Parameter date: A Date instance.
     /// - Returns: A Bool value.
     public func contains(_ date: Date) -> Bool {
       let calendar = Calendar.current
-      let month = calendar.component(.month, from: date)
-      let year = calendar.component(.year, from: date)
-      return self.month == month && self.year == year
+      let monthValue = calendar.component(.month, from: date)
+      let yearValue = calendar.component(.year, from: date)
+      return self.month == monthValue && self.year == yearValue
     }
 
-    /// Get the month component that is some month offsets away from the current
-    /// component.
+    /// Get the month that is some month offsets away from the current month.
     ///
     /// - Parameter monthOffset: An Int value.
-    /// - Returns: A MonthComp instance.
-    public func with(monthOffset: Int) -> MonthComp? {
+    /// - Returns: A Month instance.
+    public func with(monthOffset: Int) -> Month? {
       let calendar = Calendar.current
       let components = dateComponents()
       var componentOffset = DateComponents()
@@ -129,16 +127,16 @@ public extension NNCalendar {
           calendar.component(.month, from: $0),
           calendar.component(.year, from: $0
         ))})
-        .map({NNCalendar.MonthComp(month: $0, year: $1)})
+        .map({NNCalendar.Month(month: $0, year: $1)})
     }
 
-    /// Get the difference between the current month component and a specified
-    /// month component in terms of month.
+    /// Get the difference between the current month and a specified month in
+    /// terms of month.
     ///
-    /// - Parameter comp: A MonthComp instance.
+    /// - Parameter month: A Month instance.
     /// - Returns: An Int value.
-    public func monthOffset(from comp: MonthComp) -> Int {
-      return (year - comp.year) * 12 + (month - comp.month)
+    public func monthOffset(from month: Month) -> Int {
+      return (year - month.year) * 12 + (self.month - month.month)
     }
 
     /// Get all Dates with a particular weekday that lies within this month
@@ -169,8 +167,8 @@ public extension NNCalendar {
           var results = Set<Date>()
           var currentDate = date
 
-          // Only consider dates that lie within this month component. As soon
-          // as the current date gets out of range, skip it.
+          // Only consider dates that lie within this month. As soon as the
+          // current date gets out of range, skip it.
           while contains(currentDate) {
             results.insert(currentDate)
 
@@ -188,7 +186,7 @@ public extension NNCalendar {
         .getOrElse([])
     }
 
-    public static func ==(_ lhs: MonthComp, _ rhs: MonthComp) -> Bool {
+    public static func ==(_ lhs: Month, _ rhs: Month) -> Bool {
       return lhs.month == rhs.month && lhs.year == rhs.year
     }
   }
@@ -198,7 +196,7 @@ public extension NNCalendar {
 public extension NNCalendar {
 
   /// Represents a container for dates that can be used to display on the month
-  /// view.
+  /// view and month section view.
   public struct Day: Equatable, CustomStringConvertible {
     public let date: Date
     public let dateDescription: String
@@ -258,38 +256,30 @@ public extension NNCalendar {
 public extension NNCalendar {
 
   /// Represents a container for months that can be used to display on the month
-  /// section view. Each Month will have a number of Days (generally 42), but
-  /// we calculate Days lazily when they are requested, instead of upfront, in
-  /// order to minimize storage esp. when we have a large number of Months to
-  /// display.
-  public struct Month: Equatable, CustomStringConvertible {
+  /// section view. Each month component will have a number of Days (generally
+  /// 42), but we calculate Days lazily when they are requested, instead of
+  /// upfront, in order to minimize storage esp. when we have a large number
+  /// of Months to display.
+  public struct MonthComp: Equatable, CustomStringConvertible {
     public let dayCount: Int
-    public let monthComp: MonthComp
-
-    public var month: Int {
-      return monthComp.month
-    }
-
-    public var year: Int {
-      return monthComp.year
-    }
+    public let month: Month
 
     public var description: String {
-      return monthComp.description
+      return month.description
     }
 
-    public init(_ monthComponent: MonthComp, _ dayCount: Int) {
-      self.monthComp = monthComponent
+    public init(_ month: Month, _ dayCount: Int) {
+      self.month = month
       self.dayCount = dayCount
     }
 
     /// Clone the current Month but change the month component.
-    public func with(monthComp: MonthComp) -> Month {
-      return Month(monthComp, dayCount)
+    public func with(month: Month) -> MonthComp {
+      return MonthComp(month, dayCount)
     }
 
-    public static func ==(_ lhs: Month, _ rhs: Month) -> Bool {
-      return lhs.monthComp == rhs.monthComp && lhs.dayCount == rhs.dayCount
+    public static func ==(_ lhs: MonthComp, _ rhs: MonthComp) -> Bool {
+      return lhs.month == rhs.month && lhs.dayCount == rhs.dayCount
     }
   }
 }

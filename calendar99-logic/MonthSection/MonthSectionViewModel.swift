@@ -33,12 +33,12 @@ public protocol NNMonthSectionViewModelType:
   /// Get the total month count.
   var totalMonthCount: Int { get }
   
-  /// Stream months to display on the month section view.
-  var monthStream: Observable<[NNCalendar.Month]> { get }
+  /// Stream month components to display on the month section view.
+  var monthCompStream: Observable<[NNCalendar.MonthComp]> { get }
 
   /// Stream the current month selection index. This will change, for e.g. when
   /// the user swipes the calendar view to reveal a new month.
-  var currentMonthSelectionIndex: Observable<Int> { get }
+  var currentMonthSelectionIndexStream: Observable<Int> { get }
 
   /// Stream grid selections changes based on selected dates. We need to
   /// calculate the grid selections in a way that memory usage is minimized.
@@ -47,14 +47,14 @@ public protocol NNMonthSectionViewModelType:
   /// the previous and current selections.
   var gridSelectionChangesStream: Observable<[NNCalendar.GridSelection]> { get }
 
-  /// Calculate the day for a month component and a first date offset.
+  /// Calculate the day for a month and a first date offset.
   ///
   /// - Parameters:
-  ///   - comps: A MonthComp instance.
+  ///   - month: A Month instance.
   ///   - firstDateOffset: Offset from the initial date in the grid.
   /// - Returns: A Day instance.
-  func calculateDay(_ comps: NNCalendar.MonthComp,
-                    _ firstDateOffset: Int) -> NNCalendar.Day?
+  func calculateDayFromFirstDate(_ month: NNCalendar.Month,
+                                 _ firstDateOffset: Int) -> NNCalendar.Day?
 
   /// Set up month section bindings.
   func setupMonthSectionBindings()
@@ -83,7 +83,7 @@ public extension NNCalendar.MonthSection {
     fileprivate let disposable: DisposeBag
 
     /// Cache here to improve performance.
-    fileprivate let monthSbj: BehaviorSubject<[NNCalendar.Month]?>
+    fileprivate let monthCompSbj: BehaviorSubject<[NNCalendar.MonthComp]?>
 
     required public init(_ monthControlVM: NNMonthControlViewModelType,
                          _ monthGridVM: NNMonthGridViewModelType,
@@ -95,7 +95,7 @@ public extension NNCalendar.MonthSection {
       self.daySelectionVM = daySelectionVM
       self.dependency = dependency
       self.model = model
-      monthSbj = BehaviorSubject(value: nil)
+      monthCompSbj = BehaviorSubject(value: nil)
       disposable = DisposeBag()
     }
 
@@ -178,34 +178,35 @@ extension NNCalendar.MonthSection.ViewModel: NNMonthSectionViewModelType {
       + dependency.futureMonthCountFromCurrent
   }
 
-  public var monthStream: Observable<[NNCalendar.Month]> {
-    return monthSbj.filter({$0.isSome}).map({$0!})
+  public var monthCompStream: Observable<[NNCalendar.MonthComp]> {
+    return monthCompSbj.filter({$0.isSome}).map({$0!})
   }
 
-  public var currentMonthSelectionIndex: Observable<Int> {
-    return model.currentMonthCompStream
-      .withLatestFrom(monthStream) {($0, $1)}
-      .map({$1.map({$0.monthComp}).index(of: $0)})
+  public var currentMonthSelectionIndexStream: Observable<Int> {
+    return model.currentMonthStream
+      .withLatestFrom(monthCompStream) {($0, $1)}
+      .map({$1.map({$0.month}).index(of: $0)})
       .filter({$0.isSome}).map({$0!})
       .distinctUntilChanged()
   }
 
   /// Keep track of the previous selections to know what have been deselected.
   public var gridSelectionChangesStream: Observable<[NNCalendar.GridSelection]> {
-    let firstDayOfWeek = dependency.firstDayOfWeek
+    let firstWeekday = dependency.firstWeekday
 
     return model.allDateSelectionStream
       .scan((prev: Set<Date>(), current: Set<Date>()),
             accumulator: {(prev: $0.current, current: $1)})
-      .withLatestFrom(monthStream) {($1, prev: $0.prev, current: $0.current)}
+      .withLatestFrom(monthCompStream) {($1, prev: $0.prev, current: $0.current)}
       .map({[weak self] in self?.model
-        .calculateGridSelection($0.0, firstDayOfWeek, $0.prev, $0.current)})
+        .calculateGridSelection($0.0, firstWeekday, $0.prev, $0.current)})
       .filter({$0.isSome}).map({$0!})
   }
 
-  public func calculateDay(_ comps: NNCalendar.MonthComp,
-                           _ firstDateOffset: Int) -> NNCalendar.Day? {
-    return model.calculateDay(comps, dependency.firstDayOfWeek, firstDateOffset)
+  public func calculateDayFromFirstDate(_ month: NNCalendar.Month,
+                                        _ firstDateOffset: Int) -> NNCalendar.Day? {
+    let firstWeekday = dependency.firstWeekday
+    return model.calculateDayFromFirstDate(month, firstWeekday, firstDateOffset)
   }
 
   public func setupMonthSectionBindings() {
@@ -216,20 +217,20 @@ extension NNCalendar.MonthSection.ViewModel: NNMonthSectionViewModelType {
 
     /// Must call onNext manually to avoid completed event, since this is a
     /// cold stream.
-    model.initialMonthCompStream
+    model.initialMonthStream
       .map({[weak self] in self?.model.componentRange($0, pCount, fCount)})
       .filter({$0.isSome}).map({$0!})
-      .map({$0.map({NNCalendar.Month($0, dayCount)})})
+      .map({$0.map({NNCalendar.MonthComp($0, dayCount)})})
       .asObservable()
-      .subscribe(onNext: {[weak self] in self?.monthSbj.onNext($0)})
+      .subscribe(onNext: {[weak self] in self?.monthCompSbj.onNext($0)})
       .disposed(by: disposable)
 
     gridSelectionStream
-      .withLatestFrom(monthStream) {($1, $0)}
+      .withLatestFrom(monthCompStream) {($1, $0)}
       .filter({$1.monthIndex >= 0 && $1.monthIndex < $0.count})
       .map({[weak self] (months, index) -> Date? in
-        let monthComp = months[index.monthIndex].monthComp
-        return self?.calculateDay(monthComp, index.dayIndex)?.date
+        let month = months[index.monthIndex].month
+        return self?.calculateDayFromFirstDate(month, index.dayIndex)?.date
       })
       .filter({$0.isSome}).map({$0!})
       .subscribe(dateSelectionReceiver)
@@ -243,8 +244,8 @@ extension NNCalendar.MonthSection.ViewModel {
   /// Default dependency for month section view model. We reuse the default
   /// dependency for the month view because they have many similarities.
   internal final class DefaultDependency: NNMonthSectionViewModelDependency {
-    internal var firstDayOfWeek: Int {
-      return defaulted.firstDayOfWeek
+    internal var firstWeekday: Int {
+      return defaulted.firstWeekday
     }
 
     internal var columnCount: Int {

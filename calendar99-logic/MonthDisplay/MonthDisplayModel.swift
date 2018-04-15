@@ -15,8 +15,8 @@ public protocol NNMonthDisplayModelFunction:
   NNMonthGridModelDependency,
   NNSingleDaySelectionModelDependency
 {
-  /// Stream the initial components.
-  var initialMonthCompStream: Single<NNCalendar.MonthComp> { get }
+  /// Stream the initial month.
+  var initialMonthStream: Single<NNCalendar.Month> { get }
 }
 
 /// Dependency for month display model that contains components for which there
@@ -54,16 +54,16 @@ public protocol NNMonthDisplayModelType:
   NNSingleDaySelectionModelType,
   NNSingleMonthGridSelectionCalculator
 {
-  /// Calculate the Day range for a MonthComponent.
+  /// Calculate the Day range for a Month.
   ///
   /// - Parameters:
-  ///   - comps: A MonthComponent instance.
-  ///   - firstDayOfWeek: An Int value.
+  ///   - month: A Month instance.
+  ///   - firstWeekday: An Int value.
   ///   - rowCount: An Int value.
   ///   - columnCount: An Int value.
   /// - Returns: An Array of Day.
-  func calculateDayRange(_ comps: NNCalendar.MonthComp,
-                         _ firstDayOfWeek: Int,
+  func calculateDayRange(_ month: NNCalendar.Month,
+                         _ firstWeekday: Int,
                          _ rowCount: Int,
                          _ columnCount: Int) -> [NNCalendar.Day]
 }
@@ -106,12 +106,12 @@ extension NNCalendar.MonthDisplay.Model: NNMonthControlModelType {}
 
 // MARK: - NNMonthControlModelDependency
 extension NNCalendar.MonthDisplay.Model: NNMonthControlModelDependency {
-  public var currentMonthCompStream: Observable<NNCalendar.MonthComp> {
-    return dependency.currentMonthCompStream
+  public var currentMonthStream: Observable<NNCalendar.Month> {
+    return dependency.currentMonthStream
   }
 
-  public var currentMonthCompReceiver: AnyObserver<NNCalendar.MonthComp> {
-    return dependency.currentMonthCompReceiver
+  public var currentMonthReceiver: AnyObserver<NNCalendar.Month> {
+    return dependency.currentMonthReceiver
   }
 }
 
@@ -135,20 +135,20 @@ extension NNCalendar.MonthDisplay.Model: NNSingleDaySelectionModelType {
 
 // MARK: - NNMonthDisplayModelFunction
 extension NNCalendar.MonthDisplay.Model: NNMonthDisplayModelFunction {
-  public var initialMonthCompStream: Single<NNCalendar.MonthComp> {
-    return dependency.initialMonthCompStream
+  public var initialMonthStream: Single<NNCalendar.Month> {
+    return dependency.initialMonthStream
   }
 }
 
 // MARK: - NNMonthDisplayModelType
 extension NNCalendar.MonthDisplay.Model: NNMonthDisplayModelType {
-  public func calculateDayRange(_ comps: NNCalendar.MonthComp,
-                                _ firstDayOfWeek: Int,
+  public func calculateDayRange(_ month: NNCalendar.Month,
+                                _ firstWeekday: Int,
                                 _ rowCount: Int,
                                 _ columnCount: Int) -> [NNCalendar.Day] {
     let calendar = Calendar.current
 
-    let dates = dependency.calculateDateRange(comps, firstDayOfWeek,
+    let dates = dependency.calculateDateRange(month, firstWeekday,
                                               rowCount, columnCount)
 
     return dates.map({
@@ -156,17 +156,17 @@ extension NNCalendar.MonthDisplay.Model: NNMonthDisplayModelType {
 
       return NNCalendar.Day(date: $0,
                             dateDescription: description,
-                            isCurrentMonth: comps.contains($0),
+                            isCurrentMonth: month.contains($0),
                             isSelected: false)
     })
   }
 
-  public func calculateGridSelection(_ month: NNCalendar.Month,
-                                     _ firstDayOfWeek: Int,
+  public func calculateGridSelection(_ monthComp: NNCalendar.MonthComp,
+                                     _ firstWeekday: Int,
                                      _ selection: Date)
     -> Set<NNCalendar.GridSelection>
   {
-    return dependency.calculateGridSelection(month, firstDayOfWeek, selection)
+    return dependency.calculateGridSelection(monthComp, firstWeekday, selection)
   }
 }
 
@@ -176,8 +176,8 @@ public extension NNCalendar.MonthDisplay.Model {
   /// Default dependency for month display model. This delegates non-default
   /// components to a separate dependency.
   internal final class DefaultDependency: NNMonthDisplayModelDependency {
-    internal var initialMonthCompStream: Single<NNCalendar.MonthComp> {
-      return noDefault.initialMonthCompStream
+    internal var initialMonthStream: Single<NNCalendar.Month> {
+      return noDefault.initialMonthStream
     }
 
     internal var allDateSelectionStream: Observable<Set<Date>> {
@@ -196,12 +196,12 @@ public extension NNCalendar.MonthDisplay.Model {
       self.dateCalc = NNCalendar.DateCalculator.Sequential()
     }
 
-    internal var currentMonthCompStream: Observable<NNCalendar.MonthComp> {
-      return noDefault.currentMonthCompStream
+    internal var currentMonthStream: Observable<NNCalendar.Month> {
+      return noDefault.currentMonthStream
     }
 
-    internal var currentMonthCompReceiver: AnyObserver<NNCalendar.MonthComp> {
-      return noDefault.currentMonthCompReceiver
+    internal var currentMonthReceiver: AnyObserver<NNCalendar.Month> {
+      return noDefault.currentMonthReceiver
     }
 
     internal func isDateSelected(_ date: Date) -> Bool {
@@ -210,22 +210,19 @@ public extension NNCalendar.MonthDisplay.Model {
 
     /// We use a sequential date calculator here, since it seems to be the most
     /// common.
-    internal func calculateDateRange(_ comps: NNCalendar.MonthComp,
-                                     _ firstDayOfWeek: Int,
+    internal func calculateDateRange(_ month: NNCalendar.Month,
+                                     _ firstWeekday: Int,
                                      _ rowCount: Int,
                                      _ columnCount: Int) -> [Date] {
-      return dateCalc.calculateDateRange(comps,
-                                         firstDayOfWeek,
-                                         rowCount,
-                                         columnCount)
+      return dateCalc.calculateDateRange(month, firstWeekday, rowCount, columnCount)
     }
 
-    internal func calculateGridSelection(_ month: NNCalendar.Month,
-                                         _ firstDayOfWeek: Int,
+    internal func calculateGridSelection(_ monthComp: NNCalendar.MonthComp,
+                                         _ firstWeekday: Int,
                                          _ selection: Date)
       -> Set<NNCalendar.GridSelection>
     {
-      return dateCalc.calculateGridSelection(month, firstDayOfWeek, selection)
+      return dateCalc.calculateGridSelection(monthComp, firstWeekday, selection)
     }
   }
 }

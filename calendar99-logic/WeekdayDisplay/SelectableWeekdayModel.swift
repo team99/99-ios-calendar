@@ -66,8 +66,8 @@ extension NNCalendar.SelectWeekday.Model: NNWeekdayDisplayModelFunction {
 
 // MARK: - NNMonthAwareModelFunction
 extension NNCalendar.SelectWeekday.Model: NNMonthAwareModelFunction {
-  public var currentMonthCompStream: Observable<NNCalendar.MonthComp> {
-    return dependency.currentMonthCompStream
+  public var currentMonthStream: Observable<NNCalendar.Month> {
+    return dependency.currentMonthStream
   }
 }
 
@@ -88,8 +88,8 @@ extension NNCalendar.SelectWeekday.Model: NNSelectableWeekdayModelType {}
 // MARK: - Default dependency.
 public extension NNCalendar.SelectWeekday.Model {
   internal final class DefaultDependency: NNSelectableWeekdayModelDependency {
-    internal var currentMonthCompStream: Observable<NNCalendar.MonthComp> {
-      return noDefault.currentMonthCompStream
+    internal var currentMonthStream: Observable<NNCalendar.Month> {
+      return noDefault.currentMonthStream
     }
 
     internal var allDateSelectionReceiver: AnyObserver<Set<Date>> {

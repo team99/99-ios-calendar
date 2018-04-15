@@ -16,13 +16,13 @@ public final class ViewController: UIViewController  {
   @IBOutlet fileprivate weak var monthHeader: NNMonthHeaderView!
   @IBOutlet fileprivate weak var monthSectionView: NNMonthSectionView!
   @IBOutlet fileprivate weak var monthView: NNMonthView!
-  fileprivate var componentSb: BehaviorSubject<NNCalendar.MonthComp>!
+  fileprivate var monthSb: BehaviorSubject<NNCalendar.Month>!
   fileprivate var dateSelectionSb: BehaviorSubject<Set<Date>>!
   fileprivate var disposable: DisposeBag!
 
   override public func viewDidLoad() {
     super.viewDidLoad()
-    componentSb = BehaviorSubject(value: NNCalendar.MonthComp(Date()))
+    monthSb = BehaviorSubject(value: NNCalendar.Month(Date()))
     dateSelectionSb = BehaviorSubject(value: Set())
     disposable = DisposeBag()
 
@@ -52,20 +52,19 @@ public final class ViewController: UIViewController  {
 /// BEWARE: INTENTIONAL MEMORY LEAKS HERE. THIS IS ONLY TEMPORARY.
 
 extension ViewController: NNMonthHeaderNoDefaultModelDependency {
-  public var initialMonthCompStream: Single<NNCalendar.MonthComp> {
+  public var initialMonthStream: Single<NNCalendar.Month> {
     let date = Date()
-    let month = Calendar.current.component(.month, from: date)
-    let year = Calendar.current.component(.year, from: date)
-    let comps = NNCalendar.MonthComp(month: month, year: year)
-    return Single.just(comps)
+    let monthValue = Calendar.current.component(.month, from: date)
+    let yearValue = Calendar.current.component(.year, from: date)
+    return Single.just(NNCalendar.Month(month: monthValue, year: yearValue))
   }
 
-  public var currentMonthCompReceiver: AnyObserver<NNCalendar.MonthComp> {
-    return componentSb.asObserver()
+  public var currentMonthReceiver: AnyObserver<NNCalendar.Month> {
+    return monthSb.asObserver()
   }
 
-  public var currentMonthCompStream: Observable<NNCalendar.MonthComp> {
-    return componentSb
+  public var currentMonthStream: Observable<NNCalendar.Month> {
+    return monthSb.asObservable()
   }
 }
 

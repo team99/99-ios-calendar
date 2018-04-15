@@ -12,7 +12,7 @@ import RxSwift
 public protocol NNMonthAwareModelFunction {
 
   /// Stream the current selected components.
-  var currentMonthCompStream: Observable<NNCalendar.MonthComp> { get }
+  var currentMonthStream: Observable<NNCalendar.Month> { get }
 }
 
 /// Dependency for month-aware model.
