@@ -73,7 +73,7 @@ extension NNCalendar.WeekdayDisplay.ViewModel: NNWeekdayDisplayViewModelType {
 
     let weekdays = (firstWeekday..<firstWeekday + weekdayCount)
       .map({(weekday: $0, description: model.weekdayDescription($0))})
-      .map({NNCalendar.Weekday(dayIndex: $0.weekday, description: $0.description)})
+      .map({NNCalendar.Weekday($0.weekday, $0.description)})
 
     return Observable.just(weekdays)
   }

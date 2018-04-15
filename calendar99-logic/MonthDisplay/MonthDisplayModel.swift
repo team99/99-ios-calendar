@@ -148,17 +148,12 @@ extension NNCalendar.MonthDisplay.Model: NNMonthDisplayModelType {
                                 _ columnCount: Int) -> [NNCalendar.Day] {
     let calendar = Calendar.current
 
-    let dates = dependency.calculateDateRange(month, firstWeekday,
-                                              rowCount, columnCount)
-
-    return dates.map({
-      let description = calendar.component(.day, from: $0).description
-
-      return NNCalendar.Day(date: $0,
-                            dateDescription: description,
-                            isCurrentMonth: month.contains($0),
-                            isSelected: false)
-    })
+    return dependency
+      .calculateDateRange(month, firstWeekday, rowCount, columnCount)
+      .map({
+        let description = calendar.component(.day, from: $0).description
+        return NNCalendar.Day($0, description, month.contains($0), false)
+      })
   }
 
   public func calculateGridSelection(_ monthComp: NNCalendar.MonthComp,

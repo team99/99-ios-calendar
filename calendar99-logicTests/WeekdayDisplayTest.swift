@@ -42,7 +42,7 @@ public extension WeekdayDisplayTest {
 public extension WeekdayDisplayTest {
   public func test_weekdayStream_shouldEmitCorrectWeekdays() {
     /// Setup
-    let weekdayObserver = testScheduler!.createObserver([NNCalendar.Weekday].self)
+    let weekdayObserver = scheduler!.createObserver([NNCalendar.Weekday].self)
     viewModel!.weekdayStream.subscribe(weekdayObserver).disposed(by: disposable)
     viewModel!.setupWeekDisplayBindings()
 
@@ -52,14 +52,14 @@ public extension WeekdayDisplayTest {
     let actualRange = (firstWeekday..<(firstWeekday + weekdayCount)).map({$0})
 
     let emittedWeekdays = weekdayObserver.nextElements()
-      .flatMap({$0.map({$0.dayIndex})})
+      .flatMap({$0.map({$0.weekday})})
 
     XCTAssertEqual(emittedWeekdays, actualRange)
   }
 
   public func test_weekdaySelection_shouldWork() {
     /// Setup
-    let selectionObserver = testScheduler!.createObserver(Int.self)
+    let selectionObserver = scheduler!.createObserver(Int.self)
     let weekdayIndexRange = (0..<viewModel!.weekdayCount).map({$0})
 
     viewModel!.weekdaySelectionStream

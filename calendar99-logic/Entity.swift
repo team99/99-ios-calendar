@@ -43,12 +43,12 @@ public extension NNCalendar {
     /// [Hashcode Algorithm]: https://stackoverflow.com/questions/263400/what-is-the-best-algorithm-for-an-overridden-system-object-gethashcode
     public var hashValue: Int {
       var hash = 17
-      hash = hash * 486187739 + monthIndex.hashValue
-      hash = hash * 486187739 + dayIndex.hashValue
+      hash = hash * 29 + monthIndex.hashValue
+      hash = hash * 29 + dayIndex.hashValue
       return hash
     }
 
-    public init(monthIndex: Int, dayIndex: Int) {
+    public init(_ monthIndex: Int, _ dayIndex: Int) {
       self.monthIndex = monthIndex
       self.dayIndex = dayIndex
     }
@@ -72,8 +72,8 @@ public extension NNCalendar {
     /// [Hashcode Algorithm]: https://stackoverflow.com/questions/263400/what-is-the-best-algorithm-for-an-overridden-system-object-gethashcode
     public var hashValue: Int {
       var hash = 17
-      hash = hash * 486187739 + month.hashValue
-      hash = hash * 486187739 + year.hashValue
+      hash = hash * 29 + month.hashValue
+      hash = hash * 29 + year.hashValue
       return hash
     }
 
@@ -81,7 +81,7 @@ public extension NNCalendar {
       return "month: \(month), year: \(year)"
     }
 
-    public init(month: Int, year: Int) {
+    public init(_ month: Int, _ year: Int) {
       self.month = month
       self.year = year
     }
@@ -90,7 +90,7 @@ public extension NNCalendar {
       let calendar = Calendar.current
       let monthValue = calendar.component(.month, from: date)
       let yearValue = calendar.component(.year, from: date)
-      self.init(month: monthValue, year: yearValue)
+      self.init(monthValue, yearValue)
     }
 
     public func dateComponents() -> DateComponents {
@@ -127,7 +127,7 @@ public extension NNCalendar {
           calendar.component(.month, from: $0),
           calendar.component(.year, from: $0
         ))})
-        .map({NNCalendar.Month(month: $0, year: $1)})
+        .map({NNCalendar.Month($0, $1)})
     }
 
     /// Get the difference between the current month and a specified month in
@@ -200,6 +200,10 @@ public extension NNCalendar {
   public struct Day: Equatable, CustomStringConvertible {
     public let date: Date
     public let dateDescription: String
+
+    /// The "currentMonth" in this case does not refer to the actual current
+    /// month, but the currently selected month. This property can be used to
+    /// de-highlight cells with dates that do not lie within the selected month.
     public let isCurrentMonth: Bool
     public let isSelected: Bool
 
@@ -216,15 +220,22 @@ public extension NNCalendar {
       return date.description
     }
 
+    public init(_ date: Date,
+                _ dateDescription: String,
+                _ isCurrentMonth: Bool,
+                _ isSelected: Bool) {
+      self.date = date
+      self.dateDescription = dateDescription
+      self.isCurrentMonth = isCurrentMonth
+      self.isSelected = isSelected
+    }
+
     /// Copy the current Day, but change its selection status.
     ///
     /// - Parameter selected: A Bool value.
     /// - Returns: A Day instance.
     public func with(selected: Bool) -> Day {
-      return Day(date: date,
-                 dateDescription: dateDescription,
-                 isCurrentMonth: isCurrentMonth,
-                 isSelected: selected)
+      return Day(date, dateDescription, isCurrentMonth, selected)
     }
 
     /// Toggle selection status.
@@ -243,11 +254,16 @@ public extension NNCalendar {
 
   /// Represents a weekday.
   public struct Weekday: Equatable, CustomStringConvertible {
-    public let dayIndex: Int
+    public let weekday: Int
     public let description: String
 
+    public init(_ weekday: Int, _ description: String) {
+      self.weekday = weekday
+      self.description = description
+    }
+
     public static func ==(_ lhs: Weekday, _ rhs: Weekday) -> Bool {
-      return lhs.dayIndex == rhs.dayIndex
+      return lhs.weekday == rhs.weekday && lhs.description == rhs.description
     }
   }
 }

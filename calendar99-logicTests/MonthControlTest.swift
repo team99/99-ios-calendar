@@ -41,6 +41,8 @@ public final class MonthControlTest: RootTest {
         viewModel.currentMonthBackwardReceiver.onNext(jump)
       }
 
+      waitOnMainThread(waitDuration!)
+
       /// Then
       let currentMonth = try! currentMonthSb.value()
       let monthOffset = prevMonth.monthOffset(from: currentMonth)

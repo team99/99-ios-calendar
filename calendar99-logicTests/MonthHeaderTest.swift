@@ -9,6 +9,7 @@
 import RxSwift
 import RxTest
 import SwiftFP
+import SwiftUtilities
 import XCTest
 @testable import calendar99_logic
 
@@ -43,13 +44,9 @@ public extension MonthHeaderTest {
 
   public func test_monthDescriptionStream_shouldEmitCorrectDescriptions() {
     /// Setup
-    let descObserver = testScheduler!.createObserver(String.self)
-    let monthObserver = testScheduler!.createObserver(NNCalendar.Month.self)
-    var currentMonth = self.currentMonth
-    var descriptions = [String]()
-    var months = [NNCalendar.Month]()
-    descriptions.append(model.formatMonthDescription(currentMonth!))
-    months.append(currentMonth!)
+    let descObserver = scheduler!.createObserver(String.self)
+    let monthObserver = scheduler!.createObserver(NNCalendar.Month.self)
+    var currentMonth = self.currentMonth!
 
     // Subscribe to the month component and month description streams to test
     // that all elements are emitted correctly.
@@ -61,26 +58,29 @@ public extension MonthHeaderTest {
       .subscribe(descObserver)
       .disposed(by: disposable!)
 
-    viewModel!.setupAllBindingsAndSubBindings()
+    viewModel!.setupMonthControlBindings()
 
     /// When
     for _ in 0..<iterations! {
       let forward = Bool.random()
       let jump = Int.random(0, 1000)
-      currentMonth = currentMonth!.with(monthOffset: forward ? jump : -jump)
-      descriptions.append(model.formatMonthDescription(currentMonth!))
-      months.append(currentMonth!)
+      currentMonth = currentMonth.with(monthOffset: forward ? jump : -jump)!
+      let monthDescription = model!.formatMonthDescription(currentMonth)
 
       if forward {
         viewModel!.currentMonthForwardReceiver.onNext(UInt(jump))
       } else {
         viewModel!.currentMonthBackwardReceiver.onNext(UInt(jump))
       }
-    }
 
-    /// Then
-    XCTAssertEqual(Set(descObserver.nextElements()), Set(descriptions))
-    XCTAssertEqual(Set(monthObserver.nextElements()), Set(months))
+      waitOnMainThread(waitDuration!)
+
+      /// Then
+      let lastDescription = descObserver.nextElements().last!
+      let lastMonth = monthObserver.nextElements().last!
+      XCTAssertEqual(lastDescription, monthDescription)
+      XCTAssertEqual(lastMonth, currentMonth)
+    }
   }
 }
 

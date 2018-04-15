@@ -12,19 +12,17 @@ import XCTest
 
 /// Root tests.
 public class RootTest: XCTestCase {
-  public var testScheduler: TestScheduler!
+  public var scheduler: TestScheduler!
   public var disposable: DisposeBag!
   public var iterations: Int!
   public var waitDuration: TimeInterval!
-  public var firstWeekDay: Int!
 
   override public func setUp() {
     super.setUp()
-    testScheduler = TestScheduler(initialClock: 0)
+    scheduler = TestScheduler(initialClock: 0)
     disposable = DisposeBag()
-    iterations = 5000
-    waitDuration = 0.2
-    firstWeekDay = 2
+    iterations = 500
+    waitDuration = 0.01
     continueAfterFailure = false
   }
 }

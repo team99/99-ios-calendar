@@ -50,6 +50,7 @@ public extension SingleDaySelectionTest {
       }
 
       viewModel!.dateSelectionReceiver.onNext(newSelected)
+      waitOnMainThread(waitDuration!)
 
       /// Then
       XCTAssertNotEqual(viewModel.isDateSelected(newSelected), duplicate)

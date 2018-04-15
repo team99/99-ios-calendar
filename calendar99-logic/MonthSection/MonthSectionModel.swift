@@ -166,11 +166,7 @@ extension NNCalendar.MonthSection.Model: NNMonthSectionModelType {
                                         _ firstDateOffset: Int) -> NNCalendar.Day? {
     return dependency.calculateDateWithOffset(month, firstWeekday, firstDateOffset).map({
       let description = Calendar.current.component(.day, from: $0).description
-
-      return NNCalendar.Day(date: $0,
-                            dateDescription: description,
-                            isCurrentMonth: month.contains($0),
-                            isSelected: false)
+      return NNCalendar.Day($0, description, month.contains($0), false)
     })
   }
 }

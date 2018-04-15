@@ -143,7 +143,7 @@ extension NNCalendar.MonthDisplay.ViewModel: NNMonthDisplayViewModelType {
             accumulator: {(prev: $0.current, current: $1)})
       .withLatestFrom(monthCompStream) {($1, $0)}
       .map({[weak self] in self?.model
-        .calculateGridSelection($0, firstWeekday, $1.prev, $1.current)})
+        .calculateGridSelectionChanges($0, firstWeekday, $1.prev, $1.current)})
       .filter({$0.isSome}).map({$0!})
       .map({Set($0.map({$0.dayIndex}))})
   }

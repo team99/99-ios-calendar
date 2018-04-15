@@ -56,7 +56,7 @@ extension ViewController: NNMonthHeaderNoDefaultModelDependency {
     let date = Date()
     let monthValue = Calendar.current.component(.month, from: date)
     let yearValue = Calendar.current.component(.year, from: date)
-    return Single.just(NNCalendar.Month(month: monthValue, year: yearValue))
+    return Single.just(NNCalendar.Month(monthValue, yearValue))
   }
 
   public var currentMonthReceiver: AnyObserver<NNCalendar.Month> {
@@ -84,7 +84,7 @@ extension ViewController: NNMonthSectionNoDefaultModelDependency {
 
 extension ViewController: NNMonthSectionNoDefaultViewModelDependency {
   public var pastMonthCountFromCurrent: Int {
-    return 10
+    return 1000
   }
 
   public var futureMonthCountFromCurrent: Int {

@@ -64,8 +64,9 @@ extension NNCalendar.DateCalculator.Sequential: NNSingleDateCalculatorType {
                                       _ firstDateOffset: Int) -> Date? {
     let calendar = Calendar.current
 
-    return calculateFirstDate(month, firstWeekday)
-      .flatMap({calendar.date(byAdding: .day, value: firstDateOffset, to: $0)})
+    return calculateFirstDate(month, firstWeekday).flatMap({
+      return calendar.date(byAdding: .day, value: firstDateOffset, to: $0)
+    })
   }
 }
 
@@ -92,18 +93,19 @@ extension NNCalendar.DateCalculator.Sequential: NNMultiMonthGridSelectionCalcula
   /// and after the specified month.
   fileprivate func calculateGridSelection(_ monthComps: [NNCalendar.MonthComp],
                                           _ monthComp: NNCalendar.MonthComp,
-                                          _ monthOffset: Int,
+                                          _ monthIndex: Int,
                                           _ firstWeekday: Int,
                                           _ selection: Date)
     -> Set<NNCalendar.GridSelection>
   {
+    let calendar = Calendar.current
+
     let calculate = {(month: NNCalendar.MonthComp, offset: Int) -> NNCalendar.GridSelection? in
       if let firstDate = self.calculateFirstDate(month.month, firstWeekday) {
-        let interval = selection.timeIntervalSince(firstDate)
-        let diff = Int(interval / 60 / 60 / 24)
+        let diff = calendar.dateComponents([.day], from: firstDate, to: selection)
 
-        if diff >= 0 && diff < month.dayCount {
-          return NNCalendar.GridSelection(monthIndex: offset, dayIndex: diff)
+        if let dayDiff = diff.day, dayDiff >= 0 && dayDiff < month.dayCount {
+          return NNCalendar.GridSelection(offset, dayDiff)
         }
       }
 
@@ -111,18 +113,18 @@ extension NNCalendar.DateCalculator.Sequential: NNMultiMonthGridSelectionCalcula
     }
 
     var gridSelections = Set<NNCalendar.GridSelection>()
-    _ = calculate(monthComp, monthOffset).map({gridSelections.insert($0)})
-    let prevMonthOffset = monthOffset - 1
-    let nextMonthOffset = monthOffset + 1
+    _ = calculate(monthComp, monthIndex).map({gridSelections.insert($0)})
+    let prevMonthIndex = monthIndex - 1
+    let nextMonthIndex = monthIndex + 1
 
-    if prevMonthOffset >= 0 && prevMonthOffset < monthComps.count {
-      let prevMonth = monthComps[prevMonthOffset]
-      _ = calculate(prevMonth, prevMonthOffset).map({gridSelections.insert($0)})
+    if prevMonthIndex >= 0 && prevMonthIndex < monthComps.count {
+      let prevMonth = monthComps[prevMonthIndex]
+      _ = calculate(prevMonth, prevMonthIndex).map({gridSelections.insert($0)})
     }
 
-    if nextMonthOffset >= 0 && nextMonthOffset < monthComps.count {
-      let nextMonth = monthComps[nextMonthOffset]
-      _ = calculate(nextMonth, nextMonthOffset).map({gridSelections.insert($0)})
+    if nextMonthIndex >= 0 && nextMonthIndex < monthComps.count {
+      let nextMonth = monthComps[nextMonthIndex]
+      _ = calculate(nextMonth, nextMonthIndex).map({gridSelections.insert($0)})
     }
 
     return gridSelections

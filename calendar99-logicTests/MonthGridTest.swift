@@ -8,6 +8,7 @@
 
 import RxSwift
 import RxTest
+import SwiftUtilities
 import SwiftUtilitiesTests
 import XCTest
 @testable import calendar99_logic
@@ -38,21 +39,24 @@ public extension MonthGridTest {
 
   public func test_gridSelectionReceiverAndStream_shouldWork() {
     /// Setup
-    let observer = testScheduler!.createObserver(NNCalendar.GridSelection.self)
-    var selections = [NNCalendar.GridSelection]()
-    viewModel.gridSelectionStream.subscribe(observer).disposed(by: disposable!)
+    let selectionObs = scheduler!.createObserver(NNCalendar.GridSelection.self)
+
+    viewModel.gridSelectionStream
+      .subscribe(selectionObs)
+      .disposed(by: disposable!)
 
     /// When
     for _ in 0..<iterations! {
       let month = Int.random(0, 1000)
       let day = Int.random(0, 1000)
-      let selection = NNCalendar.GridSelection(monthIndex: month, dayIndex: day)
-      selections.append(selection)
+      let selection = NNCalendar.GridSelection(month, day)
       viewModel.gridSelectionReceiver.onNext(selection)
-    }
+      waitOnMainThread(waitDuration!)
 
-    /// Then
-    XCTAssertEqual(selections, observer.nextElements())
+      /// Then
+      let lastSelection = selectionObs.nextElements().last!
+      XCTAssertEqual(lastSelection, selection)
+    }
   }
 }
 

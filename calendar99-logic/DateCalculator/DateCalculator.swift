@@ -89,9 +89,9 @@ public protocol NNMultiMonthGridSelectionCalculator: NNGridSelectionCalculator {
 
 public extension NNMultiMonthGridSelectionCalculator {
 
-  /// Calculate grid selections for selected dates, based on a specified Month
-  /// Array. These indexes can then be used to reload the relevant calendar
-  /// view right where selections changed.
+  /// Calculate grid selection changes for a specified MonthComp Array. We
+  /// compare the previous and current selections to derive the changed set, on
+  /// which grid selection calculations are performed.
   ///
   /// - Parameters:
   ///   - monthComps: A MonthComp Array.
@@ -99,14 +99,14 @@ public extension NNMultiMonthGridSelectionCalculator {
   ///   - prevSelections: The previous selected dates.
   ///   - currentSelections: The current selected dates.
   /// - Returns: A Set of GridSelection.
-  public func calculateGridSelection(_ monthComps: [NNCalendar.MonthComp],
-                                     _ firstWeekday: Int,
-                                     _ prevSelections: Set<Date>,
-                                     _ currentSelections: Set<Date>)
-    -> [NNCalendar.GridSelection]
+  public func calculateGridSelectionChanges(_ monthComps: [NNCalendar.MonthComp],
+                                            _ firstWeekday: Int,
+                                            _ prevSelections: Set<Date>,
+                                            _ currentSelections: Set<Date>)
+    -> Set<NNCalendar.GridSelection>
   {
-    return extractChanges(prevSelections, currentSelections)
-      .flatMap({calculateGridSelection(monthComps, firstWeekday, $0)})
+    return Set(extractChanges(prevSelections, currentSelections)
+      .flatMap({calculateGridSelection(monthComps, firstWeekday, $0)}))
   }
 }
 
@@ -133,7 +133,7 @@ public protocol NNSingleMonthGridSelectionCalculator: NNGridSelectionCalculator 
 
 public extension NNSingleMonthGridSelectionCalculator {
 
-  /// The logic here is similar to the normal grid selection calculator.
+  /// The logic here is similar to the normal grid selection changes calculator.
   ///
   /// - Parameters:
   ///   - monthComp: A MonthComp instance.
@@ -141,10 +141,10 @@ public extension NNSingleMonthGridSelectionCalculator {
   ///   - prevSelections: The previous selected dates.
   ///   - currentSelections: The current selected dates.
   /// - Returns: A Set of GridSelection.
-  func calculateGridSelection(_ monthComp: NNCalendar.MonthComp,
-                              _ firstWeekday: Int,
-                              _ prevSelections: Set<Date>,
-                              _ currentSelections: Set<Date>)
+  func calculateGridSelectionChanges(_ monthComp: NNCalendar.MonthComp,
+                                     _ firstWeekday: Int,
+                                     _ prevSelections: Set<Date>,
+                                     _ currentSelections: Set<Date>)
     -> Set<NNCalendar.GridSelection>
   {
     return Set(extractChanges(prevSelections, currentSelections)

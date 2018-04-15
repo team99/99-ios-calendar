@@ -7,6 +7,7 @@
 //
 
 import RxSwift
+import SwiftUtilities
 import XCTest
 @testable import calendar99_logic
 
@@ -54,7 +55,7 @@ public extension SelectableWeekdayTest {
     let weekdayCount = viewModel!.weekdayCount
 
     XCTAssertEqual((firstWeekday..<(firstWeekday + weekdayCount)).map({$0}),
-                   weekdays.map({$0.dayIndex}))
+                   weekdays.map({$0.weekday}))
   }
 
   public func test_selectWeekday_shouldWork() {
@@ -66,6 +67,7 @@ public extension SelectableWeekdayTest {
     for i in 0..<iterations! {
       let currentMonth = self.currentMonth!.with(monthOffset: i)
       currentMonthSb.onNext(currentMonth!)
+      waitOnMainThread(waitDuration!)
 
       for weekdayIndex in 0..<6 {
         viewModel!.weekdaySelectionIndexReceiver.onNext(weekdayIndex)

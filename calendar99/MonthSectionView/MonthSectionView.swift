@@ -213,7 +213,7 @@ public extension NNMonthSectionView {
       .disposed(by: disposable)
 
     self.rx.itemSelected
-      .map({NNCalendar.GridSelection(monthIndex: $0.section, dayIndex: $0.row)})
+      .map({NNCalendar.GridSelection($0.section, $0.row)})
       .bind(to: viewModel.gridSelectionReceiver)
       .disposed(by: disposable)
 

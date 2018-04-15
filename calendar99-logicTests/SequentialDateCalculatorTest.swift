@@ -14,12 +14,13 @@ import XCTest
 public final class SequentialDateCalculatorTest: RootTest {
   fileprivate var calculator: NNCalendar.DateCalculator.Sequential!
   fileprivate var dayCount: Int!
+  fileprivate var firstWeekDay: Int!
 
   override public func setUp() {
     super.setUp()
     calculator = NNCalendar.DateCalculator.Sequential()
     dayCount = 42
-    continueAfterFailure = false
+    firstWeekDay = 2
   }
 
   public func test_calculateDayRange_shouldWork() {
@@ -91,7 +92,7 @@ public final class SequentialDateCalculatorTest: RootTest {
 
       let changedSelect = calculator.extractChanges(prevSelect, currentSelect)
 
-      let gridSelections = calculator.calculateGridSelection(
+      let gridSelections = calculator.calculateGridSelectionChanges(
           months,
           firstWeekDay!,
           prevSelect,
@@ -131,7 +132,7 @@ public final class SequentialDateCalculatorTest: RootTest {
 
       let changedSelect = calculator.extractChanges(prevSelect, currentSelect)
 
-      let gridSelections = calculator.calculateGridSelection(
+      let gridSelections = calculator.calculateGridSelectionChanges(
         currentMonthComp,
         firstWeekDay!,
         prevSelect,
@@ -141,9 +142,9 @@ public final class SequentialDateCalculatorTest: RootTest {
       /// Then
       for gridSelection in gridSelections {
 
-        // The month index is not necessary the same as the month in the current
-        // month comp, because we calculate for the previous and next months as
-        // well.
+        // The month index is not necessarily the same as the month value in the
+        // current month value, because we calculate for the previous and next
+        // months as well.
         if gridSelection.monthIndex == currentMonth.month {
           let selectedDate = calculator.calculateDateWithOffset(
             currentMonth,
