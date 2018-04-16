@@ -12,8 +12,9 @@ import calendar99_logic
 
 /// Month header view for calendar.
 public final class NNMonthHeaderView: UIView {
+  public typealias Decorator = NNMonthHeaderDecoratorType
   public typealias ViewModel = NNMonthHeaderViewModelType
-  public typealias Dependency = ViewModel
+  public typealias Dependency = (ViewModel, Decorator)
 
   @IBOutlet fileprivate weak var backwardImg: UIImageView!
   @IBOutlet fileprivate weak var backwardBtn: UIButton!
@@ -26,7 +27,8 @@ public final class NNMonthHeaderView: UIView {
     get { return nil }
     
     set {
-      self.viewModel = newValue
+      self.viewModel = newValue?.0
+      self.decorator = newValue?.1
       didSetViewModel()
     }
   }
@@ -36,6 +38,16 @@ public final class NNMonthHeaderView: UIView {
       #if DEBUG
       if viewModel != nil {
         fatalError("Cannot mutate view model!")
+      }
+      #endif
+    }
+  }
+
+  fileprivate var decorator: Decorator? {
+    willSet {
+      #if DEBUG
+      if decorator != nil {
+        fatalError("Cannot mutate decorator!")
       }
       #endif
     }
@@ -82,11 +94,13 @@ public extension NNMonthHeaderView {
     let bundle = Bundle(for: NNMonthHeaderView.classForCoder())
 
     guard
+      let decorator = self.decorator,
+      let monthDescriptionLbl = self.monthLbl,
       let backwardImg = self.backwardImg,
       let forwardImg = self.forwardImg,
       let backwardIcon = UIImage(named: "backward", in: bundle, compatibleWith: nil)?
         .withRenderingMode(.alwaysTemplate),
-      let backwardCgImage = backwardIcon.cgImage else
+      let backCg = backwardIcon.cgImage else
     {
       #if DEBUG
       fatalError("Properties cannot be nil")
@@ -96,13 +110,15 @@ public extension NNMonthHeaderView {
     }
 
     /// Flip programmatically to reuse assets.
-    let forwardIcon = UIImage(cgImage: backwardCgImage,
-                              scale: 1,
-                              orientation: .down)
+    let forwardIcon = UIImage(cgImage: backCg, scale: 1, orientation: .down)
       .withRenderingMode(.alwaysTemplate)
 
     backwardImg.image = backwardIcon
+    backwardImg.tintColor = decorator.navigationButtonTintColor
     forwardImg.image = forwardIcon
+    forwardImg.tintColor = decorator.navigationButtonTintColor
+    monthDescriptionLbl.textColor = decorator.monthDescriptionTextColor
+    monthDescriptionLbl.font = decorator.monthDescriptionFont
   }
 }
 

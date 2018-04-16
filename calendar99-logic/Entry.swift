@@ -10,6 +10,13 @@
 /// underlying logic.
 public final class NNCalendar {
 
+  /// Represents date calculators.
+  public final class DateCalculator {}
+
+  /// Represents calculators for date selection highlights. These calculators
+  /// will be used mainly with the selection highlight view.
+  public final class HighlightCalculator {}
+
   /// A grid display view is represented by a collection of cells that are laid
   /// down horizontally/vertically, with outliers going to the next row/column.
   public final class GridDisplay {}
@@ -45,9 +52,6 @@ public final class NNCalendar {
   /// and cell layout attributes.
   public final class MonthSection {}
 
-  /// Represents date calculators.
-  public final class DateCalculator {}
-
   /// Represents day selection views, including the month view and month section
   /// view.
   public final class DaySelection {}
@@ -63,7 +67,4 @@ public final class NNCalendar {
   /// selection (e.g. if the user clicks on Monday, all Mondays in the current
   /// month will be selected).
   public final class SelectWeekday {}
-
-  /// Represents a view that custom-draws date selections on-screen.
-  public final class SelectHighlight {}
 }

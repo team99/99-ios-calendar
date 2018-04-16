@@ -63,19 +63,13 @@
                                         </collectionViewFlowLayout>
                                         <cells/>
                                     </collectionView>
-                                    <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tJ7-HN-FFg" customClass="NNSelectHighlightView" customModule="calendar99">
-                                        <rect key="frame" x="0.0" y="79.5" width="345" height="258.5"/>
-                                    </view>
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="OAw-Fd-26I" firstAttribute="leading" secondItem="uN7-km-d0J" secondAttribute="leading" id="10c-eF-1i6"/>
                                     <constraint firstItem="0BL-Sr-OGf" firstAttribute="leading" secondItem="OAw-Fd-26I" secondAttribute="leading" id="2vf-bb-fjU"/>
                                     <constraint firstAttribute="trailing" secondItem="OAw-Fd-26I" secondAttribute="trailing" id="39X-NG-L11"/>
                                     <constraint firstItem="OAw-Fd-26I" firstAttribute="leading" secondItem="2bo-eT-edI" secondAttribute="leading" id="EOt-Uh-aSL"/>
-                                    <constraint firstItem="tJ7-HN-FFg" firstAttribute="bottom" secondItem="2bo-eT-edI" secondAttribute="bottom" id="GE7-WB-d7b"/>
                                     <constraint firstItem="PlQ-do-Q55" firstAttribute="top" secondItem="2bo-eT-edI" secondAttribute="bottom" constant="5" id="LdZ-nf-Mea"/>
-                                    <constraint firstItem="tJ7-HN-FFg" firstAttribute="leading" secondItem="2bo-eT-edI" secondAttribute="leading" id="Lzt-r4-kek"/>
-                                    <constraint firstItem="tJ7-HN-FFg" firstAttribute="top" secondItem="2bo-eT-edI" secondAttribute="top" id="OZj-Kg-zFY"/>
                                     <constraint firstItem="2bo-eT-edI" firstAttribute="top" secondItem="0BL-Sr-OGf" secondAttribute="bottom" id="Sb4-0b-VaU"/>
                                     <constraint firstItem="0BL-Sr-OGf" firstAttribute="height" secondItem="OAw-Fd-26I" secondAttribute="height" id="XOf-8h-Kin"/>
                                     <constraint firstAttribute="bottom" secondItem="PlQ-do-Q55" secondAttribute="bottom" id="YGp-0F-KMD"/>
@@ -84,7 +78,6 @@
                                     <constraint firstItem="OAw-Fd-26I" firstAttribute="trailing" secondItem="2bo-eT-edI" secondAttribute="trailing" id="hGl-ET-vWr"/>
                                     <constraint firstItem="OAw-Fd-26I" firstAttribute="top" secondItem="uN7-km-d0J" secondAttribute="top" id="lBf-hh-8Xz"/>
                                     <constraint firstItem="PlQ-do-Q55" firstAttribute="leading" secondItem="2bo-eT-edI" secondAttribute="leading" id="mIL-IA-J2d"/>
-                                    <constraint firstItem="tJ7-HN-FFg" firstAttribute="trailing" secondItem="2bo-eT-edI" secondAttribute="trailing" id="opR-bQ-CO7"/>
                                     <constraint firstItem="PlQ-do-Q55" firstAttribute="trailing" secondItem="2bo-eT-edI" secondAttribute="trailing" id="wKD-cy-trq"/>
                                     <constraint firstItem="0BL-Sr-OGf" firstAttribute="trailing" secondItem="OAw-Fd-26I" secondAttribute="trailing" id="yEw-Wp-jbs"/>
                                 </constraints>
@@ -102,7 +95,6 @@
                         <outlet property="monthHeader" destination="OAw-Fd-26I" id="h4Q-TN-wRQ"/>
                         <outlet property="monthSectionView" destination="2bo-eT-edI" id="FO1-AY-ghn"/>
                         <outlet property="monthView" destination="PlQ-do-Q55" id="t7W-jB-APG"/>
-                        <outlet property="selectionHighlightView" destination="tJ7-HN-FFg" id="cn4-YE-6ei"/>
                         <outlet property="weekdayView" destination="0BL-Sr-OGf" id="5gl-w9-brV"/>
                     </connections>
                 </viewController>

@@ -286,3 +286,38 @@ public extension NNCalendar {
     }
   }
 }
+
+// MARK: - Highlight position flags.
+public extension NNCalendar {
+
+  /// Use this to perform custom selection highlights when selecting dates.
+  public struct HighlightPosition: OptionSet {
+
+    /// Mark the start of an Array of Date selection.
+    public static var start: HighlightPosition {
+      return HighlightPosition(rawValue: 0)
+    }
+
+    /// Mark the middle of an Array of Date selection.
+    public static var mid: HighlightPosition {
+      return HighlightPosition(rawValue: 1)
+    }
+
+    /// Mark the end of an Array of Date selection.
+    public static var end: HighlightPosition {
+      return HighlightPosition(rawValue: 2)
+    }
+
+    public static var startAndEnd: HighlightPosition {
+      return [start, end]
+    }
+
+    public typealias RawValue = Int
+
+    public let rawValue: RawValue
+
+    public init(rawValue: RawValue) {
+      self.rawValue = rawValue
+    }
+  }
+}

@@ -17,14 +17,16 @@ import calendar99_logic
 /// a result, it does not have scrolling animations when switching months, so
 /// if we are looking for feel instead of function, skip this.
 public final class NNMonthView: UICollectionView {
+  public typealias Decorator = NNMonthViewDecoratorType
   public typealias ViewModel = NNMonthDisplayViewModelType
-  public typealias Dependency = ViewModel
+  public typealias Dependency = (ViewModel, Decorator)
 
   public var dependency: Dependency? {
     get { return nil }
     
     set {
-      viewModel = newValue
+      viewModel = newValue?.0
+      decorator = newValue?.1
       didSetViewModel()
     }
   }
@@ -34,6 +36,16 @@ public final class NNMonthView: UICollectionView {
       #if DEBUG
       if viewModel != nil {
         fatalError("Cannot mutate view model!")
+      }
+      #endif
+    }
+  }
+
+  fileprivate var decorator: NNMonthViewDecoratorType? {
+    willSet {
+      #if DEBUG
+      if decorator != nil {
+        fatalError("Cannot mutate decorator!")
       }
       #endif
     }
@@ -107,10 +119,11 @@ public extension NNMonthView {
 
   /// Set up views/sub-views in the calendar view.
   fileprivate func setupViews() {
+    guard let decorator = self.decorator else { return }
     let bundle = Bundle(for: NNDateCell.classForCoder())
     let cellNib = UINib(nibName: "DateCell", bundle: bundle)
     register(cellNib, forCellWithReuseIdentifier: cellId)
-    backgroundColor = .white
+    backgroundColor = decorator.monthViewBackgroundColor
   }
 }
 
@@ -156,6 +169,7 @@ public extension NNMonthView {
   {
     guard
       let viewModel = self.viewModel,
+      let decorator = self.decorator,
       let cell = view.dequeueReusableCell(
         withReuseIdentifier: cellId,
         for: indexPath) as? NNDateCell else
@@ -168,7 +182,9 @@ public extension NNMonthView {
     }
 
     let selected = viewModel.isDateSelected(item.date)
-    cell.setupWithDay(item.with(selected: selected))
+    let actualDay = item.with(selected: selected)
+    let cellDecorator = decorator.dateCellDecorator(indexPath, actualDay)
+    cell.setupWithDay(cellDecorator, actualDay)
     return cell
   }
 

@@ -13,7 +13,11 @@ import calendar99_logic
 public final class NNWeekdayCell: UICollectionViewCell {
   @IBOutlet fileprivate weak var weekdayLbl: UILabel!
 
-  public func setupWithWeekday(_ weekday: NNCalendar.Weekday) {
+  public func setupWithWeekday(_ decorator: NNWeekdayCellDecoratorType,
+                               _ weekday: NNCalendar.Weekday) {
+    guard let weekdayLbl = self.weekdayLbl else { return }
     weekdayLbl.text = weekday.description
+    weekdayLbl.textColor = decorator.weekdayDescriptionTextColor
+    weekdayLbl.font = decorator.weekdayDescriptionFont
   }
 }

@@ -16,27 +16,24 @@ public final class ViewController: UIViewController  {
   @IBOutlet fileprivate weak var monthHeader: NNMonthHeaderView!
   @IBOutlet fileprivate weak var monthSectionView: NNMonthSectionView!
   @IBOutlet fileprivate weak var monthView: NNMonthView!
-  @IBOutlet fileprivate weak var selectionHighlightView: NNSelectHighlightView!
   fileprivate var monthSb: BehaviorSubject<NNCalendar.Month>!
   fileprivate var dateSelectionSb: BehaviorSubject<Set<Date>>!
   fileprivate var disposable: DisposeBag!
 
   override public func viewDidLoad() {
     super.viewDidLoad()
+    let decorator = AppDecorator()
     monthSb = BehaviorSubject(value: NNCalendar.Month(Date()))
     dateSelectionSb = BehaviorSubject(value: Set())
     disposable = DisposeBag()
 
-    let selectHighlightVM = NNCalendar.SelectHighlight.ViewModel()
-    selectionHighlightView.dependency = selectHighlightVM
-
     let weekdayModel = NNCalendar.SelectWeekday.Model(self)
     let weekdayVM = NNCalendar.SelectWeekday.ViewModel(weekdayModel)
-    weekdayView.dependency = weekdayVM
+    weekdayView.dependency = (weekdayVM, decorator)
 
     let monthHeaderModel = NNCalendar.MonthHeader.Model(self)
     let monthHeaderVM = NNCalendar.MonthHeader.ViewModel(monthHeaderModel)
-    monthHeader.dependency = monthHeaderVM
+    monthHeader.dependency = (monthHeaderVM, decorator)
 
     let monthSectionModel = NNCalendar.MonthSection.Model(self)
     let monthSectionVM = NNCalendar.MonthSection.ViewModel(self, monthSectionModel)
@@ -45,11 +42,11 @@ public final class ViewController: UIViewController  {
     let columnCount = monthSectionVM.columnCount
     let layout = NNMonthSectionHorizontalFlowLayout(pageCount, rowCount, columnCount)
     monthSectionView.setCollectionViewLayout(layout, animated: true)
-    monthSectionView.dependency = monthSectionVM
+    monthSectionView.dependency = (monthSectionVM, decorator)
 
     let monthViewModel = NNCalendar.MonthDisplay.Model(self)
     let monthViewVM = NNCalendar.MonthDisplay.ViewModel(monthViewModel)
-    monthView.dependency = monthViewVM
+    monthView.dependency = (monthViewVM, decorator)
   }
 }
 
@@ -97,5 +94,4 @@ extension ViewController: NNMonthSectionNoDefaultViewModelDependency {
 }
 
 extension ViewController: NNMonthDisplayNoDefaultModelDependency {}
-
 extension ViewController: NNSelectableWeekdayNoDefaultModelDependency {}

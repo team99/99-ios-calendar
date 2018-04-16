@@ -16,14 +16,16 @@ import calendar99_logic
 /// a finite number of months. However, if we set that number high enough, I
 /// doubt the user would be able to scroll past the limits anyway.
 public final class NNMonthSectionView: UICollectionView {
+  public typealias Decorator = NNMonthSectionDecoratorType
   public typealias ViewModel = NNMonthSectionViewModelType
-  public typealias Dependency = ViewModel
+  public typealias Dependency = (ViewModel, Decorator)
 
   public var dependency: Dependency? {
     get { return nil }
     
     set {
-      viewModel = newValue
+      viewModel = newValue?.0
+      decorator = newValue?.1
       didSetViewModel()
     }
   }
@@ -33,6 +35,16 @@ public final class NNMonthSectionView: UICollectionView {
       #if DEBUG
       if viewModel != nil {
         fatalError("Cannot mutate view model!")
+      }
+      #endif
+    }
+  }
+
+  fileprivate var decorator: Decorator? {
+    willSet {
+      #if DEBUG
+      if decorator != nil {
+        fatalError("Cannot mutate decorator!")
       }
       #endif
     }
@@ -106,10 +118,11 @@ public extension NNMonthSectionView {
   }
 
   fileprivate func setupViews() {
+    guard let decorator = self.decorator else { return }
     let bundle = Bundle(for: NNDateCell.classForCoder())
     let cellNib = UINib(nibName: "DateCell", bundle: bundle)
     register(cellNib, forCellWithReuseIdentifier: cellId)
-    backgroundColor = .white
+    backgroundColor = decorator.monthSectionBackgroundColor
     showsVerticalScrollIndicator = false
     showsHorizontalScrollIndicator = false
     isPagingEnabled = true
@@ -151,6 +164,7 @@ public extension NNMonthSectionView {
     guard
       section >= 0 && section < source.sectionModels.count,
       let viewModel = self.viewModel,
+      let decorator = self.decorator,
       let day = viewModel.calculateDayFromFirstDate(sections[section].month, item),
       let cell = view.dequeueReusableCell(
         withReuseIdentifier: cellId,
@@ -163,8 +177,10 @@ public extension NNMonthSectionView {
       #endif
     }
 
-    let selected = viewModel.isDateSelected(day.date)    
-    cell.setupWithDay(day.with(selected: selected))
+    let selected = viewModel.isDateSelected(day.date)
+    let actualDay = day.with(selected: selected)
+    let cellDecorator = decorator.dateCellDecorator(indexPath, actualDay)
+    cell.setupWithDay(cellDecorator, actualDay)
     return cell
   }
 }

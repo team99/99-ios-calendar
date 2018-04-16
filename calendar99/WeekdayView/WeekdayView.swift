@@ -12,14 +12,16 @@ import calendar99_logic
 
 /// Weekday view that displays weekdays.
 public final class NNWeekdayView: UICollectionView {
+  public typealias Decorator = NNWeekdayViewDecoratorType
   public typealias ViewModel = NNWeekdayDisplayViewModelType
-  public typealias Dependency = ViewModel
+  public typealias Dependency = (ViewModel, Decorator)
 
   public var dependency: Dependency? {
     get { return nil }
     
     set {
-      viewModel = newValue
+      viewModel = newValue?.0
+      decorator = newValue?.1
       didSetViewModel()
     }
   }
@@ -29,6 +31,16 @@ public final class NNWeekdayView: UICollectionView {
       #if DEBUG
       if viewModel != nil {
         fatalError("Cannot mutate view model!")
+      }
+      #endif
+    }
+  }
+
+  fileprivate var decorator: Decorator? {
+    willSet {
+      #if DEBUG
+      if decorator != nil {
+        fatalError("Cannot mutate decorator!")
       }
       #endif
     }
@@ -126,18 +138,20 @@ public extension NNWeekdayView {
                              _ view: UICollectionView,
                              _ indexPath: IndexPath,
                              _ item: Section.Item) -> UICollectionViewCell {
-    guard let cell = view.dequeueReusableCell(
-      withReuseIdentifier: cellId,
-      for: indexPath) as? NNWeekdayCell else
+    guard
+      let decorator = self.decorator?.weekdayCellDecorator(indexPath, item),
+      let cell = view.dequeueReusableCell(
+        withReuseIdentifier: cellId,
+        for: indexPath) as? NNWeekdayCell else
     {
       #if DEBUG
       fatalError("Invalid properties")
       #else
-      return
+      return UICollectionViewCell()
       #endif
     }
 
-    cell.setupWithWeekday(item)
+    cell.setupWithWeekday(decorator, item)
     return cell
   }
 }
