@@ -32,13 +32,9 @@ public extension NNCalendar {
   /// a Month Array) and the day index (i.e. the index of the Date in a Month).
   /// This is essentially an IndexPath, but since we cannot include UIKit in
   /// logic code, we have this to replace.
-  public struct GridSelection: Equatable, Hashable, CustomStringConvertible {
+  public struct GridSelection: Equatable, Hashable {
     public let monthIndex: Int
     public let dayIndex: Int
-
-    public var description: String {
-      return "month index: \(monthIndex) - day index: \(dayIndex)"
-    }
 
     /// [Hashcode Algorithm]: https://stackoverflow.com/questions/263400/what-is-the-best-algorithm-for-an-overridden-system-object-gethashcode
     public var hashValue: Int {
@@ -65,7 +61,7 @@ public extension NNCalendar {
   /// Represents a month that can be controlled by the user. This is used
   /// throughout the library, esp. by the month header (whereby there are
   // forward and backward arrows to control the currently selected month).
-  public struct Month: Equatable, CustomStringConvertible {
+  public struct Month: Equatable {
     public let month: Int
     public let year: Int
 
@@ -75,10 +71,6 @@ public extension NNCalendar {
       hash = hash * 29 + month.hashValue
       hash = hash * 29 + year.hashValue
       return hash
-    }
-
-    public var description: String {
-      return "month: \(month), year: \(year)"
     }
 
     public init(_ month: Int, _ year: Int) {
@@ -172,8 +164,8 @@ public extension NNCalendar {
           while contains(currentDate) {
             results.insert(currentDate)
 
-            guard let newCurrentDate = calendar
-              .date(byAdding: .day, value: 7, to: currentDate) else
+            guard let newCurrentDate =
+              calendar.date(byAdding: .day, value: 7, to: currentDate) else
             {
               break
             }
@@ -197,7 +189,7 @@ public extension NNCalendar {
 
   /// Represents a container for dates that can be used to display on the month
   /// view and month section view.
-  public struct Day: Equatable, CustomStringConvertible {
+  public struct Day: Equatable {
     public let date: Date
     public let dateDescription: String
 
@@ -214,10 +206,6 @@ public extension NNCalendar {
       let components = calendar.dateComponents(calendarComponents, from: date)
       let todayComps = calendar.dateComponents(calendarComponents, from: Date())
       return components == todayComps
-    }
-
-    public var description: String {
-      return date.description
     }
 
     public init(_ date: Date,
@@ -244,7 +232,10 @@ public extension NNCalendar {
     }
 
     public static func ==(_ lhs: Day, _ rhs: Day) -> Bool {
-      return lhs.date == rhs.date && lhs.isSelected == rhs.isSelected
+      return lhs.date == rhs.date
+        && lhs.isSelected == rhs.isSelected
+        && lhs.isCurrentMonth == rhs.isCurrentMonth
+        && lhs.dateDescription == rhs.dateDescription
     }
   }
 }
@@ -276,13 +267,9 @@ public extension NNCalendar {
   /// 42), but we calculate Days lazily when they are requested, instead of
   /// upfront, in order to minimize storage esp. when we have a large number
   /// of Months to display.
-  public struct MonthComp: Equatable, CustomStringConvertible {
+  public struct MonthComp: Equatable {
     public let dayCount: Int
     public let month: Month
-
-    public var description: String {
-      return month.description
-    }
 
     public init(_ month: Month, _ dayCount: Int) {
       self.month = month

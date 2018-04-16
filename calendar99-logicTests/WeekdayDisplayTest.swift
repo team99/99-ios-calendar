@@ -26,7 +26,7 @@ public final class WeekdayDisplayTest: RootTest {
 }
 
 public extension WeekdayDisplayTest {
-  public func test_multipleConstructors_shouldWork() {
+  public func test_defaultDependencies_shouldWork() {
     let model1 = NNCalendar.WeekdayDisplay.Model(self)
 
     for weekday in 0..<7 {
@@ -36,6 +36,7 @@ public extension WeekdayDisplayTest {
 
     let viewModel1 = NNCalendar.WeekdayDisplay.ViewModel(self, model1)
     XCTAssertEqual(viewModel1.weekdayCount, weekdayCount)
+    XCTAssertEqual(defaultViewModelDep.firstWeekday, firstWeekday)
   }
 }
 

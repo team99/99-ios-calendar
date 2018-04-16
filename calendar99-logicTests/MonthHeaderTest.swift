@@ -95,6 +95,6 @@ extension MonthHeaderTest: NNMonthHeaderModelDependency {
   }
 
   public func formatMonthDescription(_ month: NNCalendar.Month) -> String {
-    return month.description
+    return String(describing: month)
   }
 }

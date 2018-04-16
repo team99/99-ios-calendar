@@ -22,7 +22,7 @@ public class RootTest: XCTestCase {
     scheduler = TestScheduler(initialClock: 0)
     disposable = DisposeBag()
     iterations = 1000
-    waitDuration = 0.001
+    waitDuration = 0
     continueAfterFailure = false
   }
 }
