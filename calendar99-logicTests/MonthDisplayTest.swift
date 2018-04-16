@@ -147,10 +147,8 @@ public extension MonthDisplayTest {
 
       // If the date was selected previously, it should be removed from all date
       // selections (thanks to single day selection logic).
-      if wasSelected {
-        XCTAssertFalse(lastSelections.contains(selectedDay!.date))
-      } else if selectedDay != nil {
-        XCTAssertTrue(lastSelections.contains(selectedDay!.date))
+      if let selectedDay = selectedDay {
+        XCTAssertNotEqual(lastSelections.contains(selectedDay.date), wasSelected)
       }
     }
   }
@@ -198,11 +196,7 @@ public extension MonthDisplayTest {
 
       // If this index is already selected previously, it should not appear in
       // in the set of index changes.
-      if wasSelected {
-        XCTAssertFalse(lastChanges.contains(selectedIndex))
-      } else {
-        XCTAssertTrue(lastChanges.contains(selectedIndex))
-      }
+      XCTAssertNotEqual(lastChanges.contains(selectedIndex), wasSelected)
     }
   }
 }

@@ -123,10 +123,8 @@ public extension MonthSectionTest {
       waitOnMainThread(waitDuration!)
 
       /// Then
-      if wasSelected {
-        XCTAssertFalse(viewModel!.isDateSelected(selectedDate!))
-      } else if selectedDate != nil {
-        XCTAssertTrue(isDateSelected(selectedDate!))
+      if let selectedDate = selectedDate {
+        XCTAssertNotEqual(isDateSelected(selectedDate), wasSelected)
       }
     }
   }
@@ -171,11 +169,7 @@ public extension MonthSectionTest {
 
       // Since we only extract differences, if the calculated date has already
       // been selected it should be skipped.
-      if wasSelected {
-        XCTAssertFalse(lastChanges.contains(gridSelection))
-      } else {
-        XCTAssertTrue(lastChanges.contains(gridSelection))
-      }
+      XCTAssertNotEqual(lastChanges.contains(gridSelection), wasSelected)
     }
   }
 

@@ -37,13 +37,6 @@
             BlueprintName = "calendar99-logic"
             ReferencedContainer = "container:calendar99.xcodeproj">
          </BuildableReference>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "D3DA6FBD207C6D2300A3DFE1"
-            BuildableName = "calendar99-logicTests.xctest"
-            BlueprintName = "calendar99-logicTests"
-            ReferencedContainer = "container:calendar99.xcodeproj">
-         </BuildableReference>
       </CodeCoverageTargets>
       <Testables>
          <TestableReference
