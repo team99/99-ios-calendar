@@ -54,4 +54,10 @@ public final class MiscEntityTest: RootTest {
       XCTAssertEqual(month1.hashValue, month2.hashValue)
     }
   }
+
+  public func test_hightlightPosition_shouldWorkCorrectly() {
+    XCTAssertTrue(NNCalendar.HighlightPosition.startAndEnd.contains(.start))
+    XCTAssertTrue(NNCalendar.HighlightPosition.startAndEnd.contains(.end))
+    XCTAssertFalse(NNCalendar.HighlightPosition.startAndEnd.contains(.mid))
+  }
 }
