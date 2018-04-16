@@ -33,7 +33,7 @@
 		D318423720819B2100659EA4 /* WeekdayDisplayTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D318423620819B2100659EA4 /* WeekdayDisplayTest.swift */; };
 		D319374320842BB600D055A4 /* MonthDisplayTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D319374220842BB600D055A4 /* MonthDisplayTest.swift */; };
 		D319374520844C5000D055A4 /* MiscEntityTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D319374420844C5000D055A4 /* MiscEntityTest.swift */; };
-		D319374820847AEA00D055A4 /* SelectionHighlightView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D319374720847AEA00D055A4 /* SelectionHighlightView.swift */; };
+		D319374820847AEA00D055A4 /* SelectHighlightView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D319374720847AEA00D055A4 /* SelectHighlightView.swift */; };
 		D319374B208487CE00D055A4 /* SelectionHighlightViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D319374A208487CE00D055A4 /* SelectionHighlightViewModel.swift */; };
 		D319374F208489EB00D055A4 /* GridDisplayViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D319374E208489EB00D055A4 /* GridDisplayViewModel.swift */; };
 		D319375120848F6B00D055A4 /* SelectHighlightTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D319375020848F6B00D055A4 /* SelectHighlightTest.swift */; };
@@ -153,7 +153,7 @@
 		D318423620819B2100659EA4 /* WeekdayDisplayTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekdayDisplayTest.swift; sourceTree = "<group>"; };
 		D319374220842BB600D055A4 /* MonthDisplayTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthDisplayTest.swift; sourceTree = "<group>"; };
 		D319374420844C5000D055A4 /* MiscEntityTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiscEntityTest.swift; sourceTree = "<group>"; };
-		D319374720847AEA00D055A4 /* SelectionHighlightView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionHighlightView.swift; sourceTree = "<group>"; };
+		D319374720847AEA00D055A4 /* SelectHighlightView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectHighlightView.swift; sourceTree = "<group>"; };
 		D319374A208487CE00D055A4 /* SelectionHighlightViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionHighlightViewModel.swift; sourceTree = "<group>"; };
 		D319374E208489EB00D055A4 /* GridDisplayViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridDisplayViewModel.swift; sourceTree = "<group>"; };
 		D319375020848F6B00D055A4 /* SelectHighlightTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectHighlightTest.swift; sourceTree = "<group>"; };
@@ -324,7 +324,7 @@
 		D319374620847AD600D055A4 /* SelectionHighlight */ = {
 			isa = PBXGroup;
 			children = (
-				D319374720847AEA00D055A4 /* SelectionHighlightView.swift */,
+				D319374720847AEA00D055A4 /* SelectHighlightView.swift */,
 			);
 			path = SelectionHighlight;
 			sourceTree = "<group>";
@@ -960,7 +960,7 @@
 				D319C2C3207DA50A005D1828 /* MonthSectionView.swift in Sources */,
 				D3DA6FD8207C735300A3DFE1 /* DateCell.swift in Sources */,
 				D3D63C68207E49A700772F53 /* MonthSectionLayout.swift in Sources */,
-				D319374820847AEA00D055A4 /* SelectionHighlightView.swift in Sources */,
+				D319374820847AEA00D055A4 /* SelectHighlightView.swift in Sources */,
 				D31431B0208068300044B936 /* WeekdayCell.swift in Sources */,
 				D3DA7016207C876300A3DFE1 /* Util.swift in Sources */,
 			);

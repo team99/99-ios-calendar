@@ -63,7 +63,7 @@
                                         </collectionViewFlowLayout>
                                         <cells/>
                                     </collectionView>
-                                    <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tJ7-HN-FFg" customClass="NNSelectionHighlightView" customModule="calendar99">
+                                    <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tJ7-HN-FFg" customClass="NNSelectHighlightView" customModule="calendar99">
                                         <rect key="frame" x="0.0" y="79.5" width="345" height="258.5"/>
                                     </view>
                                 </subviews>
