@@ -11,65 +11,9 @@ import SwiftUtilities
 import XCTest
 @testable import calendar99_logic
 
-public final class MockMonthSectionModel: NNMonthSectionModelType {
-  public var mockAllDateSelectionStream: Observable<Set<Date>>?
-
-  public var allDateSelectionReceiver: AnyObserver<Set<Date>> {
-    return model.allDateSelectionReceiver
-  }
-
-  public var allDateSelectionStream: Observable<Set<Date>> {
-    return mockAllDateSelectionStream ?? model.allDateSelectionStream
-  }
-
-  public var initialMonthStream: Single<NNCalendar.Month> {
-    return model.initialMonthStream
-  }
-
-  public var currentMonthReceiver: AnyObserver<NNCalendar.Month> {
-    return model.currentMonthReceiver
-  }
-
-  public var currentMonthStream: Observable<NNCalendar.Month> {
-    return model.currentMonthStream
-  }
-
-  private let model: NNMonthSectionModelType
-
-  public init(_ model: NNMonthSectionModelType) {
-    self.model = model
-  }
-
-  public func calculateGridSelection(_ monthComps: [NNCalendar.MonthComp],
-                                     _ firstWeekday: Int,
-                                     _ selection: Date)
-    -> Set<NNCalendar.GridSelection>
-  {
-    return model.calculateGridSelection(monthComps, firstWeekday, selection)
-  }
-
-  public func isDateSelected(_ date: Date) -> Bool {
-    return model.isDateSelected(date)
-  }
-
-  public func getAvailableMonths(_ currentMonth: NNCalendar.Month,
-                                 _ pastMonths: Int,
-                                 _ futureMonths: Int) -> [NNCalendar.Month] {
-    return model.getAvailableMonths(currentMonth,pastMonths, futureMonths)
-  }
-
-  public func calculateDayFromFirstDate(_ month: NNCalendar.Month,
-                                        _ firstWeekday: Int,
-                                        _ firstDateOffset: Int)
-    -> NNCalendar.Day?
-  {
-    return model.calculateDayFromFirstDate(month, firstWeekday, firstDateOffset)
-  }
-}
-
 /// Tests for month section.
 public final class MonthSectionTest: RootTest {
-  fileprivate var model: MockMonthSectionModel!
+  fileprivate var model: NNCalendar.MonthSection.Model!
   fileprivate var viewModel: NNCalendar.MonthSection.ViewModel!
   fileprivate var currentMonth: NNCalendar.Month!
   fileprivate var allDateSelectionSb: BehaviorSubject<Set<Date>>!
@@ -79,7 +23,7 @@ public final class MonthSectionTest: RootTest {
 
   override public func setUp() {
     super.setUp()
-    model = MockMonthSectionModel(NNCalendar.MonthSection.Model(self))
+    model = NNCalendar.MonthSection.Model(self)
     viewModel = NNCalendar.MonthSection.ViewModel(self, model!)
     currentMonth = NNCalendar.Month(Date())
     allDateSelectionSb = BehaviorSubject(value: Set())
@@ -121,9 +65,9 @@ public extension MonthSectionTest {
     let viewModel2 = NNCalendar.MonthSection.ViewModel(defaultViewModelDp, model2)
     viewModel1.setupAllBindingsAndSubBindings()
     viewModel2.setupAllBindingsAndSubBindings()
-    let monthComp1 = try! viewModel1.monthCompStream.take(1).toBlocking().first()!
-    let monthComp2 = try! viewModel2.monthCompStream.take(1).toBlocking().first()!
-    XCTAssertEqual(monthComp1, monthComp2)
+    let comps1 = try! viewModel1.monthCompStream.take(1).toBlocking().first()!
+    let comps2 = try! viewModel2.monthCompStream.take(1).toBlocking().first()!
+    XCTAssertEqual(comps1, comps2)
   }
 
   public func test_monthComponentStream_shouldEmitCorrectMonths() {
@@ -190,10 +134,8 @@ public extension MonthSectionTest {
   public func test_gridSelectionChanges_shouldWorkCorrectly() {
     /// Setup
     let selectionChangesObs = scheduler!.createObserver(Set<NNCalendar.GridSelection>.self)
-    let allDateSelectionSb = PublishSubject<Set<Date>>()
     let rowCount = viewModel!.rowCount
     let columnCount = viewModel!.columnCount
-    model.mockAllDateSelectionStream = allDateSelectionSb.asObservable()
     viewModel!.setupMonthSectionBindings()
     let monthComps = try! viewModel!.monthCompStream.take(1).toBlocking().first()!
 
@@ -220,9 +162,8 @@ public extension MonthSectionTest {
       let gridSelection = NNCalendar.GridSelection(monthIndex, dayIndex)
       let month = monthComps[monthIndex].month
       let selectedDay = viewModel!.calculateDayFromFirstDate(month, dayIndex)!
-      let previousChanges = selectionChangesObs.nextElements().last ?? []
-      let wasSelected = previousChanges.contains(gridSelection)
-      allDateSelectionSb.onNext(Set(arrayLiteral: selectedDay.date))
+      let wasSelected = viewModel!.isDateSelected(selectedDay.date)
+      allDateSelectionSb!.onNext(Set(arrayLiteral: selectedDay.date))
       waitOnMainThread(waitDuration!)
 
       /// Then
@@ -230,10 +171,10 @@ public extension MonthSectionTest {
 
       // Since we only extract differences, if the calculated date has already
       // been selected it should be skipped.
-      if !wasSelected {
-        XCTAssertTrue(lastChanges.contains(gridSelection))
-      } else {
+      if wasSelected {
         XCTAssertFalse(lastChanges.contains(gridSelection))
+      } else {
+        XCTAssertTrue(lastChanges.contains(gridSelection))
       }
     }
   }
@@ -250,7 +191,7 @@ public extension MonthSectionTest {
     viewModel!.setupMonthControlBindings()
     viewModel!.setupMonthSectionBindings()
     let months = try! viewModel!.monthCompStream.take(1).toBlocking().first()!
-    var previousIndex = pastMonthsFromCurrent
+    var prevIndex = pastMonthsFromCurrent
 
     /// When
     for _ in 0..<iterations! {
@@ -272,10 +213,10 @@ public extension MonthSectionTest {
       if index != nil {
         XCTAssertEqual(lastIndex, index)
       } else {
-        XCTAssertEqual(lastIndex, previousIndex)
+        XCTAssertEqual(lastIndex, prevIndex)
       }
 
-      previousIndex = lastIndex
+      prevIndex = lastIndex
     }
   }
 }

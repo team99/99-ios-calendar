@@ -143,20 +143,14 @@ extension NNCalendar.DateCalculator.Sequential: NNSingleMonthGridSelectionCalcul
     -> Set<NNCalendar.GridSelection>
   {
     var monthComps = [NNCalendar.MonthComp]()
-    let calendar = Calendar.current
-    let dateComponents = monthComp.month.dateComponents()
 
-    calendar.date(from: dateComponents)
-      .flatMap({calendar.date(byAdding: .month, value: -1, to: $0)})
-      .map({NNCalendar.Month($0)})
+    monthComp.month.with(monthOffset: -1)
       .map({monthComp.with(month: $0)})
       .map({monthComps.append($0)})
 
     monthComps.append(monthComp)
 
-    calendar.date(from: dateComponents)
-      .flatMap({calendar.date(byAdding: .month, value: 1, to: $0)})
-      .map({NNCalendar.Month($0)})
+    monthComp.month.with(monthOffset: 1)
       .map({monthComp.with(month: $0)})
       .map({monthComps.append($0)})
 
