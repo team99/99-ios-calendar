@@ -191,13 +191,16 @@ public extension NNCalendar {
   /// view and month section view.
   public struct Day: Equatable {
     public let date: Date
-    public let dateDescription: String
+    public fileprivate(set) var dateDescription: String
 
     /// The "currentMonth" in this case does not refer to the actual current
     /// month, but the currently selected month. This property can be used to
     /// de-highlight cells with dates that do not lie within the selected month.
-    public let isCurrentMonth: Bool
-    public let isSelected: Bool
+    public fileprivate(set) var isCurrentMonth: Bool
+    public fileprivate(set) var isSelected: Bool
+
+    /// This is used for highlighting date selections.
+    public fileprivate(set) var highlightPosition: NNCalendar.HighlightPosition
 
     /// Check if this Day is today.
     public var isToday: Bool {
@@ -208,22 +211,40 @@ public extension NNCalendar {
       return components == todayComps
     }
 
-    public init(_ date: Date,
-                _ dateDescription: String,
-                _ isCurrentMonth: Bool,
-                _ isSelected: Bool) {
+    public init(_ date: Date) {
       self.date = date
-      self.dateDescription = dateDescription
-      self.isCurrentMonth = isCurrentMonth
-      self.isSelected = isSelected
+      dateDescription = ""
+      isCurrentMonth = false
+      isSelected = false
+      highlightPosition = .none
+    }
+
+    /// Copy the current Day, but change its date description.
+    public func with(dateDescription: String) -> Day {
+      var day = self
+      day.dateDescription = dateDescription
+      return day
+    }
+
+    /// Copy the current Day, but change its current month status.
+    public func with(currentMonth: Bool) -> Day {
+      var day = self
+      day.isCurrentMonth = currentMonth
+      return day
     }
 
     /// Copy the current Day, but change its selection status.
-    ///
-    /// - Parameter selected: A Bool value.
-    /// - Returns: A Day instance.
     public func with(selected: Bool) -> Day {
-      return Day(date, dateDescription, isCurrentMonth, selected)
+      var day = self
+      day.isSelected = selected
+      return day
+    }
+
+    /// Copy the current day, but change its selection status.
+    public func with(highlightPosition: NNCalendar.HighlightPosition) -> Day {
+      var day = self
+      day.highlightPosition = highlightPosition
+      return day
     }
 
     /// Toggle selection status.
@@ -236,6 +257,7 @@ public extension NNCalendar {
         && lhs.isSelected == rhs.isSelected
         && lhs.isCurrentMonth == rhs.isCurrentMonth
         && lhs.dateDescription == rhs.dateDescription
+        && lhs.highlightPosition == rhs.highlightPosition
     }
   }
 }
@@ -294,14 +316,17 @@ public extension NNCalendar {
   public struct HighlightPosition: OptionSet {
 
     /// Mark the start of an Array of Date selection.
-    public static let start = HighlightPosition(rawValue: 0)
+    public static let start = HighlightPosition(rawValue: 1 << 1)
 
     /// Mark the middle of an Array of Date selection.
-    public static let mid: HighlightPosition = HighlightPosition(rawValue: 1)
+    public static let mid = HighlightPosition(rawValue: 1 << 2)
 
     /// Mark the end of an Array of Date selection.
-    public static let end = HighlightPosition(rawValue: 2)
-    public static let startAndEnd: HighlightPosition = [start, end]
+    public static let end = HighlightPosition(rawValue: 1 << 3)
+
+    public static let startAndEnd = HighlightPosition(
+      rawValue: start.rawValue | end.rawValue)
+
     public static let none = HighlightPosition(rawValue: 0)
 
     public typealias RawValue = Int

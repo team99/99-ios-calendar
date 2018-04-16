@@ -157,35 +157,35 @@ extension NNCalendar.DateCalculator.Sequential: NNSingleMonthGridSelectionCalcul
 
 // MARK: - NNHighlightPositionCalculator
 extension NNCalendar.DateCalculator.Sequential: NNHighlightPositionCalculator {
-  public func calculateHighlightPosition(_ selections: Set<Date>, _ currentDate: Date)
+  public func calculateHighlightPos(_ selections: Set<Date>, _ date: Date)
     -> NNCalendar.HighlightPosition
   {
-    guard selections.contains(currentDate) else { return .none }
+    guard selections.contains(date) else { return .none }
     var flags: NNCalendar.HighlightPosition?
 
     if
-      let nextDate = calendar.date(byAdding: .day, value: 1, to: currentDate),
+      let nextDate = calendar.date(byAdding: .day, value: 1, to: date),
       !selections.contains(nextDate)
     {
       flags = flags.map({$0.union(.end)}).getOrElse(.end)
     }
 
     if
-      let prevDate = calendar.date(byAdding: .day, value: -1, to: currentDate),
+      let prevDate = calendar.date(byAdding: .day, value: -1, to: date),
       !selections.contains(prevDate)
     {
       flags = flags.map({$0.union(.start)}).getOrElse(.start)
     }
 
     if
-      let prevDate = calendar.date(byAdding: .day, value: -1, to: currentDate),
-      let nextDate = calendar.date(byAdding: .day, value: 1, to: currentDate),
+      let prevDate = calendar.date(byAdding: .day, value: -1, to: date),
+      let nextDate = calendar.date(byAdding: .day, value: 1, to: date),
       selections.contains(prevDate),
       selections.contains(nextDate)
     {
       flags = .mid
     }
-
+    
     return flags.getOrElse(.none)
   }
 }

@@ -20,9 +20,11 @@ public final class MonthSectionTest: RootTest {
   fileprivate var currentMonthSb: BehaviorSubject<NNCalendar.Month>!
   fileprivate var defaultModelDp: NNMonthSectionModelDependency!
   fileprivate var defaultViewModelDp: NNMonthSectionViewModelDependency!
+  fileprivate var sequentialDateCalc: NNCalendar.DateCalculator.Sequential!
 
   override public func setUp() {
     super.setUp()
+    sequentialDateCalc = NNCalendar.DateCalculator.Sequential()
     model = NNCalendar.MonthSection.Model(self)
     viewModel = NNCalendar.MonthSection.ViewModel(self, model!)
     currentMonth = NNCalendar.Month(Date())
@@ -213,9 +215,36 @@ public extension MonthSectionTest {
       prevIndex = lastIndex
     }
   }
+
+  public func test_calculateHighlightPosition_shouldWorkCorrectly() {
+    /// Setup
+    let calendar = Calendar.current
+    let selectionCount = 100
+
+    /// When
+    for _ in 0..<iterations! {
+      let startDate = Date.random()!
+
+      let selections = (0..<selectionCount)
+        .map({calendar.date(byAdding: .day, value: $0, to: startDate)!})
+
+      allDateSelectionSb.onNext(Set(selections))
+      waitOnMainThread(waitDuration!)
+
+      /// Then
+      let highlightPos1 = selections.map({viewModel!.calculateHighlightPos($0)})
+      let highlightPos2 = selections.map({calculateHighlightPos($0)})
+      XCTAssertEqual(highlightPos1, highlightPos2)
+    }
+  }
 }
 
 extension MonthSectionTest: NNMonthSectionNoDefaultModelDependency {
+  public func calculateHighlightPos(_ date: Date) -> NNCalendar.HighlightPosition {
+    let selections = try! allDateSelectionSb.value()
+    return sequentialDateCalc.calculateHighlightPos(selections, date)
+  }
+
   public var allDateSelectionReceiver: AnyObserver<Set<Date>> {
     return allDateSelectionSb.asObserver()
   }

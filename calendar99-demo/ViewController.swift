@@ -19,9 +19,12 @@ public final class ViewController: UIViewController  {
   fileprivate var monthSb: BehaviorSubject<NNCalendar.Month>!
   fileprivate var dateSelectionSb: BehaviorSubject<Set<Date>>!
   fileprivate var disposable: DisposeBag!
+  fileprivate var sequentialCalculator: NNCalendar.DateCalculator.Sequential!
 
   override public func viewDidLoad() {
     super.viewDidLoad()
+    sequentialCalculator = NNCalendar.DateCalculator.Sequential()
+
     let decorator = AppDecorator()
     monthSb = BehaviorSubject(value: NNCalendar.Month(Date()))
     dateSelectionSb = BehaviorSubject(value: Set())
@@ -80,6 +83,11 @@ extension ViewController: NNMonthSectionNoDefaultModelDependency {
 
   public func isDateSelected(_ date: Date) -> Bool {
     return (try? dateSelectionSb.value().contains(date)) ?? false
+  }
+
+  public func calculateHighlightPos(_ date: Date) -> NNCalendar.HighlightPosition {
+    let selections = (try? dateSelectionSb.value()) ?? Set()
+    return sequentialCalculator.calculateHighlightPos(selections, date)
   }
 }
 

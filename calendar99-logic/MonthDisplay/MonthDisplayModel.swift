@@ -152,7 +152,10 @@ extension NNCalendar.MonthDisplay.Model: NNMonthDisplayModelType {
       .calculateDateRange(month, firstWeekday, rowCount, columnCount)
       .map({
         let description = calendar.component(.day, from: $0).description
-        return NNCalendar.Day($0, description, month.contains($0), false)
+
+        return NNCalendar.Day($0)
+          .with(dateDescription: description)
+          .with(currentMonth: month.contains($0))
       })
   }
 

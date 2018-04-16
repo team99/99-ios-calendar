@@ -46,8 +46,11 @@ extension NNHorizontalSelectionHighlighter: NNSelectionHighlighterType {
                             byRoundingCorners: [.topRight, .bottomRight],
                             cornerRadii: CGSize(width: 5, height: 5))
 
-    default:
+    case .mid:
       bezier = UIBezierPath(rect: highlightRect)
+
+    default:
+      return
     }
 
     context.setFillColor(UIColor.groupTableViewBackground.cgColor)

@@ -10,7 +10,7 @@ import RxSwift
 
 /// Shared functionalities between the model and its dependency, so that the
 /// model can expose the same properties.
-public protocol NNMonthSectionModelFunction {
+public protocol NNMonthSectionModelFunction: NNSelectHighlightFunction {
 
   /// Stream the initial month.
   var initialMonthStream: Single<NNCalendar.Month> { get }
@@ -119,6 +119,13 @@ extension NNCalendar.MonthSection.Model: NNSingleDaySelectionFunction {
   }
 }
 
+// MARK: - NNSelectHighlightFunction
+extension NNCalendar.MonthSection.Model: NNSelectHighlightFunction {
+  public func calculateHighlightPos(_ date: Date) -> NNCalendar.HighlightPosition {
+    return dependency.calculateHighlightPos(date)
+  }
+}
+
 // MARK: - NNMonthSectionModelDependency
 extension NNCalendar.MonthSection.Model: NNMonthSectionModelFunction {
   public var initialMonthStream: Single<NNCalendar.Month> {
@@ -166,7 +173,10 @@ extension NNCalendar.MonthSection.Model: NNMonthSectionModelType {
                                         _ firstDateOffset: Int) -> NNCalendar.Day? {
     return dependency.calculateDateWithOffset(month, firstWeekday, firstDateOffset).map({
       let description = Calendar.current.component(.day, from: $0).description
-      return NNCalendar.Day($0, description, month.contains($0), false)
+
+      return NNCalendar.Day($0)
+        .with(dateDescription: description)
+        .with(currentMonth: month.contains($0))
     })
   }
 }
@@ -219,6 +229,10 @@ extension NNCalendar.MonthSection.Model {
 
     internal func isDateSelected(_ date: Date) -> Bool {
       return noDefault.isDateSelected(date)
+    }
+
+    internal func calculateHighlightPos(_ date: Date) -> NNCalendar.HighlightPosition {
+      return noDefault.calculateHighlightPos(date)
     }
   }
 }

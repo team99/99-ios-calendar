@@ -177,8 +177,10 @@ public extension NNMonthSectionView {
       #endif
     }
 
-    let selected = viewModel.isDateSelected(day.date)
-    let actualDay = day.with(selected: selected)
+    let actualDay = day
+      .with(selected: viewModel.isDateSelected(day.date))
+      .with(highlightPosition: viewModel.calculateHighlightPos(day.date))
+
     let cellDecorator = decorator.dateCellDecorator(indexPath, actualDay)
     cell.setupWithDay(cellDecorator, actualDay)
     return cell

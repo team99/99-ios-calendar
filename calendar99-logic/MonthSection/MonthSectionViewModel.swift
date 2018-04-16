@@ -28,7 +28,8 @@ public protocol NNMonthSectionViewModelDependency:
 public protocol NNMonthSectionViewModelType:
   NNMonthGridViewModelType,
   NNMonthControlViewModelType,
-  NNSingleDaySelectionViewModelType
+  NNSingleDaySelectionViewModelType,
+  NNSelectHighlightFunction
 {
   /// Get the total month count.
   var totalMonthCount: Int { get }
@@ -167,6 +168,13 @@ extension NNCalendar.MonthSection.ViewModel: NNSingleDaySelectionViewModelType {
 
   public func setupDaySelectionBindings() {
     daySelectionVM.setupDaySelectionBindings()
+  }
+}
+
+// MARK: - NNSelectHighlightFunction
+extension NNCalendar.MonthSection.ViewModel: NNSelectHighlightFunction {
+  public func calculateHighlightPos(_ date: Date) -> NNCalendar.HighlightPosition {
+    return model.calculateHighlightPos(date)
   }
 }
 

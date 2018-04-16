@@ -20,6 +20,7 @@
 		D31329192084ED6C00E06C2A /* MonthViewDecorator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D31329182084ED6C00E06C2A /* MonthViewDecorator.swift */; };
 		D313291B2084F64C00E06C2A /* DateCellState.swift in Sources */ = {isa = PBXBuildFile; fileRef = D313291A2084F64C00E06C2A /* DateCellState.swift */; };
 		D313291D2084F78500E06C2A /* HorizontalSelectionHighlighter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D313291C2084F78500E06C2A /* HorizontalSelectionHighlighter.swift */; };
+		D31329222085114700E06C2A /* SelectHighlightFunction.swift in Sources */ = {isa = PBXBuildFile; fileRef = D31329212085114700E06C2A /* SelectHighlightFunction.swift */; };
 		D3136209207FBC9E0090263A /* SequentialDateCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3136208207FBC9E0090263A /* SequentialDateCalculator.swift */; };
 		D3140145208130930029BA0C /* MonthGridTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3140144208130930029BA0C /* MonthGridTest.swift */; };
 		D31431A320805A240044B936 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = D31431A220805A240044B936 /* README.md */; };
@@ -146,6 +147,7 @@
 		D31329182084ED6C00E06C2A /* MonthViewDecorator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthViewDecorator.swift; sourceTree = "<group>"; };
 		D313291A2084F64C00E06C2A /* DateCellState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateCellState.swift; sourceTree = "<group>"; };
 		D313291C2084F78500E06C2A /* HorizontalSelectionHighlighter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalSelectionHighlighter.swift; sourceTree = "<group>"; };
+		D31329212085114700E06C2A /* SelectHighlightFunction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectHighlightFunction.swift; sourceTree = "<group>"; };
 		D3136208207FBC9E0090263A /* SequentialDateCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SequentialDateCalculator.swift; sourceTree = "<group>"; };
 		D3140144208130930029BA0C /* MonthGridTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthGridTest.swift; sourceTree = "<group>"; };
 		D31431A220805A240044B936 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -276,6 +278,14 @@
 				C737F71F74B500EA998EB22F /* Pods_calendar99_logicTests.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		D31329202085112D00E06C2A /* SelectHighlight */ = {
+			isa = PBXGroup;
+			children = (
+				D31329212085114700E06C2A /* SelectHighlightFunction.swift */,
+			);
+			path = SelectHighlight;
 			sourceTree = "<group>";
 		};
 		D3136207207FBC860090263A /* Calculator */ = {
@@ -493,6 +503,7 @@
 		D3DA6FB7207C6D2200A3DFE1 /* calendar99-logic */ = {
 			isa = PBXGroup;
 			children = (
+				D31329202085112D00E06C2A /* SelectHighlight */,
 				D3DA6FB8207C6D2300A3DFE1 /* calendar99_logic.h */,
 				D3DA6FB9207C6D2300A3DFE1 /* Info.plist */,
 				D3DA700F207C805300A3DFE1 /* Entity.swift */,
@@ -1002,6 +1013,7 @@
 				D3DA6FD4207C6EC700A3DFE1 /* Entry.swift in Sources */,
 				D31C042D207D1BA6000C2C75 /* DateCalculator.swift in Sources */,
 				D314670B207DFBEA00A6B186 /* MonthSectionModel.swift in Sources */,
+				D31329222085114700E06C2A /* SelectHighlightFunction.swift in Sources */,
 				D31DA885207EF47E00FB4355 /* SingleDaySelectionViewModel.swift in Sources */,
 				D31DA889207F221B00FB4355 /* SingleDaySelectionFunctionality.swift in Sources */,
 				D3136209207FBC9E0090263A /* SequentialDateCalculator.swift in Sources */,

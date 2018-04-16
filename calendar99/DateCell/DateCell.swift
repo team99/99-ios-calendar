@@ -17,16 +17,29 @@ public final class NNDateCell: UICollectionViewCell {
     return "DateCellCircleMarker"
   }
 
+  /// Set this variable instead of setting each individually to ensure all draw
+  /// dependencies are available at the same time.
+  private var drawDependency: (NNCalendar.Day, NNSelectionHighlighterType)? {
+    didSet {
+      setNeedsDisplay()
+    }
+  }
+
   /// Store some properties here to perform some custom drawing.
-  private var currentDay: NNCalendar.Day?
-  private var selectionHighlighter: NNSelectionHighlighterType?
+  private var currentDay: NNCalendar.Day? {
+    return drawDependency?.0
+  }
+
+  private var selectionHighlighter: NNSelectionHighlighterType? {
+    return drawDependency?.1
+  }
 
   override public func draw(_ rect: CGRect) {
     super.draw(rect)
 
     guard
       let context = UIGraphicsGetCurrentContext(),
-      let currentDay = self.currentDay,
+      let day = self.currentDay,
       let selectionHighlighter = self.selectionHighlighter else
     {
       #if DEBUG
@@ -36,10 +49,7 @@ public final class NNDateCell: UICollectionViewCell {
       #endif
     }
 
-    let positions = [NNCalendar.HighlightPosition.start, .end, .mid, .startAndEnd]
-    let index = Int(arc4random_uniform(UInt32(positions.count) - 0) + 0)
-    let highlightPosition = NNCalendar.HighlightPosition.mid
-    selectionHighlighter.drawHighlight(context, rect, highlightPosition)
+    selectionHighlighter.drawHighlight(context, rect, day.highlightPosition)
   }
   
   /// Set up the current cell with a Day.
@@ -47,8 +57,7 @@ public final class NNDateCell: UICollectionViewCell {
   /// - Parameter day: A Day instance.
   public func setupWithDay(_ decorator: NNDateCellDecoratorType,
                            _ day: NNCalendar.Day) {
-    self.currentDay = day
-    self.selectionHighlighter = decorator.selectionHighlighter
+    self.drawDependency = (day, decorator.selectionHighlighter)
     guard let dateLbl = self.dateLbl else { return }
 
     if day.isCurrentMonth {

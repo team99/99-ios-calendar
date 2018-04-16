@@ -15,6 +15,9 @@ public final class MiscEntityTest: RootTest {
     /// Setup
     let calendar = Calendar.current
 
+    let highlightPositions = [NNCalendar.HighlightPosition.startAndEnd,
+                              .start, .end, .mid, .none]
+
     /// When
     for _ in 0..<iterations {
       let isToday = Bool.random()
@@ -23,8 +26,20 @@ public final class MiscEntityTest: RootTest {
       let description = String(dateComponent)
       let isCurrentMonth = Bool.random()
       let isSelected = Bool.random()
-      let day1 = NNCalendar.Day(date, description, isCurrentMonth, isSelected)
-      let day2 = NNCalendar.Day(date, description, isCurrentMonth, isSelected)
+      let highlightPos = highlightPositions.randomElement()!
+
+      let day1 = NNCalendar.Day(date)
+        .with(dateDescription: description)
+        .with(currentMonth: isCurrentMonth)
+        .with(selected: isSelected)
+        .with(highlightPosition: highlightPos)
+
+      let day2 = NNCalendar.Day(date)
+        .with(dateDescription: description)
+        .with(currentMonth: isCurrentMonth)
+        .with(selected: isSelected)
+        .with(highlightPosition: highlightPos)
+
       XCTAssertEqual(day1.isToday, isToday)
       XCTAssertNotEqual(day1.isSelected, day1.toggleSelection().isSelected)
       XCTAssertEqual(day1, day2)

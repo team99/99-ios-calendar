@@ -162,6 +162,6 @@ public protocol NNHighlightPositionCalculator {
   ///   - selections: A Set of selected Date.
   ///   - currentDate: The current selected Date.
   /// - Returns: A HighlightPosition instance.
-  func calculateHighlightPosition(_ selections: Set<Date>, _ currentDate: Date)
+  func calculateHighlightPos(_ selections: Set<Date>, _ currentDate: Date)
     -> NNCalendar.HighlightPosition
 }
