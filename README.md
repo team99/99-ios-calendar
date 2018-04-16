@@ -1,6 +1,8 @@
 # 99-ios-calendar
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Build Status](https://travis-ci.org/team99/99-ios-calendar.svg?branch=master)](https://travis-ci.org/team99/99-ios-calendar)
+[![Coverage Status](https://coveralls.io/repos/github/team99/99-ios-calendar/badge.svg?branch=master)](https://coveralls.io/github/team99/99-ios-calendar?branch=master)
 
 Almost fully-configurable calendar view for iOS applications that runs entirely on Rx. 
 
