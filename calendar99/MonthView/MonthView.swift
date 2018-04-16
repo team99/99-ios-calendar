@@ -110,6 +110,7 @@ public extension NNMonthView {
     let bundle = Bundle(for: NNDateCell.classForCoder())
     let cellNib = UINib(nibName: "DateCell", bundle: bundle)
     register(cellNib, forCellWithReuseIdentifier: cellId)
+    backgroundColor = .white
   }
 }
 

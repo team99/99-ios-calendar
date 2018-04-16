@@ -27,6 +27,9 @@ public final class ViewController: UIViewController  {
     dateSelectionSb = BehaviorSubject(value: Set())
     disposable = DisposeBag()
 
+    let selectHighlightVM = NNCalendar.SelectHighlight.ViewModel()
+    selectionHighlightView.dependency = selectHighlightVM
+
     let weekdayModel = NNCalendar.SelectWeekday.Model(self)
     let weekdayVM = NNCalendar.SelectWeekday.ViewModel(weekdayModel)
     weekdayView.dependency = weekdayVM

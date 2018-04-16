@@ -12,6 +12,14 @@ import XCTest
 
 /// Tests for months.
 public final class MonthTest: RootTest {
+  override public func setUp() {
+    super.setUp()
+
+    // Since these tests do not require any waiting, might as well be ludicrous
+    // with the iteration count.
+    iterations = 20000
+  }
+
   public func test_newMonthWithMonthOffset_shouldWork() {
     /// Setup
     var date = Date()

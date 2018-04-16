@@ -28,7 +28,6 @@
                     </label>
                 </subviews>
             </view>
-            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
                 <constraint firstItem="uSY-WC-Hj4" firstAttribute="width" secondItem="eMf-sk-mg7" secondAttribute="width" multiplier="2 / 3" id="ZcX-Z3-oK4"/>
                 <constraint firstItem="uSY-WC-Hj4" firstAttribute="centerY" secondItem="eMf-sk-mg7" secondAttribute="centerY" id="eYK-as-Z0H"/>
