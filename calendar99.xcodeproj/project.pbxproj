@@ -471,6 +471,7 @@
 			isa = PBXGroup;
 			children = (
 				D3DA6FC5207C6D2300A3DFE1 /* Info.plist */,
+				D319374420844C5000D055A4 /* MiscEntityTest.swift */,
 				D3B510A52080DEC100A2E8EF /* MonthControlTest.swift */,
 				D319374220842BB600D055A4 /* MonthDisplayTest.swift */,
 				D3140144208130930029BA0C /* MonthGridTest.swift */,
@@ -482,7 +483,6 @@
 				D31C042E207D2106000C2C75 /* SequentialDateCalculatorTest.swift */,
 				D31431C02080B1EF0044B936 /* SingleDaySelectionTest.swift */,
 				D318423620819B2100659EA4 /* WeekdayDisplayTest.swift */,
-				D319374420844C5000D055A4 /* MiscEntityTest.swift */,
 			);
 			path = "calendar99-logicTests";
 			sourceTree = "<group>";

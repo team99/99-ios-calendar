@@ -67,6 +67,5 @@ extension NNCalendar.MonthHeader.ViewModel: NNMonthHeaderViewModelType {
     return model.currentMonthStream
       .map({[weak self] in self?.model.formatMonthDescription($0)})
       .filter({$0.isSome}).map({$0!})
-      .distinctUntilChanged()
   }
 }

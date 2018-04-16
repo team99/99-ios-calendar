@@ -25,6 +25,11 @@ public final class NNDateCell: UICollectionViewCell {
     backgroundColor = day.isCurrentMonth ? .white : .lightGray
     backgroundColor = day.isSelected ? .red : backgroundColor
     dateLbl.text = day.dateDescription
+    dateLbl.textColor = .black
+
+    contentView.subviews
+      .first(where: {$0.accessibilityIdentifier == circleMarkerId})?
+      .removeFromSuperview()
 
     // If the day is today, add a circle marker programmatically.
     if day.isToday {
@@ -38,12 +43,6 @@ public final class NNDateCell: UICollectionViewCell {
       circleMarker.accessibilityIdentifier = circleMarkerId
       contentView.insertSubview(circleMarker, at: 0)
       dateLbl.textColor = .white
-    } else {
-      dateLbl.textColor = .black
-
-      contentView.subviews
-        .first(where: {$0.accessibilityIdentifier == circleMarkerId})?
-        .removeFromSuperview()
     }
 
     dateLbl.textColor = day.isSelected ? .white : dateLbl.textColor

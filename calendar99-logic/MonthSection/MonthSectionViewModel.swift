@@ -187,7 +187,6 @@ extension NNCalendar.MonthSection.ViewModel: NNMonthSectionViewModelType {
       .withLatestFrom(monthCompStream) {($0, $1)}
       .map({$1.map({$0.month}).index(of: $0)})
       .filter({$0.isSome}).map({$0!})
-      .distinctUntilChanged()
   }
 
   /// Keep track of the previous selections to know what have been deselected.

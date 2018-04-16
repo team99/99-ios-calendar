@@ -158,7 +158,6 @@ extension NNCalendar.MonthDisplay.ViewModel: NNMonthDisplayViewModelType {
       .map({[weak self] month in self?.model
         .calculateDayRange(month, firstWeekday, rowCount, columnCount)})
       .filter({$0.isSome}).map({$0!})
-      .distinctUntilChanged({$0 == $1})
       .map(Optional.some)
       .subscribe(daySbj)
       .disposed(by: disposable)
