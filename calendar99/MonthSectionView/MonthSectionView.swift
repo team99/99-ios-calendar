@@ -16,17 +16,25 @@ import calendar99_logic
 /// a finite number of months. However, if we set that number high enough, I
 /// doubt the user would be able to scroll past the limits anyway.
 public final class NNMonthSectionView: UICollectionView {
-  public var viewModel: NNMonthSectionViewModelType? {
+  public typealias ViewModel = NNMonthSectionViewModelType
+  public typealias Dependency = ViewModel
+
+  public var dependency: Dependency? {
+    get { return nil }
+    
+    set {
+      viewModel = newValue
+      didSetViewModel()
+    }
+  }
+
+  fileprivate var viewModel: ViewModel? {
     willSet {
       #if DEBUG
       if viewModel != nil {
         fatalError("Cannot mutate view model!")
       }
       #endif
-    }
-
-    didSet {
-      didSetViewModel()
     }
   }
 

@@ -36,6 +36,7 @@
 		D319374820847AEA00D055A4 /* SelectionHighlightView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D319374720847AEA00D055A4 /* SelectionHighlightView.swift */; };
 		D319374B208487CE00D055A4 /* SelectionHighlightViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D319374A208487CE00D055A4 /* SelectionHighlightViewModel.swift */; };
 		D319374F208489EB00D055A4 /* GridDisplayViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D319374E208489EB00D055A4 /* GridDisplayViewModel.swift */; };
+		D319375120848F6B00D055A4 /* SelectHighlightTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D319375020848F6B00D055A4 /* SelectHighlightTest.swift */; };
 		D319C2C0207D9FE0005D1828 /* MonthHeader.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D319C2BF207D9FE0005D1828 /* MonthHeader.xcassets */; };
 		D319C2C3207DA50A005D1828 /* MonthSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D319C2C2207DA50A005D1828 /* MonthSectionView.swift */; };
 		D31C0429207D1649000C2C75 /* MonthControlViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D31C0428207D1649000C2C75 /* MonthControlViewModel.swift */; };
@@ -155,6 +156,7 @@
 		D319374720847AEA00D055A4 /* SelectionHighlightView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionHighlightView.swift; sourceTree = "<group>"; };
 		D319374A208487CE00D055A4 /* SelectionHighlightViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionHighlightViewModel.swift; sourceTree = "<group>"; };
 		D319374E208489EB00D055A4 /* GridDisplayViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridDisplayViewModel.swift; sourceTree = "<group>"; };
+		D319375020848F6B00D055A4 /* SelectHighlightTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectHighlightTest.swift; sourceTree = "<group>"; };
 		D319C2BF207D9FE0005D1828 /* MonthHeader.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = MonthHeader.xcassets; sourceTree = "<group>"; };
 		D319C2C2207DA50A005D1828 /* MonthSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthSectionView.swift; sourceTree = "<group>"; };
 		D31C0428207D1649000C2C75 /* MonthControlViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthControlViewModel.swift; sourceTree = "<group>"; };
@@ -516,6 +518,7 @@
 				D31C042E207D2106000C2C75 /* SequentialDateCalculatorTest.swift */,
 				D31431C02080B1EF0044B936 /* SingleDaySelectionTest.swift */,
 				D318423620819B2100659EA4 /* WeekdayDisplayTest.swift */,
+				D319375020848F6B00D055A4 /* SelectHighlightTest.swift */,
 			);
 			path = "calendar99-logicTests";
 			sourceTree = "<group>";
@@ -1009,6 +1012,7 @@
 			files = (
 				D31FCC5020826E46005C3D68 /* SelectableWeekdayTest.swift in Sources */,
 				D3140145208130930029BA0C /* MonthGridTest.swift in Sources */,
+				D319375120848F6B00D055A4 /* SelectHighlightTest.swift in Sources */,
 				D31431C12080B1EF0044B936 /* SingleDaySelectionTest.swift in Sources */,
 				D319374320842BB600D055A4 /* MonthDisplayTest.swift in Sources */,
 				D319374520844C5000D055A4 /* MiscEntityTest.swift in Sources */,

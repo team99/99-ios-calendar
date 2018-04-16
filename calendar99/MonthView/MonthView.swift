@@ -17,17 +17,25 @@ import calendar99_logic
 /// a result, it does not have scrolling animations when switching months, so
 /// if we are looking for feel instead of function, skip this.
 public final class NNMonthView: UICollectionView {
-  public var viewModel: NNMonthDisplayViewModelType? {
+  public typealias ViewModel = NNMonthDisplayViewModelType
+  public typealias Dependency = ViewModel
+
+  public var dependency: Dependency? {
+    get { return nil }
+    
+    set {
+      viewModel = newValue
+      didSetViewModel()
+    }
+  }
+
+  fileprivate var viewModel: NNMonthDisplayViewModelType? {
     willSet {
       #if DEBUG
       if viewModel != nil {
         fatalError("Cannot mutate view model!")
       }
       #endif
-    }
-
-    didSet {
-      didSetViewModel()
     }
   }
 

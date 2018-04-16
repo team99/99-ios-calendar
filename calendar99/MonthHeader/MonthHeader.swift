@@ -12,23 +12,32 @@ import calendar99_logic
 
 /// Month header view for calendar.
 public final class NNMonthHeaderView: UIView {
+  public typealias ViewModel = NNMonthHeaderViewModelType
+  public typealias Dependency = ViewModel
+
   @IBOutlet fileprivate weak var backwardImg: UIImageView!
   @IBOutlet fileprivate weak var backwardBtn: UIButton!
   @IBOutlet fileprivate weak var forwardImg: UIImageView!
   @IBOutlet fileprivate weak var forwardBtn: UIButton!
   @IBOutlet fileprivate weak var monthLbl: UILabel!
+
+  /// Set all dependencies here.
+  public var dependency: Dependency? {
+    get { return nil }
+    
+    set {
+      self.viewModel = newValue
+      didSetViewModel()
+    }
+  }
   
-  public var viewModel: NNMonthHeaderViewModelType? {
+  fileprivate var viewModel: ViewModel? {
     willSet {
       #if DEBUG
       if viewModel != nil {
         fatalError("Cannot mutate view model!")
       }
       #endif
-    }
-
-    didSet {
-      didSetViewModel()
     }
   }
 

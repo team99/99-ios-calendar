@@ -29,11 +29,11 @@ public final class ViewController: UIViewController  {
 
     let weekdayModel = NNCalendar.SelectWeekday.Model(self)
     let weekdayVM = NNCalendar.SelectWeekday.ViewModel(weekdayModel)
-    weekdayView.viewModel = weekdayVM
+    weekdayView.dependency = weekdayVM
 
     let monthHeaderModel = NNCalendar.MonthHeader.Model(self)
     let monthHeaderVM = NNCalendar.MonthHeader.ViewModel(monthHeaderModel)
-    monthHeader.viewModel = monthHeaderVM
+    monthHeader.dependency = monthHeaderVM
 
     let monthSectionModel = NNCalendar.MonthSection.Model(self)
     let monthSectionVM = NNCalendar.MonthSection.ViewModel(self, monthSectionModel)
@@ -42,11 +42,11 @@ public final class ViewController: UIViewController  {
     let columnCount = monthSectionVM.columnCount
     let layout = NNMonthSectionHorizontalFlowLayout(pageCount, rowCount, columnCount)
     monthSectionView.setCollectionViewLayout(layout, animated: true)
-    monthSectionView.viewModel = monthSectionVM
+    monthSectionView.dependency = monthSectionVM
 
     let monthViewModel = NNCalendar.MonthDisplay.Model(self)
     let monthViewVM = NNCalendar.MonthDisplay.ViewModel(monthViewModel)
-    monthView.viewModel = monthViewVM
+    monthView.dependency = monthViewVM
   }
 }
 

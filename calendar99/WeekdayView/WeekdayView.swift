@@ -12,17 +12,25 @@ import calendar99_logic
 
 /// Weekday view that displays weekdays.
 public final class NNWeekdayView: UICollectionView {
-  public var viewModel: NNWeekdayDisplayViewModelType? {
+  public typealias ViewModel = NNWeekdayDisplayViewModelType
+  public typealias Dependency = ViewModel
+
+  public var dependency: Dependency? {
+    get { return nil }
+    
+    set {
+      viewModel = newValue
+      didSetViewModel()
+    }
+  }
+
+  fileprivate var viewModel: ViewModel? {
     willSet {
       #if DEBUG
       if viewModel != nil {
         fatalError("Cannot mutate view model!")
       }
       #endif
-    }
-
-    didSet {
-      didSetViewModel()
     }
   }
 
