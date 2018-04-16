@@ -65,7 +65,7 @@ public extension NNCalendar {
   /// Represents a month that can be controlled by the user. This is used
   /// throughout the library, esp. by the month header (whereby there are
   // forward and backward arrows to control the currently selected month).
-  public struct Month: Equatable, Hashable, CustomStringConvertible {
+  public struct Month: Equatable, CustomStringConvertible {
     public let month: Int
     public let year: Int
 

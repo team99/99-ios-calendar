@@ -153,7 +153,7 @@ extension NNCalendar.MonthDisplay.ViewModel: NNMonthDisplayViewModelType {
     let rowCount = dependency.rowCount
     let columnCount = dependency.columnCount
 
-    /// Every time the user switches month, we need to update the day stream.
+    // Every time the user switches month, we need to update the day stream.
     model.currentMonthStream
       .map({[weak self] month in self?.model
         .calculateDayRange(month, firstWeekday, rowCount, columnCount)})
@@ -163,6 +163,7 @@ extension NNCalendar.MonthDisplay.ViewModel: NNMonthDisplayViewModelType {
       .subscribe(daySbj)
       .disposed(by: disposable)
 
+    // We only take the dayIndex because this view has no sections.
     gridSelectionStream
       .withLatestFrom(dayStream) {($1, $0)}
       .filter({$1.dayIndex >= 0 && $1.dayIndex < $0.count})
