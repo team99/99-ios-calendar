@@ -28,8 +28,8 @@ public final class NNDateCell: UICollectionViewCell {
     dateLbl.textColor = .black
 
     contentView.subviews
-      .first(where: {$0.accessibilityIdentifier == circleMarkerId})?
-      .removeFromSuperview()
+      .filter({$0.accessibilityIdentifier == circleMarkerId})
+      .forEach({$0.removeFromSuperview()})
 
     // If the day is today, add a circle marker programmatically.
     if day.isToday {
