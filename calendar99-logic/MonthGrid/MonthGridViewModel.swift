@@ -10,23 +10,19 @@ import RxSwift
 
 /// Shared functionalities for the view model and its dependency for month-grid
 /// views.
-public protocol NNMonthGridViewModelFunction {
-
-  /// Represents the number of columns. Should be 7 in most cases.
-  var columnCount: Int { get }
-
-  /// Represents the number of rows. Generally should be 6.
-  var rowCount: Int { get }
-}
+public protocol NNMonthGridViewModelFunction: NNGridDisplayViewModelFunction {}
 
 /// Dependency for month-grid view model.
 public protocol NNMonthGridViewModelDependency:
   NNMonthGridViewModelFunction,
+  NNMGridDisplayViewModelDependency,
   NNWeekdayAwareViewModelDependency {}
 
 /// View model for month-grid based views.
-public protocol NNMonthGridViewModelType: NNMonthGridViewModelFunction {
-
+public protocol NNMonthGridViewModelType:
+  NNMonthGridViewModelFunction,
+  NNGridDisplayViewModelType
+{
   /// Trigger grid item selection. Each grid selection corresponds to an Index
   /// Path in the current month grid.
   var gridSelectionReceiver: AnyObserver<NNCalendar.GridSelection> { get }
@@ -35,7 +31,7 @@ public protocol NNMonthGridViewModelType: NNMonthGridViewModelFunction {
   var gridSelectionStream: Observable<NNCalendar.GridSelection> { get }
 }
 
-// MARK: - Month grid view model.
+// MARK: - ViewModel.
 public extension NNCalendar.MonthGrid {
 
   /// View model implementation for month grid view.
@@ -83,25 +79,23 @@ extension NNCalendar.MonthGrid.ViewModel: NNMonthGridViewModelType {
 // MARK: - Default dependency.
 public extension NNCalendar.MonthGrid.ViewModel {
   internal final class DefaultDependency: NNMonthGridViewModelDependency {
-
-    /// Corresponds to 7 days in a week.
     internal var columnCount: Int {
-      return 7
+      return gridDisplayDp.columnCount
     }
 
-    /// Seems like most calendar apps have 6 rows, so in total 42 date cells.
     internal var rowCount: Int {
-      return 6
+      return gridDisplayDp.rowCount
     }
 
-    /// Corresponds to a Sunday.
     internal var firstWeekday: Int {
       return weekdayAwareDp.firstWeekday
     }
 
+    private let gridDisplayDp: NNMGridDisplayViewModelDependency
     private let weekdayAwareDp: NNWeekdayAwareViewModelDependency
 
     internal init() {
+      gridDisplayDp = NNCalendar.GridDisplay.ViewModel.DefaultDependency()
       weekdayAwareDp = NNCalendar.WeekdayAware.ViewModel.DefaultDependency()
     }
   }

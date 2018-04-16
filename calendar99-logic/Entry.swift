@@ -10,6 +10,10 @@
 /// underlying logic.
 public final class NNCalendar {
 
+  /// A grid display view is represented by a collection of cells that are laid
+  /// down horizontally/vertically, with outliers going to the next row/column.
+  public final class GridDisplay {}
+
   /// Represents views that are aware of the current month, including the week
   /// day selection view (i.e. select a weekday to select all days in a month
   /// with that weekday), the month view and the month section view.
@@ -55,8 +59,11 @@ public final class NNCalendar {
   /// Represents a view that displays week days.
   public final class WeekdayDisplay {}
 
-  /// Reprsents a weekday view that allows weekday selection to affect date
+  /// Represents a weekday view that allows weekday selection to affect date
   /// selection (e.g. if the user clicks on Monday, all Mondays in the current
   /// month will be selected).
   public final class SelectWeekday {}
+
+  /// Represents a view that custom-draws date selections on-screen.
+  public final class SelectHighlight {}
 }

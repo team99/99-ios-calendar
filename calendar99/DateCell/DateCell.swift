@@ -22,7 +22,7 @@ public final class NNDateCell: UICollectionViewCell {
   /// - Parameter day: A Day instance.
   public func setupWithDay(_ day: NNCalendar.Day) {
     guard let dateLbl = self.dateLbl else { return }
-    backgroundColor = day.isCurrentMonth ? .white : .lightGray
+    backgroundColor = day.isCurrentMonth ? .clear : .lightGray
     backgroundColor = day.isSelected ? .red : backgroundColor
     dateLbl.text = day.dateDescription
     dateLbl.textColor = .black

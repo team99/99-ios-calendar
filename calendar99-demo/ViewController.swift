@@ -16,6 +16,7 @@ public final class ViewController: UIViewController  {
   @IBOutlet fileprivate weak var monthHeader: NNMonthHeaderView!
   @IBOutlet fileprivate weak var monthSectionView: NNMonthSectionView!
   @IBOutlet fileprivate weak var monthView: NNMonthView!
+  @IBOutlet fileprivate weak var selectionHighlightView: NNSelectionHighlightView!
   fileprivate var monthSb: BehaviorSubject<NNCalendar.Month>!
   fileprivate var dateSelectionSb: BehaviorSubject<Set<Date>>!
   fileprivate var disposable: DisposeBag!

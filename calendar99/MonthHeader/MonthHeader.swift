@@ -77,8 +77,7 @@ public extension NNMonthHeaderView {
       let forwardImg = self.forwardImg,
       let backwardIcon = UIImage(named: "backward", in: bundle, compatibleWith: nil)?
         .withRenderingMode(.alwaysTemplate),
-      let backwardCgImage = backwardIcon.cgImage
-      else
+      let backwardCgImage = backwardIcon.cgImage else
     {
       #if DEBUG
       fatalError("Properties cannot be nil")
