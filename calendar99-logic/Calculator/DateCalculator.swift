@@ -151,3 +151,17 @@ public extension NNSingleMonthGridSelectionCalculator {
       .flatMap({calculateGridSelection(monthComp, firstWeekday, $0)}))
   }
 }
+
+/// Classes that implement this protocol should be able to calculate highlight
+/// positions for date selections.
+public protocol NNHighlightPositionCalculator {
+
+  /// Calculate highlight position for a selected Date.
+  ///
+  /// - Parameters:
+  ///   - selections: A Set of selected Date.
+  ///   - currentDate: The current selected Date.
+  /// - Returns: A HighlightPosition instance.
+  func calculateHighlightPosition(_ selections: Set<Date>, _ currentDate: Date)
+    -> NNCalendar.HighlightPosition
+}

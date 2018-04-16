@@ -294,23 +294,15 @@ public extension NNCalendar {
   public struct HighlightPosition: OptionSet {
 
     /// Mark the start of an Array of Date selection.
-    public static var start: HighlightPosition {
-      return HighlightPosition(rawValue: 0)
-    }
+    public static let start = HighlightPosition(rawValue: 0)
 
     /// Mark the middle of an Array of Date selection.
-    public static var mid: HighlightPosition {
-      return HighlightPosition(rawValue: 1)
-    }
+    public static let mid: HighlightPosition = HighlightPosition(rawValue: 1)
 
     /// Mark the end of an Array of Date selection.
-    public static var end: HighlightPosition {
-      return HighlightPosition(rawValue: 2)
-    }
-
-    public static var startAndEnd: HighlightPosition {
-      return [start, end]
-    }
+    public static let end = HighlightPosition(rawValue: 2)
+    public static let startAndEnd: HighlightPosition = [start, end]
+    public static let none = HighlightPosition(rawValue: 0)
 
     public typealias RawValue = Int
 

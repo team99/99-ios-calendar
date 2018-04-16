@@ -12,11 +12,15 @@ public extension NNCalendar.DateCalculator {
 
   /// Sequential date calculator.
   public final class Sequential {
+    fileprivate let calendar: Calendar
+
+    public init() {
+      calendar = Calendar.current
+    }
     
     /// Calculate the first date in the grid.
     fileprivate func calculateFirstDate(_ month: NNCalendar.Month,
                                         _ firstWeekday: Int) -> Date? {
-      let calendar = Calendar.current
       let dateComponents = month.dateComponents()
 
       return calendar.date(from: dateComponents)
@@ -45,8 +49,6 @@ extension NNCalendar.DateCalculator.Sequential: NNDateCalculatorType {
                                  _ firstWeekday: Int,
                                  _ rowCount: Int,
                                  _ columnCount: Int) -> [Date] {
-    let calendar = Calendar.current
-
     return calculateFirstDate(month, firstWeekday)
       .map({(date: Date) -> [Date] in (0..<rowCount * columnCount).flatMap({
         return calendar.date(byAdding: .day, value: $0, to: date)
@@ -60,8 +62,6 @@ extension NNCalendar.DateCalculator.Sequential: NNSingleDateCalculatorType {
   public func calculateDateWithOffset(_ month: NNCalendar.Month,
                                       _ firstWeekday: Int,
                                       _ firstDateOffset: Int) -> Date? {
-    let calendar = Calendar.current
-
     return calculateFirstDate(month, firstWeekday).flatMap({
       return calendar.date(byAdding: .day, value: firstDateOffset, to: $0)
     })
@@ -96,12 +96,10 @@ extension NNCalendar.DateCalculator.Sequential: NNMultiMonthGridSelectionCalcula
                                           _ selection: Date)
     -> Set<NNCalendar.GridSelection>
   {
-    let calendar = Calendar.current
-
     let calculate = {(month: NNCalendar.MonthComp, offset: Int)
       -> NNCalendar.GridSelection? in
       if let firstDate = self.calculateFirstDate(month.month, firstWeekday) {
-        let diff = calendar.dateComponents([.day], from: firstDate, to: selection)
+        let diff = self.calendar.dateComponents([.day], from: firstDate, to: selection)
 
         if let dayDiff = diff.day, dayDiff >= 0 && dayDiff < month.dayCount {
           return NNCalendar.GridSelection(offset, dayDiff)
@@ -154,5 +152,40 @@ extension NNCalendar.DateCalculator.Sequential: NNSingleMonthGridSelectionCalcul
       .map({monthComps.append($0)})
 
     return calculateGridSelection(monthComps, firstWeekday, selection)
+  }
+}
+
+// MARK: - NNHighlightPositionCalculator
+extension NNCalendar.DateCalculator.Sequential: NNHighlightPositionCalculator {
+  public func calculateHighlightPosition(_ selections: Set<Date>, _ currentDate: Date)
+    -> NNCalendar.HighlightPosition
+  {
+    guard selections.contains(currentDate) else { return .none }
+    var flags: NNCalendar.HighlightPosition?
+
+    if
+      let nextDate = calendar.date(byAdding: .day, value: 1, to: currentDate),
+      !selections.contains(nextDate)
+    {
+      flags = flags.map({$0.union(.end)}).getOrElse(.end)
+    }
+
+    if
+      let prevDate = calendar.date(byAdding: .day, value: -1, to: currentDate),
+      !selections.contains(prevDate)
+    {
+      flags = flags.map({$0.union(.start)}).getOrElse(.start)
+    }
+
+    if
+      let prevDate = calendar.date(byAdding: .day, value: -1, to: currentDate),
+      let nextDate = calendar.date(byAdding: .day, value: 1, to: currentDate),
+      selections.contains(prevDate),
+      selections.contains(nextDate)
+    {
+      flags = .mid
+    }
+
+    return flags.getOrElse(.none)
   }
 }

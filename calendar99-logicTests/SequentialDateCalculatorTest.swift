@@ -160,4 +160,31 @@ public final class SequentialDateCalculatorTest: RootTest {
       prevSelect = currentSelect
     }
   }
+
+  public func test_calculateHighlightPositions_shouldWork() {
+    /// Setup
+    let calendar = Calendar.current
+    let times = 5
+    let startDate = Date()
+    let select1 = (0..<times).map({calendar.date(byAdding: .day, value: $0, to: startDate)!})
+    let select2 = [startDate]
+    let set1 = Set(select1)
+    let set2 = Set(select2)
+
+    /// When
+    let p0 = calculator.calculateHighlightPosition(set1, select1[0])
+    let p1 = calculator.calculateHighlightPosition(set1, select1[1])
+    let p2 = calculator.calculateHighlightPosition(set1, select1[2])
+    let p3 = calculator.calculateHighlightPosition(set1, select1[3])
+    let p4 = calculator.calculateHighlightPosition(set1, select1[4])
+    let p5 = calculator.calculateHighlightPosition(set2, select2[0])
+
+    /// Then
+    XCTAssertEqual(p0, .start)
+    XCTAssertEqual(p1, .mid)
+    XCTAssertEqual(p2, .mid)
+    XCTAssertEqual(p3, .mid)
+    XCTAssertEqual(p4, .end)
+    XCTAssertEqual(p5, .startAndEnd)
+  }
 }
