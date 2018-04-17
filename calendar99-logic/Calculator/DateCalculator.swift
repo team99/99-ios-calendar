@@ -136,15 +136,15 @@ public extension NNSingleMonthGridSelectionCalculator {
 }
 
 /// Classes that implement this protocol should be able to calculate highlight
-/// positions for date selections.
-public protocol NNHighlightPositionCalculator {
+/// parts for date selections.
+public protocol NNHighlightPartCalculator {
 
-  /// Calculate highlight position for a selected Date.
+  /// Calculate highlight part for a selected Date.
   ///
   /// - Parameters:
   ///   - selections: A Set of selected Date.
   ///   - currentDate: The current selected Date.
-  /// - Returns: A HighlightPosition instance.
-  func calculateHighlightPos(_ selections: Set<Date>, _ currentDate: Date)
-    -> NNCalendar.HighlightPosition
+  /// - Returns: A HighlightPart instance.
+  func calculateHighlightPart(_ selections: Set<Date>, _ currentDate: Date)
+    -> NNCalendar.HighlightPart
 }

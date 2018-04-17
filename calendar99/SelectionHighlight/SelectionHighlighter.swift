@@ -11,13 +11,13 @@ import calendar99_logic
 /// Date selection highlighter that draws highlights on a Rect.
 public protocol NNSelectionHighlighterType {
 
-  /// Draw highlights in a rect with the specified highlight position.
+  /// Draw highlights in a rect with the specified highlight part.
   ///
   /// - Parameters:
   ///   - context: A CGContext instance.
   ///   - rect: A CGRect instance.
-  ///   - pos: A HighlightPosition instance.
+  ///   - pos: A HighlightPart instance.
   func drawHighlight(_ context: CGContext,
                      _ rect: CGRect,
-                     _ pos: NNCalendar.HighlightPosition)
+                     _ pos: NNCalendar.HighlightPart)
 }

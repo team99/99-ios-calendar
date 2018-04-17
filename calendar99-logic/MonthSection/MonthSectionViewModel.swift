@@ -10,10 +10,11 @@ import RxSwift
 
 /// View model for month section view.
 public protocol NNMonthSectionViewModelType:
-  NNMonthGridViewModelType,
   NNMonthControlViewModelType,
-  NNSingleDaySelectionViewModelType,
-  NNSelectHighlightFunction
+  NNMonthGridViewModelType,
+  NNSelectHighlightDefaultFunction,
+  NNSelectHighlightNoDefaultFunction,
+  NNSingleDaySelectionViewModelType
 {
   /// Get the total month count.
   var totalMonthCount: Int { get }
@@ -90,8 +91,8 @@ public extension NNCalendar.MonthSection {
   }
 }
 
-// MARK: - NNGridDisplayFunction
-extension NNCalendar.MonthSection.ViewModel: NNGridDisplayFunction {
+// MARK: - NNGridDisplayDefaultFunction
+extension NNCalendar.MonthSection.ViewModel: NNGridDisplayDefaultFunction {
   public var columnCount: Int {
     return monthGridVM.columnCount
   }
@@ -127,8 +128,8 @@ extension NNCalendar.MonthSection.ViewModel: NNMonthControlViewModelType {
   }
 }
 
-// MARK: - NNDaySelectionFunction
-extension NNCalendar.MonthSection.ViewModel: NNSingleDaySelectionFunction {
+// MARK: - NNSingleDaySelectionNoDefaultFunction
+extension NNCalendar.MonthSection.ViewModel: NNSingleDaySelectionNoDefaultFunction {
   public func isDateSelected(_ date: Date) -> Bool {
     return daySelectionVM.isDateSelected(date)
   }
@@ -145,10 +146,10 @@ extension NNCalendar.MonthSection.ViewModel: NNSingleDaySelectionViewModelType {
   }
 }
 
-// MARK: - NNSelectHighlightFunction
-extension NNCalendar.MonthSection.ViewModel: NNSelectHighlightFunction {
-  public func calculateHighlightPos(_ date: Date) -> NNCalendar.HighlightPosition {
-    return model.calculateHighlightPos(date)
+// MARK: - NNSelectHighlightNoDefaultFunction
+extension NNCalendar.MonthSection.ViewModel: NNSelectHighlightNoDefaultFunction {
+  public func calculateHighlightPart(_ date: Date) -> NNCalendar.HighlightPart {
+    return model.calculateHighlightPart(date)
   }
 }
 

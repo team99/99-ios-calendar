@@ -509,7 +509,6 @@
 		D3DA6FB7207C6D2200A3DFE1 /* calendar99-logic */ = {
 			isa = PBXGroup;
 			children = (
-				D31329202085112D00E06C2A /* SelectHighlight */,
 				D3DA6FB8207C6D2300A3DFE1 /* calendar99_logic.h */,
 				D3DA6FB9207C6D2300A3DFE1 /* Info.plist */,
 				D3DA700F207C805300A3DFE1 /* Entity.swift */,
@@ -523,6 +522,7 @@
 				D31DA88E207F5BA600FB4355 /* MonthGrid */,
 				D319C2B8207D9EA2005D1828 /* MonthHeader */,
 				D3146709207DFBD800A6B186 /* MonthSection */,
+				D31329202085112D00E06C2A /* SelectHighlight */,
 				D31431A720805E790044B936 /* WeekdayAware */,
 				D31431AA20805F610044B936 /* WeekdayDisplay */,
 			);

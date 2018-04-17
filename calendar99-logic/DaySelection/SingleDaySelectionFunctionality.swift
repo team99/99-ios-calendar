@@ -8,8 +8,13 @@
 
 import RxSwift
 
-/// Shared functionalities between the single day selection model & view model.
-public protocol NNSingleDaySelectionFunction {
+/// Shared functionalities between the model and view model that can have
+/// defaults.
+public protocol NNSingleDaySelectionDefaultFunction {}
+
+/// Shared functionalities between the model and view model that cannot have
+/// defaults.
+public protocol NNSingleDaySelectionNoDefaultFunction {
 
   /// Check if a date is selected. The application running the calendar view
   /// should have a cache of selected dates that it can query, for e.g. in a

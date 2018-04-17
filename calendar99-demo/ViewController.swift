@@ -96,9 +96,9 @@ extension ViewController: NNMonthSectionNoDefaultModelDependency {
     return (try? dateSelectionSb.value().contains(date)) ?? false
   }
 
-  public func calculateHighlightPos(_ date: Date) -> NNCalendar.HighlightPosition {
+  public func calculateHighlightPart(_ date: Date) -> NNCalendar.HighlightPart {
     let selections = (try? dateSelectionSb.value()) ?? Set()
-    return sequentialCalculator.calculateHighlightPos(selections, date)
+    return sequentialCalculator.calculateHighlightPart(selections, date)
   }
 }
 

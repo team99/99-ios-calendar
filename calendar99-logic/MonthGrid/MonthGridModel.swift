@@ -8,11 +8,23 @@
 
 import RxSwift
 
+/// Defaultable dependency for month grid model.
+public protocol NNMonthGridDefaultModelDependency:
+  NNGridDisplayDefaultFunction {}
+
+/// Non-defaultable dependency for month grid model.
+public protocol NNMonthGridNoDefaultModelDependency:
+  NNGridDisplayNoDefaultFunction {}
+
 /// Dependency for month grid model.
-public protocol NNMonthGridModelDependency: NNGridDisplayFunction {}
+public protocol NNMonthGridModelDependency:
+  NNMonthGridDefaultModelDependency,
+  NNMonthGridNoDefaultModelDependency {}
 
 /// Model for month grid views.
-public protocol NNMonthGridModelType: NNGridDisplayFunction {}
+public protocol NNMonthGridModelType:
+  NNMonthGridDefaultModelDependency,
+  NNMonthGridNoDefaultModelDependency {}
 
 // MARK: - Model.
 public extension NNCalendar.MonthGrid {
@@ -32,8 +44,8 @@ public extension NNCalendar.MonthGrid {
   }
 }
 
-// MARK: - NNGridDisplayFunction
-extension NNCalendar.MonthGrid.Model: NNGridDisplayFunction {
+// MARK: - NNGridDisplayDefaultFunction
+extension NNCalendar.MonthGrid.Model: NNGridDisplayDefaultFunction {
   public var columnCount: Int {
     return dependency.columnCount
   }
@@ -49,14 +61,8 @@ extension NNCalendar.MonthGrid.Model: NNMonthGridModelType {}
 // MARK: - Default dependency.
 public extension NNCalendar.MonthGrid.Model {
   internal final class DefaultDependency: NNMonthGridModelDependency {
-    internal var columnCount: Int {
-      return gridDisplayDp.columnCount
-    }
-
-    internal var rowCount: Int {
-      return gridDisplayDp.rowCount
-    }
-
+    internal var columnCount: Int { return gridDisplayDp.columnCount }
+    internal var rowCount: Int { return gridDisplayDp.rowCount }
     private let gridDisplayDp: NNMGridDisplayModelDependency
 
     internal init() {

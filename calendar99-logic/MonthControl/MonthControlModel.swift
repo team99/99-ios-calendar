@@ -8,22 +8,29 @@
 
 import RxSwift
 
-/// Shared functionalities between the model and its dependency.
-public protocol NNMonthControlModelFunction {
+/// Shared functionalities between the model and its dependency that can have
+/// defaults.
+public protocol NNMonthControlDefaultModelFunction:
+  NNMonthAwareDefaultModelFunction {}
 
-  /// Receive the current components.
+/// Shared functionalities between the model and its dependency that cannot
+/// have defaults.
+public protocol NNMonthControlNoDefaultModelFunction:
+  NNMonthAwareNoDefaultModelFunction
+{
+  /// Receive the current month and push it somewhere for external streaming.
   var currentMonthReceiver: AnyObserver<NNCalendar.Month> { get }
 }
 
 /// Dependency for month control model.
 public protocol NNMonthControlModelDependency:
-  NNMonthAwareModelFunction,
-  NNMonthControlModelFunction {}
+  NNMonthControlDefaultModelFunction,
+  NNMonthControlNoDefaultModelFunction {}
 
 /// Model for month header view.
 public protocol NNMonthControlModelType:
-  NNMonthAwareModelFunction,
-  NNMonthControlModelFunction {}
+  NNMonthControlDefaultModelFunction,
+  NNMonthControlNoDefaultModelFunction {}
 
 internal extension NNCalendar.MonthControl {
 
@@ -37,15 +44,15 @@ internal extension NNCalendar.MonthControl {
   }
 }
 
-// MARK: - NNMonthAwareModelFunction
-extension NNCalendar.MonthControl.Model: NNMonthAwareModelFunction {
+// MARK: - NNMonthAwareNoDefaultModelFunction
+extension NNCalendar.MonthControl.Model: NNMonthAwareNoDefaultModelFunction {
   public var currentMonthStream: Observable<NNCalendar.Month> {
     return dependency.currentMonthStream
   }
 }
 
-/// NNMonthControlModelFunction
-extension NNCalendar.MonthControl.Model: NNMonthControlModelFunction {
+/// NNMonthControlNoDefaultModelFunction
+extension NNCalendar.MonthControl.Model: NNMonthControlNoDefaultModelFunction {
   public var currentMonthReceiver: AnyObserver<NNCalendar.Month> {
     return dependency.currentMonthReceiver
   }

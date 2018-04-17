@@ -49,7 +49,7 @@ public final class NNDateCell: UICollectionViewCell {
       #endif
     }
 
-    selectionHighlighter.drawHighlight(context, rect, day.highlightPosition)
+    selectionHighlighter.drawHighlight(context, rect, day.highlightPart)
   }
   
   /// Set up the current cell with a Day.

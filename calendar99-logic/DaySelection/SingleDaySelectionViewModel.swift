@@ -9,8 +9,10 @@
 import RxSwift
 
 /// View model for single day selection views.
-public protocol NNSingleDaySelectionViewModelType: NNSingleDaySelectionFunction {
-
+public protocol NNSingleDaySelectionViewModelType:
+  NNSingleDaySelectionDefaultFunction,
+  NNSingleDaySelectionNoDefaultFunction
+{
   /// Receive single dates and compare them against the global selections to
   /// decide whether to select or deselect.
   var dateSelectionReceiver: AnyObserver<Date> { get }
@@ -36,8 +38,8 @@ public extension NNCalendar.DaySelection {
   }
 }
 
-// MARK: - NNDaySelectionFunction
-extension NNCalendar.DaySelection.ViewModel: NNSingleDaySelectionFunction {
+// MARK: - NNSingleDaySelectionNoDefaultFunction
+extension NNCalendar.DaySelection.ViewModel: NNSingleDaySelectionNoDefaultFunction {
   public func isDateSelected(_ date: Date) -> Bool {
     return model.isDateSelected(date)
   }

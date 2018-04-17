@@ -155,7 +155,7 @@ public final class SequentialDateCalculatorTest: RootTest {
     }
   }
 
-  public func test_calculateHighlightPoss_shouldWork() {
+  public func test_calculateHighlightParts_shouldWork() {
     /// Setup
     let calendar = Calendar.current
     let times = 5
@@ -166,12 +166,12 @@ public final class SequentialDateCalculatorTest: RootTest {
     let set2 = Set(select2)
 
     /// When
-    let p0 = calculator.calculateHighlightPos(set1, select1[0])
-    let p1 = calculator.calculateHighlightPos(set1, select1[1])
-    let p2 = calculator.calculateHighlightPos(set1, select1[2])
-    let p3 = calculator.calculateHighlightPos(set1, select1[3])
-    let p4 = calculator.calculateHighlightPos(set1, select1[4])
-    let p5 = calculator.calculateHighlightPos(set2, select2[0])
+    let p0 = calculator.calculateHighlightPart(set1, select1[0])
+    let p1 = calculator.calculateHighlightPart(set1, select1[1])
+    let p2 = calculator.calculateHighlightPart(set1, select1[2])
+    let p3 = calculator.calculateHighlightPart(set1, select1[3])
+    let p4 = calculator.calculateHighlightPart(set1, select1[4])
+    let p5 = calculator.calculateHighlightPart(set2, select2[0])
 
     /// Then
     XCTAssertEqual(p0, .start)

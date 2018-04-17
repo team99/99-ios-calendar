@@ -219,7 +219,7 @@ public extension MonthSectionTest {
     }
   }
 
-  public func test_calculateHighlightPosition_shouldWorkCorrectly() {
+  public func test_calculateHighlightParts_shouldWorkCorrectly() {
     /// Setup
     let calendar = Calendar.current
     let selectionCount = 100
@@ -235,9 +235,9 @@ public extension MonthSectionTest {
       waitOnMainThread(waitDuration!)
 
       /// Then
-      let highlightPos1 = selections.map({viewModel!.calculateHighlightPos($0)})
-      let highlightPos2 = selections.map({calculateHighlightPos($0)})
-      XCTAssertEqual(highlightPos1, highlightPos2)
+      let highlight1 = selections.map({viewModel!.calculateHighlightPart($0)})
+      let highlight2 = selections.map({calculateHighlightPart($0)})
+      XCTAssertEqual(highlight1, highlight2)
     }
   }
 }
@@ -251,9 +251,9 @@ extension MonthSectionTest: NNMonthSectionNoDefaultModelDependency {
     return 100
   }
 
-  public func calculateHighlightPos(_ date: Date) -> NNCalendar.HighlightPosition {
+  public func calculateHighlightPart(_ date: Date) -> NNCalendar.HighlightPart {
     let selections = try! allDateSelectionSb.value()
-    return sequentialDateCalc.calculateHighlightPos(selections, date)
+    return sequentialDateCalc.calculateHighlightPart(selections, date)
   }
 
   public var allDateSelectionReceiver: AnyObserver<Set<Date>> {

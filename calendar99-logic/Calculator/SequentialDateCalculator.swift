@@ -81,7 +81,7 @@ extension NNCalendar.DateCalculator.Sequential: NNMultiMonthGridSelectionCalcula
     return monthComps.enumerated()
       .first(where: {$0.1.month == month})
       .map({(offset: Int, month: NNCalendar.MonthComp) in
-        calculateGridSelection(monthComps, month, offset, firstWeekday, selection)
+        calculateGridSelection(monthComps, month, offset, selection)
       })
       .getOrElse([])
   }
@@ -93,13 +93,12 @@ extension NNCalendar.DateCalculator.Sequential: NNMultiMonthGridSelectionCalcula
   fileprivate func calculateGridSelection(_ monthComps: [NNCalendar.MonthComp],
                                           _ monthComp: NNCalendar.MonthComp,
                                           _ monthIndex: Int,
-                                          _ firstWeekday: Int,
                                           _ selection: Date)
     -> Set<NNCalendar.GridSelection>
   {
     let calculate = {(month: NNCalendar.MonthComp, offset: Int)
       -> NNCalendar.GridSelection? in
-      if let firstDate = self.calculateFirstDate(month.month, firstWeekday) {
+      if let firstDate = self.calculateFirstDate(month.month, self.firstWeekday) {
         let diff = self.calendar.dateComponents([.day], from: firstDate, to: selection)
 
         if let dayDiff = diff.day, dayDiff >= 0 && dayDiff < month.dayCount {
@@ -155,13 +154,13 @@ extension NNCalendar.DateCalculator.Sequential: NNSingleMonthGridSelectionCalcul
   }
 }
 
-// MARK: - NNHighlightPositionCalculator
-extension NNCalendar.DateCalculator.Sequential: NNHighlightPositionCalculator {
-  public func calculateHighlightPos(_ selections: Set<Date>, _ date: Date)
-    -> NNCalendar.HighlightPosition
+// MARK: - NNHighlightPartCalculator
+extension NNCalendar.DateCalculator.Sequential: NNHighlightPartCalculator {
+  public func calculateHighlightPart(_ selections: Set<Date>, _ date: Date)
+    -> NNCalendar.HighlightPart
   {
     guard selections.contains(date) else { return .none }
-    var flags: NNCalendar.HighlightPosition?
+    var flags: NNCalendar.HighlightPart?
 
     if
       let nextDate = calendar.date(byAdding: .day, value: 1, to: date),

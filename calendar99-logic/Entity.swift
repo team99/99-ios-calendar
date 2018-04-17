@@ -200,7 +200,7 @@ public extension NNCalendar {
     public fileprivate(set) var isSelected: Bool
 
     /// This is used for highlighting date selections.
-    public fileprivate(set) var highlightPosition: NNCalendar.HighlightPosition
+    public fileprivate(set) var highlightPart: NNCalendar.HighlightPart
 
     /// Check if this Day is today.
     public var isToday: Bool {
@@ -216,7 +216,7 @@ public extension NNCalendar {
       dateDescription = ""
       isCurrentMonth = false
       isSelected = false
-      highlightPosition = .none
+      highlightPart = .none
     }
 
     /// Copy the current Day, but change its date description.
@@ -240,10 +240,10 @@ public extension NNCalendar {
       return day
     }
 
-    /// Copy the current day, but change its selection status.
-    public func with(highlightPosition: NNCalendar.HighlightPosition) -> Day {
+    /// Copy the current day, but change its highlight part.
+    public func with(highlightPart: NNCalendar.HighlightPart) -> Day {
       var day = self
-      day.highlightPosition = highlightPosition
+      day.highlightPart = highlightPart
       return day
     }
 
@@ -257,7 +257,7 @@ public extension NNCalendar {
         && lhs.isSelected == rhs.isSelected
         && lhs.isCurrentMonth == rhs.isCurrentMonth
         && lhs.dateDescription == rhs.dateDescription
-        && lhs.highlightPosition == rhs.highlightPosition
+        && lhs.highlightPart == rhs.highlightPart
     }
   }
 }
@@ -309,25 +309,25 @@ public extension NNCalendar {
   }
 }
 
-// MARK: - Highlight position flags.
+// MARK: - Highlight part flags.
 public extension NNCalendar {
 
   /// Use this to perform custom selection highlights when selecting dates.
-  public struct HighlightPosition: OptionSet {
+  public struct HighlightPart: OptionSet {
 
     /// Mark the start of an Array of Date selection.
-    public static let start = HighlightPosition(rawValue: 1 << 1)
+    public static let start = HighlightPart(rawValue: 1 << 1)
 
     /// Mark the middle of an Array of Date selection.
-    public static let mid = HighlightPosition(rawValue: 1 << 2)
+    public static let mid = HighlightPart(rawValue: 1 << 2)
 
     /// Mark the end of an Array of Date selection.
-    public static let end = HighlightPosition(rawValue: 1 << 3)
+    public static let end = HighlightPart(rawValue: 1 << 3)
 
-    public static let startAndEnd = HighlightPosition(
+    public static let startAndEnd = HighlightPart(
       rawValue: start.rawValue | end.rawValue)
 
-    public static let none = HighlightPosition(rawValue: 0)
+    public static let none = HighlightPart(rawValue: 0)
 
     public typealias RawValue = Int
 

@@ -8,15 +8,27 @@
 
 import RxSwift
 
-/// Dependency for day selection model.
+/// Defaultable dependency for single day selection model.
+public protocol NNSingleDaySelectionDefaultModelDependency:
+  NNSingleDaySelectionDefaultFunction,
+  NNMultiDaySelectionDefaultFunction {}
+
+/// Non-defaultable dependency for single day selection model.
+public protocol NNSingleDaySelectionNoDefaultModelDependency:
+  NNSingleDaySelectionNoDefaultFunction,
+  NNMultiDaySelectionNoDefaultFunction {}
+
+/// Dependency for single day selection model.
 public protocol NNSingleDaySelectionModelDependency:
-  NNSingleDaySelectionFunction,
-  NNMultiDaySelectionModelFunction {}
+  NNSingleDaySelectionDefaultModelDependency,
+  NNSingleDaySelectionNoDefaultModelDependency {}
 
 /// Day selection model.
 public protocol NNSingleDaySelectionModelType:
-  NNSingleDaySelectionFunction,
-  NNMultiDaySelectionModelFunction {}
+  NNSingleDaySelectionDefaultFunction,
+  NNSingleDaySelectionNoDefaultFunction,
+  NNMultiDaySelectionDefaultFunction,
+  NNMultiDaySelectionNoDefaultFunction {}
 
 // MARK: - Model.
 public extension NNCalendar.DaySelection {
@@ -31,21 +43,21 @@ public extension NNCalendar.DaySelection {
   }
 }
 
-// MARK: - NNDaySelectionFunction
-extension NNCalendar.DaySelection.Model: NNSingleDaySelectionFunction {
-  public func isDateSelected(_ date: Date) -> Bool {
-    return dependency.isDateSelected(date)
-  }
-}
-
-// MARK: - NNMultiDaySelectionModelFunction
-extension NNCalendar.DaySelection.Model: NNMultiDaySelectionModelFunction {
+// MARK: - NNMultiDaySelectionNoDefaultFunction
+extension NNCalendar.DaySelection.Model: NNMultiDaySelectionNoDefaultFunction {
   public var allDateSelectionReceiver: AnyObserver<Set<Date>> {
     return dependency.allDateSelectionReceiver
   }
 
   public var allDateSelectionStream: Observable<Set<Date>> {
     return dependency.allDateSelectionStream
+  }
+}
+
+// MARK: - NNSingleDaySelectionNoDefaultFunction
+extension NNCalendar.DaySelection.Model: NNSingleDaySelectionNoDefaultFunction {
+  public func isDateSelected(_ date: Date) -> Bool {
+    return dependency.isDateSelected(date)
   }
 }
 

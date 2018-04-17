@@ -8,12 +8,16 @@
 
 import RxSwift
 
-/// Shared functionalities between the model and its dependency. Any views that
-/// have the ability to influence the date selection (e.g. month-grid view,
-/// weekday selection view whereby selecting a weekday should selects all the
-/// dates with said weekday) should have its model functionality conform to
-/// this protocol.
-public protocol NNMultiDaySelectionModelFunction {
+/// Shared functionalities between the model and its dependency that can have
+/// defaults.
+public protocol NNMultiDaySelectionDefaultFunction {}
+
+/// Shared functionalities between the model and its dependency that cannot
+/// have defaults. Any views that have the ability to influence the date
+/// selection (e.g. month-grid view, weekday selection view whereby selecting a
+/// weekday should selects all the dates with said weekday) should have its
+/// model functionality conform to this protocol.
+public protocol NNMultiDaySelectionNoDefaultFunction {
 
   /// Trigger date selections. Beware that pushing to this stream will override
   /// all previous selections.

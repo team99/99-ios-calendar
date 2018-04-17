@@ -8,52 +8,49 @@
 
 import RxSwift
 
-/// Shared functionalities between the model and its dependency, so that the
-/// model can expose the same properties.
-public protocol NNMonthDisplayModelFunction {
+/// Shared functionalities between the model and its dependency that can have
+/// defaults
+public protocol NNMonthDisplayDefaultModelFunction:
+  NNMonthControlDefaultModelFunction,
+  NNMultiDaySelectionDefaultFunction,
+  NNSingleDaySelectionDefaultFunction {}
 
+/// Shared functionalities between the model and its dependency that cannot
+/// have defaults.
+public protocol NNMonthDisplayNoDefaultModelFunction:
+  NNMonthControlNoDefaultModelFunction,
+  NNMultiDaySelectionNoDefaultFunction,
+  NNSingleDaySelectionNoDefaultFunction
+{
   /// Stream the initial month.
   var initialMonthStream: Single<NNCalendar.Month> { get }
 }
 
-/// Dependency for month display model that contains components for which there
-/// can be defaults. For e.g., we can default to the Sequential date calculator
-/// for date range calculations.
+/// Defaultable dependency for month display model.
 public protocol NNMonthDisplayDefaultModelDependency:
   NNDateCalculatorType,
+  NNMonthDisplayDefaultModelFunction,
   NNSingleMonthGridSelectionCalculator {}
 
-/// Dependency for month display model with non-default components. These
-/// must be provided by the injector.
+/// Non-defaultable dependency for month display model.
 public protocol NNMonthDisplayNoDefaultModelDependency:
-  NNMonthDisplayModelFunction,
-  NNMonthAwareModelFunction,
-  NNMonthControlModelFunction,
-  NNMultiDaySelectionModelFunction,
-  NNSingleDaySelectionFunction {}
+  NNMonthDisplayDefaultModelFunction,
+  NNMonthDisplayNoDefaultModelFunction {}
 
 /// Dependency for month display model, comprising default & non-default
 /// components.
 public protocol NNMonthDisplayModelDependency:
+  NNMonthControlModelDependency,
   NNMonthDisplayDefaultModelDependency,
   NNMonthDisplayNoDefaultModelDependency,
-  NNMonthControlModelDependency,
   NNMonthGridModelDependency,
   NNSingleDaySelectionModelDependency {}
 
-/// Factory for month display model dependency.
-public protocol NNMonthDisplayModelDependencyFactory {
-
-  /// Create a month display model dependency.
-  ///
-  /// - Returns: A MonthDisplayModelDependency instance.
-  func monthDisplayModelDependency() -> NNMonthDisplayModelDependency
-}
-
 /// Model for month display view.
 public protocol NNMonthDisplayModelType:
-  NNMonthDisplayModelFunction,
   NNMonthControlModelType,
+  NNMonthDisplayDefaultModelFunction,
+  NNMonthDisplayNoDefaultModelFunction,
   NNMonthGridModelType,
   NNSingleDaySelectionModelType,
   NNSingleMonthGridSelectionCalculator
@@ -98,8 +95,8 @@ public extension NNCalendar.MonthDisplay {
   }
 }
 
-// MARK: - NNGridDisplayFunction
-extension NNCalendar.MonthDisplay.Model: NNGridDisplayFunction {
+// MARK: - NNGridDisplayDefaultFunction
+extension NNCalendar.MonthDisplay.Model: NNGridDisplayDefaultFunction {
   public var columnCount: Int {
     return monthGridModel.columnCount
   }
@@ -123,8 +120,8 @@ extension NNCalendar.MonthDisplay.Model: NNMonthControlModelDependency {
   }
 }
 
-// MARK: - NNDaySelectionFunction
-extension NNCalendar.MonthDisplay.Model: NNSingleDaySelectionFunction {
+// MARK: - NNSingleDaySelectionNoDefaultFunction
+extension NNCalendar.MonthDisplay.Model: NNSingleDaySelectionNoDefaultFunction {
   public func isDateSelected(_ date: Date) -> Bool {
     return daySelectionModel.isDateSelected(date)
   }
@@ -141,8 +138,8 @@ extension NNCalendar.MonthDisplay.Model: NNSingleDaySelectionModelType {
   }
 }
 
-// MARK: - NNMonthDisplayModelFunction
-extension NNCalendar.MonthDisplay.Model: NNMonthDisplayModelFunction {
+// MARK: - NNMonthDisplayNoDefaultModelFunction
+extension NNCalendar.MonthDisplay.Model: NNMonthDisplayNoDefaultModelFunction {
   public var initialMonthStream: Single<NNCalendar.Month> {
     return dependency.initialMonthStream
   }
@@ -176,13 +173,8 @@ public extension NNCalendar.MonthDisplay.Model {
   /// Default dependency for month display model. This delegates non-default
   /// components to a separate dependency.
   internal final class DefaultDependency: NNMonthDisplayModelDependency {
-    internal var columnCount: Int {
-      return monthGridDp.columnCount
-    }
-
-    internal var rowCount: Int {
-      return monthGridDp.rowCount
-    }
+    internal var columnCount: Int { return monthGridDp.columnCount }
+    internal var rowCount: Int { return monthGridDp.rowCount }
 
     internal var initialMonthStream: Single<NNCalendar.Month> {
       return noDefault.initialMonthStream
@@ -194,6 +186,14 @@ public extension NNCalendar.MonthDisplay.Model {
 
     internal var allDateSelectionReceiver: AnyObserver<Set<Date>> {
       return noDefault.allDateSelectionReceiver
+    }
+
+    internal var currentMonthStream: Observable<NNCalendar.Month> {
+      return noDefault.currentMonthStream
+    }
+
+    internal var currentMonthReceiver: AnyObserver<NNCalendar.Month> {
+      return noDefault.currentMonthReceiver
     }
 
     private let noDefault: NNMonthDisplayNoDefaultModelDependency
@@ -210,14 +210,6 @@ public extension NNCalendar.MonthDisplay.Model {
         monthGridDp.rowCount,
         monthGridDp.columnCount,
         weekdayAwareDp.firstWeekday)
-    }
-
-    internal var currentMonthStream: Observable<NNCalendar.Month> {
-      return noDefault.currentMonthStream
-    }
-
-    internal var currentMonthReceiver: AnyObserver<NNCalendar.Month> {
-      return noDefault.currentMonthReceiver
     }
 
     internal func isDateSelected(_ date: Date) -> Bool {

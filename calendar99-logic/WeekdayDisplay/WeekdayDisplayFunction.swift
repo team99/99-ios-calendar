@@ -6,9 +6,14 @@
 //  Copyright © 2018 Hai Pham. All rights reserved.
 //
 
-/// Shared functionalities between the model and view model.
-public protocol NNWeekdayDisplayFunction {
+/// Shared functionalities between the model and view model that can have
+/// defaults.
+public protocol NNWeekdayDisplayDefaultFunction {
 
   /// Get the number of weekdays we would like to display.
   var weekdayCount: Int { get }
 }
+
+/// Shared functionalities between the model and view model that cannot have
+/// defaults.
+public protocol NNWeekdayDisplayNoDefaultFunction {}

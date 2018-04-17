@@ -6,11 +6,23 @@
 //  Copyright © 2018 Hai Pham. All rights reserved.
 //
 
+/// Defaultable dependency for grid display model.
+public protocol NNGridDisplayDefaultModelDependency:
+  NNGridDisplayDefaultFunction {}
+
+/// Non-defaultable dependency for grid display model.
+public protocol NNGridDisplayNoDefaultModelDependency:
+  NNGridDisplayNoDefaultFunction {}
+
 /// Dependency for grid display model.
-public protocol NNMGridDisplayModelDependency: NNGridDisplayFunction {}
+public protocol NNMGridDisplayModelDependency:
+  NNGridDisplayDefaultModelDependency,
+  NNGridDisplayNoDefaultModelDependency {}
 
 /// View model for grid display views.
-public protocol NNGridDisplayModelType: NNGridDisplayFunction {}
+public protocol NNGridDisplayModelType:
+  NNGridDisplayDefaultFunction,
+  NNGridDisplayNoDefaultFunction {}
 
 // MARK: - Model.
 public extension NNCalendar.GridDisplay {

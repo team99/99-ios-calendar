@@ -6,13 +6,17 @@
 //  Copyright © 2018 Hai Pham. All rights reserved.
 //
 
-/// Shared functionalities between the model and view model for views that can
-/// highlight date selections.
-public protocol NNSelectHighlightFunction {
+/// Shared functionalities between the model and view model that can have
+/// defaults.
+public protocol NNSelectHighlightDefaultFunction {}
 
-  /// Calculate highlight position for a Date.
+/// Shared functionalities between the model and view model that cannot have
+/// defaults.
+public protocol NNSelectHighlightNoDefaultFunction {
+
+  /// Calculate highlight part for a Date.
   ///
   /// - Parameter date: A Date instance.
-  /// - Returns: A HighlightPosition instance.
-  func calculateHighlightPos(_ date: Date) -> NNCalendar.HighlightPosition
+  /// - Returns: A HighlightPart instance.
+  func calculateHighlightPart(_ date: Date) -> NNCalendar.HighlightPart
 }

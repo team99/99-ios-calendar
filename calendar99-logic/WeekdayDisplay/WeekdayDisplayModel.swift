@@ -6,11 +6,11 @@
 //  Copyright © 2018 Hai Pham. All rights reserved.
 //
 
-/// Shared functionalities between the weekday model and its dependency, so that
-/// the model can expose the same properties.
-public protocol NNWeekdayDisplayModelFunction:
-  NNWeekdayDisplayFunction,
-  NNWeekdayAwareModelFunction
+/// Shared functionalities between the weekday model and its dependency that
+/// can have defaults.
+public protocol NNWeekdayDisplayDefaultModelFunction:
+  NNWeekdayAwareDefaultModelFunction,
+  NNWeekdayDisplayDefaultFunction
 {
   /// Get the description for a weekday.
   ///
@@ -19,13 +19,22 @@ public protocol NNWeekdayDisplayModelFunction:
   func weekdayDescription(_ weekday: Int) -> String
 }
 
+/// Shared functionalities between the weekday model and its dependency that
+/// cannot have defaults.
+public protocol NNWeekdayDisplayNoDefaultModelFunction:
+  NNWeekdayAwareNoDefaultModelFunction,
+  NNWeekdayDisplayNoDefaultFunction {}
+
 /// Dependency for weekday model.
-public protocol NNWeekdayDisplayModelDependency: NNWeekdayDisplayModelFunction {}
+public protocol NNWeekdayDisplayModelDependency:
+  NNWeekdayDisplayDefaultModelFunction,
+  NNWeekdayDisplayNoDefaultModelFunction {}
 
 /// Model for weekday display view.
 public protocol NNWeekdayDisplayModelType:
-  NNWeekdayDisplayModelFunction,
-  NNWeekdayAwareModelType {}
+  NNWeekdayAwareModelType,
+  NNWeekdayDisplayDefaultModelFunction,
+  NNWeekdayDisplayNoDefaultModelFunction {}
 
 // MARK: - Model.
 public extension NNCalendar.WeekdayDisplay {
@@ -45,22 +54,22 @@ public extension NNCalendar.WeekdayDisplay {
   }
 }
 
-// MARK: - NNWeekdayDisplayFunction
-extension NNCalendar.WeekdayDisplay.Model: NNWeekdayDisplayFunction {
-  public var weekdayCount: Int {
-    return dependency.weekdayCount
-  }
-}
-
-// MARK: - NNWeekdayAwareModelFunction
-extension NNCalendar.WeekdayDisplay.Model: NNWeekdayAwareModelFunction {
+// MARK: - NNWeekdayAwareDefaultModelFunction
+extension NNCalendar.WeekdayDisplay.Model: NNWeekdayAwareDefaultModelFunction {
   public var firstWeekday: Int {
     return dependency.firstWeekday
   }
 }
 
+// MARK: - NNWeekdayDisplayDefaultFunction
+extension NNCalendar.WeekdayDisplay.Model: NNWeekdayDisplayDefaultFunction {
+  public var weekdayCount: Int {
+    return dependency.weekdayCount
+  }
+}
+
 // MARK: - NNWeekdayDisplayModelFunction
-extension NNCalendar.WeekdayDisplay.Model: NNWeekdayDisplayModelFunction {
+extension NNCalendar.WeekdayDisplay.Model: NNWeekdayDisplayDefaultModelFunction {
   public func weekdayDescription(_ weekday: Int) -> String {
     return dependency.weekdayDescription(weekday)
   }

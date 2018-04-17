@@ -89,8 +89,8 @@ extension NNCalendar.MonthDisplay.ViewModel: NNMonthControlViewModelType {
   }
 }
 
-// MARK: - NNGridDisplayFunction
-extension NNCalendar.MonthDisplay.ViewModel: NNGridDisplayFunction {
+// MARK: - NNGridDisplayDefaultFunction
+extension NNCalendar.MonthDisplay.ViewModel: NNGridDisplayDefaultFunction {
   public var rowCount: Int {
     return monthGridVM.rowCount
   }
@@ -153,8 +153,8 @@ extension NNCalendar.MonthDisplay.ViewModel: NNMonthDisplayViewModelType {
   }
 }
 
-// MARK: - NNDaySelectionFunction
-extension NNCalendar.MonthDisplay.ViewModel: NNSingleDaySelectionFunction {
+// MARK: - NNSingleDaySelectionDefaultFunction
+extension NNCalendar.MonthDisplay.ViewModel: NNSingleDaySelectionDefaultFunction {
   public func isDateSelected(_ date: Date) -> Bool {
     return daySelectionVM.isDateSelected(date)
   }

@@ -8,9 +8,11 @@
 
 import RxSwift
 
-/// Dependency for month header whose components can have defaults.
-public protocol NNMonthHeaderDefaultModelDependency {
-
+/// Shared functionalities between the model and its dependency that can have
+/// defaults.
+public protocol NNMonthHeaderDefaultModelFunction:
+  NNMonthControlDefaultModelFunction
+{
   /// Format month description.
   ///
   /// - Parameter month: A ControlComponents instance.
@@ -18,25 +20,35 @@ public protocol NNMonthHeaderDefaultModelDependency {
   func formatMonthDescription(_ month: NNCalendar.Month) -> String
 }
 
-/// Dependency for month header whose components cannot have defaults.
+/// Shared functionalities between the model and its dependency that cannot
+/// have defaults.
+public protocol NNMonthHeaderNoDefaultModelFunction:
+  NNMonthControlNoDefaultModelFunction {}
+
+/// Defaultable dependency for month header model.
+public protocol NNMonthHeaderDefaultModelDependency:
+  NNMonthHeaderDefaultModelFunction {}
+
+/// Non-defaultable dependency for month header model.
 public protocol NNMonthHeaderNoDefaultModelDependency:
-  NNMonthControlModelDependency{}
+  NNMonthHeaderNoDefaultModelFunction {}
 
 /// Dependency for month header model.
 public protocol NNMonthHeaderModelDependency:
+  NNMonthControlModelDependency,
   NNMonthHeaderDefaultModelDependency,
   NNMonthHeaderNoDefaultModelDependency {}
 
 /// Model for month header view.
 public protocol NNMonthHeaderModelType:
-  NNMonthHeaderModelDependency,
-  NNMonthControlModelType {}
+  NNMonthControlModelType,
+  NNMonthHeaderDefaultModelFunction,
+  NNMonthHeaderNoDefaultModelFunction {}
 
 public extension NNCalendar.MonthHeader {
 
   /// Model implementation.
   public final class Model {
-    /// Delegate month-related calculations to this model.
     fileprivate let monthControlModel: NNMonthControlModelType
     fileprivate let dependency: NNMonthHeaderModelDependency
 

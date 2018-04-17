@@ -7,8 +7,8 @@
 //
 
 /// Shared functionalities between the model and view model for grid display
-/// views.
-public protocol NNGridDisplayFunction {
+/// views that can have defaults.
+public protocol NNGridDisplayDefaultFunction {
 
   /// Represents the number of columns. Should be 7 in most cases.
   var columnCount: Int { get }
@@ -16,3 +16,7 @@ public protocol NNGridDisplayFunction {
   /// Represents the number of rows. Generally should be 6.
   var rowCount: Int { get }
 }
+
+/// Shared functionalities between the model and view model for grid display
+/// views that cannot have defaults.
+public protocol NNGridDisplayNoDefaultFunction {}

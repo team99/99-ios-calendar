@@ -15,8 +15,8 @@ public final class MiscEntityTest: RootTest {
     /// Setup
     let calendar = Calendar.current
 
-    let highlightPositions = [NNCalendar.HighlightPosition.startAndEnd,
-                              .start, .end, .mid, .none]
+    let highlightParts = [NNCalendar.HighlightPart.startAndEnd,
+                          .start, .end, .mid, .none]
 
     /// When
     for _ in 0..<iterations {
@@ -26,19 +26,19 @@ public final class MiscEntityTest: RootTest {
       let description = String(dateComponent)
       let isCurrentMonth = Bool.random()
       let isSelected = Bool.random()
-      let highlightPos = highlightPositions.randomElement()!
+      let highlightPart = highlightParts.randomElement()!
 
       let day1 = NNCalendar.Day(date)
         .with(dateDescription: description)
         .with(currentMonth: isCurrentMonth)
         .with(selected: isSelected)
-        .with(highlightPosition: highlightPos)
+        .with(highlightPart: highlightPart)
 
       let day2 = NNCalendar.Day(date)
         .with(dateDescription: description)
         .with(currentMonth: isCurrentMonth)
         .with(selected: isSelected)
-        .with(highlightPosition: highlightPos)
+        .with(highlightPart: highlightPart)
 
       XCTAssertEqual(day1.isToday, isToday)
       XCTAssertNotEqual(day1.isSelected, day1.toggleSelection().isSelected)
@@ -71,8 +71,8 @@ public final class MiscEntityTest: RootTest {
   }
 
   public func test_hightlightPosition_shouldWorkCorrectly() {
-    XCTAssertTrue(NNCalendar.HighlightPosition.startAndEnd.contains(.start))
-    XCTAssertTrue(NNCalendar.HighlightPosition.startAndEnd.contains(.end))
-    XCTAssertFalse(NNCalendar.HighlightPosition.startAndEnd.contains(.mid))
+    XCTAssertTrue(NNCalendar.HighlightPart.startAndEnd.contains(.start))
+    XCTAssertTrue(NNCalendar.HighlightPart.startAndEnd.contains(.end))
+    XCTAssertFalse(NNCalendar.HighlightPart.startAndEnd.contains(.mid))
   }
 }
