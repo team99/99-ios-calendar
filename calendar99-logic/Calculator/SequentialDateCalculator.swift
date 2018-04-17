@@ -13,8 +13,14 @@ public extension NNCalendar.DateCalculator {
   /// Sequential date calculator.
   public final class Sequential {
     fileprivate let calendar: Calendar
+    fileprivate let rowCount: Int
+    fileprivate let columnCount: Int
+    fileprivate let firstWeekday: Int
 
-    public init() {
+    public init(_ rowCount: Int, _ columnCount: Int, _ firstWeekday: Int) {
+      self.rowCount = rowCount
+      self.columnCount = columnCount
+      self.firstWeekday = firstWeekday
       calendar = Calendar.current
     }
     
@@ -45,10 +51,7 @@ extension NNCalendar.DateCalculator.Sequential: NNDateCalculatorType {
 
   /// We need to find the first day of the week in which the current month
   /// starts (not necessarily the first day of the month).
-  public func calculateDateRange(_ month: NNCalendar.Month,
-                                 _ firstWeekday: Int,
-                                 _ rowCount: Int,
-                                 _ columnCount: Int) -> [Date] {
+  public func calculateDateRange(_ month: NNCalendar.Month) -> [Date] {
     return calculateFirstDate(month, firstWeekday)
       .map({(date: Date) -> [Date] in (0..<rowCount * columnCount).flatMap({
         return calendar.date(byAdding: .day, value: $0, to: date)
@@ -60,7 +63,6 @@ extension NNCalendar.DateCalculator.Sequential: NNDateCalculatorType {
 // MARK: - NNSingleDateCalculatorType
 extension NNCalendar.DateCalculator.Sequential: NNSingleDateCalculatorType {
   public func calculateDateWithOffset(_ month: NNCalendar.Month,
-                                      _ firstWeekday: Int,
                                       _ firstDateOffset: Int) -> Date? {
     return calculateFirstDate(month, firstWeekday).flatMap({
       return calendar.date(byAdding: .day, value: firstDateOffset, to: $0)
@@ -71,7 +73,6 @@ extension NNCalendar.DateCalculator.Sequential: NNSingleDateCalculatorType {
 // MARK: - NNMultiMonthGridSelectionCalculator
 extension NNCalendar.DateCalculator.Sequential: NNMultiMonthGridSelectionCalculator {
   public func calculateGridSelection(_ monthComps: [NNCalendar.MonthComp],
-                                     _ firstWeekday: Int,
                                      _ selection: Date)
     -> Set<NNCalendar.GridSelection>
   {
@@ -135,7 +136,6 @@ extension NNCalendar.DateCalculator.Sequential: NNSingleMonthGridSelectionCalcul
   /// and call the pre-specified method that deals with Month Array. We also
   /// assume that the day count remains the same for all Months.
   public func calculateGridSelection(_ monthComp: NNCalendar.MonthComp,
-                                     _ firstWeekday: Int,
                                      _ selection: Date)
     -> Set<NNCalendar.GridSelection>
   {
@@ -151,7 +151,7 @@ extension NNCalendar.DateCalculator.Sequential: NNSingleMonthGridSelectionCalcul
       .map({monthComp.with(month: $0)})
       .map({monthComps.append($0)})
 
-    return calculateGridSelection(monthComps, firstWeekday, selection)
+    return calculateGridSelection(monthComps, selection)
   }
 }
 

@@ -17,7 +17,6 @@ public final class MonthDisplayTest: RootTest {
   fileprivate var currentMonth: NNCalendar.Month!
   fileprivate var currentMonthSb: BehaviorSubject<NNCalendar.Month>!
   fileprivate var allDateSelectionSb: BehaviorSubject<Set<Date>>!
-  fileprivate var defaultViewModelDp: NNMonthDisplayViewModelDependency!
   fileprivate var defaultModelDp: NNMonthDisplayModelDependency!
 
   override public func setUp() {
@@ -27,16 +26,15 @@ public final class MonthDisplayTest: RootTest {
     currentMonth = NNCalendar.Month(Date())
     currentMonthSb = BehaviorSubject(value: currentMonth!)
     allDateSelectionSb = BehaviorSubject(value: Set<Date>())
-    defaultViewModelDp = NNCalendar.MonthDisplay.ViewModel.DefaultDependency()
     defaultModelDp = NNCalendar.MonthDisplay.Model.DefaultDependency(self)
   }
 }
 
 public extension MonthDisplayTest {
   public func test_defaultDependencies_shouldWork() {
-    let monthControlModel = NNCalendar.MonthControl.Model(self)
-    let monthGridModel = NNCalendar.MonthGrid.Model(self)
-    let daySelectionModel = NNCalendar.DaySelection.Model(self)
+    let monthControlModel = NNCalendar.MonthControl.Model(defaultModelDp)
+    let monthGridModel = NNCalendar.MonthGrid.Model(defaultModelDp)
+    let daySelectionModel = NNCalendar.DaySelection.Model(defaultModelDp)
 
     let model1 = NNCalendar.MonthDisplay.Model(monthControlModel,
                                                monthGridModel,
@@ -55,10 +53,9 @@ public extension MonthDisplayTest {
     let viewModel1 = NNCalendar.MonthDisplay.ViewModel(monthControlVM,
                                                        monthGridVM,
                                                        daySelectionVM,
-                                                       defaultViewModelDp!,
                                                        model1)
 
-    let viewModel2 = NNCalendar.MonthDisplay.ViewModel(defaultViewModelDp!, model2)
+    let viewModel2 = NNCalendar.MonthDisplay.ViewModel(model2)
     viewModel1.setupAllBindingsAndSubBindings()
     viewModel2.setupAllBindingsAndSubBindings()
     XCTAssertEqual(viewModel1.rowCount, viewModel2.rowCount)
@@ -83,12 +80,7 @@ public extension MonthDisplayTest {
       let forward = Bool.random()
       let jump = Int.random(1, 20)
       currentMonth = currentMonth.with(monthOffset: forward ? jump : -jump)!
-
-      let currentDays = model!.calculateDayRange(
-        currentMonth,
-        defaultViewModelDp!.firstWeekday,
-        viewModel!.rowCount,
-        viewModel!.columnCount)
+      let currentDays = model!.calculateDayRange(currentMonth)
 
       if forward {
         viewModel!.currentMonthForwardReceiver.onNext(UInt(jump))
@@ -107,9 +99,6 @@ public extension MonthDisplayTest {
   public func test_gridSelectionStream_shouldWorkCorrectly() {
     /// Setup
     var currentMonth = self.currentMonth!
-    let firstWeekday = defaultViewModelDp!.firstWeekday
-    let rowCount = viewModel!.rowCount
-    let columnCount = viewModel!.columnCount
     viewModel!.setupMonthDisplayBindings()
     viewModel!.setupMonthControlBindings()
     viewModel!.setupDaySelectionBindings()
@@ -118,11 +107,7 @@ public extension MonthDisplayTest {
     for _ in 0..<iterations! {
       let forward = Bool.random()
       currentMonth = currentMonth.with(monthOffset: forward ? 1 : -1)!
-
-      let currentDays = model!.calculateDayRange(currentMonth,
-                                                 firstWeekday,
-                                                 rowCount,
-                                                 columnCount)
+      let currentDays = model!.calculateDayRange(currentMonth)
 
       if forward {
         viewModel!.currentMonthForwardReceiver.onNext(1)
@@ -158,7 +143,6 @@ public extension MonthDisplayTest {
     let indexChangesObs = scheduler!.createObserver(Set<Int>.self)
     let rowCount = viewModel!.rowCount
     let columnCount = viewModel!.columnCount
-    let firstWeekday = defaultViewModelDp.firstWeekday
     var currentMonth = self.currentMonth!
 
     viewModel!.gridDayIndexSelectionChangesStream
@@ -180,11 +164,7 @@ public extension MonthDisplayTest {
 
       waitOnMainThread(waitDuration!)
 
-      let dayRange = model!.calculateDayRange(currentMonth,
-                                              firstWeekday,
-                                              rowCount,
-                                              columnCount)
-
+      let dayRange = model!.calculateDayRange(currentMonth)
       let selectedIndex = Int.random(0, rowCount * columnCount)
       let selectedDay = dayRange[selectedIndex]
       let wasSelected = viewModel!.isDateSelected(selectedDay.date)

@@ -15,28 +15,24 @@ import XCTest
 public final class WeekdayDisplayTest: RootTest {
   fileprivate var model: NNCalendar.WeekdayDisplay.Model!
   fileprivate var viewModel: NNCalendar.WeekdayDisplay.ViewModel!
-  fileprivate var defaultViewModelDep: NNWeekdayDisplayViewModelDependency!
+  fileprivate var defaultModelDp: NNWeekdayDisplayModelDependency!
 
   override public func setUp() {
     super.setUp()
     model = NNCalendar.WeekdayDisplay.Model()
     viewModel = NNCalendar.WeekdayDisplay.ViewModel(model)
-    defaultViewModelDep = NNCalendar.WeekdayDisplay.ViewModel.DefaultDependency()
+    defaultModelDp = NNCalendar.WeekdayDisplay.Model.DefaultDependency()
   }
 }
 
 public extension WeekdayDisplayTest {
   public func test_defaultDependencies_shouldWork() {
-    let model1 = NNCalendar.WeekdayDisplay.Model(self)
+    let model1 = NNCalendar.WeekdayDisplay.Model(defaultModelDp)
 
     for weekday in 0..<7 {
       XCTAssertEqual(model1.weekdayDescription(weekday),
-                     weekdayDescription(weekday))
+                     defaultModelDp.weekdayDescription(weekday))
     }
-
-    let viewModel1 = NNCalendar.WeekdayDisplay.ViewModel(self, model1)
-    XCTAssertEqual(viewModel1.weekdayCount, weekdayCount)
-    XCTAssertEqual(defaultViewModelDep.firstWeekday, firstWeekday)
   }
 }
 
@@ -49,7 +45,7 @@ public extension WeekdayDisplayTest {
 
     /// When & Then
     let weekdayCount = viewModel.weekdayCount
-    let firstWeekday = defaultViewModelDep.firstWeekday
+    let firstWeekday = defaultModelDp!.firstWeekday
     let actualRange = (firstWeekday..<(firstWeekday + weekdayCount)).map({$0})
 
     let emittedWeekdays = weekdayObserver.nextElements()
@@ -79,17 +75,15 @@ public extension WeekdayDisplayTest {
 }
 
 extension WeekdayDisplayTest: NNWeekdayDisplayModelDependency {
-  public func weekdayDescription(_ weekday: Int) -> String {
-    return "\(weekday)"
-  }
-}
-
-extension WeekdayDisplayTest: NNWeekdayDisplayViewModelDependency {
   public var weekdayCount: Int {
     return 5
   }
 
   public var firstWeekday: Int {
     return 1
+  }
+
+  public func weekdayDescription(_ weekday: Int) -> String {
+    return "\(weekday)"
   }
 }

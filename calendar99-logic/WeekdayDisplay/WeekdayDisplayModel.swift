@@ -8,8 +8,10 @@
 
 /// Shared functionalities between the weekday model and its dependency, so that
 /// the model can expose the same properties.
-public protocol NNWeekdayDisplayModelFunction {
-
+public protocol NNWeekdayDisplayModelFunction:
+  NNWeekdayDisplayFunction,
+  NNWeekdayAwareModelFunction
+{
   /// Get the description for a weekday.
   ///
   /// - Parameter weekday: An Int value.
@@ -21,7 +23,9 @@ public protocol NNWeekdayDisplayModelFunction {
 public protocol NNWeekdayDisplayModelDependency: NNWeekdayDisplayModelFunction {}
 
 /// Model for weekday display view.
-public protocol NNWeekdayDisplayModelType: NNWeekdayDisplayModelFunction {}
+public protocol NNWeekdayDisplayModelType:
+  NNWeekdayDisplayModelFunction,
+  NNWeekdayAwareModelType {}
 
 // MARK: - Model.
 public extension NNCalendar.WeekdayDisplay {
@@ -41,6 +45,20 @@ public extension NNCalendar.WeekdayDisplay {
   }
 }
 
+// MARK: - NNWeekdayDisplayFunction
+extension NNCalendar.WeekdayDisplay.Model: NNWeekdayDisplayFunction {
+  public var weekdayCount: Int {
+    return dependency.weekdayCount
+  }
+}
+
+// MARK: - NNWeekdayAwareModelFunction
+extension NNCalendar.WeekdayDisplay.Model: NNWeekdayAwareModelFunction {
+  public var firstWeekday: Int {
+    return dependency.firstWeekday
+  }
+}
+
 // MARK: - NNWeekdayDisplayModelFunction
 extension NNCalendar.WeekdayDisplay.Model: NNWeekdayDisplayModelFunction {
   public func weekdayDescription(_ weekday: Int) -> String {
@@ -54,7 +72,21 @@ extension NNCalendar.WeekdayDisplay.Model: NNWeekdayDisplayModelType {}
 // MARK: - Default dependency.
 public extension NNCalendar.WeekdayDisplay.Model {
   internal final class DefaultDependency: NNWeekdayDisplayModelDependency {
-    func weekdayDescription(_ weekday: Int) -> String {
+    internal var firstWeekday: Int {
+      return weekdayAwareDp.firstWeekday
+    }
+
+    internal var weekdayCount: Int {
+      return 7
+    }
+
+    private let weekdayAwareDp: NNWeekdayAwareModelDependency
+
+    internal init() {
+      weekdayAwareDp = NNCalendar.WeekdayAware.Model.DefaultDependency()
+    }
+
+    internal func weekdayDescription(_ weekday: Int) -> String {
       let date = Calendar.current.date(bySetting: .weekday, value: weekday, of: Date())
       let formatter = DateFormatter()
       formatter.dateFormat = "EEE"

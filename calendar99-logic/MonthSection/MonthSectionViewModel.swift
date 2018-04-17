@@ -8,22 +8,6 @@
 
 import RxSwift
 
-/// Dependency for month section view model with components that cannot have
-/// defaults.
-public protocol NNMonthSectionNoDefaultViewModelDependency {
-
-  /// Get the number of past months to include in the month data stream.
-  var pastMonthsFromCurrent: Int { get }
-
-  /// Get the number of future months to include in the month data stream.
-  var futureMonthsFromCurrent: Int { get }
-}
-
-/// Dependency for month section view model.
-public protocol NNMonthSectionViewModelDependency:
-  NNMonthSectionNoDefaultViewModelDependency,
-  NNMonthGridViewModelDependency {}
-
 /// View model for month section view.
 public protocol NNMonthSectionViewModelType:
   NNMonthGridViewModelType,
@@ -79,7 +63,6 @@ public extension NNCalendar.MonthSection {
     fileprivate let monthControlVM: NNMonthControlViewModelType
     fileprivate let monthGridVM: NNMonthGridViewModelType
     fileprivate let daySelectionVM: NNSingleDaySelectionViewModelType
-    fileprivate let dependency: NNMonthSectionViewModelDependency
     fileprivate let model: NNMonthSectionModelType
     fileprivate let disposable: DisposeBag
 
@@ -89,41 +72,32 @@ public extension NNCalendar.MonthSection {
     required public init(_ monthControlVM: NNMonthControlViewModelType,
                          _ monthGridVM: NNMonthGridViewModelType,
                          _ daySelectionVM: NNSingleDaySelectionViewModelType,
-                         _ dependency: NNMonthSectionViewModelDependency,
                          _ model: NNMonthSectionModelType) {
       self.monthControlVM = monthControlVM
       self.monthGridVM = monthGridVM
       self.daySelectionVM = daySelectionVM
-      self.dependency = dependency
       self.model = model
       monthCompSbj = BehaviorSubject(value: nil)
       disposable = DisposeBag()
     }
 
-    convenience public init(_ dependency: NNMonthSectionViewModelDependency,
-                            _ model: NNMonthSectionModelType) {
+    convenience public init(_ model: NNMonthSectionModelType) {
       let monthControlVM = NNCalendar.MonthControl.ViewModel(model)
-      let monthGridVM = NNCalendar.MonthGrid.ViewModel(dependency, model)
+      let monthGridVM = NNCalendar.MonthGrid.ViewModel(model)
       let daySelectionVM = NNCalendar.DaySelection.ViewModel(model)
-      self.init(monthControlVM, monthGridVM, daySelectionVM, dependency, model)
-    }
-
-    convenience public init(_ dependency: NNMonthSectionNoDefaultViewModelDependency,
-                            _ model: NNMonthSectionModelType) {
-      let defaultDp = DefaultDependency(dependency)
-      self.init(defaultDp, model)
+      self.init(monthControlVM, monthGridVM, daySelectionVM, model)
     }
   }
 }
 
-// MARK: - NNMonthGridViewModelFunction
-extension NNCalendar.MonthSection.ViewModel: NNMonthGridViewModelFunction {
+// MARK: - NNGridDisplayFunction
+extension NNCalendar.MonthSection.ViewModel: NNGridDisplayFunction {
   public var columnCount: Int {
-    return dependency.columnCount
+    return monthGridVM.columnCount
   }
 
   public var rowCount: Int {
-    return dependency.rowCount
+    return monthGridVM.rowCount
   }
 }
 
@@ -181,9 +155,7 @@ extension NNCalendar.MonthSection.ViewModel: NNSelectHighlightFunction {
 // MARK: - NNMonthSectionViewModelType
 extension NNCalendar.MonthSection.ViewModel: NNMonthSectionViewModelType {
   public var totalMonthCount: Int {
-    return 1
-      + dependency.pastMonthsFromCurrent
-      + dependency.futureMonthsFromCurrent
+    return 1 + model.pastMonthsFromCurrent + model.futureMonthsFromCurrent
   }
 
   public var monthCompStream: Observable<[NNCalendar.MonthComp]> {
@@ -199,28 +171,25 @@ extension NNCalendar.MonthSection.ViewModel: NNMonthSectionViewModelType {
 
   /// Keep track of the previous selections to know what have been deselected.
   public var gridSelectionChangesStream: Observable<Set<NNCalendar.GridSelection>> {
-    let firstWeekday = dependency.firstWeekday
-
     return model.allDateSelectionStream
       .scan((prev: Set<Date>(), current: Set<Date>()),
             accumulator: {(prev: $0.current, current: $1)})
       .withLatestFrom(monthCompStream) {($1, prev: $0.prev, current: $0.current)}
       .map({[weak self] in self?.model
-        .calculateGridSelectionChanges($0.0, firstWeekday, $0.prev, $0.current)})
+        .calculateGridSelectionChanges($0.0, $0.prev, $0.current)})
       .filter({$0.isSome}).map({$0!})
   }
 
   public func calculateDayFromFirstDate(_ month: NNCalendar.Month,
                                         _ firstDateOffset: Int) -> NNCalendar.Day? {
-    let firstWeekday = dependency.firstWeekday
-    return model.calculateDayFromFirstDate(month, firstWeekday, firstDateOffset)
+    return model.calculateDayFromFirstDate(month, firstDateOffset)
   }
 
   public func setupMonthSectionBindings() {
     let disposable = self.disposable
-    let pCount = dependency.pastMonthsFromCurrent
-    let fCount = dependency.futureMonthsFromCurrent
-    let dayCount = dependency.rowCount * dependency.columnCount
+    let pCount = model.pastMonthsFromCurrent
+    let fCount = model.futureMonthsFromCurrent
+    let dayCount = monthGridVM.rowCount * monthGridVM.columnCount
 
     /// Must call onNext manually to avoid completed event, since this is a
     /// cold stream.
@@ -242,41 +211,5 @@ extension NNCalendar.MonthSection.ViewModel: NNMonthSectionViewModelType {
       .filter({$0.isSome}).map({$0!})
       .subscribe(dateSelectionReceiver)
       .disposed(by: disposable)
-  }
-}
-
-// MARK: - Default dependency.
-extension NNCalendar.MonthSection.ViewModel {
-
-  /// Default dependency for month section view model. We reuse the default
-  /// dependency for the month view because they have many similarities.
-  internal final class DefaultDependency: NNMonthSectionViewModelDependency {
-    internal var firstWeekday: Int {
-      return defaulted.firstWeekday
-    }
-
-    internal var columnCount: Int {
-      return defaulted.columnCount
-    }
-
-    internal var rowCount: Int {
-      return defaulted.rowCount
-    }
-
-    internal var pastMonthsFromCurrent: Int {
-      return noDefault.pastMonthsFromCurrent
-    }
-
-    internal var futureMonthsFromCurrent: Int {
-      return noDefault.futureMonthsFromCurrent
-    }
-
-    private let noDefault: NNMonthSectionNoDefaultViewModelDependency
-    private let defaulted: NNMonthDisplayViewModelDependency
-
-    internal init(_ dependency: NNMonthSectionNoDefaultViewModelDependency) {
-      noDefault = dependency
-      defaulted = NNCalendar.MonthDisplay.ViewModel.DefaultDependency()
-    }
   }
 }

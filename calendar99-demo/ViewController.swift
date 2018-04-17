@@ -23,7 +23,6 @@ public final class ViewController: UIViewController  {
 
   override public func viewDidLoad() {
     super.viewDidLoad()
-    sequentialCalculator = NNCalendar.DateCalculator.Sequential()
 
     let decorator = AppDecorator()
     monthSb = BehaviorSubject(value: NNCalendar.Month(Date()))
@@ -32,23 +31,27 @@ public final class ViewController: UIViewController  {
 
     let weekdayModel = NNCalendar.SelectWeekday.Model(self)
     let weekdayVM = NNCalendar.SelectWeekday.ViewModel(weekdayModel)
-    weekdayView.dependency = (weekdayVM, decorator)
-
+    let monthViewModel = NNCalendar.MonthDisplay.Model(self)
+    let monthViewVM = NNCalendar.MonthDisplay.ViewModel(monthViewModel)
     let monthHeaderModel = NNCalendar.MonthHeader.Model(self)
     let monthHeaderVM = NNCalendar.MonthHeader.ViewModel(monthHeaderModel)
+    let monthSectionModel = NNCalendar.MonthSection.Model(self)
+    let monthSectionVM = NNCalendar.MonthSection.ViewModel(monthSectionModel)
+
+    sequentialCalculator = NNCalendar.DateCalculator.Sequential(
+      monthSectionVM.rowCount,
+      monthSectionVM.columnCount,
+      weekdayModel.firstWeekday)
+
+    weekdayView.dependency = (weekdayVM, decorator)
     monthHeader.dependency = (monthHeaderVM, decorator)
 
-    let monthSectionModel = NNCalendar.MonthSection.Model(self)
-    let monthSectionVM = NNCalendar.MonthSection.ViewModel(self, monthSectionModel)
     let pageCount = monthSectionVM.totalMonthCount
     let rowCount = monthSectionVM.rowCount
     let columnCount = monthSectionVM.columnCount
     let layout = NNMonthSectionHorizontalFlowLayout(pageCount, rowCount, columnCount)
     monthSectionView.setCollectionViewLayout(layout, animated: true)
     monthSectionView.dependency = (monthSectionVM, decorator)
-
-    let monthViewModel = NNCalendar.MonthDisplay.Model(self)
-    let monthViewVM = NNCalendar.MonthDisplay.ViewModel(monthViewModel)
     monthView.dependency = (monthViewVM, decorator)
   }
 }
@@ -73,6 +76,14 @@ extension ViewController: NNMonthHeaderNoDefaultModelDependency {
 }
 
 extension ViewController: NNMonthSectionNoDefaultModelDependency {
+  public var pastMonthsFromCurrent: Int {
+    return 100
+  }
+
+  public var futureMonthsFromCurrent: Int {
+    return 100
+  }
+
   public var allDateSelectionReceiver: AnyObserver<Set<Date>> {
     return dateSelectionSb.asObserver()
   }
@@ -88,16 +99,6 @@ extension ViewController: NNMonthSectionNoDefaultModelDependency {
   public func calculateHighlightPos(_ date: Date) -> NNCalendar.HighlightPosition {
     let selections = (try? dateSelectionSb.value()) ?? Set()
     return sequentialCalculator.calculateHighlightPos(selections, date)
-  }
-}
-
-extension ViewController: NNMonthSectionNoDefaultViewModelDependency {
-  public var pastMonthsFromCurrent: Int {
-    return 100
-  }
-
-  public var futureMonthsFromCurrent: Int {
-    return 100
   }
 }
 

@@ -19,27 +19,31 @@ public final class MonthSectionTest: RootTest {
   fileprivate var allDateSelectionSb: BehaviorSubject<Set<Date>>!
   fileprivate var currentMonthSb: BehaviorSubject<NNCalendar.Month>!
   fileprivate var defaultModelDp: NNMonthSectionModelDependency!
-  fileprivate var defaultViewModelDp: NNMonthSectionViewModelDependency!
   fileprivate var sequentialDateCalc: NNCalendar.DateCalculator.Sequential!
 
   override public func setUp() {
     super.setUp()
-    sequentialDateCalc = NNCalendar.DateCalculator.Sequential()
+    let weekdayAwareDp = NNCalendar.WeekdayAware.Model.DefaultDependency()
+    defaultModelDp = NNCalendar.MonthSection.Model.DefaultDependency(self)
+
+    sequentialDateCalc = NNCalendar.DateCalculator.Sequential(
+      defaultModelDp.rowCount,
+      defaultModelDp.columnCount,
+      weekdayAwareDp.firstWeekday)
+
     model = NNCalendar.MonthSection.Model(self)
-    viewModel = NNCalendar.MonthSection.ViewModel(self, model!)
+    viewModel = NNCalendar.MonthSection.ViewModel(model!)
     currentMonth = NNCalendar.Month(Date())
     allDateSelectionSb = BehaviorSubject(value: Set())
     currentMonthSb = BehaviorSubject(value: currentMonth!)
-    defaultModelDp = NNCalendar.MonthSection.Model.DefaultDependency(self)
-    defaultViewModelDp = NNCalendar.MonthSection.ViewModel.DefaultDependency(self)
   }
 }
 
 public extension MonthSectionTest {
   public func test_defaultDependencies_shouldWork() {
-    let monthControlModel = NNCalendar.MonthControl.Model(self)
-    let monthGridModel = NNCalendar.MonthGrid.Model(self)
-    let daySelectionModel = NNCalendar.DaySelection.Model(self)
+    let monthControlModel = NNCalendar.MonthControl.Model(defaultModelDp!)
+    let monthGridModel = NNCalendar.MonthGrid.Model(defaultModelDp!)
+    let daySelectionModel = NNCalendar.DaySelection.Model(defaultModelDp!)
 
     let model1 = NNCalendar.MonthSection.Model(monthControlModel,
                                                monthGridModel,
@@ -61,10 +65,9 @@ public extension MonthSectionTest {
     let viewModel1 = NNCalendar.MonthSection.ViewModel(monthControlVM,
                                                        monthGridVM,
                                                        daySelectionVM,
-                                                       defaultViewModelDp,
                                                        model1)
 
-    let viewModel2 = NNCalendar.MonthSection.ViewModel(defaultViewModelDp, model2)
+    let viewModel2 = NNCalendar.MonthSection.ViewModel(model2)
     viewModel1.setupAllBindingsAndSubBindings()
     viewModel2.setupAllBindingsAndSubBindings()
     let comps1 = try! viewModel1.monthCompStream.take(1).toBlocking().first()!
@@ -240,6 +243,14 @@ public extension MonthSectionTest {
 }
 
 extension MonthSectionTest: NNMonthSectionNoDefaultModelDependency {
+  public var pastMonthsFromCurrent: Int {
+    return 100
+  }
+
+  public var futureMonthsFromCurrent: Int {
+    return 100
+  }
+
   public func calculateHighlightPos(_ date: Date) -> NNCalendar.HighlightPosition {
     let selections = try! allDateSelectionSb.value()
     return sequentialDateCalc.calculateHighlightPos(selections, date)
@@ -267,15 +278,5 @@ extension MonthSectionTest: NNMonthSectionNoDefaultModelDependency {
 
   public func isDateSelected(_ date: Date) -> Bool {
     return try! allDateSelectionSb.value().contains(date)
-  }
-}
-
-extension MonthSectionTest: NNMonthSectionNoDefaultViewModelDependency {
-  public var pastMonthsFromCurrent: Int {
-    return 100
-  }
-
-  public var futureMonthsFromCurrent: Int {
-    return 100
   }
 }

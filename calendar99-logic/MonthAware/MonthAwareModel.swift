@@ -14,6 +14,3 @@ public protocol NNMonthAwareModelFunction {
   /// Stream the current selected components.
   var currentMonthStream: Observable<NNCalendar.Month> { get }
 }
-
-/// Dependency for month-aware model.
-public protocol NNMonthAwareModelDependency: NNMonthAwareModelFunction {}

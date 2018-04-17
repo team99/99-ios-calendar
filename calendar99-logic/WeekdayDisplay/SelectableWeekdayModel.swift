@@ -8,27 +8,21 @@
 
 import RxSwift
 
-/// Shared functionalities between the model and its dependency.
-public protocol NNSelectableWeekdayModelFunction:
-  NNWeekdayDisplayModelFunction,
-  NNMonthAwareModelFunction,
-  NNMultiDaySelectionModelFunction {}
-
 /// Dependency for selectable weekday display whose components cannot have
 /// defaults.
 public protocol NNSelectableWeekdayNoDefaultModelDependency:
-  NNMonthAwareModelDependency,
+  NNMonthAwareModelFunction,
   NNMultiDaySelectionModelFunction {}
 
 /// Dependency for selectable weekday display.
 public protocol NNSelectableWeekdayModelDependency:
-  NNSelectableWeekdayModelFunction,
   NNWeekdayDisplayModelDependency,
   NNSelectableWeekdayNoDefaultModelDependency {}
 
 /// Model for selectable weekday display.
 public protocol NNSelectableWeekdayModelType:
-  NNSelectableWeekdayModelFunction,
+  NNMonthAwareModelFunction,
+  NNMultiDaySelectionModelFunction,
   NNWeekdayDisplayModelType {}
 
 // MARK: - Model.
@@ -54,6 +48,20 @@ public extension NNCalendar.SelectWeekday {
       let defaultDp = DefaultDependency(dependency)
       self.init(defaultDp)
     }
+  }
+}
+
+// MARK: - NNWeekdayAwareModelFunction
+extension NNCalendar.SelectWeekday.Model: NNWeekdayAwareModelFunction {
+  public var firstWeekday: Int {
+    return weekdayModel.firstWeekday
+  }
+}
+
+// MARK: - NNWeekdayDisplayFunction
+extension NNCalendar.SelectWeekday.Model: NNWeekdayDisplayFunction {
+  public var weekdayCount: Int {
+    return weekdayModel.weekdayCount
   }
 }
 
@@ -88,6 +96,14 @@ extension NNCalendar.SelectWeekday.Model: NNSelectableWeekdayModelType {}
 // MARK: - Default dependency.
 public extension NNCalendar.SelectWeekday.Model {
   internal final class DefaultDependency: NNSelectableWeekdayModelDependency {
+    internal var firstWeekday: Int {
+      return weekdayDp.firstWeekday
+    }
+
+    internal var weekdayCount: Int {
+      return weekdayDp.weekdayCount
+    }
+
     internal var currentMonthStream: Observable<NNCalendar.Month> {
       return noDefault.currentMonthStream
     }

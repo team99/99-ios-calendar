@@ -17,16 +17,9 @@ public protocol NNDateCalculatorType {
   /// equal rowCount * columnCount, but how exactly they should be partitioned
   /// is left to implementation.
   ///
-  /// - Parameters:
-  ///   - month: A Month instance.
-  ///   - firstWeekday: The first day of a week (e.g. Monday).
-  ///   - rowCount: The number of rows in a calendar grid.
-  ///   - columnCount: The number of columns in a calendar grid.
+  /// - Parameters month: A Month instance.
   /// - Returns: An Array of Date.
-  func calculateDateRange(_ month: NNCalendar.Month,
-                          _ firstWeekday: Int,
-                          _ rowCount: Int,
-                          _ columnCount: Int) -> [Date]
+  func calculateDateRange(_ month: NNCalendar.Month) -> [Date]
 }
 
 /// This is similar to the date calculator, but it calculates only single dates
@@ -40,11 +33,9 @@ public protocol NNSingleDateCalculatorType {
   ///
   /// - Parameters:
   ///   - month: A Month instance.
-  ///   - firstWeekday: The first day of a week (e.g. Monday).
   ///   - firstDateOffset: The offset from the first date in the grid.
   /// - Returns: A Date instance.
   func calculateDateWithOffset(_ month: NNCalendar.Month,
-                               _ firstWeekday: Int,
                                _ firstDateOffset: Int) -> Date?
 }
 
@@ -78,11 +69,9 @@ public protocol NNMultiMonthGridSelectionCalculator: NNGridSelectionCalculator {
   ///
   /// - Parameters:
   ///   - monthComps: A MonthComp Array.
-  ///   - firstWeekday: The first day of the week (e.g. Monday).
   ///   - selection: A Date instance.
   /// - Returns: A GridSelection Set.
   func calculateGridSelection(_ monthComps: [NNCalendar.MonthComp],
-                              _ firstWeekday: Int,
                               _ selection: Date)
     -> Set<NNCalendar.GridSelection>
 }
@@ -95,18 +84,16 @@ public extension NNMultiMonthGridSelectionCalculator {
   ///
   /// - Parameters:
   ///   - monthComps: A MonthComp Array.
-  ///   - firstWeekday: The first day of the week (e.g. Monday).
   ///   - prevSelections: The previous selected dates.
   ///   - currentSelections: The current selected dates.
   /// - Returns: A Set of GridSelection.
   public func calculateGridSelectionChanges(_ monthComps: [NNCalendar.MonthComp],
-                                            _ firstWeekday: Int,
                                             _ prevSelections: Set<Date>,
                                             _ currentSelections: Set<Date>)
     -> Set<NNCalendar.GridSelection>
   {
     return Set(extractChanges(prevSelections, currentSelections)
-      .flatMap({calculateGridSelection(monthComps, firstWeekday, $0)}))
+      .flatMap({calculateGridSelection(monthComps, $0)}))
   }
 }
 
@@ -121,12 +108,10 @@ public protocol NNSingleMonthGridSelectionCalculator: NNGridSelectionCalculator 
   ///
   /// - Parameters:
   ///   - monthComp: A MonthComp instance.
-  ///   - firstWeekday: The first day of the week (e.g. Monday).
   ///   - prevSelections: The previous selected dates.
   ///   - selection: A Date instance.
   /// - Returns: A Set of GridSelection.
   func calculateGridSelection(_ monthComp: NNCalendar.MonthComp,
-                              _ firstWeekday: Int,
                               _ selection: Date)
     -> Set<NNCalendar.GridSelection>
 }
@@ -137,18 +122,16 @@ public extension NNSingleMonthGridSelectionCalculator {
   ///
   /// - Parameters:
   ///   - monthComp: A MonthComp instance.
-  ///   - firstWeekday: The first day of the week (e.g. Monday).
   ///   - prevSelections: The previous selected dates.
   ///   - currentSelections: The current selected dates.
   /// - Returns: A Set of GridSelection.
   func calculateGridSelectionChanges(_ monthComp: NNCalendar.MonthComp,
-                                     _ firstWeekday: Int,
                                      _ prevSelections: Set<Date>,
                                      _ currentSelections: Set<Date>)
     -> Set<NNCalendar.GridSelection>
   {
     return Set(extractChanges(prevSelections, currentSelections)
-      .flatMap({calculateGridSelection(monthComp, firstWeekday, $0)}))
+      .flatMap({calculateGridSelection(monthComp, $0)}))
   }
 }
 

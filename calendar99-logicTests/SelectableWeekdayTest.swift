@@ -19,7 +19,6 @@ public final class SelectableWeekdayTest: RootTest {
   fileprivate var currentMonth: NNCalendar.Month!
   fileprivate var currentMonthSb: BehaviorSubject<NNCalendar.Month>!
   fileprivate var defaultModelDp: NNSelectableWeekdayModelDependency!
-  fileprivate var defaultViewModelDp: NNSelectableWeekdayViewModelDependency!
 
   override public func setUp() {
     super.setUp()
@@ -29,7 +28,6 @@ public final class SelectableWeekdayTest: RootTest {
     currentMonth = NNCalendar.Month(Date())
     currentMonthSb = BehaviorSubject(value: currentMonth!)
     defaultModelDp = NNCalendar.SelectWeekday.Model.DefaultDependency(self)
-    defaultViewModelDp = NNCalendar.SelectWeekday.ViewModel.DefaultDependency()
   }
 }
 
@@ -45,13 +43,13 @@ public extension SelectableWeekdayTest {
     }
 
     let weekdayVM = NNCalendar.WeekdayDisplay.ViewModel(weekdayModel)
-    let viewModel1 = NNCalendar.SelectWeekday.ViewModel(weekdayVM, defaultViewModelDp, model1)
-    let viewModel2 = NNCalendar.SelectWeekday.ViewModel(defaultViewModelDp, model2)
+    let viewModel1 = NNCalendar.SelectWeekday.ViewModel(weekdayVM, model1)
+    let viewModel2 = NNCalendar.SelectWeekday.ViewModel(model2)
     XCTAssertEqual(viewModel1.weekdayCount, viewModel2.weekdayCount)
-    XCTAssertEqual(defaultViewModelDp.firstWeekday, 1)
+    XCTAssertEqual(defaultModelDp.firstWeekday, 1)
 
     let weekdays = try! viewModel!.weekdayStream.take(1).toBlocking().first()!
-    let firstWeekday = defaultViewModelDp!.firstWeekday
+    let firstWeekday = defaultModelDp!.firstWeekday
     let weekdayCount = viewModel!.weekdayCount
 
     XCTAssertEqual((firstWeekday..<(firstWeekday + weekdayCount)).map({$0}),

@@ -17,24 +17,21 @@ import XCTest
 public final class MonthGridTest: RootTest {
   fileprivate var model: NNCalendar.MonthGrid.Model!
   fileprivate var viewModel: NNCalendar.MonthGrid.ViewModel!
-  fileprivate var defaultViewModelDp: NNMonthGridViewModelDependency!
+  fileprivate var defaultModelDp: NNMonthGridModelDependency!
 
   override public func setUp() {
     super.setUp()
-    model = NNCalendar.MonthGrid.Model(self)
-    viewModel = NNCalendar.MonthGrid.ViewModel(self, model!)
-    defaultViewModelDp = NNCalendar.MonthGrid.ViewModel.DefaultDependency()
+    model = NNCalendar.MonthGrid.Model()
+    viewModel = NNCalendar.MonthGrid.ViewModel(model!)
+    defaultModelDp = NNCalendar.MonthGrid.Model.DefaultDependency()
   }
 }
 
 public extension MonthGridTest {
   public func test_defaultDependencies_shouldWork() {
-    let vmWithDefault = NNCalendar.MonthGrid.ViewModel(model!)
-    XCTAssertEqual(vmWithDefault.columnCount, 7)
-    XCTAssertEqual(vmWithDefault.rowCount, 6)
-    XCTAssertEqual(viewModel.columnCount, 7)
-    XCTAssertEqual(viewModel.rowCount, 6)
-    XCTAssertEqual(firstWeekday, 1)
+    let model1 = NNCalendar.MonthGrid.Model(defaultModelDp!)
+    XCTAssertEqual(model1.columnCount, defaultModelDp.columnCount)
+    XCTAssertEqual(model1.rowCount, defaultModelDp.rowCount)
   }
 
   public func test_gridSelectionReceiverAndStream_shouldWork() {
@@ -57,21 +54,5 @@ public extension MonthGridTest {
       let lastSelection = selectionObs.nextElements().last!
       XCTAssertEqual(lastSelection, selection)
     }
-  }
-}
-
-extension MonthGridTest: NNMonthGridModelDependency {}
-
-extension MonthGridTest: NNMonthGridViewModelDependency {
-  public var columnCount: Int {
-    return defaultViewModelDp!.columnCount
-  }
-
-  public var rowCount: Int {
-    return defaultViewModelDp!.rowCount
-  }
-
-  public var firstWeekday: Int {
-    return defaultViewModelDp!.firstWeekday
   }
 }

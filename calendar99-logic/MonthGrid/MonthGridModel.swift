@@ -9,10 +9,10 @@
 import RxSwift
 
 /// Dependency for month grid model.
-public protocol NNMonthGridModelDependency {}
+public protocol NNMonthGridModelDependency: NNGridDisplayFunction {}
 
 /// Model for month grid views.
-public protocol NNMonthGridModelType {}
+public protocol NNMonthGridModelType: NNGridDisplayFunction {}
 
 // MARK: - Model.
 public extension NNCalendar.MonthGrid {
@@ -21,11 +21,46 @@ public extension NNCalendar.MonthGrid {
   public final class Model {
     fileprivate let dependency: NNMonthGridModelDependency
 
-    public init(_ dependency: NNMonthGridModelDependency) {
+    required public init(_ dependency: NNMonthGridModelDependency) {
       self.dependency = dependency
     }
+
+    convenience public init() {
+      let defaultDp = DefaultDependency()
+      self.init(defaultDp)
+    }
+  }
+}
+
+// MARK: - NNGridDisplayFunction
+extension NNCalendar.MonthGrid.Model: NNGridDisplayFunction {
+  public var columnCount: Int {
+    return dependency.columnCount
+  }
+
+  public var rowCount: Int {
+    return dependency.rowCount
   }
 }
 
 // MARK: - NNMonthGridModelType
 extension NNCalendar.MonthGrid.Model: NNMonthGridModelType {}
+
+// MARK: - Default dependency.
+public extension NNCalendar.MonthGrid.Model {
+  internal final class DefaultDependency: NNMonthGridModelDependency {
+    internal var columnCount: Int {
+      return gridDisplayDp.columnCount
+    }
+
+    internal var rowCount: Int {
+      return gridDisplayDp.rowCount
+    }
+
+    private let gridDisplayDp: NNMGridDisplayModelDependency
+
+    internal init() {
+      gridDisplayDp = NNCalendar.GridDisplay.Model.DefaultDependency()
+    }
+  }
+}

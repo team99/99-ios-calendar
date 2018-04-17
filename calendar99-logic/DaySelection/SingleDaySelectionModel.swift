@@ -8,18 +8,15 @@
 
 import RxSwift
 
-/// Functionalities that can be exposed to the outside world.
-public protocol NNSingleDaySelectionModelFunction:
+/// Dependency for day selection model.
+public protocol NNSingleDaySelectionModelDependency:
   NNSingleDaySelectionFunction,
   NNMultiDaySelectionModelFunction {}
 
-/// Dependency for day selection model.
-public protocol NNSingleDaySelectionModelDependency:
-  NNSingleDaySelectionModelFunction {}
-
 /// Day selection model.
 public protocol NNSingleDaySelectionModelType:
-  NNSingleDaySelectionModelFunction {}
+  NNSingleDaySelectionFunction,
+  NNMultiDaySelectionModelFunction {}
 
 // MARK: - Model.
 public extension NNCalendar.DaySelection {
@@ -41,8 +38,8 @@ extension NNCalendar.DaySelection.Model: NNSingleDaySelectionFunction {
   }
 }
 
-// MARK: - NNDaySelectionModelFunction
-extension NNCalendar.DaySelection.Model: NNSingleDaySelectionModelFunction {
+// MARK: - NNMultiDaySelectionModelFunction
+extension NNCalendar.DaySelection.Model: NNMultiDaySelectionModelFunction {
   public var allDateSelectionReceiver: AnyObserver<Set<Date>> {
     return dependency.allDateSelectionReceiver
   }
