@@ -13,21 +13,29 @@ public struct AppDecorator {
   fileprivate let dateCellHighlighter: NNSelectionHighlighterType
 
   public init() {
-    dateCellHighlighter = NNHorizontalSelectionHighlighter()
+    dateCellHighlighter = NNHorizontalSelectHighlighter()
+      .with(cornerRadius: 10)
+      .with(horizontalInset: 5)
+      .with(verticalInset: 5)
+      .with(highlightFillColor: UIColor(
+        red: 237 / 255,
+        green: 246 / 255,
+        blue: 251 / 255,
+        alpha: 1))
   }
 }
 
 extension AppDecorator: NNMonthHeaderDecoratorType {
   public var navigationButtonTintColor: UIColor {
-    return .red
+    return .black
   }
 
   public var monthDescriptionTextColor: UIColor {
-    return .red
+    return .black
   }
 
   public var monthDescriptionFont: UIFont {
-    return UIFont.systemFont(ofSize: 16)
+    return UIFont.systemFont(ofSize: 17)
   }
 }
 
@@ -42,35 +50,49 @@ extension AppDecorator: NNWeekdayViewDecoratorType {
 
 extension AppDecorator: NNWeekdayCellDecoratorType {
   public var weekdayDescriptionTextColor: UIColor {
-    return UIColor.red
+    return UIColor.black
   }
 
   public var weekdayDescriptionFont: UIFont {
-    return UIFont.systemFont(ofSize: 17)
+    return UIFont.systemFont(ofSize: 16)
   }
 }
 
 extension AppDecorator: NNDateCellDecoratorType {
-  public var selectionHighlighter: NNSelectionHighlighterType {
+  public var selectionHighlighter: NNSelectionHighlighterType? {
     return dateCellHighlighter
   }
 
   public var dateCellTodayMarkerBackground: UIColor {
-    return .magenta
+    return UIColor(red: 56 / 255, green: 147 / 255, blue: 217 / 255, alpha: 1)
   }
 
   public func dateCellDescTextColor(_ state: NNDateCellDescState) -> UIColor {
     switch state {
     case .normal: return .black
-    case .isSelected: return .white
+    case .isNotCurrentMonth: return .clear
+
+    case .isSelected: return UIColor(
+      red: 56 / 255,
+      green: 147 / 255,
+      blue: 217 / 255,
+      alpha: 1)
+
     case .isToday: return .white
+    }
+  }
+
+  public func dateCellDescFont(_ state: NNDateCellDescState) -> UIFont {
+    switch state {
+    case .isSelected, .isToday: return UIFont.boldSystemFont(ofSize: 16)
+    default: return UIFont.systemFont(ofSize: 16)
     }
   }
 
   public func dateCellBackground(_ state: NNDateCellBackgroundState) -> UIColor {
     switch state {
     case .normal: return .white
-    case .isSelected: return .red
+    case .isSelected: return .white
     case .isNotCurrentMonth: return .lightGray
     }
   }

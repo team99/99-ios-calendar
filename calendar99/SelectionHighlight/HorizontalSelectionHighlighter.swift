@@ -10,41 +10,86 @@ import UIKit
 import calendar99_logic
 
 /// Horizontal selection highlighter.
-public final class NNHorizontalSelectionHighlighter {
-  public init() {}
+public struct NNHorizontalSelectHighlighter {
+  fileprivate var cornerRadius: CGFloat
+  fileprivate var horizontalInset: CGFloat
+  fileprivate var verticalInset: CGFloat
+  fileprivate var highlightFillColor: UIColor
+
+  /// Corner radii for bezier path.
+  fileprivate var cornerRadii: CGSize {
+    return CGSize(width: cornerRadius, height: cornerRadius)
+  }
+
+  public init() {
+    cornerRadius = 5
+    horizontalInset = 5
+    verticalInset = 5
+    highlightFillColor = .groupTableViewBackground
+  }
+
+  /// Copy all properties, but change the cornerRadius.
+  public func with(cornerRadius: CGFloat) -> NNHorizontalSelectHighlighter {
+    var highlighter = self
+    highlighter.cornerRadius = cornerRadius
+    return highlighter
+  }
+
+  /// Copy all properties, but change the horizontalInset.
+  public func with(horizontalInset: CGFloat) -> NNHorizontalSelectHighlighter {
+    var highlighter = self
+    highlighter.horizontalInset = horizontalInset
+    return highlighter
+  }
+
+  /// Copy all properties, but change the verticalInset.
+  public func with(verticalInset: CGFloat) -> NNHorizontalSelectHighlighter {
+    var highlighter = self
+    highlighter.verticalInset = verticalInset
+    return highlighter
+  }
+
+  /// Copy all properties, but change the highlight fill color.
+  public func with(highlightFillColor: UIColor) -> NNHorizontalSelectHighlighter {
+    var highlighter = self
+    highlighter.highlightFillColor = highlightFillColor
+    return highlighter
+  }
 }
 
 // MARK: - NNSelectionHighlighterType
-extension NNHorizontalSelectionHighlighter: NNSelectionHighlighterType {
+extension NNHorizontalSelectHighlighter: NNSelectionHighlighterType {
   public func drawHighlight(_ context: CGContext,
                             _ rect: CGRect,
                             _ part: NNCalendar.HighlightPart) {
     context.saveGState()
     defer { context.restoreGState() }
-    var highlightRect = rect.insetBy(dx: 0, dy: 5)
+    var highlightRect = rect.insetBy(dx: 0, dy: verticalInset)
     let bezier: UIBezierPath
 
     switch part {
     case .startAndEnd:
-      highlightRect = highlightRect.insetBy(dx: 5, dy: 0)
-      bezier = UIBezierPath(roundedRect: highlightRect, cornerRadius: 5)
+      highlightRect = highlightRect.insetBy(dx: horizontalInset, dy: 0)
+
+      bezier = UIBezierPath(roundedRect: highlightRect,
+                            cornerRadius: cornerRadius)
 
     case .start:
-      highlightRect = highlightRect.offsetBy(dx: 5, dy: 0)
+      highlightRect = highlightRect.offsetBy(dx: horizontalInset, dy: 0)
 
       bezier = UIBezierPath(roundedRect: highlightRect,
                             byRoundingCorners: [.topLeft, .bottomLeft],
-                            cornerRadii: CGSize(width: 5, height: 5))
+                            cornerRadii: cornerRadii)
 
     case .end:
       highlightRect = CGRect(x: highlightRect.origin.x,
                              y: highlightRect.origin.y,
-                             width: highlightRect.width - 5,
+                             width: highlightRect.width - horizontalInset,
                              height: highlightRect.height)
 
       bezier = UIBezierPath(roundedRect: highlightRect,
                             byRoundingCorners: [.topRight, .bottomRight],
-                            cornerRadii: CGSize(width: 5, height: 5))
+                            cornerRadii: cornerRadii)
 
     case .mid:
       bezier = UIBezierPath(rect: highlightRect)
@@ -53,7 +98,7 @@ extension NNHorizontalSelectionHighlighter: NNSelectionHighlighterType {
       return
     }
 
-    context.setFillColor(UIColor.groupTableViewBackground.cgColor)
+    context.setFillColor(highlightFillColor.cgColor)
     bezier.fill()
   }
 }

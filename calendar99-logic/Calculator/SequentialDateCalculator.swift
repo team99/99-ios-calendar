@@ -8,7 +8,7 @@
 
 import SwiftFP
 
-public extension NNCalendar.DateCalculator {
+public extension NNCalendar.DateCalc {
 
   /// Sequential date calculator.
   public final class Sequential {
@@ -47,7 +47,7 @@ public extension NNCalendar.DateCalculator {
 }
 
 // MARK: - NNDateCalculatorType
-extension NNCalendar.DateCalculator.Sequential: NNDateCalculatorType {
+extension NNCalendar.DateCalc.Sequential: NNDateCalculatorType {
 
   /// We need to find the first day of the week in which the current month
   /// starts (not necessarily the first day of the month).
@@ -61,7 +61,7 @@ extension NNCalendar.DateCalculator.Sequential: NNDateCalculatorType {
 }
 
 // MARK: - NNSingleDateCalculatorType
-extension NNCalendar.DateCalculator.Sequential: NNSingleDateCalculatorType {
+extension NNCalendar.DateCalc.Sequential: NNSingleDateCalculatorType {
   public func calculateDateWithOffset(_ month: NNCalendar.Month,
                                       _ firstDateOffset: Int) -> Date? {
     return calculateFirstDate(month, firstWeekday).flatMap({
@@ -71,7 +71,7 @@ extension NNCalendar.DateCalculator.Sequential: NNSingleDateCalculatorType {
 }
 
 // MARK: - NNMultiMonthGridSelectionCalculator
-extension NNCalendar.DateCalculator.Sequential: NNMultiMonthGridSelectionCalculator {
+extension NNCalendar.DateCalc.Sequential: NNMultiMonthGridSelectionCalculator {
   fileprivate func calculateGridSelection(_ monthComps: [NNCalendar.MonthComp],
                                           _ selection: Date)
     -> Set<NNCalendar.GridSelection>
@@ -138,7 +138,7 @@ extension NNCalendar.DateCalculator.Sequential: NNMultiMonthGridSelectionCalcula
 }
 
 // MARK: - NNSingleMonthGridSelectionCalculatorType
-extension NNCalendar.DateCalculator.Sequential: NNSingleMonthGridSelectionCalculator {
+extension NNCalendar.DateCalc.Sequential: NNSingleMonthGridSelectionCalculator {
   public func calculateGridSelectionChanges(_ monthComp: NNCalendar.MonthComp,
                                             _ prevSelections: Set<Date>,
                                             _ currentSelections: Set<Date>)
@@ -169,12 +169,16 @@ extension NNCalendar.DateCalculator.Sequential: NNSingleMonthGridSelectionCalcul
 
     return calculateGridSelection(monthComps, selection)
   }
-
-
 }
 
 // MARK: - NNHighlightPartCalculator
-extension NNCalendar.DateCalculator.Sequential: NNHighlightPartCalculator {
+extension NNCalendar.DateCalc.Sequential: NNHighlightPartCalculator {
+
+  /// Provided that this date is selected, check the previous and next dates:
+  /// - If the next date is not selected, add a .end part.
+  /// - If the previous date is not selected, add a .start part.
+  /// - If both the next and previous dates are selected, add a .mid part.
+  /// - Otherwise, default to .none.
   public func calculateHighlightPart(_ selections: Set<Date>, _ date: Date)
     -> NNCalendar.HighlightPart
   {

@@ -19,7 +19,7 @@ public final class ViewController: UIViewController  {
   fileprivate var monthSb: BehaviorSubject<NNCalendar.Month>!
   fileprivate var dateSelectionSb: BehaviorSubject<Set<Date>>!
   fileprivate var disposable: DisposeBag!
-  fileprivate var sequentialCalculator: NNCalendar.DateCalculator.Sequential!
+  fileprivate var sequentialCalculator: NNCalendar.DateCalc.Sequential!
 
   override public func viewDidLoad() {
     super.viewDidLoad()
@@ -38,7 +38,7 @@ public final class ViewController: UIViewController  {
     let monthSectionModel = NNCalendar.MonthSection.Model(self)
     let monthSectionVM = NNCalendar.MonthSection.ViewModel(monthSectionModel)
 
-    sequentialCalculator = NNCalendar.DateCalculator.Sequential(
+    sequentialCalculator = NNCalendar.DateCalc.Sequential(
       monthSectionVM.rowCount,
       monthSectionVM.columnCount,
       weekdayModel.firstWeekday)
@@ -77,11 +77,11 @@ extension ViewController: NNMonthHeaderNoDefaultModelDependency {
 
 extension ViewController: NNMonthSectionNoDefaultModelDependency {
   public var pastMonthsFromCurrent: Int {
-    return 100
+    return 1000
   }
 
   public var futureMonthsFromCurrent: Int {
-    return 100
+    return 1000
   }
 
   public var allDateSelectionReceiver: AnyObserver<Set<Date>> {

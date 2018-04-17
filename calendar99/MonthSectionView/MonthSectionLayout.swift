@@ -44,6 +44,8 @@ public final class NNMonthSectionHorizontalFlowLayout: UICollectionViewFlowLayou
     self.columnCount = columnCount
     cache = [:]
     super.init()
+    minimumLineSpacing = 0
+    minimumInteritemSpacing = 0
   }
 
   override public func prepare() {

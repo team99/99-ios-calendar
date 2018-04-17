@@ -250,17 +250,25 @@ extension NNCalendar.MonthSection.Model {
     private let noDefault: NNMonthSectionNoDefaultModelDependency
     private let monthGridDp: NNMonthGridModelDependency
     private let weekdayAwareDp: NNWeekdayAwareModelDependency
-    private let dateCalc: NNCalendar.DateCalculator.Sequential
+    private let dateCalc: NNCalendar.DateCalc.Sequential
+
+    /// Use this to calculate grid selection changes while catering to selection
+    /// highlighting. Consult the documentation for this class to understand
+    /// why we need a separate calculator for this task.
+    private let highlightCalc: NNCalendar.DateCalc.HighlightPart
 
     init(_ dependency: NNMonthSectionNoDefaultModelDependency) {
       noDefault = dependency
       monthGridDp = NNCalendar.MonthGrid.Model.DefaultDependency()
       weekdayAwareDp = NNCalendar.WeekdayAware.Model.DefaultDependency()
       
-      dateCalc = NNCalendar.DateCalculator.Sequential(
+      dateCalc = NNCalendar.DateCalc.Sequential(
         monthGridDp.rowCount,
         monthGridDp.columnCount,
         weekdayAwareDp.firstWeekday)
+
+      highlightCalc = NNCalendar.DateCalc.HighlightPart(
+        dateCalc, monthGridDp.rowCount, monthGridDp.columnCount)
     }
 
     func calculateDateWithOffset(_ month: NNCalendar.Month,
@@ -273,7 +281,7 @@ extension NNCalendar.MonthSection.Model {
                                        _ currentSelections: Set<Date>)
       -> Set<NNCalendar.GridSelection>
     {
-      return dateCalc.calculateGridSelectionChanges(
+      return highlightCalc.calculateGridSelectionChanges(
         monthComps, prevSelections, currentSelections)
     }
 

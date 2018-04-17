@@ -12,7 +12,7 @@ import XCTest
 
 /// Tests for date calculator.
 public final class SequentialDateCalculatorTest: RootTest {
-  fileprivate var calculator: NNCalendar.DateCalculator.Sequential!
+  fileprivate var calculator: NNCalendar.DateCalc.Sequential!
   fileprivate var dayCount: Int!
   fileprivate var firstWeekDay: Int!
   fileprivate var rowCount: Int!
@@ -25,7 +25,7 @@ public final class SequentialDateCalculatorTest: RootTest {
     dayCount = 42
     firstWeekDay = 2
 
-    calculator = NNCalendar.DateCalculator
+    calculator = NNCalendar.DateCalc
       .Sequential(rowCount!, columnCount!, firstWeekDay!)
   }
 

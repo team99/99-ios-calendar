@@ -8,14 +8,15 @@
 
 /// Different states for background.
 public enum NNDateCellBackgroundState {
-  case normal
-  case isNotCurrentMonth
-  case isSelected
+  case normal             // This is mutex with isNotCurrentMonth.
+  case isNotCurrentMonth  // This is mutex with normal.
+  case isSelected         // This overrides everything.
 }
 
 /// Different states for date description label.
 public enum NNDateCellDescState {
-  case normal
-  case isToday
-  case isSelected
+  case normal             // This is mutex with isNotCurrentMonth.
+  case isNotCurrentMonth  // This is mutex with normal.
+  case isToday            // This overrides everything.
+  case isSelected         // This has priority over normal.
 }

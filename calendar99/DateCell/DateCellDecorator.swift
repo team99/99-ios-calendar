@@ -11,8 +11,8 @@ import UIKit
 /// Decorator for date cell.
 public protocol NNDateCellDecoratorType {
 
-  /// Selection highlighter.
-  var selectionHighlighter: NNSelectionHighlighterType { get }
+  /// Selection highlighter. If this is nil, skip selection highlighting.
+  var selectionHighlighter: NNSelectionHighlighterType? { get }
 
   /// Background color for today marker.
   var dateCellTodayMarkerBackground: UIColor { get }
@@ -22,6 +22,12 @@ public protocol NNDateCellDecoratorType {
   /// - Parameter state: A NNDateCellDescState instance.
   /// - Returns: An UIColor value.
   func dateCellDescTextColor(_ state: NNDateCellDescState) -> UIColor
+
+  /// Font for date description label.
+  ///
+  /// - Parameter state: A NNDateCellDescState instance.
+  /// - Returns: An UIFont instance.
+  func dateCellDescFont(_ state: NNDateCellDescState) -> UIFont
 
   /// Background color for background.
   ///

@@ -19,10 +19,8 @@ public final class NNDateCell: UICollectionViewCell {
 
   /// Set this variable instead of setting each individually to ensure all draw
   /// dependencies are available at the same time.
-  private var drawDependency: (NNCalendar.Day, NNSelectionHighlighterType)? {
-    didSet {
-      setNeedsDisplay()
-    }
+  private var drawDependency: (NNCalendar.Day, NNSelectionHighlighterType?)? {
+    didSet { setNeedsDisplay() }
   }
 
   /// Store some properties here to perform some custom drawing.
@@ -42,11 +40,7 @@ public final class NNDateCell: UICollectionViewCell {
       let day = self.currentDay,
       let selectionHighlighter = self.selectionHighlighter else
     {
-      #if DEBUG
-      fatalError("Properties cannot be nil")
-      #else
       return
-      #endif
     }
 
     selectionHighlighter.drawHighlight(context, rect, day.highlightPart)
@@ -62,8 +56,12 @@ public final class NNDateCell: UICollectionViewCell {
 
     if day.isCurrentMonth {
       backgroundColor = decorator.dateCellBackground(.normal)
+      dateLbl.textColor = decorator.dateCellDescTextColor(.normal)
+      dateLbl.font = decorator.dateCellDescFont(.normal)
     } else {
       backgroundColor = decorator.dateCellBackground(.isNotCurrentMonth)
+      dateLbl.textColor = decorator.dateCellDescTextColor(.isNotCurrentMonth)
+      dateLbl.font = decorator.dateCellDescFont(.isNotCurrentMonth)
     }
 
     if day.isSelected {
@@ -71,11 +69,15 @@ public final class NNDateCell: UICollectionViewCell {
     }
 
     dateLbl.text = day.dateDescription
-    dateLbl.textColor = decorator.dateCellDescTextColor(.normal)
 
     contentView.subviews
       .filter({$0.accessibilityIdentifier == circleMarkerId})
       .forEach({$0.removeFromSuperview()})
+
+    if day.isSelected {
+      dateLbl.textColor = decorator.dateCellDescTextColor(.isSelected)
+      dateLbl.font = decorator.dateCellDescFont(.isSelected)
+    }
 
     // If the day is today, add a circle marker programmatically.
     if day.isToday {
@@ -89,10 +91,7 @@ public final class NNDateCell: UICollectionViewCell {
       circleMarker.accessibilityIdentifier = circleMarkerId
       contentView.insertSubview(circleMarker, at: 0)
       dateLbl.textColor = decorator.dateCellDescTextColor(.isToday)
-    }
-
-    if day.isSelected {
-      dateLbl.textColor = decorator.dateCellDescTextColor(.isSelected)
+      dateLbl.font = decorator.dateCellDescFont(.isToday)
     }
   }
 }

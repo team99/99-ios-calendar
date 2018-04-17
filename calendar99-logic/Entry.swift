@@ -11,7 +11,7 @@
 public final class NNCalendar {
 
   /// Represents date calculators.
-  public final class DateCalculator {}
+  public final class DateCalc {}
 
   /// Represents calculators for date selection highlights. These calculators
   /// will be used mainly with the selection highlight view.

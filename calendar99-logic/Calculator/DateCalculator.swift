@@ -1,5 +1,5 @@
 //
-//  DateCalculator.swift
+//  DateCalc.swift
 //  calendar99-logic
 //
 //  Created by Hai Pham on 11/4/18.

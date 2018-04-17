@@ -201,14 +201,14 @@ extension NNCalendar.MonthDisplay.Model {
     private let noDefault: NNMonthDisplayNoDefaultModelDependency
     private let monthGridDp: NNMonthGridModelDependency
     private let weekdayAwareDp: NNWeekdayAwareModelDependency
-    private let dateCalc: NNCalendar.DateCalculator.Sequential
+    private let dateCalc: NNCalendar.DateCalc.Sequential
 
     init(_ dependency: NNMonthDisplayNoDefaultModelDependency) {
       noDefault = dependency
       monthGridDp = NNCalendar.MonthGrid.Model.DefaultDependency()
       weekdayAwareDp = NNCalendar.WeekdayAware.Model.DefaultDependency()
 
-      dateCalc = NNCalendar.DateCalculator.Sequential(
+      dateCalc = NNCalendar.DateCalc.Sequential(
         monthGridDp.rowCount,
         monthGridDp.columnCount,
         weekdayAwareDp.firstWeekday)

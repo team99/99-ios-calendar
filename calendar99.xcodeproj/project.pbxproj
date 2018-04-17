@@ -11,6 +11,8 @@
 		8B35A294FF4D72D4892DCE2F /* Pods_calendar99_demo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F059406167C331B65DF17BCE /* Pods_calendar99_demo.framework */; };
 		99EB1FCC7C144B9EC432DFCF /* Pods_calendar99.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D938B372CAFDEAD5B7917D27 /* Pods_calendar99.framework */; };
 		A9FC60253899F296B3E614F9 /* Pods_calendar99_logic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FA7759958763D8ADC1A0A33 /* Pods_calendar99_logic.framework */; };
+		D3107FF3208616DD007482A0 /* HighlightPartDateCalculatorTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3107FF2208616DD007482A0 /* HighlightPartDateCalculatorTest.swift */; };
+		D3109E2B2085F4D8000FED4A /* HighlightPartDateCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3109E2A2085F4D8000FED4A /* HighlightPartDateCalculator.swift */; };
 		D313290D2084E73500E06C2A /* SelectionHighlighter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D313290C2084E73500E06C2A /* SelectionHighlighter.swift */; };
 		D313290F2084E84B00E06C2A /* MonthHeaderDecorator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D313290E2084E84B00E06C2A /* MonthHeaderDecorator.swift */; };
 		D31329112084E9A900E06C2A /* Decorator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D31329102084E9A900E06C2A /* Decorator.swift */; };
@@ -140,6 +142,8 @@
 		B83FD4052FC070AEB5AC9F55 /* Pods-calendar99-logicTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-calendar99-logicTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-calendar99-logicTests/Pods-calendar99-logicTests.release.xcconfig"; sourceTree = "<group>"; };
 		C737F71F74B500EA998EB22F /* Pods_calendar99_logicTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_calendar99_logicTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CA2363311704BDDCFECB5053 /* Pods-calendar99-logic.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-calendar99-logic.debug.xcconfig"; path = "Pods/Target Support Files/Pods-calendar99-logic/Pods-calendar99-logic.debug.xcconfig"; sourceTree = "<group>"; };
+		D3107FF2208616DD007482A0 /* HighlightPartDateCalculatorTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HighlightPartDateCalculatorTest.swift; sourceTree = "<group>"; };
+		D3109E2A2085F4D8000FED4A /* HighlightPartDateCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HighlightPartDateCalculator.swift; sourceTree = "<group>"; };
 		D313290C2084E73500E06C2A /* SelectionHighlighter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionHighlighter.swift; sourceTree = "<group>"; };
 		D313290E2084E84B00E06C2A /* MonthHeaderDecorator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthHeaderDecorator.swift; sourceTree = "<group>"; };
 		D31329102084E9A900E06C2A /* Decorator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Decorator.swift; sourceTree = "<group>"; };
@@ -297,6 +301,7 @@
 			children = (
 				D31C042C207D1BA6000C2C75 /* DateCalculator.swift */,
 				D3136208207FBC9E0090263A /* SequentialDateCalculator.swift */,
+				D3109E2A2085F4D8000FED4A /* HighlightPartDateCalculator.swift */,
 			);
 			path = Calculator;
 			sourceTree = "<group>";
@@ -533,6 +538,7 @@
 			isa = PBXGroup;
 			children = (
 				D3DA6FC5207C6D2300A3DFE1 /* Info.plist */,
+				D3107FF2208616DD007482A0 /* HighlightPartDateCalculatorTest.swift */,
 				D319374420844C5000D055A4 /* MiscEntityTest.swift */,
 				D3B510A52080DEC100A2E8EF /* MonthControlTest.swift */,
 				D319374220842BB600D055A4 /* MonthDisplayTest.swift */,
@@ -1022,6 +1028,7 @@
 				D314670B207DFBEA00A6B186 /* MonthSectionModel.swift in Sources */,
 				D31329222085114700E06C2A /* SelectHighlightFunction.swift in Sources */,
 				D31DA885207EF47E00FB4355 /* SingleDaySelectionViewModel.swift in Sources */,
+				D3109E2B2085F4D8000FED4A /* HighlightPartDateCalculator.swift in Sources */,
 				D31DA889207F221B00FB4355 /* SingleDaySelectionFunctionality.swift in Sources */,
 				D3136209207FBC9E0090263A /* SequentialDateCalculator.swift in Sources */,
 				D3DA702D207CBDE900A3DFE1 /* MonthDisplayModel.swift in Sources */,
@@ -1049,6 +1056,7 @@
 				D31FCC5020826E46005C3D68 /* SelectableWeekdayTest.swift in Sources */,
 				D3140145208130930029BA0C /* MonthGridTest.swift in Sources */,
 				D31431C12080B1EF0044B936 /* SingleDaySelectionTest.swift in Sources */,
+				D3107FF3208616DD007482A0 /* HighlightPartDateCalculatorTest.swift in Sources */,
 				D319374320842BB600D055A4 /* MonthDisplayTest.swift in Sources */,
 				D319374520844C5000D055A4 /* MiscEntityTest.swift in Sources */,
 				D318423520818D5600659EA4 /* MonthHeaderTest.swift in Sources */,

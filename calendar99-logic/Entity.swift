@@ -33,8 +33,8 @@ public extension NNCalendar {
   /// This is essentially an IndexPath, but since we cannot include UIKit in
   /// logic code, we have this to replace.
   public struct GridSelection: Equatable, Hashable {
-    public let monthIndex: Int
-    public let dayIndex: Int
+    public fileprivate(set) var monthIndex: Int
+    public fileprivate(set) var dayIndex: Int
 
     /// [Hashcode Algorithm]: https://stackoverflow.com/questions/263400/what-is-the-best-algorithm-for-an-overridden-system-object-gethashcode
     public var hashValue: Int {
@@ -47,6 +47,23 @@ public extension NNCalendar {
     public init(_ monthIndex: Int, _ dayIndex: Int) {
       self.monthIndex = monthIndex
       self.dayIndex = dayIndex
+    }
+
+    /// Copy the current grid selection but change the day index.
+    public func with(dayIndex: Int) -> GridSelection {
+      var selection = self
+      selection.dayIndex = dayIndex
+      return selection
+    }
+
+    /// Decrement the current day index by 1.
+    public func decrementingDayIndex() -> GridSelection {
+      return with(dayIndex: dayIndex - 1)
+    }
+
+    /// Increment the current day index by 1.
+    public func incrementingDayIndex() -> GridSelection {
+      return with(dayIndex: dayIndex + 1)
     }
 
     public static func ==(_ lhs: GridSelection, _ rhs: GridSelection) -> Bool {
