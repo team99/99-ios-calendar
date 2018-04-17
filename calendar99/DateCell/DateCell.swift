@@ -43,16 +43,18 @@ public final class NNDateCell: UICollectionViewCell {
       return
     }
 
-    selectionHighlighter.drawHighlight(context, rect, day.highlightPart)
-
     // View hack here to remove weird border as a result of overriding drawRect.
+    // This happens before the selection highlighter performs its custom draw
+    // because we want it to override the strokes below if necessary.
     context.saveGState()
-    defer { context.saveGState() }
 
     if let backgroundColor = self.backgroundColor {
       context.setStrokeColor(backgroundColor.cgColor)
       context.stroke(rect)
     }
+
+    context.restoreGState()
+    selectionHighlighter.drawHighlight(context, rect, day.highlightPart)
   }
 
   /// Set up the current cell with a Day.
