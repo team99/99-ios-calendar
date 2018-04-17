@@ -46,6 +46,7 @@ public final class NNMonthSectionHorizontalFlowLayout: UICollectionViewFlowLayou
     super.init()
     minimumLineSpacing = 0
     minimumInteritemSpacing = 0
+    sectionInset = .zero
   }
 
   override public func prepare() {

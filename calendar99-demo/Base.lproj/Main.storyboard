@@ -29,8 +29,9 @@
                                             <constraint firstAttribute="height" constant="40" id="Gn8-uA-dTC"/>
                                         </constraints>
                                     </view>
-                                    <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="2bo-eT-edI" customClass="NNMonthSectionView" customModule="calendar99">
+                                    <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="2bo-eT-edI" customClass="NNMonthSectionView" customModule="calendar99">
                                         <rect key="frame" x="0.0" y="80" width="345" height="258.5"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="height" secondItem="2bo-eT-edI" secondAttribute="width" multiplier="3 / 4" id="2iP-yv-mjW"/>
                                         </constraints>

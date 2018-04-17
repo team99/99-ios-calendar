@@ -73,17 +73,3 @@ public extension WeekdayDisplayTest {
                    selectionObserver.nextElements())
   }
 }
-
-extension WeekdayDisplayTest: NNWeekdayDisplayModelDependency {
-  public var weekdayCount: Int {
-    return 5
-  }
-
-  public var firstWeekday: Int {
-    return 1
-  }
-
-  public func weekdayDescription(_ weekday: Int) -> String {
-    return "\(weekday)"
-  }
-}

@@ -560,11 +560,11 @@
 			children = (
 				D3DA6FEB207C739500A3DFE1 /* Info.plist */,
 				D3DA6FDF207C739400A3DFE1 /* AppDelegate.swift */,
+				D31329102084E9A900E06C2A /* Decorator.swift */,
 				D3DA6FE1207C739400A3DFE1 /* ViewController.swift */,
 				D3DA6FE6207C739500A3DFE1 /* Assets.xcassets */,
 				D3DA6FE8207C739500A3DFE1 /* LaunchScreen.storyboard */,
 				D3DA6FE3207C739400A3DFE1 /* Main.storyboard */,
-				D31329102084E9A900E06C2A /* Decorator.swift */,
 			);
 			path = "calendar99-demo";
 			sourceTree = "<group>";

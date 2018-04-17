@@ -208,13 +208,7 @@ public extension MonthSectionTest {
 
       /// Then
       let lastIndex = indexObs.nextElements().last!
-
-      if index != nil {
-        XCTAssertEqual(lastIndex, index)
-      } else {
-        XCTAssertEqual(lastIndex, prevIndex)
-      }
-
+      XCTAssertEqual(lastIndex, index ?? prevIndex)
       prevIndex = lastIndex
     }
   }

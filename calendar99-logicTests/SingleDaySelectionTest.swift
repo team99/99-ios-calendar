@@ -34,26 +34,24 @@ public extension SingleDaySelectionTest {
     for _ in 0..<iterations! {
       /// When
       let duplicate = Bool.random() && previousSelected != nil
-      var newSelected: Date
+      var newSelected: Date?
 
       if duplicate, let prevSelected = previousSelected {
         newSelected = prevSelected
         previousSelected = nil
       } else {
-        newSelected = Date.random()!
-
-        while newSelected == previousSelected {
+        while newSelected == nil || newSelected == previousSelected {
           newSelected = Date.random()!
         }
 
         previousSelected = newSelected
       }
 
-      viewModel!.dateSelectionReceiver.onNext(newSelected)
+      viewModel!.dateSelectionReceiver.onNext(newSelected!)
       waitOnMainThread(waitDuration!)
 
       /// Then
-      XCTAssertNotEqual(viewModel.isDateSelected(newSelected), duplicate)
+      XCTAssertNotEqual(viewModel.isDateSelected(newSelected!), duplicate)
     }
   }
 }

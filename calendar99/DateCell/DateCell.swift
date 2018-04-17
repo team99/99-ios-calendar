@@ -33,7 +33,7 @@ public final class NNDateCell: UICollectionViewCell {
   }
 
   override public func draw(_ rect: CGRect) {
-    super.draw(rect)
+    defer { super.draw(rect) }
 
     guard
       let context = UIGraphicsGetCurrentContext(),
@@ -44,8 +44,17 @@ public final class NNDateCell: UICollectionViewCell {
     }
 
     selectionHighlighter.drawHighlight(context, rect, day.highlightPart)
+
+    // View hack here to remove weird border as a result of overriding drawRect.
+    context.saveGState()
+    defer { context.saveGState() }
+
+    if let backgroundColor = self.backgroundColor {
+      context.setStrokeColor(backgroundColor.cgColor)
+      context.stroke(rect)
+    }
   }
-  
+
   /// Set up the current cell with a Day.
   ///
   /// - Parameter day: A Day instance.

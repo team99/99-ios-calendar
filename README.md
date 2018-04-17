@@ -23,3 +23,13 @@ The relevant components included in this repository are:
 - **SelectableWeekdayView**: **WeekdayView** decorator that allows the user to select all dates with a particular weekday. It's capable of: **WeekdayDisplay**, **MultiDaySelection**. 
 
 Each of these views requires its own **ViewModel** and **Model**, so we must be sure to inject those after creating them.
+
+## Terminologies
+
+- Any protocol that ends with **Function** means it contains functionalities which are shared between/among two or more classes/protocols. For example, **NNxxFunction** contains shared functionalities between a model and view model for a specific view; **NNxxModelFunction** is the same for a model and its dependency.
+
+- Any protocol whose name contains **Default** or **NoDefault** has properties that are defaultable or non-defaultable. For e.g., **NNGridDisplayDefaultFunction** has **rowCount** and **columnCount** properties with defaults as 6 and 7 respectively. Default protocols only extend from other defaults, and likewise for NoDefaults (e.g., **NNMonthGridDefaultFunction** extends from **NNGridDisplayDefaultFunction**, but not **NNGridDisplayNoDefaultFunction**). There are internal **DefaultDependency** classes that provide default values. 
+
+- Usually protocols will have the postfix **Type**, (e.g. **ViewModelType**, **ModelType**), but not always. A **ViewModel** will have a protocol **ViewModelType** and an implementation.
+
+- Actual model and view model implementations are nested in classes defined in **Entry.swift** (e.g. **NNCalendar.MonthSection.ViewModel**).
