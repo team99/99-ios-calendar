@@ -129,11 +129,14 @@ extension NNCalendar.MonthSection.Model: NNGridDisplayDefaultFunction {
 
 // MARK: - NNGridSelectionCalculatorType
 extension NNCalendar.MonthSection.Model: NNMultiMonthGridSelectionCalculator {
-  public func calculateGridSelection(_ monthComps: [NNCalendar.MonthComp],
-                                     _ selection: Date)
+  public func calculateGridSelectionChanges(_ monthComps: [NNCalendar.MonthComp],
+                                            _ prevSelections: Set<Date>,
+                                            _ currentSelections: Set<Date>)
     -> Set<NNCalendar.GridSelection>
   {
-    return dependency.calculateGridSelection(monthComps, selection)
+    return dependency.calculateGridSelectionChanges(monthComps,
+                                                    prevSelections,
+                                                    currentSelections)
   }
 }
 
@@ -218,35 +221,29 @@ extension NNCalendar.MonthSection.Model: NNMonthSectionModelType {
 extension NNCalendar.MonthSection.Model {
 
   /// Default dependency for month section model.
-  internal final class DefaultDependency: NNMonthSectionModelDependency {
-    internal var columnCount: Int { return monthGridDp.columnCount }
-    internal var rowCount: Int { return monthGridDp.rowCount }
+  final class DefaultDependency: NNMonthSectionModelDependency {
+    var columnCount: Int { return monthGridDp.columnCount }
+    var rowCount: Int { return monthGridDp.rowCount }
+    var pastMonthsFromCurrent: Int { return noDefault.pastMonthsFromCurrent }
+    var futureMonthsFromCurrent: Int { return noDefault.futureMonthsFromCurrent }
 
-    internal var pastMonthsFromCurrent: Int {
-      return noDefault.pastMonthsFromCurrent
-    }
-
-    internal var futureMonthsFromCurrent: Int {
-      return noDefault.futureMonthsFromCurrent
-    }
-
-    internal var initialMonthStream: Single<NNCalendar.Month> {
+    var initialMonthStream: Single<NNCalendar.Month> {
       return noDefault.initialMonthStream
     }
 
-    internal var currentMonthStream: Observable<NNCalendar.Month> {
+    var currentMonthStream: Observable<NNCalendar.Month> {
       return noDefault.currentMonthStream
     }
 
-    internal var currentMonthReceiver: AnyObserver<NNCalendar.Month> {
+    var currentMonthReceiver: AnyObserver<NNCalendar.Month> {
       return noDefault.currentMonthReceiver
     }
 
-    internal var allDateSelectionReceiver: AnyObserver<Set<Date>> {
+    var allDateSelectionReceiver: AnyObserver<Set<Date>> {
       return noDefault.allDateSelectionReceiver
     }
 
-    internal var allDateSelectionStream: Observable<Set<Date>> {
+    var allDateSelectionStream: Observable<Set<Date>> {
       return noDefault.allDateSelectionStream
     }
 
@@ -255,7 +252,7 @@ extension NNCalendar.MonthSection.Model {
     private let weekdayAwareDp: NNWeekdayAwareModelDependency
     private let dateCalc: NNCalendar.DateCalculator.Sequential
 
-    internal init(_ dependency: NNMonthSectionNoDefaultModelDependency) {
+    init(_ dependency: NNMonthSectionNoDefaultModelDependency) {
       noDefault = dependency
       monthGridDp = NNCalendar.MonthGrid.Model.DefaultDependency()
       weekdayAwareDp = NNCalendar.WeekdayAware.Model.DefaultDependency()
@@ -266,23 +263,25 @@ extension NNCalendar.MonthSection.Model {
         weekdayAwareDp.firstWeekday)
     }
 
-    internal func calculateDateWithOffset(_ month: NNCalendar.Month,
-                                          _ firstDateOffset: Int) -> Date? {
+    func calculateDateWithOffset(_ month: NNCalendar.Month,
+                                 _ firstDateOffset: Int) -> Date? {
       return dateCalc.calculateDateWithOffset(month, firstDateOffset)
     }
 
-    internal func calculateGridSelection(_ monthComps: [NNCalendar.MonthComp],
-                                         _ selection: Date)
+    func calculateGridSelectionChanges(_ monthComps: [NNCalendar.MonthComp],
+                                       _ prevSelections: Set<Date>,
+                                       _ currentSelections: Set<Date>)
       -> Set<NNCalendar.GridSelection>
     {
-      return dateCalc.calculateGridSelection(monthComps, selection)
+      return dateCalc.calculateGridSelectionChanges(
+        monthComps, prevSelections, currentSelections)
     }
 
-    internal func isDateSelected(_ date: Date) -> Bool {
+    func isDateSelected(_ date: Date) -> Bool {
       return noDefault.isDateSelected(date)
     }
 
-    internal func calculateHighlightPart(_ date: Date) -> NNCalendar.HighlightPart {
+    func calculateHighlightPart(_ date: Date) -> NNCalendar.HighlightPart {
       return noDefault.calculateHighlightPart(date)
     }
   }

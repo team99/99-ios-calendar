@@ -34,10 +34,10 @@ public extension NNCalendar.WeekdayAware {
 }
 
 // MARK: - Default dependencies.
-public extension NNCalendar.WeekdayAware.Model {
+extension NNCalendar.WeekdayAware.Model {
 
   /// Default dependency for weekday-aware view models.
-  internal final class DefaultDependency: NNWeekdayAwareModelDependency {
-    internal var firstWeekday: Int { return 1 }
+  final class DefaultDependency: NNWeekdayAwareModelDependency {
+    var firstWeekday: Int { return 1 }
   }
 }

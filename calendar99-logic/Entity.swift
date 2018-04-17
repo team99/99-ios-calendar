@@ -10,7 +10,7 @@
 ///
 /// - forward: Go forward by some months.
 /// - backward: Go backward by some months.
-internal enum MonthDirection {
+enum MonthDirection {
   case forward(UInt)
   case backward(UInt)
 

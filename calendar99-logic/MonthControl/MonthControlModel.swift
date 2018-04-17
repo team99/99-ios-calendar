@@ -32,10 +32,10 @@ public protocol NNMonthControlModelType:
   NNMonthControlDefaultModelFunction,
   NNMonthControlNoDefaultModelFunction {}
 
-internal extension NNCalendar.MonthControl {
+public extension NNCalendar.MonthControl {
 
   /// Model implementation.
-  internal final class Model {
+  public final class Model {
     fileprivate let dependency: NNMonthControlModelDependency
 
     public init(_ dependency: NNMonthControlModelDependency) {

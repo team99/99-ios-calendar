@@ -79,23 +79,17 @@ extension NNCalendar.WeekdayDisplay.Model: NNWeekdayDisplayDefaultModelFunction 
 extension NNCalendar.WeekdayDisplay.Model: NNWeekdayDisplayModelType {}
 
 // MARK: - Default dependency.
-public extension NNCalendar.WeekdayDisplay.Model {
-  internal final class DefaultDependency: NNWeekdayDisplayModelDependency {
-    internal var firstWeekday: Int {
-      return weekdayAwareDp.firstWeekday
-    }
-
-    internal var weekdayCount: Int {
-      return 7
-    }
-
+extension NNCalendar.WeekdayDisplay.Model {
+  final class DefaultDependency: NNWeekdayDisplayModelDependency {
+    var firstWeekday: Int { return weekdayAwareDp.firstWeekday }
+    var weekdayCount: Int { return 7 }
     private let weekdayAwareDp: NNWeekdayAwareModelDependency
 
-    internal init() {
+    init() {
       weekdayAwareDp = NNCalendar.WeekdayAware.Model.DefaultDependency()
     }
 
-    internal func weekdayDescription(_ weekday: Int) -> String {
+    func weekdayDescription(_ weekday: Int) -> String {
       let date = Calendar.current.date(bySetting: .weekday, value: weekday, of: Date())
       let formatter = DateFormatter()
       formatter.dateFormat = "EEE"

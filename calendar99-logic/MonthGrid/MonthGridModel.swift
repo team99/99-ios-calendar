@@ -59,13 +59,13 @@ extension NNCalendar.MonthGrid.Model: NNGridDisplayDefaultFunction {
 extension NNCalendar.MonthGrid.Model: NNMonthGridModelType {}
 
 // MARK: - Default dependency.
-public extension NNCalendar.MonthGrid.Model {
-  internal final class DefaultDependency: NNMonthGridModelDependency {
-    internal var columnCount: Int { return gridDisplayDp.columnCount }
-    internal var rowCount: Int { return gridDisplayDp.rowCount }
+extension NNCalendar.MonthGrid.Model {
+  final class DefaultDependency: NNMonthGridModelDependency {
+    var columnCount: Int { return gridDisplayDp.columnCount }
+    var rowCount: Int { return gridDisplayDp.rowCount }
     private let gridDisplayDp: NNMGridDisplayModelDependency
 
-    internal init() {
+    init() {
       gridDisplayDp = NNCalendar.GridDisplay.Model.DefaultDependency()
     }
   }

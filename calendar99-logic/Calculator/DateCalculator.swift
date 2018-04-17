@@ -51,8 +51,8 @@ public extension NNGridSelectionCalculator {
   ///   - prevSelections: A Set of Date.
   ///   - currentSelections: A Set of Date.
   /// - Returns: A Set of Date selections that were actually changed.
-  internal func extractChanges(_ prevSelections: Set<Date>,
-                               _ currentSelections: Set<Date>) -> Set<Date> {
+  func extractChanges(_ prevSelections: Set<Date>,
+                      _ currentSelections: Set<Date>) -> Set<Date> {
     /// Since it's either the previous selections set is larger than the
     /// current selections or vice versa, so unioning these subtracted sets
     /// should give us all the changed selections.
@@ -64,20 +64,6 @@ public extension NNGridSelectionCalculator {
 /// Calculate grid selection for date selections based on an Array of Months.
 public protocol NNMultiMonthGridSelectionCalculator: NNGridSelectionCalculator {
 
-  /// Calculate grid selection for a single date, based on a specified Month
-  /// Array.
-  ///
-  /// - Parameters:
-  ///   - monthComps: A MonthComp Array.
-  ///   - selection: A Date instance.
-  /// - Returns: A GridSelection Set.
-  func calculateGridSelection(_ monthComps: [NNCalendar.MonthComp],
-                              _ selection: Date)
-    -> Set<NNCalendar.GridSelection>
-}
-
-public extension NNMultiMonthGridSelectionCalculator {
-
   /// Calculate grid selection changes for a specified MonthComp Array. We
   /// compare the previous and current selections to derive the changed set, on
   /// which grid selection calculations are performed.
@@ -86,15 +72,11 @@ public extension NNMultiMonthGridSelectionCalculator {
   ///   - monthComps: A MonthComp Array.
   ///   - prevSelections: The previous selected dates.
   ///   - currentSelections: The current selected dates.
-  /// - Returns: A Set of GridSelection.
-  public func calculateGridSelectionChanges(_ monthComps: [NNCalendar.MonthComp],
-                                            _ prevSelections: Set<Date>,
-                                            _ currentSelections: Set<Date>)
+  /// - Returns: A GridSelection Set.
+  func calculateGridSelectionChanges(_ monthComps: [NNCalendar.MonthComp],
+                                     _ prevSelections: Set<Date>,
+                                     _ currentSelections: Set<Date>)
     -> Set<NNCalendar.GridSelection>
-  {
-    return Set(extractChanges(prevSelections, currentSelections)
-      .flatMap({calculateGridSelection(monthComps, $0)}))
-  }
 }
 
 /// The functionality of this calculator is almost the same as the one above,
@@ -109,34 +91,18 @@ public protocol NNSingleMonthGridSelectionCalculator: NNGridSelectionCalculator 
   /// - Parameters:
   ///   - monthComp: A MonthComp instance.
   ///   - prevSelections: The previous selected dates.
-  ///   - selection: A Date instance.
-  /// - Returns: A Set of GridSelection.
-  func calculateGridSelection(_ monthComp: NNCalendar.MonthComp,
-                              _ selection: Date)
-    -> Set<NNCalendar.GridSelection>
-}
-
-public extension NNSingleMonthGridSelectionCalculator {
-
-  /// The logic here is similar to the normal grid selection changes calculator.
-  ///
-  /// - Parameters:
-  ///   - monthComp: A MonthComp instance.
-  ///   - prevSelections: The previous selected dates.
   ///   - currentSelections: The current selected dates.
   /// - Returns: A Set of GridSelection.
   func calculateGridSelectionChanges(_ monthComp: NNCalendar.MonthComp,
                                      _ prevSelections: Set<Date>,
                                      _ currentSelections: Set<Date>)
     -> Set<NNCalendar.GridSelection>
-  {
-    return Set(extractChanges(prevSelections, currentSelections)
-      .flatMap({calculateGridSelection(monthComp, $0)}))
-  }
 }
 
 /// Classes that implement this protocol should be able to calculate highlight
-/// parts for date selections.
+/// parts for date selections. A HighlightPart contains information regarding
+/// the position of the selected Date in a set of Date selection, and is mainly
+/// used to custom-draw highlights for the cell containing said Date.
 public protocol NNHighlightPartCalculator {
 
   /// Calculate highlight part for a selected Date.

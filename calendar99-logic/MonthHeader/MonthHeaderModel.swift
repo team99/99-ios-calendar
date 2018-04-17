@@ -92,23 +92,23 @@ extension NNCalendar.MonthHeader.Model: NNMonthControlModelType {
 extension NNCalendar.MonthHeader.Model: NNMonthHeaderModelType {}
 
 // MARK: - Default dependency.
-public extension NNCalendar.MonthHeader.Model {
-  internal final class DefaultDependency: NNMonthHeaderModelDependency {
-    internal var currentMonthReceiver: AnyObserver<NNCalendar.Month> {
+extension NNCalendar.MonthHeader.Model {
+  final class DefaultDependency: NNMonthHeaderModelDependency {
+    var currentMonthReceiver: AnyObserver<NNCalendar.Month> {
       return noDefault.currentMonthReceiver
     }
 
-    internal var currentMonthStream: Observable<NNCalendar.Month> {
+    var currentMonthStream: Observable<NNCalendar.Month> {
       return noDefault.currentMonthStream
     }
 
     private let noDefault: NNMonthHeaderNoDefaultModelDependency
 
-    internal init(_ dependency: NNMonthHeaderNoDefaultModelDependency) {
+    init(_ dependency: NNMonthHeaderNoDefaultModelDependency) {
       self.noDefault = dependency
     }
 
-    internal func formatMonthDescription(_ month: NNCalendar.Month) -> String {
+    func formatMonthDescription(_ month: NNCalendar.Month) -> String {
       let components = month.dateComponents()
       let date = Calendar.current.date(from: components)!
       let dateFormatter = DateFormatter()

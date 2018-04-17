@@ -159,40 +159,42 @@ extension NNCalendar.MonthDisplay.Model: NNMonthDisplayModelType {
     })
   }
 
-  public func calculateGridSelection(_ monthComp: NNCalendar.MonthComp,
-                                     _ selection: Date)
+  public func calculateGridSelectionChanges(_ monthComp: NNCalendar.MonthComp,
+                                            _ prevSelections: Set<Date>,
+                                            _ currentSelections: Set<Date>)
     -> Set<NNCalendar.GridSelection>
   {
-    return dependency.calculateGridSelection(monthComp, selection)
+    return dependency.calculateGridSelectionChanges(
+      monthComp, prevSelections, currentSelections)
   }
 }
 
 // MARK: - Default dependency.
-public extension NNCalendar.MonthDisplay.Model {
+extension NNCalendar.MonthDisplay.Model {
 
   /// Default dependency for month display model. This delegates non-default
   /// components to a separate dependency.
-  internal final class DefaultDependency: NNMonthDisplayModelDependency {
-    internal var columnCount: Int { return monthGridDp.columnCount }
-    internal var rowCount: Int { return monthGridDp.rowCount }
+  final class DefaultDependency: NNMonthDisplayModelDependency {
+    var columnCount: Int { return monthGridDp.columnCount }
+    var rowCount: Int { return monthGridDp.rowCount }
 
-    internal var initialMonthStream: Single<NNCalendar.Month> {
+    var initialMonthStream: Single<NNCalendar.Month> {
       return noDefault.initialMonthStream
     }
 
-    internal var allDateSelectionStream: Observable<Set<Date>> {
+    var allDateSelectionStream: Observable<Set<Date>> {
       return noDefault.allDateSelectionStream
     }
 
-    internal var allDateSelectionReceiver: AnyObserver<Set<Date>> {
+    var allDateSelectionReceiver: AnyObserver<Set<Date>> {
       return noDefault.allDateSelectionReceiver
     }
 
-    internal var currentMonthStream: Observable<NNCalendar.Month> {
+    var currentMonthStream: Observable<NNCalendar.Month> {
       return noDefault.currentMonthStream
     }
 
-    internal var currentMonthReceiver: AnyObserver<NNCalendar.Month> {
+    var currentMonthReceiver: AnyObserver<NNCalendar.Month> {
       return noDefault.currentMonthReceiver
     }
 
@@ -201,7 +203,7 @@ public extension NNCalendar.MonthDisplay.Model {
     private let weekdayAwareDp: NNWeekdayAwareModelDependency
     private let dateCalc: NNCalendar.DateCalculator.Sequential
 
-    internal init(_ dependency: NNMonthDisplayNoDefaultModelDependency) {
+    init(_ dependency: NNMonthDisplayNoDefaultModelDependency) {
       noDefault = dependency
       monthGridDp = NNCalendar.MonthGrid.Model.DefaultDependency()
       weekdayAwareDp = NNCalendar.WeekdayAware.Model.DefaultDependency()
@@ -212,21 +214,23 @@ public extension NNCalendar.MonthDisplay.Model {
         weekdayAwareDp.firstWeekday)
     }
 
-    internal func isDateSelected(_ date: Date) -> Bool {
+    func isDateSelected(_ date: Date) -> Bool {
       return noDefault.isDateSelected(date)
     }
 
     /// We use a sequential date calculator here, since it seems to be the most
     /// common.
-    internal func calculateDateRange(_ month: NNCalendar.Month) -> [Date] {
+    func calculateDateRange(_ month: NNCalendar.Month) -> [Date] {
       return dateCalc.calculateDateRange(month)
     }
 
-    internal func calculateGridSelection(_ monthComp: NNCalendar.MonthComp,
-                                         _ selection: Date)
+    func calculateGridSelectionChanges(_ monthComp: NNCalendar.MonthComp,
+                                       _ prevSelections: Set<Date>,
+                                       _ currentSelections: Set<Date>)
       -> Set<NNCalendar.GridSelection>
     {
-      return dateCalc.calculateGridSelection(monthComp, selection)
+      return dateCalc.calculateGridSelectionChanges(
+        monthComp, prevSelections, currentSelections)
     }
   }
 }

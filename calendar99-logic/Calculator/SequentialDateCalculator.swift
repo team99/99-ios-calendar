@@ -72,8 +72,8 @@ extension NNCalendar.DateCalculator.Sequential: NNSingleDateCalculatorType {
 
 // MARK: - NNMultiMonthGridSelectionCalculator
 extension NNCalendar.DateCalculator.Sequential: NNMultiMonthGridSelectionCalculator {
-  public func calculateGridSelection(_ monthComps: [NNCalendar.MonthComp],
-                                     _ selection: Date)
+  fileprivate func calculateGridSelection(_ monthComps: [NNCalendar.MonthComp],
+                                          _ selection: Date)
     -> Set<NNCalendar.GridSelection>
   {
     let month = NNCalendar.Month(selection)
@@ -126,16 +126,33 @@ extension NNCalendar.DateCalculator.Sequential: NNMultiMonthGridSelectionCalcula
 
     return gridSelections
   }
+
+  public func calculateGridSelectionChanges(_ monthComps: [NNCalendar.MonthComp],
+                                            _ prevSelections: Set<Date>,
+                                            _ currentSelections: Set<Date>)
+    -> Set<NNCalendar.GridSelection>
+  {
+    return Set(extractChanges(prevSelections, currentSelections)
+      .flatMap({self.calculateGridSelection(monthComps, $0)}))
+  }
 }
 
 // MARK: - NNSingleMonthGridSelectionCalculatorType
 extension NNCalendar.DateCalculator.Sequential: NNSingleMonthGridSelectionCalculator {
+  public func calculateGridSelectionChanges(_ monthComp: NNCalendar.MonthComp,
+                                            _ prevSelections: Set<Date>,
+                                            _ currentSelections: Set<Date>)
+    -> Set<NNCalendar.GridSelection>
+  {
+    return Set(extractChanges(prevSelections, currentSelections)
+      .flatMap({self.calculateGridSelection(monthComp, $0)}))
+  }
 
   /// We need to include the previous and next month components here as well,
   /// and call the pre-specified method that deals with Month Array. We also
   /// assume that the day count remains the same for all Months.
-  public func calculateGridSelection(_ monthComp: NNCalendar.MonthComp,
-                                     _ selection: Date)
+  fileprivate func calculateGridSelection(_ monthComp: NNCalendar.MonthComp,
+                                          _ selection: Date)
     -> Set<NNCalendar.GridSelection>
   {
     var monthComps = [NNCalendar.MonthComp]()
@@ -152,6 +169,8 @@ extension NNCalendar.DateCalculator.Sequential: NNSingleMonthGridSelectionCalcul
 
     return calculateGridSelection(monthComps, selection)
   }
+
+
 }
 
 // MARK: - NNHighlightPartCalculator

@@ -18,13 +18,13 @@ public final class NNHorizontalSelectionHighlighter {
 extension NNHorizontalSelectionHighlighter: NNSelectionHighlighterType {
   public func drawHighlight(_ context: CGContext,
                             _ rect: CGRect,
-                            _ pos: NNCalendar.HighlightPart) {
+                            _ part: NNCalendar.HighlightPart) {
     context.saveGState()
     defer { context.restoreGState() }
     var highlightRect = rect.insetBy(dx: 0, dy: 5)
     let bezier: UIBezierPath
 
-    switch pos {
+    switch part {
     case .startAndEnd:
       highlightRect = highlightRect.insetBy(dx: 5, dy: 0)
       bezier = UIBezierPath(roundedRect: highlightRect, cornerRadius: 5)
