@@ -70,7 +70,7 @@ extension AppDecorator: NNDateCellDecoratorType {
   public func dateCellDescTextColor(_ state: NNDateCellDescState) -> UIColor {
     switch state {
     case .normal: return .black
-    case .isNotCurrentMonth: return .clear
+    case .isNotCurrentMonth: return .white
 
     case .isSelected: return UIColor(
       red: 56 / 255,

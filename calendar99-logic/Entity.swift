@@ -132,10 +132,8 @@ public extension NNCalendar {
 
       return calendar.date(from: components)
         .flatMap({calendar.date(byAdding: componentOffset, to: $0)})
-        .flatMap({(
-          calendar.component(.month, from: $0),
-          calendar.component(.year, from: $0
-        ))})
+        .flatMap({(calendar.component(.month, from: $0),
+                   calendar.component(.year, from: $0))})
         .map({NNCalendar.Month($0, $1)})
     }
 
@@ -174,20 +172,13 @@ public extension NNCalendar {
         })
         .map({(date: Date) -> Set<Date> in
           var results = Set<Date>()
-          var currentDate = date
+          var current: Date? = date
 
           // Only consider dates that lie within this month. As soon as the
           // current date gets out of range, skip it.
-          while contains(currentDate) {
-            results.insert(currentDate)
-
-            guard let newCurrentDate =
-              calendar.date(byAdding: .day, value: 7, to: currentDate) else
-            {
-              break
-            }
-
-            currentDate = newCurrentDate
+          while current.map({contains($0)}).getOrElse(false) {
+            _ = current.map({results.insert($0)})
+            current = current.flatMap({calendar.date(byAdding: .day, value: 7, to: $0)})
           }
 
           return results

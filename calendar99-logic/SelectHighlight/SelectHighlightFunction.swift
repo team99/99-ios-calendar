@@ -14,7 +14,8 @@ public protocol NNSelectHighlightDefaultFunction {}
 /// defaults.
 public protocol NNSelectHighlightNoDefaultFunction {
 
-  /// Calculate highlight part for a Date.
+  /// Calculate highlight part for a Date. The reason for this absence of rx
+  /// can be found in documentation for isDateSelected(:_).
   ///
   /// - Parameter date: A Date instance.
   /// - Returns: A HighlightPart instance.

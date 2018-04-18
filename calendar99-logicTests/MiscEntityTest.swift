@@ -11,6 +11,11 @@ import XCTest
 @testable import calendar99_logic
 
 public final class MiscEntityTest: RootTest {
+  override public func setUp() {
+    super.setUp()
+    iterations = 10000
+  }
+
   public func test_dayImplementation_shouldWorkCorrectly() {
     /// Setup
     let calendar = Calendar.current
