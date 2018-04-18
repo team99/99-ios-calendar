@@ -2,9 +2,11 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Build Status](https://travis-ci.org/team99/99-ios-calendar.svg?branch=master)](https://travis-ci.org/team99/99-ios-calendar)
-[![Coverage Status](https://coveralls.io/repos/github/team99/99-ios-calendar/badge.svg?branch=master)](https://coveralls.io/github/team99/99-ios-calendar?branch=master&dummy=true)
+[![Coverage Status](https://coveralls.io/repos/github/team99/99-ios-calendar/badge.svg?branch=master&dummy=true)](https://coveralls.io/github/team99/99-ios-calendar?branch=master&dummy=true)
 
-Almost fully-configurable calendar view for iOS applications that runs entirely on Rx. 
+Almost fully-configurable calendar view for iOS applications that runs entirely on Rx.
+
+<img width="417" alt="screen shot 2018-04-17 at 9 18 49 pm" src="https://user-images.githubusercontent.com/12141908/38876198-383f6200-4286-11e8-9c68-5275ba82be93.png">
 
 Reactive programming allows us to produce truly decoupled components that are open to extensions but closed for modications. For example, date selections in a month view are driven by a selected date stream (**Observable[Set[Date]]**), so if we want to add a weekday bar view with logic such that clicking on a weekday (e.g. **Monday**) selects the entire date range (corresponding to said weekday), all we need to do is just push a custom set of selected dates into the stream and we will see those dates being selected automatically.
 
