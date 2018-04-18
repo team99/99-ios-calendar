@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2D21CECE03AE8147ACD14938 /* Pods_calendar99_reduxTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C504AA43B2B166FE2FE4FE1 /* Pods_calendar99_reduxTests.framework */; };
 		83D0879AD7148AD7B6ADF5F0 /* Pods_calendar99_logicTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C737F71F74B500EA998EB22F /* Pods_calendar99_logicTests.framework */; };
 		8B35A294FF4D72D4892DCE2F /* Pods_calendar99_demo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F059406167C331B65DF17BCE /* Pods_calendar99_demo.framework */; };
 		99EB1FCC7C144B9EC432DFCF /* Pods_calendar99.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D938B372CAFDEAD5B7917D27 /* Pods_calendar99.framework */; };
@@ -43,6 +44,12 @@
 		D31837492082E56500575F7D /* MonthSectionTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D31837482082E56500575F7D /* MonthSectionTest.swift */; };
 		D318423520818D5600659EA4 /* MonthHeaderTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D318423420818D5600659EA4 /* MonthHeaderTest.swift */; };
 		D318423720819B2100659EA4 /* WeekdayDisplayTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D318423620819B2100659EA4 /* WeekdayDisplayTest.swift */; };
+		D3186BF420873C970054CE3D /* calendar99_redux.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3186BEB20873C970054CE3D /* calendar99_redux.framework */; };
+		D3186BF920873C970054CE3D /* calendar99_reduxTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3186BF820873C970054CE3D /* calendar99_reduxTests.swift */; };
+		D3186BFB20873C970054CE3D /* calendar99_redux.h in Headers */ = {isa = PBXBuildFile; fileRef = D3186BED20873C970054CE3D /* calendar99_redux.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D3186C0320873CE30054CE3D /* Calendar.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3186C0220873CE30054CE3D /* Calendar.swift */; };
+		D3186C0520876BB00054CE3D /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3186C0420876BB00054CE3D /* Util.swift */; };
+		D3186C07208773160054CE3D /* UtilTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3186C06208773160054CE3D /* UtilTest.swift */; };
 		D319374320842BB600D055A4 /* MonthDisplayTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D319374220842BB600D055A4 /* MonthDisplayTest.swift */; };
 		D319374520844C5000D055A4 /* MiscEntityTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D319374420844C5000D055A4 /* MiscEntityTest.swift */; };
 		D319374F208489EB00D055A4 /* GridDisplayModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D319374E208489EB00D055A4 /* GridDisplayModel.swift */; };
@@ -88,9 +95,17 @@
 		D3DA702D207CBDE900A3DFE1 /* MonthDisplayModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3DA702C207CBDE900A3DFE1 /* MonthDisplayModel.swift */; };
 		D3DA702F207CBF3D00A3DFE1 /* MonthDisplayViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3DA702E207CBF3D00A3DFE1 /* MonthDisplayViewModel.swift */; };
 		E2DCBB123488442269125D97 /* Pods_calendar99Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0824444065A1A7B969DBD579 /* Pods_calendar99Tests.framework */; };
+		F3347D329AFF25ECB2CE026E /* Pods_calendar99_redux.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C4FBCE5DB42910A4403F1A7A /* Pods_calendar99_redux.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		D3186BF520873C970054CE3D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D3DA6F8E207C6CEE00A3DFE1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D3186BEA20873C970054CE3D;
+			remoteInfo = "calendar99-redux";
+		};
 		D3DA6FA2207C6CEE00A3DFE1 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D3DA6F8E207C6CEE00A3DFE1 /* Project object */;
@@ -135,11 +150,15 @@
 		2581178A4130BEE2B0114EB9 /* Pods-calendar99Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-calendar99Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-calendar99Tests/Pods-calendar99Tests.release.xcconfig"; sourceTree = "<group>"; };
 		2F64F57362BEB3E1164FB5BC /* Pods-calendar99-logicTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-calendar99-logicTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-calendar99-logicTests/Pods-calendar99-logicTests.debug.xcconfig"; sourceTree = "<group>"; };
 		320E00D12C0E1392AB73DE2E /* Pods-calendar99-logic.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-calendar99-logic.release.xcconfig"; path = "Pods/Target Support Files/Pods-calendar99-logic/Pods-calendar99-logic.release.xcconfig"; sourceTree = "<group>"; };
+		37C03EF1C7DF89D3834A25E5 /* Pods-calendar99-reduxTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-calendar99-reduxTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-calendar99-reduxTests/Pods-calendar99-reduxTests.debug.xcconfig"; sourceTree = "<group>"; };
+		3C504AA43B2B166FE2FE4FE1 /* Pods_calendar99_reduxTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_calendar99_reduxTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3DAE1A73F092169DB91E2865 /* Pods-calendar99.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-calendar99.debug.xcconfig"; path = "Pods/Target Support Files/Pods-calendar99/Pods-calendar99.debug.xcconfig"; sourceTree = "<group>"; };
 		48CDE88D6801E33CC237AF9E /* Pods-calendar99.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-calendar99.release.xcconfig"; path = "Pods/Target Support Files/Pods-calendar99/Pods-calendar99.release.xcconfig"; sourceTree = "<group>"; };
 		7B3C8C28804A3AC4610AC5C0 /* Pods-calendar99-demo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-calendar99-demo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-calendar99-demo/Pods-calendar99-demo.debug.xcconfig"; sourceTree = "<group>"; };
+		971EC4F8CEB8517384CD2F6F /* Pods-calendar99-reduxTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-calendar99-reduxTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-calendar99-reduxTests/Pods-calendar99-reduxTests.release.xcconfig"; sourceTree = "<group>"; };
 		9FA7759958763D8ADC1A0A33 /* Pods_calendar99_logic.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_calendar99_logic.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B83FD4052FC070AEB5AC9F55 /* Pods-calendar99-logicTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-calendar99-logicTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-calendar99-logicTests/Pods-calendar99-logicTests.release.xcconfig"; sourceTree = "<group>"; };
+		C4FBCE5DB42910A4403F1A7A /* Pods_calendar99_redux.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_calendar99_redux.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C737F71F74B500EA998EB22F /* Pods_calendar99_logicTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_calendar99_logicTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CA2363311704BDDCFECB5053 /* Pods-calendar99-logic.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-calendar99-logic.debug.xcconfig"; path = "Pods/Target Support Files/Pods-calendar99-logic/Pods-calendar99-logic.debug.xcconfig"; sourceTree = "<group>"; };
 		D3107FF2208616DD007482A0 /* HighlightPartDateCalculatorTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HighlightPartDateCalculatorTest.swift; sourceTree = "<group>"; };
@@ -174,6 +193,15 @@
 		D31837482082E56500575F7D /* MonthSectionTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthSectionTest.swift; sourceTree = "<group>"; };
 		D318423420818D5600659EA4 /* MonthHeaderTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthHeaderTest.swift; sourceTree = "<group>"; };
 		D318423620819B2100659EA4 /* WeekdayDisplayTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekdayDisplayTest.swift; sourceTree = "<group>"; };
+		D3186BEB20873C970054CE3D /* calendar99_redux.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = calendar99_redux.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D3186BED20873C970054CE3D /* calendar99_redux.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = calendar99_redux.h; sourceTree = "<group>"; };
+		D3186BEE20873C970054CE3D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D3186BF320873C970054CE3D /* calendar99-reduxTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "calendar99-reduxTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D3186BF820873C970054CE3D /* calendar99_reduxTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = calendar99_reduxTests.swift; sourceTree = "<group>"; };
+		D3186BFA20873C970054CE3D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D3186C0220873CE30054CE3D /* Calendar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Calendar.swift; sourceTree = "<group>"; };
+		D3186C0420876BB00054CE3D /* Util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
+		D3186C06208773160054CE3D /* UtilTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UtilTest.swift; sourceTree = "<group>"; };
 		D319374220842BB600D055A4 /* MonthDisplayTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthDisplayTest.swift; sourceTree = "<group>"; };
 		D319374420844C5000D055A4 /* MiscEntityTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiscEntityTest.swift; sourceTree = "<group>"; };
 		D319374E208489EB00D055A4 /* GridDisplayModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridDisplayModel.swift; sourceTree = "<group>"; };
@@ -223,11 +251,30 @@
 		D3DA7028207CA98400A3DFE1 /* MonthHeader.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MonthHeader.xib; sourceTree = "<group>"; };
 		D3DA702C207CBDE900A3DFE1 /* MonthDisplayModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthDisplayModel.swift; sourceTree = "<group>"; };
 		D3DA702E207CBF3D00A3DFE1 /* MonthDisplayViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthDisplayViewModel.swift; sourceTree = "<group>"; };
+		D82C2503C9BAE5ECC9A44729 /* Pods-calendar99-redux.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-calendar99-redux.release.xcconfig"; path = "Pods/Target Support Files/Pods-calendar99-redux/Pods-calendar99-redux.release.xcconfig"; sourceTree = "<group>"; };
 		D938B372CAFDEAD5B7917D27 /* Pods_calendar99.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_calendar99.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F059406167C331B65DF17BCE /* Pods_calendar99_demo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_calendar99_demo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F37C64DE709438B025B39077 /* Pods-calendar99-redux.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-calendar99-redux.debug.xcconfig"; path = "Pods/Target Support Files/Pods-calendar99-redux/Pods-calendar99-redux.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		D3186BE720873C970054CE3D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F3347D329AFF25ECB2CE026E /* Pods_calendar99_redux.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D3186BF020873C970054CE3D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D3186BF420873C970054CE3D /* calendar99_redux.framework in Frameworks */,
+				2D21CECE03AE8147ACD14938 /* Pods_calendar99_reduxTests.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D3DA6F93207C6CEE00A3DFE1 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -284,6 +331,8 @@
 				9FA7759958763D8ADC1A0A33 /* Pods_calendar99_logic.framework */,
 				F059406167C331B65DF17BCE /* Pods_calendar99_demo.framework */,
 				C737F71F74B500EA998EB22F /* Pods_calendar99_logicTests.framework */,
+				C4FBCE5DB42910A4403F1A7A /* Pods_calendar99_redux.framework */,
+				3C504AA43B2B166FE2FE4FE1 /* Pods_calendar99_reduxTests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -352,6 +401,25 @@
 				D314670C207E029A00A6B186 /* MonthSectionViewModel.swift */,
 			);
 			path = MonthSection;
+			sourceTree = "<group>";
+		};
+		D3186BEC20873C970054CE3D /* calendar99-redux */ = {
+			isa = PBXGroup;
+			children = (
+				D3186BED20873C970054CE3D /* calendar99_redux.h */,
+				D3186BEE20873C970054CE3D /* Info.plist */,
+				D3186C0220873CE30054CE3D /* Calendar.swift */,
+			);
+			path = "calendar99-redux";
+			sourceTree = "<group>";
+		};
+		D3186BF720873C970054CE3D /* calendar99-reduxTests */ = {
+			isa = PBXGroup;
+			children = (
+				D3186BF820873C970054CE3D /* calendar99_reduxTests.swift */,
+				D3186BFA20873C970054CE3D /* Info.plist */,
+			);
+			path = "calendar99-reduxTests";
 			sourceTree = "<group>";
 		};
 		D319374620847AD600D055A4 /* SelectionHighlight */ = {
@@ -468,6 +536,8 @@
 				D3DA6FDE207C739400A3DFE1 /* calendar99-demo */,
 				D3DA6FB7207C6D2200A3DFE1 /* calendar99-logic */,
 				D3DA6FC2207C6D2300A3DFE1 /* calendar99-logicTests */,
+				D3186BEC20873C970054CE3D /* calendar99-redux */,
+				D3186BF720873C970054CE3D /* calendar99-reduxTests */,
 				D3DA6FA4207C6CEE00A3DFE1 /* calendar99Tests */,
 				22D3E06FB2537F8CA3585F6A /* Frameworks */,
 				FA6AC0D0F44373E29A575844 /* Pods */,
@@ -483,6 +553,8 @@
 				D3DA6FB6207C6D2200A3DFE1 /* calendar99_logic.framework */,
 				D3DA6FBE207C6D2300A3DFE1 /* calendar99-logicTests.xctest */,
 				D3DA6FDD207C739400A3DFE1 /* calendar99-demo.app */,
+				D3186BEB20873C970054CE3D /* calendar99_redux.framework */,
+				D3186BF320873C970054CE3D /* calendar99-reduxTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -530,6 +602,7 @@
 				D31329202085112D00E06C2A /* SelectHighlight */,
 				D31431A720805E790044B936 /* WeekdayAware */,
 				D31431AA20805F610044B936 /* WeekdayDisplay */,
+				D3186C0420876BB00054CE3D /* Util.swift */,
 			);
 			path = "calendar99-logic";
 			sourceTree = "<group>";
@@ -551,6 +624,7 @@
 				D31C042E207D2106000C2C75 /* SequentialDateCalculatorTest.swift */,
 				D31431C02080B1EF0044B936 /* SingleDaySelectionTest.swift */,
 				D318423620819B2100659EA4 /* WeekdayDisplayTest.swift */,
+				D3186C06208773160054CE3D /* UtilTest.swift */,
 			);
 			path = "calendar99-logicTests";
 			sourceTree = "<group>";
@@ -582,6 +656,10 @@
 				04D74B116647242FC8CF08CA /* Pods-calendar99-demo.release.xcconfig */,
 				2F64F57362BEB3E1164FB5BC /* Pods-calendar99-logicTests.debug.xcconfig */,
 				B83FD4052FC070AEB5AC9F55 /* Pods-calendar99-logicTests.release.xcconfig */,
+				F37C64DE709438B025B39077 /* Pods-calendar99-redux.debug.xcconfig */,
+				D82C2503C9BAE5ECC9A44729 /* Pods-calendar99-redux.release.xcconfig */,
+				37C03EF1C7DF89D3834A25E5 /* Pods-calendar99-reduxTests.debug.xcconfig */,
+				971EC4F8CEB8517384CD2F6F /* Pods-calendar99-reduxTests.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -589,6 +667,14 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
+		D3186BE820873C970054CE3D /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D3186BFB20873C970054CE3D /* calendar99_redux.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D3DA6F94207C6CEE00A3DFE1 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -608,6 +694,45 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		D3186BEA20873C970054CE3D /* calendar99-redux */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D3186C0020873C970054CE3D /* Build configuration list for PBXNativeTarget "calendar99-redux" */;
+			buildPhases = (
+				8D3F3E530620F3DED93F310B /* [CP] Check Pods Manifest.lock */,
+				D3186BE620873C970054CE3D /* Sources */,
+				D3186BE720873C970054CE3D /* Frameworks */,
+				D3186BE820873C970054CE3D /* Headers */,
+				D3186BE920873C970054CE3D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "calendar99-redux";
+			productName = "calendar99-redux";
+			productReference = D3186BEB20873C970054CE3D /* calendar99_redux.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		D3186BF220873C970054CE3D /* calendar99-reduxTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D3186C0120873C970054CE3D /* Build configuration list for PBXNativeTarget "calendar99-reduxTests" */;
+			buildPhases = (
+				3EEAA82BB31DBEBFAF26C3C1 /* [CP] Check Pods Manifest.lock */,
+				D3186BEF20873C970054CE3D /* Sources */,
+				D3186BF020873C970054CE3D /* Frameworks */,
+				D3186BF120873C970054CE3D /* Resources */,
+				8F60F04C8BF35E023B97C080 /* [CP] Embed Pods Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D3186BF620873C970054CE3D /* PBXTargetDependency */,
+			);
+			name = "calendar99-reduxTests";
+			productName = "calendar99-reduxTests";
+			productReference = D3186BF320873C970054CE3D /* calendar99-reduxTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		D3DA6F96207C6CEE00A3DFE1 /* calendar99 */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = D3DA6FAB207C6CEE00A3DFE1 /* Build configuration list for PBXNativeTarget "calendar99" */;
@@ -718,6 +843,13 @@
 				LastUpgradeCheck = 0930;
 				ORGANIZATIONNAME = "Hai Pham";
 				TargetAttributes = {
+					D3186BEA20873C970054CE3D = {
+						CreatedOnToolsVersion = 9.3;
+						LastSwiftMigration = 0930;
+					};
+					D3186BF220873C970054CE3D = {
+						CreatedOnToolsVersion = 9.3;
+					};
 					D3DA6F96207C6CEE00A3DFE1 = {
 						CreatedOnToolsVersion = 9.3;
 						LastSwiftMigration = 0930;
@@ -756,11 +888,27 @@
 				D3DA6FB5207C6D2200A3DFE1 /* calendar99-logic */,
 				D3DA6FBD207C6D2300A3DFE1 /* calendar99-logicTests */,
 				D3DA6FDC207C739400A3DFE1 /* calendar99-demo */,
+				D3186BEA20873C970054CE3D /* calendar99-redux */,
+				D3186BF220873C970054CE3D /* calendar99-reduxTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		D3186BE920873C970054CE3D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D3186BF120873C970054CE3D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D3DA6F95207C6CEE00A3DFE1 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -825,6 +973,24 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		3EEAA82BB31DBEBFAF26C3C1 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-calendar99-reduxTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
 		58C77F270B4F727853FCC613 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -850,14 +1016,14 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-calendar99-logicTests/Pods-calendar99-logicTests-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/RxCocoa/RxCocoa.framework",
-				"${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework",
-				"${BUILT_PRODUCTS_DIR}/SwiftFP/SwiftFP.framework",
-				"${BUILT_PRODUCTS_DIR}/RxBlocking/RxBlocking.framework",
-				"${BUILT_PRODUCTS_DIR}/RxTest/RxTest.framework",
-				"${BUILT_PRODUCTS_DIR}/SwiftUtilities/SwiftUtilities.framework",
-				"${BUILT_PRODUCTS_DIR}/SwiftUtilitiesTests/SwiftUtilitiesTests.framework",
-				"${BUILT_PRODUCTS_DIR}/SwiftFP-Main/SwiftFP.framework",
+				"${BUILT_PRODUCTS_DIR}/RxCocoa-iOS9.0/RxCocoa.framework",
+				"${BUILT_PRODUCTS_DIR}/RxSwift-iOS9.0/RxSwift.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftFP-iOS9.0/SwiftFP.framework",
+				"${BUILT_PRODUCTS_DIR}/RxBlocking-iOS9.0/RxBlocking.framework",
+				"${BUILT_PRODUCTS_DIR}/RxTest-iOS9.0/RxTest.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftUtilities-iOS9.0/SwiftUtilities.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftUtilitiesTests-iOS9.0/SwiftUtilitiesTests.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftFP-Main-iOS9.0/SwiftFP.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
@@ -882,10 +1048,10 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-calendar99Tests/Pods-calendar99Tests-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Differentiator/Differentiator.framework",
-				"${BUILT_PRODUCTS_DIR}/RxCocoa/RxCocoa.framework",
+				"${BUILT_PRODUCTS_DIR}/RxCocoa-iOS9.0/RxCocoa.framework",
 				"${BUILT_PRODUCTS_DIR}/RxDataSources/RxDataSources.framework",
-				"${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework",
-				"${BUILT_PRODUCTS_DIR}/SwiftFP-Main/SwiftFP.framework",
+				"${BUILT_PRODUCTS_DIR}/RxSwift-iOS9.0/RxSwift.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftFP-Main-iOS9.0/SwiftFP.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
@@ -944,10 +1110,10 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-calendar99-demo/Pods-calendar99-demo-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Differentiator/Differentiator.framework",
-				"${BUILT_PRODUCTS_DIR}/RxCocoa/RxCocoa.framework",
+				"${BUILT_PRODUCTS_DIR}/RxCocoa-iOS9.0/RxCocoa.framework",
 				"${BUILT_PRODUCTS_DIR}/RxDataSources/RxDataSources.framework",
-				"${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework",
-				"${BUILT_PRODUCTS_DIR}/SwiftFP-Main/SwiftFP.framework",
+				"${BUILT_PRODUCTS_DIR}/RxSwift-iOS9.0/RxSwift.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftFP-Main-iOS9.0/SwiftFP.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
@@ -960,6 +1126,57 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-calendar99-demo/Pods-calendar99-demo-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		8D3F3E530620F3DED93F310B /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-calendar99-redux-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		8F60F04C8BF35E023B97C080 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-calendar99-reduxTests/Pods-calendar99-reduxTests-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/RxCocoa-iOS11.3/RxCocoa.framework",
+				"${BUILT_PRODUCTS_DIR}/RxSwift-iOS11.3/RxSwift.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftFP-iOS11.3/SwiftFP.framework",
+				"${BUILT_PRODUCTS_DIR}/RxBlocking-iOS11.3/RxBlocking.framework",
+				"${BUILT_PRODUCTS_DIR}/RxTest-iOS11.3/RxTest.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftUtilities-iOS11.3/SwiftUtilities.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftUtilitiesTests-iOS11.3/SwiftUtilitiesTests.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftFP-Main-iOS11.3/SwiftFP.framework",
+				"${BUILT_PRODUCTS_DIR}/HMReactiveRedux/HMReactiveRedux.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxCocoa.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftFP.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxBlocking.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxTest.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftUtilities.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftUtilitiesTests.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/HMReactiveRedux.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-calendar99-reduxTests/Pods-calendar99-reduxTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		E748E96AC2B682DF1EABBC8B /* [CP] Check Pods Manifest.lock */ = {
@@ -983,6 +1200,22 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		D3186BE620873C970054CE3D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D3186C0320873CE30054CE3D /* Calendar.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D3186BEF20873C970054CE3D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D3186BF920873C970054CE3D /* calendar99_reduxTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D3DA6F92207C6CEE00A3DFE1 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1024,6 +1257,7 @@
 				D319374F208489EB00D055A4 /* GridDisplayModel.swift in Sources */,
 				D31DA892207F685C00FB4355 /* MonthGridModel.swift in Sources */,
 				D3DA6FD4207C6EC700A3DFE1 /* Entry.swift in Sources */,
+				D3186C0520876BB00054CE3D /* Util.swift in Sources */,
 				D31C042D207D1BA6000C2C75 /* DateCalculator.swift in Sources */,
 				D314670B207DFBEA00A6B186 /* MonthSectionModel.swift in Sources */,
 				D31329222085114700E06C2A /* SelectHighlightFunction.swift in Sources */,
@@ -1054,6 +1288,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D31FCC5020826E46005C3D68 /* SelectableWeekdayTest.swift in Sources */,
+				D3186C07208773160054CE3D /* UtilTest.swift in Sources */,
 				D3140145208130930029BA0C /* MonthGridTest.swift in Sources */,
 				D31431C12080B1EF0044B936 /* SingleDaySelectionTest.swift in Sources */,
 				D3107FF3208616DD007482A0 /* HighlightPartDateCalculatorTest.swift in Sources */,
@@ -1082,6 +1317,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		D3186BF620873C970054CE3D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D3186BEA20873C970054CE3D /* calendar99-redux */;
+			targetProxy = D3186BF520873C970054CE3D /* PBXContainerItemProxy */;
+		};
 		D3DA6FA3207C6CEE00A3DFE1 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = D3DA6F96207C6CEE00A3DFE1 /* calendar99 */;
@@ -1129,6 +1369,105 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		D3186BFC20873C970054CE3D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = F37C64DE709438B025B39077 /* Pods-calendar99-redux.debug.xcconfig */;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Automatic;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = 5FF785XRZ6;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = "calendar99-redux/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "org.swiften.calendar99-redux";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		D3186BFD20873C970054CE3D /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = D82C2503C9BAE5ECC9A44729 /* Pods-calendar99-redux.release.xcconfig */;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Automatic;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = 5FF785XRZ6;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = "calendar99-redux/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "org.swiften.calendar99-redux";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		D3186BFE20873C970054CE3D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 37C03EF1C7DF89D3834A25E5 /* Pods-calendar99-reduxTests.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 5FF785XRZ6;
+				INFOPLIST_FILE = "calendar99-reduxTests/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "org.swiften.calendar99-reduxTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		D3186BFF20873C970054CE3D /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 971EC4F8CEB8517384CD2F6F /* Pods-calendar99-reduxTests.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 5FF785XRZ6;
+				INFOPLIST_FILE = "calendar99-reduxTests/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "org.swiften.calendar99-reduxTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		D3DA6FA9207C6CEE00A3DFE1 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1501,6 +1840,24 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		D3186C0020873C970054CE3D /* Build configuration list for PBXNativeTarget "calendar99-redux" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D3186BFC20873C970054CE3D /* Debug */,
+				D3186BFD20873C970054CE3D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D3186C0120873C970054CE3D /* Build configuration list for PBXNativeTarget "calendar99-reduxTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D3186BFE20873C970054CE3D /* Debug */,
+				D3186BFF20873C970054CE3D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		D3DA6F91207C6CEE00A3DFE1 /* Build configuration list for PBXProject "calendar99" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
