@@ -58,7 +58,7 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   HMReactiveRedux:
-    :commit: 16d421c37dbfe3fe4c2967fe084f9cb93d2397fb
+    :commit: 75d150e691fd24207227f9b7b6c0a56e90ee4ad1
     :git: https://github.com/protoman92/HMReactiveRedux-Swift.git
   SwiftFP:
     :commit: eb32feb8cfb44c2d69431ec4cae455daf73339a7
@@ -82,6 +82,6 @@ SPEC CHECKSUMS:
   SwiftUtilities: f7e2e01683284be61a2e5f2b2e5cfa9096cc6b5d
   SwiftUtilitiesTests: 51ad0d8703fbfa924ade7609453a2b4783f23f29
 
-PODFILE CHECKSUM: 7c214a1c8ea9b14315df74c455d8bc66874488d6
+PODFILE CHECKSUM: 25fc967aea565c704a3270b3eb180834fcf189a4
 
 COCOAPODS: 1.5.0

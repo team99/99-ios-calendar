@@ -7,6 +7,7 @@
 //
 
 import RxSwift
+import SwiftFP
 import SwiftUtilities
 import XCTest
 @testable import calendar99_logic
@@ -16,7 +17,7 @@ public final class MonthSectionTest: RootTest {
   fileprivate var model: NNCalendar.MonthSection.Model!
   fileprivate var viewModel: NNCalendar.MonthSection.ViewModel!
   fileprivate var currentMonth: NNCalendar.Month!
-  fileprivate var allDateSelectionSb: BehaviorSubject<Set<Date>>!
+  fileprivate var allDateSelectionSb: BehaviorSubject<Try<Set<Date>>>!
   fileprivate var currentMonthSb: BehaviorSubject<NNCalendar.Month>!
   fileprivate var defaultModelDp: NNMonthSectionModelDependency!
   fileprivate var sequentialDateCalc: NNCalendar.DateCalc.Sequential!
@@ -34,7 +35,7 @@ public final class MonthSectionTest: RootTest {
     model = NNCalendar.MonthSection.Model(self)
     viewModel = NNCalendar.MonthSection.ViewModel(model!)
     currentMonth = NNCalendar.Month(Date())
-    allDateSelectionSb = BehaviorSubject(value: Set())
+    allDateSelectionSb = BehaviorSubject(value: Try.failure(""))
     currentMonthSb = BehaviorSubject(value: currentMonth!)
   }
 }
@@ -166,7 +167,7 @@ public extension MonthSectionTest {
       let month = monthComps[monthIndex].month
       let selectedDay = viewModel!.calculateDayFromFirstDate(month, dayIndex)!
       let wasSelected = viewModel!.isDateSelected(selectedDay.date)
-      allDateSelectionSb!.onNext(Set(arrayLiteral: selectedDay.date))
+      allDateSelectionReceiver.onNext(Set(arrayLiteral: selectedDay.date))
       waitOnMainThread(waitDuration!)
 
       /// Then
@@ -225,7 +226,7 @@ public extension MonthSectionTest {
       let selections = (0..<selectionCount)
         .map({calendar.date(byAdding: .day, value: $0, to: startDate)!})
 
-      allDateSelectionSb.onNext(Set(selections))
+      allDateSelectionReceiver.onNext(Set(selections))
       waitOnMainThread(waitDuration!)
 
       /// Then
@@ -246,15 +247,16 @@ extension MonthSectionTest: NNMonthSectionNoDefaultModelDependency {
   }
 
   public func calculateHighlightPart(_ date: Date) -> NNCalendar.HighlightPart {
-    let selections = try! allDateSelectionSb.value()
-    return sequentialDateCalc.calculateHighlightPart(selections, date)
+    return try! allDateSelectionSb.value()
+      .map({sequentialDateCalc.calculateHighlightPart($0, date)})
+      .getOrElse(.none)
   }
 
   public var allDateSelectionReceiver: AnyObserver<Set<Date>> {
-    return allDateSelectionSb.asObserver()
+    return allDateSelectionSb.mapObserver(Try.success)
   }
 
-  public var allDateSelectionStream: Observable<Set<Date>> {
+  public var allDateSelectionStream: Observable<Try<Set<Date>>> {
     return allDateSelectionSb.asObservable()
   }
 
@@ -271,6 +273,6 @@ extension MonthSectionTest: NNMonthSectionNoDefaultModelDependency {
   }
 
   public func isDateSelected(_ date: Date) -> Bool {
-    return try! allDateSelectionSb.value().contains(date)
+    return try! allDateSelectionSb.value().map({$0.contains(date)}).getOrElse(false)
   }
 }

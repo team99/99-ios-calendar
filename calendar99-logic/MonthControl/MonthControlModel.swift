@@ -18,6 +18,9 @@ public protocol NNMonthControlDefaultModelFunction:
 public protocol NNMonthControlNoDefaultModelFunction:
   NNMonthAwareNoDefaultModelFunction
 {
+  /// Stream the initial month.
+  var initialMonthStream: Single<NNCalendar.Month> { get }
+
   /// Receive the current month and push it somewhere for external streaming.
   var currentMonthReceiver: AnyObserver<NNCalendar.Month> { get }
 }
@@ -53,6 +56,10 @@ extension NNCalendar.MonthControl.Model: NNMonthAwareNoDefaultModelFunction {
 
 /// NNMonthControlNoDefaultModelFunction
 extension NNCalendar.MonthControl.Model: NNMonthControlNoDefaultModelFunction {
+  public var initialMonthStream: Single<NNCalendar.Month> {
+    return dependency.initialMonthStream
+  }
+
   public var currentMonthReceiver: AnyObserver<NNCalendar.Month> {
     return dependency.currentMonthReceiver
   }

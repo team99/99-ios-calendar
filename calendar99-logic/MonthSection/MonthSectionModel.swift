@@ -7,6 +7,7 @@
 //
 
 import RxSwift
+import SwiftFP
 
 /// Shared dependencies between the model and its dependency that can have
 /// defaults.
@@ -28,9 +29,6 @@ public protocol NNMonthSectionNoDefaultModelFunction:
 
   /// Get the number of future months to include in the month data stream.
   var futureMonthsFromCurrent: Int { get }
-
-  /// Stream the initial month.
-  var initialMonthStream: Single<NNCalendar.Month> { get }
 }
 
 /// Dependency for month section model, which contains components that can have
@@ -127,6 +125,24 @@ extension NNCalendar.MonthSection.Model: NNGridDisplayDefaultFunction {
   }
 }
 
+// MARK: - NNMonthAwareNoDefaultModelFunction
+extension NNCalendar.MonthSection.Model: NNMonthAwareNoDefaultModelFunction {
+  public var currentMonthStream: Observable<NNCalendar.Month> {
+    return monthControlModel.currentMonthStream
+  }
+}
+
+// MARK: - NNMonthControlModelType
+extension NNCalendar.MonthSection.Model: NNMonthControlModelType {
+  public var initialMonthStream: Single<NNCalendar.Month> {
+    return monthControlModel.initialMonthStream
+  }
+
+  public var currentMonthReceiver: AnyObserver<NNCalendar.Month> {
+    return monthControlModel.currentMonthReceiver
+  }
+}
+
 // MARK: - NNGridSelectionCalculatorType
 extension NNCalendar.MonthSection.Model: NNMultiMonthGridSelectionCalculator {
   public func calculateGridSelectionChanges(_ monthComps: [NNCalendar.MonthComp],
@@ -163,21 +179,6 @@ extension NNCalendar.MonthSection.Model: NNMonthSectionNoDefaultModelFunction {
   public var futureMonthsFromCurrent: Int {
     return dependency.futureMonthsFromCurrent
   }
-
-  public var initialMonthStream: Single<NNCalendar.Month> {
-    return dependency.initialMonthStream
-  }
-}
-
-// MARK: - NNMonthDisplayModelType
-extension NNCalendar.MonthSection.Model: NNMonthControlModelType {
-  public var currentMonthStream: Observable<NNCalendar.Month> {
-    return monthControlModel.currentMonthStream
-  }
-
-  public var currentMonthReceiver: AnyObserver<NNCalendar.Month> {
-    return monthControlModel.currentMonthReceiver
-  }
 }
 
 // MARK: - NNDaySelectionModelType
@@ -186,7 +187,7 @@ extension NNCalendar.MonthSection.Model: NNSingleDaySelectionModelType {
     return daySelectionModel.allDateSelectionReceiver
   }
 
-  public var allDateSelectionStream: Observable<Set<Date>> {
+  public var allDateSelectionStream: Observable<Try<Set<Date>>> {
     return daySelectionModel.allDateSelectionStream
   }
 }
@@ -243,7 +244,7 @@ extension NNCalendar.MonthSection.Model {
       return noDefault.allDateSelectionReceiver
     }
 
-    var allDateSelectionStream: Observable<Set<Date>> {
+    var allDateSelectionStream: Observable<Try<Set<Date>>> {
       return noDefault.allDateSelectionStream
     }
 

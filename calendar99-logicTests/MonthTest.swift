@@ -47,18 +47,13 @@ public final class MonthTest: RootTest {
 
     /// When
     for i in 0..<iterations! {
-      let newComp = firstMonth.with(monthOffset: i)!
+      let newMonth = firstMonth.with(monthOffset: i)!
       let dateOffset = Int.random(0, 40)
       let newDate = calendar.date(byAdding: .day, value: dateOffset, to: date)!
 
       /// Then
       let newMonthForDate = NNCalendar.Month(newDate)
-
-      if newComp.contains(newDate) {
-        XCTAssertEqual(newComp, newMonthForDate)
-      } else {
-        XCTAssertNotEqual(newComp, newMonthForDate)
-      }
+      XCTAssertEqual(newMonth == newMonthForDate, newMonth.contains(newDate))
     }
   }
 

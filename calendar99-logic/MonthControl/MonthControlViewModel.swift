@@ -51,10 +51,15 @@ extension NNCalendar.MonthControl.ViewModel: NNMonthControlViewModelType {
   public func setupMonthControlBindings() {
     let disposable = self.disposable
 
-    currentMonthMovementSb
-      .withLatestFrom(model.currentMonthStream) {($1, $0.monthOffset)}
-      .map({$0.with(monthOffset: $1)})
-      .filter({$0.isSome}).map({$0!})
+    Observable
+      .merge(
+        model.initialMonthStream.asObservable(),
+
+        currentMonthMovementSb
+          .withLatestFrom(model.currentMonthStream) {($1, $0.monthOffset)}
+          .map({$0.with(monthOffset: $1)})
+          .filter({$0.isSome}).map({$0!})
+      )
       .subscribe(model.currentMonthReceiver)
       .disposed(by: disposable)
   }

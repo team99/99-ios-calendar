@@ -13,9 +13,10 @@ import calendar99_logic
 public final class ReduxCalendar {
 
   /// Calendar actions, including month, date selections etc.
-  public enum Action {
+  public enum Action: ReduxActionType {
     case updateCurrentMonth(NNCalendar.Month)
     case updateSelection(Set<Date>)
+    case connectSelection(Set<Date>)
     case clearAll
 
     fileprivate static var basePath: String {
@@ -48,6 +49,10 @@ public final class ReduxCalendar {
 
       case .updateSelection(let selection):
         return prevState.updateValue(Action.selectionPath, selection)
+
+      case .connectSelection(let selection):
+        let newSelection = NNCalendar.Util.connectSelection(selection)
+        return prevState.updateValue(Action.selectionPath, newSelection)
 
       case .clearAll:
         return prevState

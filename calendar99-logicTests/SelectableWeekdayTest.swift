@@ -7,6 +7,7 @@
 //
 
 import RxSwift
+import SwiftFP
 import SwiftUtilities
 import XCTest
 @testable import calendar99_logic
@@ -15,7 +16,7 @@ import XCTest
 public final class SelectableWeekdayTest: RootTest {
   fileprivate var model: NNCalendar.SelectWeekday.Model!
   fileprivate var viewModel: NNCalendar.SelectWeekday.ViewModel!
-  fileprivate var allDateSelectionSb: BehaviorSubject<Set<Date>>!
+  fileprivate var allDateSelectionSb: BehaviorSubject<Try<Set<Date>>>!
   fileprivate var currentMonth: NNCalendar.Month!
   fileprivate var currentMonthSb: BehaviorSubject<NNCalendar.Month>!
   fileprivate var defaultModelDp: NNSelectableWeekdayModelDependency!
@@ -24,7 +25,7 @@ public final class SelectableWeekdayTest: RootTest {
     super.setUp()
     model = NNCalendar.SelectWeekday.Model(self)
     viewModel = NNCalendar.SelectWeekday.ViewModel(model!)
-    allDateSelectionSb = BehaviorSubject(value: Set())
+    allDateSelectionSb = BehaviorSubject(value: Try.failure(""))
     currentMonth = NNCalendar.Month(Date())
     currentMonthSb = BehaviorSubject(value: currentMonth!)
     defaultModelDp = NNCalendar.SelectWeekday.Model.DefaultDependency(self)
@@ -69,7 +70,7 @@ public extension SelectableWeekdayTest {
 
       for weekdayIndex in 0..<6 {
         viewModel!.weekdaySelectionIndexReceiver.onNext(weekdayIndex)
-        var selections = try! allDateSelectionSb.value()
+        var selections = try! allDateSelectionSb.value().getOrElse([])
         XCTAssertGreaterThanOrEqual(selections.count, 4)
 
         XCTAssertTrue(selections
@@ -77,7 +78,7 @@ public extension SelectableWeekdayTest {
           .all({$0 == weekdayIndex + 1}))
 
         viewModel!.weekdaySelectionIndexReceiver.onNext(weekdayIndex)
-        selections = try! allDateSelectionSb.value()
+        selections = try! allDateSelectionSb.value().value!
         XCTAssertEqual(selections.count, 0)
       }
     }
@@ -86,10 +87,10 @@ public extension SelectableWeekdayTest {
 
 extension SelectableWeekdayTest: NNSelectableWeekdayNoDefaultModelDependency {
   public var allDateSelectionReceiver: AnyObserver<Set<Date>> {
-    return allDateSelectionSb.asObserver()
+    return allDateSelectionSb.mapObserver(Try.success)
   }
 
-  public var allDateSelectionStream: Observable<Set<Date>> {
+  public var allDateSelectionStream: Observable<Try<Set<Date>>> {
     return allDateSelectionSb.asObservable()
   }
 

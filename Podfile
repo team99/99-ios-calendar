@@ -39,6 +39,7 @@ target 'calendar99' do
 
   target 'calendar99-demo' do
     inherit! :search_paths
+    allReduxPods
   end
 end
 

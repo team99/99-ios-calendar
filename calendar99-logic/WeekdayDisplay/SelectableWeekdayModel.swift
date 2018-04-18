@@ -7,6 +7,7 @@
 //
 
 import RxSwift
+import SwiftFP
 
 /// Defaultable dependency for selectable weekday display.
 public protocol NNSelectableWeekdayDefaultModelDependency:
@@ -92,7 +93,7 @@ extension NNCalendar.SelectWeekday.Model: NNMultiDaySelectionNoDefaultFunction {
     return dependency.allDateSelectionReceiver
   }
 
-  public var allDateSelectionStream: Observable<Set<Date>> {
+  public var allDateSelectionStream: Observable<Try<Set<Date>>> {
     return dependency.allDateSelectionStream
   }
 }
@@ -114,7 +115,7 @@ extension NNCalendar.SelectWeekday.Model {
       return noDefault.allDateSelectionReceiver
     }
 
-    var allDateSelectionStream: Observable<Set<Date>> {
+    var allDateSelectionStream: Observable<Try<Set<Date>>> {
       return noDefault.allDateSelectionStream
     }
 

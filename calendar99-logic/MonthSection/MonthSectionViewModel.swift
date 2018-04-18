@@ -172,7 +172,7 @@ extension NNCalendar.MonthSection.ViewModel: NNMonthSectionViewModelType {
 
   /// Keep track of the previous selections to know what have been deselected.
   public var gridSelectionChangesStream: Observable<Set<NNCalendar.GridSelection>> {
-    return model.allDateSelectionStream
+    return model.allDateSelectionStream.map({$0.getOrElse([])})
       .scan((prev: Set<Date>(), current: Set<Date>()),
             accumulator: {(prev: $0.current, current: $1)})
       .withLatestFrom(monthCompStream) {($1, prev: $0.prev, current: $0.current)}

@@ -35,17 +35,12 @@ public extension NNCalendar.Util {
     let calendar = Calendar.current
     var newSelections = Set<Date>()
     var date: Date? = min
-    let compareComponents: Set<Calendar.Component> = [.day, .month, .year]
+    let compareDay: (Date) -> Bool = {$0 <= max}
 
-    let compareDay: (Date) -> Bool = {
-      calendar.dateComponents(compareComponents, from: $0)
-        != calendar.dateComponents(compareComponents, from: max)
-    }
-
-    while date.map(compareDay).getOrElse(false) {
+    repeat {
       _ = date.map({newSelections.insert($0)})
       date = date.flatMap({calendar.date(byAdding: .day, value: 1, to: $0)})
-    }
+    } while date.map(compareDay).getOrElse(false)
 
     return newSelections
   }

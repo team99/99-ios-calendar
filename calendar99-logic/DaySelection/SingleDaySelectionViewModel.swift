@@ -57,7 +57,7 @@ extension NNCalendar.DaySelection.ViewModel: NNSingleDaySelectionViewModelType {
     let disposable = self.disposable
 
     dateSelectionSbj
-      .withLatestFrom(model.allDateSelectionStream) {($1, $0)}
+      .withLatestFrom(model.allDateSelectionStream) {($1.getOrElse([]), $0)}
       .map({$0.contains($1)
           ? $0.subtracting(Set<Date>(arrayLiteral: $1))
           : $0.union(Set<Date>(arrayLiteral: $1))})

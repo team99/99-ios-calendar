@@ -7,6 +7,7 @@
 //
 
 import RxSwift
+import SwiftFP
 
 /// Defaultable dependency for single day selection model.
 public protocol NNSingleDaySelectionDefaultModelDependency:
@@ -49,7 +50,7 @@ extension NNCalendar.DaySelection.Model: NNMultiDaySelectionNoDefaultFunction {
     return dependency.allDateSelectionReceiver
   }
 
-  public var allDateSelectionStream: Observable<Set<Date>> {
+  public var allDateSelectionStream: Observable<Try<Set<Date>>> {
     return dependency.allDateSelectionStream
   }
 }

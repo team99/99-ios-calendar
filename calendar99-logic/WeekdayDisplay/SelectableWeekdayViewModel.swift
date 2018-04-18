@@ -68,7 +68,10 @@ extension NNCalendar.SelectWeekday.ViewModel: NNWeekdayDisplayViewModelType {
     weekdaySelectionStream
       .withLatestFrom(model.currentMonthStream) {($1, $0)}
       .map({$0.datesWithWeekday($1)})
-      .withLatestFrom(model.allDateSelectionStream) {$0.symmetricDifference($1)}
+      .withLatestFrom(model.allDateSelectionStream) {(dates, selection) in
+        return selection.getOrElse([]).symmetricDifference(dates)
+      }
+      .do(onNext: {print($0)})
       .subscribe(model.allDateSelectionReceiver)
       .disposed(by: disposable)
   }

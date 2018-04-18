@@ -7,6 +7,7 @@
 //
 
 import RxSwift
+import SwiftFP
 
 /// Shared functionalities between the model and its dependency that can have
 /// defaults
@@ -20,11 +21,7 @@ public protocol NNMonthDisplayDefaultModelFunction:
 public protocol NNMonthDisplayNoDefaultModelFunction:
   NNMonthControlNoDefaultModelFunction,
   NNMultiDaySelectionNoDefaultFunction,
-  NNSingleDaySelectionNoDefaultFunction
-{
-  /// Stream the initial month.
-  var initialMonthStream: Single<NNCalendar.Month> { get }
-}
+  NNSingleDaySelectionNoDefaultFunction {}
 
 /// Defaultable dependency for month display model.
 public protocol NNMonthDisplayDefaultModelDependency:
@@ -107,7 +104,11 @@ extension NNCalendar.MonthDisplay.Model: NNGridDisplayDefaultFunction {
 }
 
 // MARK: - NNMonthControlModelType
-extension NNCalendar.MonthDisplay.Model: NNMonthControlModelType {}
+extension NNCalendar.MonthDisplay.Model: NNMonthControlModelType {
+  public var initialMonthStream: Single<NNCalendar.Month> {
+    return monthControlModel.initialMonthStream
+  }
+}
 
 // MARK: - NNMonthControlModelDependency
 extension NNCalendar.MonthDisplay.Model: NNMonthControlModelDependency {
@@ -133,15 +134,8 @@ extension NNCalendar.MonthDisplay.Model: NNSingleDaySelectionModelType {
     return daySelectionModel.allDateSelectionReceiver
   }
 
-  public var allDateSelectionStream: Observable<Set<Date>> {
+  public var allDateSelectionStream: Observable<Try<Set<Date>>> {
     return daySelectionModel.allDateSelectionStream
-  }
-}
-
-// MARK: - NNMonthDisplayNoDefaultModelFunction
-extension NNCalendar.MonthDisplay.Model: NNMonthDisplayNoDefaultModelFunction {
-  public var initialMonthStream: Single<NNCalendar.Month> {
-    return dependency.initialMonthStream
   }
 }
 
@@ -182,7 +176,7 @@ extension NNCalendar.MonthDisplay.Model {
       return noDefault.initialMonthStream
     }
 
-    var allDateSelectionStream: Observable<Set<Date>> {
+    var allDateSelectionStream: Observable<Try<Set<Date>>> {
       return noDefault.allDateSelectionStream
     }
 

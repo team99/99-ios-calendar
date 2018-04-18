@@ -58,6 +58,10 @@ public final class MonthControlTest: RootTest {
 }
 
 extension MonthControlTest: NNMonthControlModelDependency {
+  public var initialMonthStream: Single<NNCalendar.Month> {
+    return currentMonthSb.take(1).asSingle()
+  }
+
   public var currentMonthReceiver: AnyObserver<NNCalendar.Month> {
     return currentMonthSb.asObserver()
   }

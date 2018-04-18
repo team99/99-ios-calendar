@@ -7,6 +7,7 @@
 //
 
 import RxSwift
+import SwiftFP
 
 /// Shared functionalities between the model and its dependency that can have
 /// defaults.
@@ -24,5 +25,5 @@ public protocol NNMultiDaySelectionNoDefaultFunction {
   var allDateSelectionReceiver: AnyObserver<Set<Date>> { get }
 
   /// Stream date selections.
-  var allDateSelectionStream: Observable<Set<Date>> { get }
+  var allDateSelectionStream: Observable<Try<Set<Date>>> { get }
 }

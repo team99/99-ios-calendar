@@ -70,21 +70,28 @@ public extension NNCalendar.MonthHeader {
   }
 }
 
-// MARK: - NNMonthHeaderModelDependency
-extension NNCalendar.MonthHeader.Model: NNMonthHeaderModelDependency {
-  public func formatMonthDescription(_ month: NNCalendar.Month) -> String {
-    return dependency.formatMonthDescription(month)
+// MARK: - NNMonthAwareNoDefaultModelFunction
+extension NNCalendar.MonthHeader.Model: NNMonthAwareNoDefaultModelFunction {
+  public var currentMonthStream: Observable<NNCalendar.Month> {
+    return monthControlModel.currentMonthStream
   }
 }
 
-// MARK: - NNMonthControlModelType
-extension NNCalendar.MonthHeader.Model: NNMonthControlModelType {
-  public var currentMonthStream: Observable<NNCalendar.Month> {
-    return monthControlModel.currentMonthStream
+// MARK: - NNMonthControlNoDefaultModelFunction
+extension NNCalendar.MonthHeader.Model: NNMonthControlNoDefaultModelFunction {
+  public var initialMonthStream: PrimitiveSequence<SingleTrait, NNCalendar.Month> {
+    return monthControlModel.initialMonthStream
   }
 
   public var currentMonthReceiver: AnyObserver<NNCalendar.Month> {
     return monthControlModel.currentMonthReceiver
+  }
+}
+
+// MARK: - NNMonthHeaderModelDependency
+extension NNCalendar.MonthHeader.Model: NNMonthHeaderModelDependency {
+  public func formatMonthDescription(_ month: NNCalendar.Month) -> String {
+    return dependency.formatMonthDescription(month)
   }
 }
 
@@ -94,6 +101,10 @@ extension NNCalendar.MonthHeader.Model: NNMonthHeaderModelType {}
 // MARK: - Default dependency.
 extension NNCalendar.MonthHeader.Model {
   final class DefaultDependency: NNMonthHeaderModelDependency {
+    var initialMonthStream: PrimitiveSequence<SingleTrait, NNCalendar.Month> {
+      return noDefault.initialMonthStream
+    }
+
     var currentMonthReceiver: AnyObserver<NNCalendar.Month> {
       return noDefault.currentMonthReceiver
     }

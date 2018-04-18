@@ -7,6 +7,7 @@
 //
 
 import RxSwift
+import SwiftFP
 import SwiftUtilities
 import XCTest
 @testable import calendar99_logic
@@ -15,13 +16,13 @@ import XCTest
 public final class SingleDaySelectionTest: RootTest {
   fileprivate var model: NNCalendar.DaySelection.Model!
   fileprivate var viewModel: NNCalendar.DaySelection.ViewModel!
-  fileprivate var allSelectionSb: BehaviorSubject<Set<Date>>!
+  fileprivate var allSelectionSb: BehaviorSubject<Try<Set<Date>>>!
 
   override public func setUp() {
     super.setUp()
     model = NNCalendar.DaySelection.Model(self)
     viewModel = NNCalendar.DaySelection.ViewModel(model!)
-    allSelectionSb = BehaviorSubject(value: [])
+    allSelectionSb = BehaviorSubject(value: Try.failure(""))
   }
 }
 
@@ -58,14 +59,14 @@ public extension SingleDaySelectionTest {
 
 extension SingleDaySelectionTest: NNSingleDaySelectionModelDependency {
   public var allDateSelectionReceiver: AnyObserver<Set<Date>> {
-    return allSelectionSb.asObserver()
+    return allSelectionSb.mapObserver(Try.success)
   }
 
-  public var allDateSelectionStream: Observable<Set<Date>> {
+  public var allDateSelectionStream: Observable<Try<Set<Date>>> {
     return allSelectionSb.asObservable()
   }
 
   public func isDateSelected(_ date: Date) -> Bool {
-    return try! allSelectionSb!.value().contains(date)
+    return try! allSelectionSb!.value().map({$0.contains(date)}).getOrElse(false)
   }
 }

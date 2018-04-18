@@ -86,6 +86,10 @@ public extension MonthHeaderTest {
 }
 
 extension MonthHeaderTest: NNMonthHeaderModelDependency {
+  public var initialMonthStream: Single<NNCalendar.Month> {
+    return currentMonthSb.take(1).asSingle()
+  }
+
   public var currentMonthReceiver: AnyObserver<NNCalendar.Month> {
     return currentMonthSb.asObserver()
   }

@@ -124,7 +124,7 @@ extension NNCalendar.MonthDisplay.ViewModel: NNMonthDisplayViewModelType {
   }
 
   public var gridDayIndexSelectionChangesStream: Observable<Set<Int>> {
-    return model.allDateSelectionStream
+    return model.allDateSelectionStream.map({$0.getOrElse([])})
       .scan((prev: Set<Date>(), current: Set<Date>()),
             accumulator: {(prev: $0.current, current: $1)})
       .withLatestFrom(monthCompStream) {($1, $0)}

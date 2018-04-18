@@ -34,11 +34,13 @@ public extension UtilTest {
       })
 
       let min = selections.min()!, max = selections.max()!
-      let diffCount = calendar.dateComponents([.day], from: min, to: max).day!
       let connected = NNCalendar.Util.connectSelection(selections)
-      XCTAssertEqual(connected.count, diffCount)
+      let connectedMin = connected.min()!, connectedMax = connected.max()!
+      XCTAssertEqual(connectedMin, min)
+      XCTAssertEqual(connectedMax, max)
     }
 
     XCTAssertTrue(NNCalendar.Util.connectSelection([]).isEmpty)
+    XCTAssertEqual(NNCalendar.Util.connectSelection([Date.random()!]).count, 1)
   }
 }
