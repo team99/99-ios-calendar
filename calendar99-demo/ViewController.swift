@@ -89,7 +89,7 @@ extension ViewController: NNMonthSectionNoDefaultModelDependency {
 
   public var allDateSelectionReceiver: AnyObserver<Set<Date>> {
     return Singleton.instance.reduxStore.actionTrigger()
-      .mapObserver(ReduxCalendar.Action.connectSelection)
+      .mapObserver(ReduxCalendar.Action.updateSelection)
   }
 
   public var allDateSelectionStream: Observable<Try<Set<Date>>> {
