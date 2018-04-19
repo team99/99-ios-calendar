@@ -10,20 +10,41 @@
 extension NNCalendar {
 
   /// Represents a Selection object that determines whether a Date is selected.
+  /// We use this Selection object instead of storing the Date directly because
+  /// it provides us with the means to create custom selection logic, such as
+  /// periodic (weekly/monthly) repetitions, simple selection etc.
+  ///
+  /// To use this class, we must override all methods that are marked as "open"
+  /// below.
   open class Selection: Equatable, Hashable {
     open var hashValue: Int {
       return 0
     }
 
-    open func isEqual(_ selection: Selection) -> Bool {
+    /// Override this to cheat Equatable. This approach is similar to NSObject's
+    /// isEqual.
+    ///
+    /// - Parameter selection: A Selection instance.
+    /// - Returns: A Bool value.
+    open func isSameAs(_ selection: Selection) -> Bool {
       return true
     }
 
+    /// Each Selection implementation will have a different mechanism for
+    /// determining whether a date is selected. For e.g. the DateSelection
+    /// subclass checks selection status by comparing the input Date against
+    /// the stored Date, while the RepeatWeekdaySelection may do so by verifying
+    /// the Date's weekday to see if it matches the stored weekday.
+    ///
+    /// - Parameter date: A Date instance.
+    /// - Returns: A Bool value.
     open func isDateSelected(_ date: Date) -> Bool {
       return false
     }
 
     /// Calculate the associated grid selection in an Array of Month Components.
+    /// Consult the documentation for NNGridSelectionCalculator and its subtypes
+    /// to understand the purpose of this method.
     ///
     /// - Parameter monthComps: A MonthComp Array.
     /// - Returns: A Set of GridSelection.
@@ -34,7 +55,7 @@ extension NNCalendar {
     }
 
     public static func ==(_ lhs: Selection, _ rhs: Selection) -> Bool {
-      return lhs.isEqual(rhs)
+      return lhs.isSameAs(rhs)
     }
   }
 }
@@ -56,7 +77,7 @@ public extension NNCalendar {
       self.firstWeekday = firstWeekday
     }
 
-    override public func isEqual(_ selection: NNCalendar.Selection) -> Bool {
+    override public func isSameAs(_ selection: NNCalendar.Selection) -> Bool {
       guard let selection = selection as? DateSelection else { return false }
       return selection.date == date
     }
