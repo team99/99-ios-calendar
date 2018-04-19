@@ -146,13 +146,11 @@ extension NNCalendar.MonthSection.Model: NNMonthControlModelType {
 // MARK: - NNGridSelectionCalculatorType
 extension NNCalendar.MonthSection.Model: NNMultiMonthGridSelectionCalculator {
   public func calculateGridSelectionChanges(_ monthComps: [NNCalendar.MonthComp],
-                                            _ prevSelections: Set<Date>,
-                                            _ currentSelections: Set<Date>)
+                                            _ prev: Set<NNCalendar.Selection>,
+                                            _ current: Set<NNCalendar.Selection>)
     -> Set<NNCalendar.GridSelection>
   {
-    return dependency.calculateGridSelectionChanges(monthComps,
-                                                    prevSelections,
-                                                    currentSelections)
+    return dependency.calculateGridSelectionChanges(monthComps, prev, current)
   }
 }
 
@@ -183,11 +181,11 @@ extension NNCalendar.MonthSection.Model: NNMonthSectionNoDefaultModelFunction {
 
 // MARK: - NNDaySelectionModelType
 extension NNCalendar.MonthSection.Model: NNSingleDaySelectionModelType {
-  public var allDateSelectionReceiver: AnyObserver<Set<Date>> {
+  public var allDateSelectionReceiver: AnyObserver<Set<NNCalendar.Selection>> {
     return daySelectionModel.allDateSelectionReceiver
   }
 
-  public var allDateSelectionStream: Observable<Try<Set<Date>>> {
+  public var allDateSelectionStream: Observable<Try<Set<NNCalendar.Selection>>> {
     return daySelectionModel.allDateSelectionStream
   }
 }
@@ -240,11 +238,11 @@ extension NNCalendar.MonthSection.Model {
       return noDefault.currentMonthReceiver
     }
 
-    var allDateSelectionReceiver: AnyObserver<Set<Date>> {
+    var allDateSelectionReceiver: AnyObserver<Set<NNCalendar.Selection>> {
       return noDefault.allDateSelectionReceiver
     }
 
-    var allDateSelectionStream: Observable<Try<Set<Date>>> {
+    var allDateSelectionStream: Observable<Try<Set<NNCalendar.Selection>>> {
       return noDefault.allDateSelectionStream
     }
 
@@ -278,12 +276,11 @@ extension NNCalendar.MonthSection.Model {
     }
 
     func calculateGridSelectionChanges(_ monthComps: [NNCalendar.MonthComp],
-                                       _ prevSelections: Set<Date>,
-                                       _ currentSelections: Set<Date>)
+                                       _ prev: Set<NNCalendar.Selection>,
+                                       _ current: Set<NNCalendar.Selection>)
       -> Set<NNCalendar.GridSelection>
     {
-      return highlightCalc.calculateGridSelectionChanges(
-        monthComps, prevSelections, currentSelections)
+      return highlightCalc.calculateGridSelectionChanges(monthComps, prev, current)
     }
 
     func isDateSelected(_ date: Date) -> Bool {

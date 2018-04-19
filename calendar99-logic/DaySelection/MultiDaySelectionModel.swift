@@ -20,10 +20,10 @@ public protocol NNMultiDaySelectionDefaultFunction {}
 /// model functionality conform to this protocol.
 public protocol NNMultiDaySelectionNoDefaultFunction {
 
-  /// Trigger date selections. Beware that pushing to this stream will override
-  /// all previous selections.
-  var allDateSelectionReceiver: AnyObserver<Set<Date>> { get }
+  /// Trigger selections. Beware that pushing to this stream will override all
+  /// previous selections.
+  var allDateSelectionReceiver: AnyObserver<Set<NNCalendar.Selection>> { get }
 
-  /// Stream date selections.
-  var allDateSelectionStream: Observable<Try<Set<Date>>> { get }
+  /// Stream selections.
+  var allDateSelectionStream: Observable<Try<Set<NNCalendar.Selection>>> { get }
 }

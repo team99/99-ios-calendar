@@ -46,11 +46,11 @@ public extension NNCalendar.DaySelection {
 
 // MARK: - NNMultiDaySelectionNoDefaultFunction
 extension NNCalendar.DaySelection.Model: NNMultiDaySelectionNoDefaultFunction {
-  public var allDateSelectionReceiver: AnyObserver<Set<Date>> {
+  public var allDateSelectionReceiver: AnyObserver<Set<NNCalendar.Selection>> {
     return dependency.allDateSelectionReceiver
   }
 
-  public var allDateSelectionStream: Observable<Try<Set<Date>>> {
+  public var allDateSelectionStream: Observable<Try<Set<NNCalendar.Selection>>> {
     return dependency.allDateSelectionStream
   }
 }

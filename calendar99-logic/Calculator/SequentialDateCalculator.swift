@@ -73,7 +73,7 @@ extension NNCalendar.DateCalc.Sequential: NNSingleDateCalculatorType {
 // MARK: - NNMultiMonthGridSelectionCalculator
 extension NNCalendar.DateCalc.Sequential: NNMultiMonthGridSelectionCalculator {
   fileprivate func calculateGridSelection(_ monthComps: [NNCalendar.MonthComp],
-                                          _ selection: Date)
+                                          _ selection: NNCalendar.Selection)
     -> Set<NNCalendar.GridSelection>
   {
     let month = NNCalendar.Month(selection)
@@ -93,7 +93,7 @@ extension NNCalendar.DateCalc.Sequential: NNMultiMonthGridSelectionCalculator {
   fileprivate func calculateGridSelection(_ monthComps: [NNCalendar.MonthComp],
                                           _ monthComp: NNCalendar.MonthComp,
                                           _ monthIndex: Int,
-                                          _ selection: Date)
+                                          _ selection: NNCalendar.Selection)
     -> Set<NNCalendar.GridSelection>
   {
     let calculate = {(month: NNCalendar.MonthComp, offset: Int)
@@ -128,11 +128,11 @@ extension NNCalendar.DateCalc.Sequential: NNMultiMonthGridSelectionCalculator {
   }
 
   public func calculateGridSelectionChanges(_ monthComps: [NNCalendar.MonthComp],
-                                            _ prevSelections: Set<Date>,
-                                            _ currentSelections: Set<Date>)
+                                            _ prev: Set<NNCalendar.Selection>,
+                                            _ current: Set<NNCalendar.Selection>)
     -> Set<NNCalendar.GridSelection>
   {
-    return Set(extractChanges(prevSelections, currentSelections)
+    return Set(extractChanges(prev, current)
       .flatMap({self.calculateGridSelection(monthComps, $0)}))
   }
 }
@@ -140,11 +140,11 @@ extension NNCalendar.DateCalc.Sequential: NNMultiMonthGridSelectionCalculator {
 // MARK: - NNSingleMonthGridSelectionCalculatorType
 extension NNCalendar.DateCalc.Sequential: NNSingleMonthGridSelectionCalculator {
   public func calculateGridSelectionChanges(_ monthComp: NNCalendar.MonthComp,
-                                            _ prevSelections: Set<Date>,
-                                            _ currentSelections: Set<Date>)
+                                            _ prev: Set<NNCalendar.Selection>,
+                                            _ current: Set<NNCalendar.Selection>)
     -> Set<NNCalendar.GridSelection>
   {
-    return Set(extractChanges(prevSelections, currentSelections)
+    return Set(extractChanges(prev, current)
       .flatMap({self.calculateGridSelection(monthComp, $0)}))
   }
 
@@ -152,7 +152,7 @@ extension NNCalendar.DateCalc.Sequential: NNSingleMonthGridSelectionCalculator {
   /// and call the pre-specified method that deals with Month Array. We also
   /// assume that the day count remains the same for all Months.
   fileprivate func calculateGridSelection(_ monthComp: NNCalendar.MonthComp,
-                                          _ selection: Date)
+                                          _ selection: NNCalendar.Selection)
     -> Set<NNCalendar.GridSelection>
   {
     var monthComps = [NNCalendar.MonthComp]()

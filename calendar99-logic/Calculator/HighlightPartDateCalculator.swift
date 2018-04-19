@@ -44,8 +44,8 @@ extension NNCalendar.DateCalc.HighlightPart: NNMultiMonthGridSelectionCalculator
   /// We include the previous and next selection for each grid selection so
   /// that they are refreshed too (rationale for this can be found above).
   public func calculateGridSelectionChanges(_ monthComps: [NNCalendar.MonthComp],
-                                            _ prevSelections: Set<Date>,
-                                            _ currentSelections: Set<Date>)
+                                            _ prev: Set<NNCalendar.Selection>,
+                                            _ current: Set<NNCalendar.Selection>)
     -> Set<NNCalendar.GridSelection>
   {
     let totalDayCount = rowCount * columnCount
@@ -54,7 +54,7 @@ extension NNCalendar.DateCalc.HighlightPart: NNMultiMonthGridSelectionCalculator
     // associated dates which are selected (instead of just incrementing/
     // decrementing the day index) but that seems more trouble that it's worth.
     return Set(gridSelectionCalculator
-      .calculateGridSelectionChanges(monthComps, prevSelections, currentSelections)
+      .calculateGridSelectionChanges(monthComps, prev, current)
       .map({[$0.decrementingDayIndex(), $0, $0.incrementingDayIndex()]})
       .flatMap({$0.filter({$0.dayIndex >= 0 && $0.dayIndex < totalDayCount})}))
   }

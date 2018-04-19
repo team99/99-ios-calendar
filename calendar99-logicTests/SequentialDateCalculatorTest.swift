@@ -97,8 +97,8 @@ public final class SequentialDateCalculatorTest: RootTest {
 
       let changedSelect = calculator.extractChanges(prevSelect, currentSelect)
 
-      let gridSelections = calculator.calculateGridSelectionChanges(
-          months, prevSelect, currentSelect)
+      let gridSelections = calculator
+        .calculateGridSelectionChanges(months, prevSelect, currentSelect)
 
       /// Then
       for gridSelection in gridSelections {
@@ -131,8 +131,8 @@ public final class SequentialDateCalculatorTest: RootTest {
 
       let changedSelect = calculator.extractChanges(prevSelect, currentSelect)
 
-      let gridSelections = calculator.calculateGridSelectionChanges(
-        currentMonthComp, prevSelect, currentSelect)
+      let gridSelections = calculator
+        .calculateGridSelectionChanges(currentMonthComp, prevSelect, currentSelect)
 
       /// Then
       for gridSelection in gridSelections {

@@ -63,8 +63,8 @@ public extension HighlightPartDateCalculatorTest {
 
 extension HighlightPartDateCalculatorTest: NNMultiMonthGridSelectionCalculator {
   public func calculateGridSelectionChanges(_ monthComps: [NNCalendar.MonthComp],
-                                            _ prevSelections: Set<Date>,
-                                            _ currentSelections: Set<Date>)
+                                            _ prev: Set<NNCalendar.Selection>,
+                                            _ current: Set<NNCalendar.Selection>)
     -> Set<NNCalendar.GridSelection>
   {
     return gridSelections

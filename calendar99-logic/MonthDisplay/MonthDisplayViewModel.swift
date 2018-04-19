@@ -125,11 +125,11 @@ extension NNCalendar.MonthDisplay.ViewModel: NNMonthDisplayViewModelType {
 
   public var gridDayIndexSelectionChangesStream: Observable<Set<Int>> {
     return model.allDateSelectionStream.map({$0.getOrElse([])})
-      .scan((prev: Set<Date>(), current: Set<Date>()),
-            accumulator: {(prev: $0.current, current: $1)})
+      .scan((p: Set<NNCalendar.Selection>(), c: Set<NNCalendar.Selection>()),
+            accumulator: {(p: $0.c, c: $1)})
       .withLatestFrom(monthCompStream) {($1, $0)}
       .map({[weak self] in self?.model
-        .calculateGridSelectionChanges($0, $1.prev, $1.current)})
+        .calculateGridSelectionChanges($0, $1.p, $1.c)})
       .filter({$0.isSome}).map({$0!})
       .map({Set($0.map({$0.dayIndex}))})
   }
