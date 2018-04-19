@@ -19,7 +19,6 @@ public final class ViewController: UIViewController  {
   @IBOutlet fileprivate weak var monthSectionView: NNMonthSectionView!
   @IBOutlet fileprivate weak var monthView: NNMonthView!
   fileprivate var disposable: DisposeBag!
-  fileprivate var sequentialCalculator: NNCalendar.DateCalc.Sequential!
 
   override public func viewDidLoad() {
     super.viewDidLoad()
@@ -35,11 +34,6 @@ public final class ViewController: UIViewController  {
     let monthHeaderVM = NNCalendar.MonthHeader.ViewModel(monthHeaderModel)
     let monthSectionModel = NNCalendar.MonthSection.Model(self)
     let monthSectionVM = NNCalendar.MonthSection.ViewModel(monthSectionModel)
-
-    sequentialCalculator = NNCalendar.DateCalc.Sequential(
-      monthSectionVM.rowCount,
-      monthSectionVM.columnCount,
-      weekdayModel.firstWeekday)
 
     weekdayView.dependency = (weekdayVM, decorator)
     monthHeader.dependency = (monthHeaderVM, decorator)
@@ -79,6 +73,10 @@ extension ViewController: NNMonthHeaderNoDefaultModelDependency {
 }
 
 extension ViewController: NNMonthSectionNoDefaultModelDependency {
+  public var firstWeekday: Int {
+    return 1
+  }
+
   public var pastMonthsFromCurrent: Int {
     return 1000
   }
@@ -87,29 +85,31 @@ extension ViewController: NNMonthSectionNoDefaultModelDependency {
     return 1000
   }
 
-  public var allDateSelectionReceiver: AnyObserver<Set<Date>> {
+  public var allDateSelectionReceiver: AnyObserver<Set<NNCalendar.Selection>> {
     return Singleton.instance.reduxStore.actionTrigger()
       .mapObserver(ReduxCalendar.Action.updateSelection)
   }
 
-  public var allDateSelectionStream: Observable<Try<Set<Date>>> {
+  public var allDateSelectionStream: Observable<Try<Set<NNCalendar.Selection>>> {
     let path = ReduxCalendar.Action.selectionPath
-    return Singleton.instance.reduxStore.stateValueStream(Set<Date>.self, path)
+    
+    return Singleton.instance.reduxStore
+      .stateValueStream(Set<NNCalendar.Selection>.self, path)
   }
 
   public func isDateSelected(_ date: Date) -> Bool {
     return Singleton.instance.reduxStore
       .lastState.flatMap({$0.stateValue(ReduxCalendar.Action.selectionPath)})
-      .cast(Set<Date>.self)
-      .map({$0.contains(date)})
+      .cast(Set<NNCalendar.Selection>.self)
+      .map({$0.contains(where: {$0.isDateSelected(date)})})
       .getOrElse(false)
   }
 
   public func calculateHighlightPart(_ date: Date) -> NNCalendar.HighlightPart {
     return Singleton.instance.reduxStore
       .lastState.flatMap({$0.stateValue(ReduxCalendar.Action.selectionPath)})
-      .cast(Set<Date>.self)
-      .map({sequentialCalculator.calculateHighlightPart($0, date)})
+      .cast(Set<NNCalendar.Selection>.self)
+      .map({NNCalendar.Util.calculateHighlightPart($0, date)})
       .getOrElse(.none)
   }
 }

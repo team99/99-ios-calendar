@@ -100,19 +100,3 @@ public protocol NNSingleMonthGridSelectionCalculator: NNGridSelectionCalculator 
                                      _ current: Set<NNCalendar.Selection>)
     -> Set<NNCalendar.GridSelection>
 }
-
-/// Classes that implement this protocol should be able to calculate highlight
-/// parts for date selections. A HighlightPart contains information regarding
-/// the position of the selected Date in a set of Date selection, and is mainly
-/// used to custom-draw highlights for the cell containing said Date.
-public protocol NNHighlightPartCalculator {
-
-  /// Calculate highlight part for a selected Date.
-  ///
-  /// - Parameters:
-  ///   - selections: A Set of selected Date.
-  ///   - currentDate: The current selected Date.
-  /// - Returns: A HighlightPart instance.
-  func calculateHighlightPart(_ selections: Set<Date>, _ currentDate: Date)
-    -> NNCalendar.HighlightPart
-}

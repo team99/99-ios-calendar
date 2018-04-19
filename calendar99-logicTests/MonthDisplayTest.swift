@@ -17,7 +17,7 @@ public final class MonthDisplayTest: RootTest {
   fileprivate var viewModel: NNCalendar.MonthDisplay.ViewModel!
   fileprivate var currentMonth: NNCalendar.Month!
   fileprivate var currentMonthSb: BehaviorSubject<NNCalendar.Month>!
-  fileprivate var allDateSelectionSb: BehaviorSubject<Try<Set<Date>>>!
+  fileprivate var allDateSelectionSb: BehaviorSubject<Try<Set<NNCalendar.Selection>>>!
   fileprivate var defaultModelDp: NNMonthDisplayModelDependency!
 
   override public func setUp() {
@@ -134,7 +134,9 @@ public extension MonthDisplayTest {
       // If the date was selected previously, it should be removed from all date
       // selections (thanks to single day selection logic).
       if let selectedDay = selectedDay {
-        XCTAssertNotEqual(lastSelections.contains(selectedDay.date), wasSelected)
+        XCTAssertNotEqual(
+          lastSelections.contains(where: {$0.isDateSelected(selectedDay.date)}),
+          wasSelected)
       }
     }
   }
@@ -144,6 +146,7 @@ public extension MonthDisplayTest {
     let indexChangesObs = scheduler!.createObserver(Set<Int>.self)
     let rowCount = viewModel!.rowCount
     let columnCount = viewModel!.columnCount
+    let firstWeekday = model!.firstWeekday
     var currentMonth = self.currentMonth!
 
     viewModel!.gridDayIndexSelectionChangesStream
@@ -169,7 +172,10 @@ public extension MonthDisplayTest {
       let selectedIndex = Int.random(0, rowCount * columnCount)
       let selectedDay = dayRange[selectedIndex]
       let wasSelected = viewModel!.isDateSelected(selectedDay.date)
-      allDateSelectionReceiver.onNext(Set(arrayLiteral: selectedDay.date))
+
+      allDateSelectionReceiver.onNext(Set(arrayLiteral:
+        NNCalendar.DateSelection(selectedDay.date, firstWeekday)))
+
       waitOnMainThread(waitDuration!)
 
       /// Then
@@ -183,11 +189,11 @@ public extension MonthDisplayTest {
 }
 
 extension MonthDisplayTest: NNMonthDisplayNoDefaultModelDependency {
-  public var allDateSelectionReceiver: AnyObserver<Set<Date>> {
+  public var allDateSelectionReceiver: AnyObserver<Set<NNCalendar.Selection>> {
     return allDateSelectionSb.mapObserver(Try.success)
   }
 
-  public var allDateSelectionStream: Observable<Try<Set<Date>>> {
+  public var allDateSelectionStream: Observable<Try<Set<NNCalendar.Selection>>> {
     return allDateSelectionSb.asObservable()
   }
 
@@ -204,6 +210,8 @@ extension MonthDisplayTest: NNMonthDisplayNoDefaultModelDependency {
   }
 
   public func isDateSelected(_ date: Date) -> Bool {
-    return try! allDateSelectionSb.value().map({$0.contains(date)}).getOrElse(false)
+    return try! allDateSelectionSb.value()
+      .map({$0.contains(where: {$0.isDateSelected(date)})})
+      .getOrElse(false)
   }
 }

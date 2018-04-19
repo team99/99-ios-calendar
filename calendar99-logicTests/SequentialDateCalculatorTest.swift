@@ -79,10 +79,11 @@ public final class SequentialDateCalculatorTest: RootTest {
 
   public func test_calculateMultiMonthGridSelections_shouldWork() {
     /// Setup
+    let firstWeekday = calculator!.firstWeekday
     let firstMonth = NNCalendar.Month(Date())
     let allMonths = (0..<100).map({firstMonth.with(monthOffset: $0)!})
     let months = allMonths.map({NNCalendar.MonthComp($0, dayCount!)})
-    var prevSelect = Set<Date>()
+    var prevSelect = Set<NNCalendar.Selection>()
 
     /// When
     for _ in 0..<iterations! {
@@ -93,7 +94,9 @@ public final class SequentialDateCalculatorTest: RootTest {
           let month = months.randomElement()!
           let dayIndex = Int.random(0, month.dayCount)
           return calculator.calculateDateWithOffset(month.month, dayIndex)!
-        }))
+        })
+        .map({NNCalendar.DateSelection($0, firstWeekday)})
+        .map({$0 as NNCalendar.Selection}))
 
       let changedSelect = calculator.extractChanges(prevSelect, currentSelect)
 
@@ -105,10 +108,9 @@ public final class SequentialDateCalculatorTest: RootTest {
         let selectedMonth = months[gridSelection.monthIndex].month
 
         let selectedDate = calculator.calculateDateWithOffset(
-          selectedMonth,
-          gridSelection.dayIndex)!
+          selectedMonth, gridSelection.dayIndex)!
 
-        XCTAssertTrue(changedSelect.contains(selectedDate))
+        XCTAssertTrue(changedSelect.contains(where: {$0.isDateSelected(selectedDate)}))
       }
 
       prevSelect = currentSelect
@@ -117,17 +119,19 @@ public final class SequentialDateCalculatorTest: RootTest {
 
   public func test_calculateSingleMonthGridSelection_shouldWork() {
     /// Setup
+    let firstWeekday = calculator!.firstWeekday
     var currentMonth = NNCalendar.Month(Date())
-    var prevSelect = Set<Date>()
+    var prevSelect = Set<NNCalendar.Selection>()
 
     /// When
     for i in 0..<iterations! {
       let currentMonthComp = NNCalendar.MonthComp(currentMonth, dayCount!)
       let selectionCount = Int.random(1, dayCount!)
 
-      let currentSelect = Set((0..<selectionCount).map({
-        calculator.calculateDateWithOffset(currentMonth, $0)!
-      }))
+      let currentSelect = Set((0..<selectionCount)
+        .map({calculator.calculateDateWithOffset(currentMonth, $0)!})
+        .map({NNCalendar.DateSelection($0, firstWeekday)})
+        .map({$0 as NNCalendar.Selection}))
 
       let changedSelect = calculator.extractChanges(prevSelect, currentSelect)
 
@@ -142,42 +146,14 @@ public final class SequentialDateCalculatorTest: RootTest {
         // months as well.
         if gridSelection.monthIndex == currentMonth.month {
           let selectedDate = calculator.calculateDateWithOffset(
-            currentMonth,
-            gridSelection.dayIndex)!
+            currentMonth, gridSelection.dayIndex)!
 
-          XCTAssertTrue(changedSelect.contains(selectedDate))
+          XCTAssertTrue(changedSelect.contains(where: {$0.isDateSelected(selectedDate)}))
         }
       }
 
       currentMonth = currentMonth.with(monthOffset: i)!
       prevSelect = currentSelect
     }
-  }
-
-  public func test_calculateHighlightParts_shouldWork() {
-    /// Setup
-    let calendar = Calendar.current
-    let times = 5
-    let startDate = Date()
-    let select1 = (0..<times).map({calendar.date(byAdding: .day, value: $0, to: startDate)!})
-    let select2 = [startDate]
-    let set1 = Set(select1)
-    let set2 = Set(select2)
-
-    /// When
-    let p0 = calculator.calculateHighlightPart(set1, select1[0])
-    let p1 = calculator.calculateHighlightPart(set1, select1[1])
-    let p2 = calculator.calculateHighlightPart(set1, select1[2])
-    let p3 = calculator.calculateHighlightPart(set1, select1[3])
-    let p4 = calculator.calculateHighlightPart(set1, select1[4])
-    let p5 = calculator.calculateHighlightPart(set2, select2[0])
-
-    /// Then
-    XCTAssertEqual(p0, .start)
-    XCTAssertEqual(p1, .mid)
-    XCTAssertEqual(p2, .mid)
-    XCTAssertEqual(p3, .mid)
-    XCTAssertEqual(p4, .end)
-    XCTAssertEqual(p5, .startAndEnd)
   }
 }

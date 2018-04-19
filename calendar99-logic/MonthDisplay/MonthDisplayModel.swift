@@ -27,12 +27,14 @@ public protocol NNMonthDisplayNoDefaultModelFunction:
 public protocol NNMonthDisplayDefaultModelDependency:
   NNDateCalculatorType,
   NNMonthDisplayDefaultModelFunction,
+  NNSingleDaySelectionDefaultModelDependency,
   NNSingleMonthGridSelectionCalculator {}
 
 /// Non-defaultable dependency for month display model.
 public protocol NNMonthDisplayNoDefaultModelDependency:
   NNMonthDisplayDefaultModelFunction,
-  NNMonthDisplayNoDefaultModelFunction {}
+  NNMonthDisplayNoDefaultModelFunction,
+  NNSingleDaySelectionNoDefaultModelDependency {}
 
 /// Dependency for month display model, comprising default & non-default
 /// components.
@@ -128,7 +130,7 @@ extension NNCalendar.MonthDisplay.Model: NNSingleDaySelectionNoDefaultFunction {
   }
 }
 
-// MARK: - NNDaySelectionModelType
+// MARK: - NNSingleDaySelectionModelType
 extension NNCalendar.MonthDisplay.Model: NNSingleDaySelectionModelType {
   public var allDateSelectionReceiver: AnyObserver<Set<NNCalendar.Selection>> {
     return daySelectionModel.allDateSelectionReceiver
@@ -136,6 +138,13 @@ extension NNCalendar.MonthDisplay.Model: NNSingleDaySelectionModelType {
 
   public var allDateSelectionStream: Observable<Try<Set<NNCalendar.Selection>>> {
     return daySelectionModel.allDateSelectionStream
+  }
+}
+
+// MARK: - NNWeekdayAwareDefaultModelFunction
+extension NNCalendar.MonthDisplay.Model: NNWeekdayAwareDefaultModelFunction {
+  public var firstWeekday: Int {
+    return daySelectionModel.firstWeekday
   }
 }
 
@@ -170,6 +179,7 @@ extension NNCalendar.MonthDisplay.Model {
   final class DefaultDependency: NNMonthDisplayModelDependency {
     var columnCount: Int { return monthGridDp.columnCount }
     var rowCount: Int { return monthGridDp.rowCount }
+    var firstWeekday: Int { return daySelectionDp.firstWeekday }
 
     var initialMonthStream: Single<NNCalendar.Month> {
       return noDefault.initialMonthStream
@@ -193,18 +203,18 @@ extension NNCalendar.MonthDisplay.Model {
 
     private let noDefault: NNMonthDisplayNoDefaultModelDependency
     private let monthGridDp: NNMonthGridModelDependency
-    private let weekdayAwareDp: NNWeekdayAwareModelDependency
+    private let daySelectionDp: NNSingleDaySelectionModelDependency
     private let dateCalc: NNCalendar.DateCalc.Sequential
 
     init(_ dependency: NNMonthDisplayNoDefaultModelDependency) {
       noDefault = dependency
       monthGridDp = NNCalendar.MonthGrid.Model.DefaultDependency()
-      weekdayAwareDp = NNCalendar.WeekdayAware.Model.DefaultDependency()
+      daySelectionDp = NNCalendar.DaySelection.Model.DefaultDependency(dependency)
 
       dateCalc = NNCalendar.DateCalc.Sequential(
         monthGridDp.rowCount,
         monthGridDp.columnCount,
-        weekdayAwareDp.firstWeekday)
+        daySelectionDp.firstWeekday)
     }
 
     func isDateSelected(_ date: Date) -> Bool {

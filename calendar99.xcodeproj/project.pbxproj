@@ -52,6 +52,7 @@
 		D3186C0A2087897D0054CE3D /* calendar99_redux.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3186BEB20873C970054CE3D /* calendar99_redux.framework */; };
 		D3186C0C20878A520054CE3D /* Singleton.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3186C0B20878A520054CE3D /* Singleton.swift */; };
 		D318B4F92088D2BE00556D00 /* Selection.swift in Sources */ = {isa = PBXBuildFile; fileRef = D318B4F82088D2BE00556D00 /* Selection.swift */; };
+		D318B4FB2088F26B00556D00 /* SelectionTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D318B4FA2088F26B00556D00 /* SelectionTest.swift */; };
 		D319374320842BB600D055A4 /* MonthDisplayTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D319374220842BB600D055A4 /* MonthDisplayTest.swift */; };
 		D319374520844C5000D055A4 /* MiscEntityTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D319374420844C5000D055A4 /* MiscEntityTest.swift */; };
 		D319374F208489EB00D055A4 /* GridDisplayModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D319374E208489EB00D055A4 /* GridDisplayModel.swift */; };
@@ -212,6 +213,7 @@
 		D3186C06208773160054CE3D /* UtilTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UtilTest.swift; sourceTree = "<group>"; };
 		D3186C0B20878A520054CE3D /* Singleton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Singleton.swift; sourceTree = "<group>"; };
 		D318B4F82088D2BE00556D00 /* Selection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Selection.swift; sourceTree = "<group>"; };
+		D318B4FA2088F26B00556D00 /* SelectionTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionTest.swift; sourceTree = "<group>"; };
 		D319374220842BB600D055A4 /* MonthDisplayTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthDisplayTest.swift; sourceTree = "<group>"; };
 		D319374420844C5000D055A4 /* MiscEntityTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiscEntityTest.swift; sourceTree = "<group>"; };
 		D319374E208489EB00D055A4 /* GridDisplayModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridDisplayModel.swift; sourceTree = "<group>"; };
@@ -636,6 +638,7 @@
 				D31431C02080B1EF0044B936 /* SingleDaySelectionTest.swift */,
 				D318423620819B2100659EA4 /* WeekdayDisplayTest.swift */,
 				D3186C06208773160054CE3D /* UtilTest.swift */,
+				D318B4FA2088F26B00556D00 /* SelectionTest.swift */,
 			);
 			path = "calendar99-logicTests";
 			sourceTree = "<group>";
@@ -1315,6 +1318,7 @@
 				D31837492082E56500575F7D /* MonthSectionTest.swift in Sources */,
 				D3DA7025207C97F100A3DFE1 /* MonthTest.swift in Sources */,
 				D31C042F207D2106000C2C75 /* SequentialDateCalculatorTest.swift in Sources */,
+				D318B4FB2088F26B00556D00 /* SelectionTest.swift in Sources */,
 				D3B510A62080DEC100A2E8EF /* MonthControlTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

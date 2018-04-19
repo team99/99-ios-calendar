@@ -16,6 +16,81 @@ public extension NNCalendar {
 // MARK: - Connect selection
 public extension NNCalendar.Util {
 
+  /// Calculate the first date in the grid. This date is not necessarily the
+  /// first of the month, because the month grid may extend as far back as the
+  /// first weekday.
+  ///
+  /// - Parameters:
+  ///   - month: A Month instance.
+  ///   - firstWeekday: An Int value.
+  /// - Returns: A Date instance.
+  public static func calculateFirstDate(_ month: NNCalendar.Month,
+                                        _ firstWeekday: Int) -> Date? {
+    let calendar = Calendar.current
+    let dateComponents = month.dateComponents()
+
+    return calendar.date(from: dateComponents)
+      .flatMap({(date: Date) -> Date? in
+        let weekday = calendar.component(.weekday, from: date)
+        let offset: Int
+
+        if weekday < firstWeekday {
+          offset = 7 - (firstWeekday - weekday)
+        } else {
+          offset = weekday - firstWeekday
+        }
+
+        return calendar.date(byAdding: .day, value: -offset, to: date)
+      })
+  }
+
+  /// Provided that this date is selected, check the previous and next dates:
+  /// - If the next date is not selected, add a .end part.
+  /// - If the previous date is not selected, add a .start part.
+  /// - If both the next and previous dates are selected, add a .mid part.
+  /// - Otherwise, default to .none.
+  ///
+  /// - Parameters:
+  ///   - selections: The current selections.
+  ///   - date: A Date instance.
+  /// - Returns: A HighlightPart instance.
+  public static func calculateHighlightPart(_ selections: Set<NNCalendar.Selection>,
+                                            _ date: Date)
+    -> NNCalendar.HighlightPart
+  {
+    guard selections.contains(where: {$0.isDateSelected(date)}) else {
+      return .none
+    }
+    
+    let calendar = Calendar.current
+    var flags: NNCalendar.HighlightPart?
+
+    if
+      let nextDate = calendar.date(byAdding: .day, value: 1, to: date),
+      !selections.contains(where: {$0.isDateSelected(nextDate)})
+    {
+      flags = flags.map({$0.union(.end)}).getOrElse(.end)
+    }
+
+    if
+      let prevDate = calendar.date(byAdding: .day, value: -1, to: date),
+      !selections.contains(where: {$0.isDateSelected(prevDate)})
+    {
+      flags = flags.map({$0.union(.start)}).getOrElse(.start)
+    }
+
+    if
+      let prevDate = calendar.date(byAdding: .day, value: -1, to: date),
+      let nextDate = calendar.date(byAdding: .day, value: 1, to: date),
+      selections.contains(where: {$0.isDateSelected(nextDate)}),
+      selections.contains(where: {$0.isDateSelected(prevDate)})
+    {
+      flags = .mid
+    }
+
+    return flags.getOrElse(.none)
+  }
+
   /// Connect discrete date selections into one continuous string of Dates, by
   /// including dates in between as well. For e.g. we have selections as follows:
   ///

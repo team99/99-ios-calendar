@@ -16,7 +16,7 @@ import XCTest
 public final class SelectableWeekdayTest: RootTest {
   fileprivate var model: NNCalendar.SelectWeekday.Model!
   fileprivate var viewModel: NNCalendar.SelectWeekday.ViewModel!
-  fileprivate var allDateSelectionSb: BehaviorSubject<Try<Set<Date>>>!
+  fileprivate var allDateSelectionSb: BehaviorSubject<Try<Set<NNCalendar.Selection>>>!
   fileprivate var currentMonth: NNCalendar.Month!
   fileprivate var currentMonthSb: BehaviorSubject<NNCalendar.Month>!
   fileprivate var defaultModelDp: NNSelectableWeekdayModelDependency!
@@ -74,7 +74,8 @@ public extension SelectableWeekdayTest {
         XCTAssertGreaterThanOrEqual(selections.count, 4)
 
         XCTAssertTrue(selections
-          .map({calendar.component(.weekday, from: $0)})
+          .flatMap({$0 as? NNCalendar.DateSelection})
+          .map({calendar.component(.weekday, from: $0.date)})
           .all({$0 == weekdayIndex + 1}))
 
         viewModel!.weekdaySelectionIndexReceiver.onNext(weekdayIndex)
@@ -86,11 +87,11 @@ public extension SelectableWeekdayTest {
 }
 
 extension SelectableWeekdayTest: NNSelectableWeekdayNoDefaultModelDependency {
-  public var allDateSelectionReceiver: AnyObserver<Set<Date>> {
+  public var allDateSelectionReceiver: AnyObserver<Set<NNCalendar.Selection>> {
     return allDateSelectionSb.mapObserver(Try.success)
   }
 
-  public var allDateSelectionStream: Observable<Try<Set<Date>>> {
+  public var allDateSelectionStream: Observable<Try<Set<NNCalendar.Selection>>> {
     return allDateSelectionSb.asObservable()
   }
 

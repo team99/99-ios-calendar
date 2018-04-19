@@ -190,6 +190,13 @@ extension NNCalendar.MonthSection.Model: NNSingleDaySelectionModelType {
   }
 }
 
+// MARK: - NNWeekdayAwareDefaultModelFunction
+extension NNCalendar.MonthSection.Model: NNWeekdayAwareDefaultModelFunction {
+  public var firstWeekday: Int {
+    return daySelectionModel.firstWeekday
+  }
+}
+
 // MARK: - NNMonthSectionModelType
 extension NNCalendar.MonthSection.Model: NNMonthSectionModelType {
   public func getAvailableMonths(_ currentComp: NNCalendar.Month,
@@ -225,6 +232,7 @@ extension NNCalendar.MonthSection.Model {
     var rowCount: Int { return monthGridDp.rowCount }
     var pastMonthsFromCurrent: Int { return noDefault.pastMonthsFromCurrent }
     var futureMonthsFromCurrent: Int { return noDefault.futureMonthsFromCurrent }
+    var firstWeekday: Int { return daySelectionDp.firstWeekday }
 
     var initialMonthStream: Single<NNCalendar.Month> {
       return noDefault.initialMonthStream
@@ -248,7 +256,7 @@ extension NNCalendar.MonthSection.Model {
 
     private let noDefault: NNMonthSectionNoDefaultModelDependency
     private let monthGridDp: NNMonthGridModelDependency
-    private let weekdayAwareDp: NNWeekdayAwareModelDependency
+    private let daySelectionDp: NNSingleDaySelectionModelDependency
     private let dateCalc: NNCalendar.DateCalc.Sequential
 
     /// Use this to calculate grid selection changes while catering to selection
@@ -259,12 +267,12 @@ extension NNCalendar.MonthSection.Model {
     init(_ dependency: NNMonthSectionNoDefaultModelDependency) {
       noDefault = dependency
       monthGridDp = NNCalendar.MonthGrid.Model.DefaultDependency()
-      weekdayAwareDp = NNCalendar.WeekdayAware.Model.DefaultDependency()
+      daySelectionDp = NNCalendar.DaySelection.Model.DefaultDependency(dependency)
       
       dateCalc = NNCalendar.DateCalc.Sequential(
         monthGridDp.rowCount,
         monthGridDp.columnCount,
-        weekdayAwareDp.firstWeekday)
+        daySelectionDp.firstWeekday)
 
       highlightCalc = NNCalendar.DateCalc.HighlightPart(
         dateCalc, monthGridDp.rowCount, monthGridDp.columnCount)

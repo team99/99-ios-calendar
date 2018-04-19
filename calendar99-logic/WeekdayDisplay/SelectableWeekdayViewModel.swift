@@ -59,6 +59,7 @@ extension NNCalendar.SelectWeekday.ViewModel: NNWeekdayDisplayViewModelType {
   public func setupWeekDisplayBindings() {
     weekdayVM.setupWeekDisplayBindings()
     let disposable = self.disposable
+    let firstWeekday = model.firstWeekday
 
     // In case:
     // - The user selects a weekday range (e.g. all Mondays).
@@ -68,10 +69,10 @@ extension NNCalendar.SelectWeekday.ViewModel: NNWeekdayDisplayViewModelType {
     weekdaySelectionStream
       .withLatestFrom(model.currentMonthStream) {($1, $0)}
       .map({$0.datesWithWeekday($1)})
-      .withLatestFrom(model.allDateSelectionStream) {(dates, selection) in
-        return selection.getOrElse([]).symmetricDifference(dates)
+      .map({Set($0.map({NNCalendar.DateSelection($0, firstWeekday)}))})
+      .withLatestFrom(model.allDateSelectionStream) {
+        return $1.getOrElse([]).symmetricDifference($0)
       }
-      .do(onNext: {print($0)})
       .subscribe(model.allDateSelectionReceiver)
       .disposed(by: disposable)
   }

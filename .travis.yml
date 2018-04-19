@@ -4,10 +4,6 @@ xcode_workspace: calendar99.xcworkspace
 xcode_scheme: calendar99-logic
 xcode_sdk: iphonesimulator11.2
 
-branches:
-  except:
-  - selectionHighlight
-
 before_install:
 - gem install cocoapods slather xcpretty
 - pod repo update

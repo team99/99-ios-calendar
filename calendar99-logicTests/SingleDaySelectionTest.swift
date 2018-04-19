@@ -16,17 +16,24 @@ import XCTest
 public final class SingleDaySelectionTest: RootTest {
   fileprivate var model: NNCalendar.DaySelection.Model!
   fileprivate var viewModel: NNCalendar.DaySelection.ViewModel!
-  fileprivate var allSelectionSb: BehaviorSubject<Try<Set<Date>>>!
+  fileprivate var allSelectionSb: BehaviorSubject<Try<Set<NNCalendar.Selection>>>!
+  fileprivate var defaultModelDp: NNCalendar.DaySelection.Model.DefaultDependency!
 
   override public func setUp() {
     super.setUp()
     model = NNCalendar.DaySelection.Model(self)
     viewModel = NNCalendar.DaySelection.ViewModel(model!)
     allSelectionSb = BehaviorSubject(value: Try.failure(""))
+    defaultModelDp = NNCalendar.DaySelection.Model.DefaultDependency(self)
   }
 }
 
 public extension SingleDaySelectionTest {
+  public func test_defaultDependencies_shouldWork() {
+    let model1 = NNCalendar.DaySelection.Model(defaultModelDp)
+    XCTAssertEqual(model!.firstWeekday, model1.firstWeekday)
+  }
+
   public func test_selectSingleDates_shouldUpdateAllSelectionsCorrectly() {
     /// Setup
     viewModel!.setupDaySelectionBindings()
@@ -57,16 +64,18 @@ public extension SingleDaySelectionTest {
   }
 }
 
-extension SingleDaySelectionTest: NNSingleDaySelectionModelDependency {
-  public var allDateSelectionReceiver: AnyObserver<Set<Date>> {
+extension SingleDaySelectionTest: NNSingleDaySelectionNoDefaultModelDependency {
+  public var allDateSelectionReceiver: AnyObserver<Set<NNCalendar.Selection>> {
     return allSelectionSb.mapObserver(Try.success)
   }
 
-  public var allDateSelectionStream: Observable<Try<Set<Date>>> {
+  public var allDateSelectionStream: Observable<Try<Set<NNCalendar.Selection>>> {
     return allSelectionSb.asObservable()
   }
 
   public func isDateSelected(_ date: Date) -> Bool {
-    return try! allSelectionSb!.value().map({$0.contains(date)}).getOrElse(false)
+    return try! allSelectionSb!.value()
+      .map({$0.contains(where: {$0.isDateSelected(date)})})
+      .getOrElse(false)
   }
 }

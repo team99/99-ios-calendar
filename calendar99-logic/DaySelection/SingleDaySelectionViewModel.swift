@@ -55,12 +55,14 @@ extension NNCalendar.DaySelection.ViewModel: NNSingleDaySelectionViewModelType {
   /// the selection set. If it is, remove it.
   public func setupDaySelectionBindings() {
     let disposable = self.disposable
+    let firstWeekday = model.firstWeekday
 
     dateSelectionSbj
+      .map({NNCalendar.DateSelection($0, firstWeekday) as NNCalendar.Selection})
       .withLatestFrom(model.allDateSelectionStream) {($1.getOrElse([]), $0)}
       .map({$0.contains($1)
-          ? $0.subtracting(Set<Date>(arrayLiteral: $1))
-          : $0.union(Set<Date>(arrayLiteral: $1))})
+          ? $0.subtracting(Set(arrayLiteral: $1))
+          : $0.union(Set(arrayLiteral: $1))})
       .subscribe(model.allDateSelectionReceiver)
       .disposed(by: disposable)
   }

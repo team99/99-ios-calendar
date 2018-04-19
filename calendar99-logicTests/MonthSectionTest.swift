@@ -17,7 +17,7 @@ public final class MonthSectionTest: RootTest {
   fileprivate var model: NNCalendar.MonthSection.Model!
   fileprivate var viewModel: NNCalendar.MonthSection.ViewModel!
   fileprivate var currentMonth: NNCalendar.Month!
-  fileprivate var allDateSelectionSb: BehaviorSubject<Try<Set<Date>>>!
+  fileprivate var allDateSelectionSb: BehaviorSubject<Try<Set<NNCalendar.Selection>>>!
   fileprivate var currentMonthSb: BehaviorSubject<NNCalendar.Month>!
   fileprivate var defaultModelDp: NNMonthSectionModelDependency!
   fileprivate var sequentialDateCalc: NNCalendar.DateCalc.Sequential!
@@ -58,6 +58,8 @@ public extension MonthSectionTest {
     let months1 = model1.getAvailableMonths(currentMonth, pastMonths, futureMonths)
     let months2 = model2.getAvailableMonths(currentMonth, pastMonths, futureMonths)
     XCTAssertEqual(months1, months2)
+    XCTAssertEqual(model1.firstWeekday, firstWeekday)
+    XCTAssertEqual(model2.firstWeekday, firstWeekday)
 
     let monthControlVM = NNCalendar.MonthControl.ViewModel(monthControlModel)
     let monthGridVM = NNCalendar.MonthGrid.ViewModel(monthGridModel)
@@ -140,6 +142,7 @@ public extension MonthSectionTest {
     let selectionChangesObs = scheduler!.createObserver(Set<NNCalendar.GridSelection>.self)
     let rowCount = viewModel!.rowCount
     let columnCount = viewModel!.columnCount
+    let firstWeekday = model!.firstWeekday
     viewModel!.setupMonthSectionBindings()
     let monthComps = try! viewModel!.monthCompStream.take(1).toBlocking().first()!
 
@@ -167,7 +170,10 @@ public extension MonthSectionTest {
       let month = monthComps[monthIndex].month
       let selectedDay = viewModel!.calculateDayFromFirstDate(month, dayIndex)!
       let wasSelected = viewModel!.isDateSelected(selectedDay.date)
-      allDateSelectionReceiver.onNext(Set(arrayLiteral: selectedDay.date))
+
+      allDateSelectionReceiver.onNext(Set(arrayLiteral:
+        NNCalendar.DateSelection(selectedDay.date, firstWeekday)))
+
       waitOnMainThread(waitDuration!)
 
       /// Then
@@ -218,26 +224,32 @@ public extension MonthSectionTest {
     /// Setup
     let calendar = Calendar.current
     let selectionCount = 100
+    let firstWeekday = model!.firstWeekday
 
     /// When
     for _ in 0..<iterations! {
       let startDate = Date.random()!
 
-      let selections = (0..<selectionCount)
+      let selectedDates = (0..<selectionCount)
         .map({calendar.date(byAdding: .day, value: $0, to: startDate)!})
 
+      let selections = selectedDates.map({NNCalendar.DateSelection($0, firstWeekday)})
       allDateSelectionReceiver.onNext(Set(selections))
       waitOnMainThread(waitDuration!)
 
       /// Then
-      let highlight1 = selections.map({viewModel!.calculateHighlightPart($0)})
-      let highlight2 = selections.map({calculateHighlightPart($0)})
+      let highlight1 = selectedDates.map({viewModel!.calculateHighlightPart($0)})
+      let highlight2 = selectedDates.map({calculateHighlightPart($0)})
       XCTAssertEqual(highlight1, highlight2)
     }
   }
 }
 
 extension MonthSectionTest: NNMonthSectionNoDefaultModelDependency {
+  public var firstWeekday: Int {
+    return defaultModelDp.firstWeekday
+  }
+
   public var pastMonthsFromCurrent: Int {
     return 100
   }
@@ -248,15 +260,15 @@ extension MonthSectionTest: NNMonthSectionNoDefaultModelDependency {
 
   public func calculateHighlightPart(_ date: Date) -> NNCalendar.HighlightPart {
     return try! allDateSelectionSb.value()
-      .map({sequentialDateCalc.calculateHighlightPart($0, date)})
+      .map({NNCalendar.Util.calculateHighlightPart($0, date)})
       .getOrElse(.none)
   }
 
-  public var allDateSelectionReceiver: AnyObserver<Set<Date>> {
+  public var allDateSelectionReceiver: AnyObserver<Set<NNCalendar.Selection>> {
     return allDateSelectionSb.mapObserver(Try.success)
   }
 
-  public var allDateSelectionStream: Observable<Try<Set<Date>>> {
+  public var allDateSelectionStream: Observable<Try<Set<NNCalendar.Selection>>> {
     return allDateSelectionSb.asObservable()
   }
 
@@ -273,6 +285,8 @@ extension MonthSectionTest: NNMonthSectionNoDefaultModelDependency {
   }
 
   public func isDateSelected(_ date: Date) -> Bool {
-    return try! allDateSelectionSb.value().map({$0.contains(date)}).getOrElse(false)
+    return try! allDateSelectionSb.value()
+      .map({$0.contains(where: {$0.isDateSelected(date)})})
+      .getOrElse(false)
   }
 }
