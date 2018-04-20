@@ -75,7 +75,7 @@ extension SingleDaySelectionTest: NNSingleDaySelectionNoDefaultModelDependency {
 
   public func isDateSelected(_ date: Date) -> Bool {
     return try! allSelectionSb!.value()
-      .map({$0.contains(where: {$0.isDateSelected(date)})})
+      .map({$0.contains(where: {$0.contains(date)})})
       .getOrElse(false)
   }
 }

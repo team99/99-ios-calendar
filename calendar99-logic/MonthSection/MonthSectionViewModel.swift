@@ -31,7 +31,7 @@ public protocol NNMonthSectionViewModelType:
   ///
   /// Beware that this stream only emits changes in grid selections by comparing
   /// the previous and current selections.
-  var gridSelectionChangesStream: Observable<Set<NNCalendar.GridSelection>> { get }
+  var gridSelectionChangesStream: Observable<Set<NNCalendar.GridPosition>> { get }
 
   /// Calculate the day for a month and a first date offset.
   ///
@@ -104,11 +104,11 @@ extension NNCalendar.MonthSection.ViewModel: NNGridDisplayDefaultFunction {
 
 // MARK: - NNMonthGridViewModelType
 extension NNCalendar.MonthSection.ViewModel: NNMonthGridViewModelType {
-  public var gridSelectionReceiver: AnyObserver<NNCalendar.GridSelection> {
+  public var gridSelectionReceiver: AnyObserver<NNCalendar.GridPosition> {
     return monthGridVM.gridSelectionReceiver
   }
 
-  public var gridSelectionStream: Observable<NNCalendar.GridSelection> {
+  public var gridSelectionStream: Observable<NNCalendar.GridPosition> {
     return monthGridVM.gridSelectionStream
   }
 }
@@ -171,7 +171,7 @@ extension NNCalendar.MonthSection.ViewModel: NNMonthSectionViewModelType {
   }
 
   /// Keep track of the previous selections to know what have been deselected.
-  public var gridSelectionChangesStream: Observable<Set<NNCalendar.GridSelection>> {
+  public var gridSelectionChangesStream: Observable<Set<NNCalendar.GridPosition>> {
     return model.allDateSelectionStream.map({$0.getOrElse([])})
       .scan((p: Set<NNCalendar.Selection>(), c: Set<NNCalendar.Selection>()),
             accumulator: {(p: $0.c, c: $1)})

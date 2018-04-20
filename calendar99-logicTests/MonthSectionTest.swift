@@ -119,7 +119,7 @@ public extension MonthSectionTest {
       waitOnMainThread(waitDuration!)
 
       let dayIndex = Int.random(0, rowCount * columnCount)
-      let selection = NNCalendar.GridSelection(offset, dayIndex)
+      let selection = NNCalendar.GridPosition(offset, dayIndex)
       let withinRange = offset < months.count
 
       let selectedDate = (withinRange
@@ -139,7 +139,7 @@ public extension MonthSectionTest {
 
   public func test_gridSelectionChanges_shouldWorkCorrectly() {
     /// Setup
-    let selectionChangesObs = scheduler!.createObserver(Set<NNCalendar.GridSelection>.self)
+    let selectionChangesObs = scheduler!.createObserver(Set<NNCalendar.GridPosition>.self)
     let rowCount = viewModel!.rowCount
     let columnCount = viewModel!.columnCount
     let firstWeekday = model!.firstWeekday
@@ -155,7 +155,7 @@ public extension MonthSectionTest {
       // Only select within the month range that could have previous and next
       // months, so that we are sure there will always be valid date selections.
       // For e.g., month index 0 & day index 0 will yield no selections because
-      // the default grid selection calculator takes into account 3 consecutive
+      // the default grid position calculator takes into account 3 consecutive
       // months, and day index 0 falls out of the current month range if the
       // first day is not at index 0, for e.g., if we specify Monday as the
       // first day of the week:
@@ -166,7 +166,7 @@ public extension MonthSectionTest {
       // the month comp range, we end up with no selection.
       let monthIndex = Int.random(1, monthComps.count - 1)
       let dayIndex = Int.random(0, rowCount * columnCount)
-      let gridSelection = NNCalendar.GridSelection(monthIndex, dayIndex)
+      let gridPosition = NNCalendar.GridPosition(monthIndex, dayIndex)
       let month = monthComps[monthIndex].month
       let selectedDay = viewModel!.calculateDayFromFirstDate(month, dayIndex)!
       let wasSelected = viewModel!.isDateSelected(selectedDay.date)
@@ -181,7 +181,7 @@ public extension MonthSectionTest {
 
       // Since we only extract differences, if the calculated date has already
       // been selected it should be skipped.
-      XCTAssertNotEqual(lastChanges.contains(gridSelection), wasSelected)
+      XCTAssertNotEqual(lastChanges.contains(gridPosition), wasSelected)
     }
   }
 
@@ -286,7 +286,7 @@ extension MonthSectionTest: NNMonthSectionNoDefaultModelDependency {
 
   public func isDateSelected(_ date: Date) -> Bool {
     return try! allDateSelectionSb.value()
-      .map({$0.contains(where: {$0.isDateSelected(date)})})
+      .map({$0.contains(where: {$0.contains(date)})})
       .getOrElse(false)
   }
 }

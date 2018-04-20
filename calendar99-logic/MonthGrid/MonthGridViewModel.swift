@@ -15,10 +15,10 @@ public protocol NNMonthGridViewModelType:
 {
   /// Trigger grid item selection. Each grid selection corresponds to an Index
   /// Path in the current month grid.
-  var gridSelectionReceiver: AnyObserver<NNCalendar.GridSelection> { get }
+  var gridSelectionReceiver: AnyObserver<NNCalendar.GridPosition> { get }
 
   /// Stream grid selections.
-  var gridSelectionStream: Observable<NNCalendar.GridSelection> { get }
+  var gridSelectionStream: Observable<NNCalendar.GridPosition> { get }
 }
 
 // MARK: - ViewModel.
@@ -27,7 +27,7 @@ public extension NNCalendar.MonthGrid {
   /// View model implementation for month grid view.
   public final class ViewModel {
     fileprivate let model: NNMonthGridModelType
-    fileprivate let gridSelectionSb: PublishSubject<NNCalendar.GridSelection>
+    fileprivate let gridSelectionSb: PublishSubject<NNCalendar.GridPosition>
 
     required public init(_ model: NNMonthGridModelType) {
       self.model = model
@@ -49,11 +49,11 @@ extension NNCalendar.MonthGrid.ViewModel: NNGridDisplayDefaultFunction {
 
 // MARK: - NNMonthGridViewModelType
 extension NNCalendar.MonthGrid.ViewModel: NNMonthGridViewModelType {
-  public var gridSelectionStream: Observable<NNCalendar.GridSelection> {
+  public var gridSelectionStream: Observable<NNCalendar.GridPosition> {
     return gridSelectionSb.asObservable()
   }
 
-  public var gridSelectionReceiver: AnyObserver<NNCalendar.GridSelection> {
+  public var gridSelectionReceiver: AnyObserver<NNCalendar.GridPosition> {
     return gridSelectionSb.asObserver()
   }
 }

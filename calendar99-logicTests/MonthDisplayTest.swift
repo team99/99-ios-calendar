@@ -121,11 +121,11 @@ public extension MonthDisplayTest {
       // This will be ignored anyway, but we add in just to check.
       let monthIndex = Int.random(0, 1000)
       let dayIndex = Int.random(0, 1000)
-      let gridSelection = NNCalendar.GridSelection(monthIndex, dayIndex)
+      let gridPosition = NNCalendar.GridPosition(monthIndex, dayIndex)
       let validSelection = dayIndex < currentDays.count
       let selectedDay = validSelection ? currentDays[dayIndex] : nil
       let wasSelected = selectedDay.map({viewModel!.isDateSelected($0.date)}) ?? false
-      viewModel!.gridSelectionReceiver.onNext(gridSelection)
+      viewModel!.gridSelectionReceiver.onNext(gridPosition)
       waitOnMainThread(waitDuration!)
 
       /// Then
@@ -135,7 +135,7 @@ public extension MonthDisplayTest {
       // selections (thanks to single day selection logic).
       if let selectedDay = selectedDay {
         XCTAssertNotEqual(
-          lastSelections.contains(where: {$0.isDateSelected(selectedDay.date)}),
+          lastSelections.contains(where: {$0.contains(selectedDay.date)}),
           wasSelected)
       }
     }
@@ -211,7 +211,7 @@ extension MonthDisplayTest: NNMonthDisplayNoDefaultModelDependency {
 
   public func isDateSelected(_ date: Date) -> Bool {
     return try! allDateSelectionSb.value()
-      .map({$0.contains(where: {$0.isDateSelected(date)})})
+      .map({$0.contains(where: {$0.contains(date)})})
       .getOrElse(false)
   }
 }

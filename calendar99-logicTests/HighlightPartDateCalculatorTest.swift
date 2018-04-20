@@ -14,9 +14,9 @@ public final class HighlightPartDateCalculatorTest: RootTest {
   fileprivate var rowCount: Int!
   fileprivate var columnCount: Int!
 
-  fileprivate var gridSelections: Set<NNCalendar.GridSelection> {
+  fileprivate var gridPositions: Set<NNCalendar.GridPosition> {
     return Set((0..<10).flatMap({monthIndex in
-      (0..<iterations!).map({NNCalendar.GridSelection(monthIndex, $0)})
+      (0..<iterations!).map({NNCalendar.GridPosition(monthIndex, $0)})
     }))
   }
 
@@ -31,31 +31,31 @@ public final class HighlightPartDateCalculatorTest: RootTest {
 public extension HighlightPartDateCalculatorTest {
   public func test_calculateGridSelectionChanges_shouldWork() {
     /// Setup
-    let actualGridSelections = gridSelections
+    let actualGridPositions = gridPositions
     let totalDayCount = rowCount! * columnCount!
 
     /// When
-    let newGridSelections = dateCalc.calculateGridSelectionChanges([], [], [])
+    let newGridPositions = dateCalc.calculateGridSelectionChanges([], [], [])
 
     /// Then
-    XCTAssertTrue(newGridSelections.all({
+    XCTAssertTrue(newGridPositions.all({
       $0.dayIndex >= 0 && $0.dayIndex < totalDayCount
     }))
 
-    for gridSelection in actualGridSelections {
+    for gridSelection in actualGridPositions {
       let prevSelection = gridSelection.decrementingDayIndex()
       let nextSelection = gridSelection.incrementingDayIndex()
 
       if gridSelection.dayIndex >= 0 && gridSelection.dayIndex < totalDayCount {
-        XCTAssertTrue(newGridSelections.contains(gridSelection))
+        XCTAssertTrue(newGridPositions.contains(gridSelection))
       }
 
       if prevSelection.dayIndex >= 0 && gridSelection.dayIndex < totalDayCount {
-        XCTAssertTrue(newGridSelections.contains(prevSelection))
+        XCTAssertTrue(newGridPositions.contains(prevSelection))
       }
 
       if nextSelection.dayIndex < totalDayCount {
-        XCTAssertTrue(newGridSelections.contains(nextSelection))
+        XCTAssertTrue(newGridPositions.contains(nextSelection))
       }
     }
   }
@@ -65,8 +65,8 @@ extension HighlightPartDateCalculatorTest: NNMultiMonthGridSelectionCalculator {
   public func calculateGridSelectionChanges(_ monthComps: [NNCalendar.MonthComp],
                                             _ prev: Set<NNCalendar.Selection>,
                                             _ current: Set<NNCalendar.Selection>)
-    -> Set<NNCalendar.GridSelection>
+    -> Set<NNCalendar.GridPosition>
   {
-    return gridSelections
+    return gridPositions
   }
 }

@@ -165,7 +165,7 @@ extension NNCalendar.MonthDisplay.Model: NNMonthDisplayModelType {
   public func calculateGridSelectionChanges(_ monthComp: NNCalendar.MonthComp,
                                             _ prev: Set<NNCalendar.Selection>,
                                             _ current: Set<NNCalendar.Selection>)
-    -> Set<NNCalendar.GridSelection>
+    -> Set<NNCalendar.GridPosition>
   {
     return dependency.calculateGridSelectionChanges(monthComp, prev, current)
   }
@@ -230,7 +230,7 @@ extension NNCalendar.MonthDisplay.Model {
     func calculateGridSelectionChanges(_ monthComp: NNCalendar.MonthComp,
                                        _ prev: Set<NNCalendar.Selection>,
                                        _ current: Set<NNCalendar.Selection>)
-      -> Set<NNCalendar.GridSelection>
+      -> Set<NNCalendar.GridPosition>
     {
       return dateCalc.calculateGridSelectionChanges(monthComp, prev, current)
     }

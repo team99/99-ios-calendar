@@ -36,7 +36,7 @@ public extension MonthGridTest {
 
   public func test_gridSelectionReceiverAndStream_shouldWork() {
     /// Setup
-    let selectionObs = scheduler!.createObserver(NNCalendar.GridSelection.self)
+    let selectionObs = scheduler!.createObserver(NNCalendar.GridPosition.self)
 
     viewModel.gridSelectionStream
       .subscribe(selectionObs)
@@ -46,7 +46,7 @@ public extension MonthGridTest {
     for _ in 0..<iterations! {
       let month = Int.random(0, 1000)
       let day = Int.random(0, 1000)
-      let selection = NNCalendar.GridSelection(month, day)
+      let selection = NNCalendar.GridPosition(month, day)
       viewModel.gridSelectionReceiver.onNext(selection)
       waitOnMainThread(waitDuration!)
 

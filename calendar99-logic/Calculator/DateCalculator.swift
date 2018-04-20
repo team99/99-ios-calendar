@@ -66,19 +66,19 @@ public extension NNGridSelectionCalculator {
 /// Calculate grid selection for date selections based on an Array of Months.
 public protocol NNMultiMonthGridSelectionCalculator: NNGridSelectionCalculator {
 
-  /// Calculate grid selection changes for a specified MonthComp Array. We
-  /// compare the previous and current selections to derive the changed set, on
-  /// which grid selection calculations are performed.
+  /// Calculate grid position changes for a specified MonthComp Array. We compare
+  /// the previous and current selections to derive the changed set, on which
+  /// grid selection calculations are performed.
   ///
   /// - Parameters:
   ///   - monthComps: A MonthComp Array.
   ///   - prev: The previous selections.
   ///   - current: The current selections.
-  /// - Returns: A GridSelection Set.
+  /// - Returns: A GridPosition Set.
   func calculateGridSelectionChanges(_ monthComps: [NNCalendar.MonthComp],
                                      _ prev: Set<NNCalendar.Selection>,
                                      _ current: Set<NNCalendar.Selection>)
-    -> Set<NNCalendar.GridSelection>
+    -> Set<NNCalendar.GridPosition>
 }
 
 /// The functionality of this calculator is almost the same as the one above,
@@ -94,9 +94,9 @@ public protocol NNSingleMonthGridSelectionCalculator: NNGridSelectionCalculator 
   ///   - monthComp: A MonthComp instance.
   ///   - prev: The previous selections.
   ///   - current: The current selections.
-  /// - Returns: A Set of GridSelection.
+  /// - Returns: A Set of GridPosition.
   func calculateGridSelectionChanges(_ monthComp: NNCalendar.MonthComp,
                                      _ prev: Set<NNCalendar.Selection>,
                                      _ current: Set<NNCalendar.Selection>)
-    -> Set<NNCalendar.GridSelection>
+    -> Set<NNCalendar.GridPosition>
 }

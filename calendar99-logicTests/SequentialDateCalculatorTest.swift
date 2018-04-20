@@ -100,17 +100,17 @@ public final class SequentialDateCalculatorTest: RootTest {
 
       let changedSelect = calculator.extractChanges(prevSelect, currentSelect)
 
-      let gridSelections = calculator
+      let gridPositions = calculator
         .calculateGridSelectionChanges(months, prevSelect, currentSelect)
 
       /// Then
-      for gridSelection in gridSelections {
-        let selectedMonth = months[gridSelection.monthIndex].month
+      for position in gridPositions {
+        let selectedMonth = months[position.monthIndex].month
 
-        let selectedDate = calculator.calculateDateWithOffset(
-          selectedMonth, gridSelection.dayIndex)!
+        let selectedDate = calculator
+          .calculateDateWithOffset(selectedMonth, position.dayIndex)!
 
-        XCTAssertTrue(changedSelect.contains(where: {$0.isDateSelected(selectedDate)}))
+        XCTAssertTrue(changedSelect.contains(where: {$0.contains(selectedDate)}))
       }
 
       prevSelect = currentSelect
@@ -133,22 +133,22 @@ public final class SequentialDateCalculatorTest: RootTest {
         .map({NNCalendar.DateSelection($0, firstWeekday)})
         .map({$0 as NNCalendar.Selection}))
 
-      let changedSelect = calculator.extractChanges(prevSelect, currentSelect)
+      let changed = calculator.extractChanges(prevSelect, currentSelect)
 
-      let gridSelections = calculator
+      let gridPositions = calculator
         .calculateGridSelectionChanges(currentMonthComp, prevSelect, currentSelect)
 
       /// Then
-      for gridSelection in gridSelections {
+      for position in gridPositions {
 
         // The month index is not necessarily the same as the month value in the
         // current month value, because we calculate for the previous and next
         // months as well.
-        if gridSelection.monthIndex == currentMonth.month {
+        if position.monthIndex == currentMonth.month {
           let selectedDate = calculator.calculateDateWithOffset(
-            currentMonth, gridSelection.dayIndex)!
+            currentMonth, position.dayIndex)!
 
-          XCTAssertTrue(changedSelect.contains(where: {$0.isDateSelected(selectedDate)}))
+          XCTAssertTrue(changed.contains(where: {$0.contains(selectedDate)}))
         }
       }
 

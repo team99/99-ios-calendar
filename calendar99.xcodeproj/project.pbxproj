@@ -602,6 +602,8 @@
 				D3DA6FB9207C6D2300A3DFE1 /* Info.plist */,
 				D3DA700F207C805300A3DFE1 /* Entity.swift */,
 				D3DA6FD3207C6EC700A3DFE1 /* Entry.swift */,
+				D318B4F82088D2BE00556D00 /* Selection.swift */,
+				D3186C0420876BB00054CE3D /* Util.swift */,
 				D3136207207FBC860090263A /* Calculator */,
 				D31DA87F207EF26F00FB4355 /* DaySelection */,
 				D319374D208489D800D055A4 /* GridDisplay */,
@@ -614,8 +616,6 @@
 				D31329202085112D00E06C2A /* SelectHighlight */,
 				D31431A720805E790044B936 /* WeekdayAware */,
 				D31431AA20805F610044B936 /* WeekdayDisplay */,
-				D3186C0420876BB00054CE3D /* Util.swift */,
-				D318B4F82088D2BE00556D00 /* Selection.swift */,
 			);
 			path = "calendar99-logic";
 			sourceTree = "<group>";

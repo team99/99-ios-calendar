@@ -102,11 +102,11 @@ extension NNCalendar.MonthDisplay.ViewModel: NNGridDisplayDefaultFunction {
 
 // MARK: - NNMonthGridViewModelType
 extension NNCalendar.MonthDisplay.ViewModel: NNMonthGridViewModelType {
-  public var gridSelectionReceiver: AnyObserver<NNCalendar.GridSelection> {
+  public var gridSelectionReceiver: AnyObserver<NNCalendar.GridPosition> {
     return monthGridVM.gridSelectionReceiver
   }
 
-  public var gridSelectionStream: Observable<NNCalendar.GridSelection> {
+  public var gridSelectionStream: Observable<NNCalendar.GridPosition> {
     return monthGridVM.gridSelectionStream
   }
 }

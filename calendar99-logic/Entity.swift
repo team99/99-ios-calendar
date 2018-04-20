@@ -24,15 +24,15 @@ enum MonthDirection {
   }
 }
 
-// MARK: - DaySelectionIndex.
+// MARK: - GridPosition.
 public extension NNCalendar {
 
-  /// Represents a month-grid selection. A GridSelection comprises the month
-  /// index (with which we can identify the particular Month in question in
-  /// a Month Array) and the day index (i.e. the index of the Date in a Month).
-  /// This is essentially an IndexPath, but since we cannot include UIKit in
-  /// logic code, we have this to replace.
-  public struct GridSelection: Equatable, Hashable {
+  /// Represents a month-grid position. A GridPosition comprises the month index
+  /// (with which we can identify the particular Month in question in a Month
+  /// Array) and the day index (i.e. the index of the Date in a Month). This is
+  /// essentially an IndexPath, but since we cannot include UIKit in logic code,
+  /// we have this to replace.
+  public struct GridPosition: Equatable, Hashable {
     public fileprivate(set) var monthIndex: Int
     public fileprivate(set) var dayIndex: Int
 
@@ -50,23 +50,23 @@ public extension NNCalendar {
     }
 
     /// Copy the current grid selection but change the day index.
-    public func with(dayIndex: Int) -> GridSelection {
+    public func with(dayIndex: Int) -> GridPosition {
       var selection = self
       selection.dayIndex = dayIndex
       return selection
     }
 
     /// Decrement the current day index by 1.
-    public func decrementingDayIndex() -> GridSelection {
+    public func decrementingDayIndex() -> GridPosition {
       return with(dayIndex: dayIndex - 1)
     }
 
     /// Increment the current day index by 1.
-    public func incrementingDayIndex() -> GridSelection {
+    public func incrementingDayIndex() -> GridPosition {
       return with(dayIndex: dayIndex + 1)
     }
 
-    public static func ==(_ lhs: GridSelection, _ rhs: GridSelection) -> Bool {
+    public static func ==(_ lhs: GridPosition, _ rhs: GridPosition) -> Bool {
       return lhs.monthIndex == rhs.monthIndex && lhs.dayIndex == rhs.dayIndex
     }
   }
@@ -331,10 +331,7 @@ public extension NNCalendar {
 
     /// Mark the end of an Array of Date selection.
     public static let end = HighlightPart(rawValue: 1 << 3)
-
-    public static let startAndEnd = HighlightPart(
-      rawValue: start.rawValue | end.rawValue)
-
+    public static let startAndEnd = HighlightPart(rawValue: start.rawValue | end.rawValue)
     public static let none = HighlightPart(rawValue: 0)
 
     public typealias RawValue = Int

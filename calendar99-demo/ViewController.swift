@@ -101,7 +101,7 @@ extension ViewController: NNMonthSectionNoDefaultModelDependency {
     return Singleton.instance.reduxStore
       .lastState.flatMap({$0.stateValue(ReduxCalendar.Action.selectionPath)})
       .cast(Set<NNCalendar.Selection>.self)
-      .map({$0.contains(where: {$0.isDateSelected(date)})})
+      .map({$0.contains(where: {$0.contains(date)})})
       .getOrElse(false)
   }
 

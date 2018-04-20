@@ -58,7 +58,7 @@ public extension NNCalendar.Util {
                                             _ date: Date)
     -> NNCalendar.HighlightPart
   {
-    guard selections.contains(where: {$0.isDateSelected(date)}) else {
+    guard selections.contains(where: {$0.contains(date)}) else {
       return .none
     }
     
@@ -67,14 +67,14 @@ public extension NNCalendar.Util {
 
     if
       let nextDate = calendar.date(byAdding: .day, value: 1, to: date),
-      !selections.contains(where: {$0.isDateSelected(nextDate)})
+      !selections.contains(where: {$0.contains(nextDate)})
     {
       flags = flags.map({$0.union(.end)}).getOrElse(.end)
     }
 
     if
       let prevDate = calendar.date(byAdding: .day, value: -1, to: date),
-      !selections.contains(where: {$0.isDateSelected(prevDate)})
+      !selections.contains(where: {$0.contains(prevDate)})
     {
       flags = flags.map({$0.union(.start)}).getOrElse(.start)
     }
@@ -82,8 +82,8 @@ public extension NNCalendar.Util {
     if
       let prevDate = calendar.date(byAdding: .day, value: -1, to: date),
       let nextDate = calendar.date(byAdding: .day, value: 1, to: date),
-      selections.contains(where: {$0.isDateSelected(nextDate)}),
-      selections.contains(where: {$0.isDateSelected(prevDate)})
+      selections.contains(where: {$0.contains(nextDate)}),
+      selections.contains(where: {$0.contains(prevDate)})
     {
       flags = .mid
     }

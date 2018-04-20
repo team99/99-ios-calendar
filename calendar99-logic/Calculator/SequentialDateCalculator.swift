@@ -55,10 +55,10 @@ extension NNCalendar.DateCalc.Sequential: NNMultiMonthGridSelectionCalculator {
   public func calculateGridSelectionChanges(_ monthComps: [NNCalendar.MonthComp],
                                             _ prev: Set<NNCalendar.Selection>,
                                             _ current: Set<NNCalendar.Selection>)
-    -> Set<NNCalendar.GridSelection>
+    -> Set<NNCalendar.GridPosition>
   {
     return Set(extractChanges(prev, current)
-      .flatMap({$0.calculateGridSelection(monthComps)}))
+      .flatMap({$0.calculateGridPosition(monthComps)}))
   }
 }
 
@@ -67,18 +67,18 @@ extension NNCalendar.DateCalc.Sequential: NNSingleMonthGridSelectionCalculator {
   public func calculateGridSelectionChanges(_ monthComp: NNCalendar.MonthComp,
                                             _ prev: Set<NNCalendar.Selection>,
                                             _ current: Set<NNCalendar.Selection>)
-    -> Set<NNCalendar.GridSelection>
+    -> Set<NNCalendar.GridPosition>
   {
     return Set(extractChanges(prev, current)
-      .flatMap({self.calculateGridSelection(monthComp, $0)}))
+      .flatMap({self.calculateGridPosition(monthComp, $0)}))
   }
 
   /// We need to include the previous and next month components here as well,
   /// and call the pre-specified method that deals with Month Array. We also
   /// assume that the day count remains the same for all Months.
-  fileprivate func calculateGridSelection(_ monthComp: NNCalendar.MonthComp,
-                                          _ selection: NNCalendar.Selection)
-    -> Set<NNCalendar.GridSelection>
+  fileprivate func calculateGridPosition(_ monthComp: NNCalendar.MonthComp,
+                                         _ selection: NNCalendar.Selection)
+    -> Set<NNCalendar.GridPosition>
   {
     var monthComps = [NNCalendar.MonthComp]()
 
@@ -92,6 +92,6 @@ extension NNCalendar.DateCalc.Sequential: NNSingleMonthGridSelectionCalculator {
       .map({monthComp.with(month: $0)})
       .map({monthComps.append($0)})
 
-    return selection.calculateGridSelection(monthComps)
+    return selection.calculateGridPosition(monthComps)
   }
 }

@@ -22,10 +22,10 @@ public extension SelectionTest {
     XCTAssertEqual(selection1, selection2)
     XCTAssertEqual(selection1.hashValue, selection2.hashValue)
 
-    XCTAssertEqual(selection1.isDateSelected(Date.random()!),
-                   selection2.isDateSelected(Date.random()!))
+    XCTAssertEqual(selection1.contains(Date.random()!),
+                   selection2.contains(Date.random()!))
 
-    XCTAssertEqual(selection1.calculateGridSelection([]),
-                   selection2.calculateGridSelection([]))
+    XCTAssertEqual(selection1.calculateGridPosition([]),
+                   selection2.calculateGridPosition([]))
   }
 }
