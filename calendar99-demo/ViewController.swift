@@ -20,19 +20,24 @@ public final class ViewController: UIViewController  {
   @IBOutlet fileprivate weak var monthView: NNMonthView!
   fileprivate var disposable: DisposeBag!
 
+  deinit {
+    print("DEINIT \(self)")
+  }
+
   override public func viewDidLoad() {
     super.viewDidLoad()
 
     let decorator = AppDecorator()
     disposable = DisposeBag()
 
-    let weekdayModel = NNCalendar.SelectWeekday.Model(self)
+    let dependency = Singleton.instance
+    let weekdayModel = NNCalendar.SelectWeekday.Model(dependency)
     let weekdayVM = NNCalendar.SelectWeekday.ViewModel(weekdayModel)
-    let monthViewModel = NNCalendar.MonthDisplay.Model(self)
+    let monthViewModel = NNCalendar.MonthDisplay.Model(dependency)
     let monthViewVM = NNCalendar.MonthDisplay.ViewModel(monthViewModel)
-    let monthHeaderModel = NNCalendar.MonthHeader.Model(self)
+    let monthHeaderModel = NNCalendar.MonthHeader.Model(dependency)
     let monthHeaderVM = NNCalendar.MonthHeader.ViewModel(monthHeaderModel)
-    let monthSectionModel = NNCalendar.MonthSection.Model(self)
+    let monthSectionModel = NNCalendar.MonthSection.Model(dependency)
     let monthSectionVM = NNCalendar.MonthSection.ViewModel(monthSectionModel)
 
     weekdayView.dependency = (weekdayVM, decorator)
@@ -46,72 +51,3 @@ public final class ViewController: UIViewController  {
     monthView.dependency = (monthViewVM, decorator)
   }
 }
-
-/// BEWARE: INTENTIONAL MEMORY LEAKS HERE. THIS IS ONLY TEMPORARY.
-
-extension ViewController: NNMonthHeaderNoDefaultModelDependency {
-  public var initialMonthStream: Single<NNCalendar.Month> {
-    let date = Date()
-    let monthValue = Calendar.current.component(.month, from: date)
-    let yearValue = Calendar.current.component(.year, from: date)
-    return Single.just(NNCalendar.Month(monthValue, yearValue))
-  }
-
-  public var currentMonthReceiver: AnyObserver<NNCalendar.Month> {
-    return Singleton.instance.reduxStore.actionTrigger()
-      .mapObserver(ReduxCalendar.Action.updateCurrentMonth)
-  }
-
-  public var currentMonthStream: Observable<NNCalendar.Month> {
-    let path = ReduxCalendar.Action.currentMonthPath
-
-    return Singleton.instance.reduxStore
-      .stateValueStream(NNCalendar.Month.self, path)
-      .filter({$0.isSuccess}).map({$0.value!})
-  }
-}
-
-extension ViewController: NNMonthSectionNoDefaultModelDependency {
-  public var firstWeekday: Int {
-    return 5
-  }
-
-  public var pastMonthsFromCurrent: Int {
-    return 1000
-  }
-
-  public var futureMonthsFromCurrent: Int {
-    return 1000
-  }
-
-  public var allSelectionReceiver: AnyObserver<Set<NNCalendar.Selection>> {
-    return Singleton.instance.reduxStore.actionTrigger()
-      .mapObserver(ReduxCalendar.Action.updateSelection)
-  }
-
-  public var allSelectionStream: Observable<Try<Set<NNCalendar.Selection>>> {
-    let path = ReduxCalendar.Action.selectionPath
-    
-    return Singleton.instance.reduxStore
-      .stateValueStream(Set<NNCalendar.Selection>.self, path)
-  }
-
-  public func isDateSelected(_ date: Date) -> Bool {
-    return Singleton.instance.reduxStore
-      .lastState.flatMap({$0.stateValue(ReduxCalendar.Action.selectionPath)})
-      .cast(Set<NNCalendar.Selection>.self)
-      .map({$0.contains(where: {$0.contains(date)})})
-      .getOrElse(false)
-  }
-
-  public func highlightPart(_ date: Date) -> NNCalendar.HighlightPart {
-    return Singleton.instance.reduxStore
-      .lastState.flatMap({$0.stateValue(ReduxCalendar.Action.selectionPath)})
-      .cast(Set<NNCalendar.Selection>.self)
-      .map({NNCalendar.Util.highlightPart($0, date)})
-      .getOrElse(.none)
-  }
-}
-
-extension ViewController: NNMonthDisplayNoDefaultModelDependency {}
-extension ViewController: NNSelectableWeekdayNoDefaultModelDependency {}

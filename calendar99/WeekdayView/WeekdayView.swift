@@ -90,19 +90,15 @@ extension NNWeekdayView: UICollectionViewDelegateFlowLayout {
                              sizeForItemAt indexPath: IndexPath) -> CGSize {
     let bounds = collectionView.bounds
 
-    return viewModel
-      .map({
-        // If the width is larger then the height, this should be a horizontal
-        // scrolling view & vice versa.
-        if bounds.width > bounds.height {
-          let width = bounds.width / CGFloat($0.weekdayCount)
-          return CGSize(width: width, height: bounds.height)
-        } else {
-          let height = bounds.height / CGFloat($0.weekdayCount)
-          return CGSize(width: bounds.width, height: height)
-        }
-      })
-      .getOrElse(CGSize.zero)
+    // If the width is larger then the height, this should be a horizontal
+    // scrolling view & vice versa.
+    if bounds.width > bounds.height {
+      let width = bounds.width / CGFloat(NNCalendar.Util.weekdayCount)
+      return CGSize(width: width, height: bounds.height)
+    } else {
+      let height = bounds.height / CGFloat(NNCalendar.Util.weekdayCount)
+      return CGSize(width: bounds.width, height: height)
+    }
   }
 }
 
