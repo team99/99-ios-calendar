@@ -1,5 +1,5 @@
 //
-//  SequentialDateCalculatorTest.swift
+//  DefaultDateCalculatorTest.swift
 //  calendar99-logicTests
 //
 //  Created by Hai Pham on 11/4/18.
@@ -11,8 +11,8 @@ import XCTest
 @testable import calendar99_logic
 
 /// Tests for date calculator.
-public final class SequentialDateCalculatorTest: RootTest {
-  fileprivate var calculator: NNCalendar.DateCalc.Sequential!
+public final class DefaultDateCalculatorTest: RootTest {
+  fileprivate var calculator: NNCalendar.DateCalc.Default!
   fileprivate var dayCount: Int!
   fileprivate var firstWeekDay: Int!
   fileprivate var weekdayStacks: Int!
@@ -23,56 +23,7 @@ public final class SequentialDateCalculatorTest: RootTest {
     weekdayStacks = 6
     dayCount = 42
     firstWeekDay = 2
-    calculator = NNCalendar.DateCalc.Sequential(weekdayStacks!, firstWeekDay!)
-  }
-
-  public func test_calculateDayRange_shouldWork() {
-    /// Setup
-    var month = NNCalendar.Month(Date())
-
-    /// When
-    for _ in 0..<iterations! {
-      let range = calculator.dateRange(month)
-      month = month.with(monthOffset: 1)!
-
-      /// Then
-      let firstDate = range.first!
-      let weekdayComp = Calendar.current.component(.weekday, from: firstDate)
-      XCTAssertEqual(range.count, dayCount!)
-      XCTAssertEqual(weekdayComp, firstWeekDay!)
-
-      for (ix, date) in range.enumerated() {
-        if ix != range.count - 1 {
-          let nextDate = range[ix + 1]
-          let difference = nextDate.timeIntervalSince(date)
-          let dateDifference = difference / 60 / 60 / 24
-          XCTAssertEqual(dateDifference, 1)
-        }
-      }
-    }
-  }
-
-  public func test_calculateDateWithOffset_shouldWork() {
-    /// Setup
-    var month = NNCalendar.Month(Date())
-
-    for ix in 0..<200 {
-      var prevDate: Date?
-
-      /// When
-      for jx in 0..<iterations! {
-        let date = calculator.dateWithOffset(month, jx)!
-
-        if let prevDate = prevDate {
-          let diff = date.timeIntervalSince(prevDate) / 60 / 60 / 24
-          XCTAssertEqual(diff, 1)
-        }
-
-        prevDate = date
-      }
-
-      month = month.with(monthOffset: ix)!
-    }
+    calculator = NNCalendar.DateCalc.Default(weekdayStacks!, firstWeekDay!)
   }
 
   public func test_calculateMultiMonthGridSelections_shouldWork() {
@@ -92,7 +43,7 @@ public final class SequentialDateCalculatorTest: RootTest {
         .map({(_) -> Date in
           let month = monthComps.randomElement()!
           let dayIndex = Int.random(0, month.dayCount)
-          return calculator.dateWithOffset(month.month, dayIndex)!
+          return NNCalendar.Util.dateWithOffset(month.month, firstWeekday, dayIndex)!
         })
         .map({NNCalendar.DateSelection($0, firstWeekday)})
         .map({$0 as NNCalendar.Selection}))
@@ -107,7 +58,10 @@ public final class SequentialDateCalculatorTest: RootTest {
       /// Then
       for position in gridPositions {
         let selectedMonth = monthComps[position.monthIndex].month
-        let selectedDate = calculator.dateWithOffset(selectedMonth, position.dayIndex)!
+
+        let selectedDate = NNCalendar.Util
+          .dateWithOffset(selectedMonth, firstWeekday, position.dayIndex)!
+
         XCTAssertTrue(changedSelect.contains(where: {$0.contains(selectedDate)}))
       }
 
@@ -127,7 +81,7 @@ public final class SequentialDateCalculatorTest: RootTest {
       let selectionCount = Int.random(1, dayCount!)
 
       let currentSelect = Set((0..<selectionCount)
-        .map({calculator.dateWithOffset(currentMonth, $0)!})
+        .map({NNCalendar.Util.dateWithOffset(currentMonth, firstWeekday, $0)!})
         .map({NNCalendar.DateSelection($0, firstWeekday)})
         .map({$0 as NNCalendar.Selection}))
 
@@ -143,8 +97,8 @@ public final class SequentialDateCalculatorTest: RootTest {
         // current month value, because we calculate for the previous and next
         // months as well.
         if position.monthIndex == currentMonth.month {
-          let selectedDate = calculator.dateWithOffset(
-            currentMonth, position.dayIndex)!
+          let selectedDate = NNCalendar.Util
+            .dateWithOffset(currentMonth, firstWeekday, position.dayIndex)!
 
           XCTAssertTrue(changed.contains(where: {$0.contains(selectedDate)}))
         }

@@ -20,17 +20,10 @@ public final class MonthSectionTest: RootTest {
   fileprivate var allSelectionSb: BehaviorSubject<Try<Set<NNCalendar.Selection>>>!
   fileprivate var currentMonthSb: BehaviorSubject<NNCalendar.Month>!
   fileprivate var defaultModelDp: NNMonthSectionModelDependency!
-  fileprivate var sequentialDateCalc: NNCalendar.DateCalc.Sequential!
 
   override public func setUp() {
     super.setUp()
-    let weekdayAwareDp = NNCalendar.WeekdayAware.Model.DefaultDependency(self)
     defaultModelDp = NNCalendar.MonthSection.Model.DefaultDependency(self)
-
-    sequentialDateCalc = NNCalendar.DateCalc.Sequential(
-      defaultModelDp.weekdayStacks,
-      weekdayAwareDp.firstWeekday)
-
     model = NNCalendar.MonthSection.Model(self)
     viewModel = NNCalendar.MonthSection.ViewModel(model!)
     currentMonth = NNCalendar.Month(Date())

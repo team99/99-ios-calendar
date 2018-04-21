@@ -6,39 +6,6 @@
 //  Copyright © 2018 Hai Pham. All rights reserved.
 //
 
-/// Calculate dates within a specific month/year. Classes that implement this
-/// protocol should be able to customize the date array using column/row count.
-/// For example, a normal calendar would have its weekday view on top, but on
-/// the off chance that we want said view to be vertical, we can simply provide
-/// a different date calculator implementation.
-public protocol NNDateCalculatorType {
-
-  /// Calculate the dates in a month/year pair. The total number of dates should
-  /// equal weekdayStacks * 7, but how exactly they should be partitioned is
-  /// left to implementation.
-  ///
-  /// - Parameters month: A Month instance.
-  /// - Returns: An Array of Date.
-  func dateRange(_ month: NNCalendar.Month) -> [Date]
-}
-
-/// This is similar to the date calculator, but it calculates only single dates
-/// based on an offset.
-public protocol NNSingleDateCalculatorType {
-
-  /// Calculate the date in a month/year pair using an offset from the first
-  /// date in the grid. This is similar to the date calculator, but instead of
-  /// calculating the whole date range, we calculate only single dates in order
-  /// to minimize the memory footprint that comes with storing all the dates.
-  ///
-  /// - Parameters:
-  ///   - month: A Month instance.
-  ///   - firstDateOffset: The offset from the first date in the grid.
-  /// - Returns: A Date instance.
-  func dateWithOffset(_ month: NNCalendar.Month,
-                      _ firstDateOffset: Int) -> Date?
-}
-
 /// Represents a grid selection calculator.
 public protocol NNGridSelectionCalculator {}
 

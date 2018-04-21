@@ -25,7 +25,6 @@ public protocol NNMonthDisplayNoDefaultModelFunction:
 
 /// Defaultable dependency for month display model.
 public protocol NNMonthDisplayDefaultModelDependency:
-  NNDateCalculatorType,
   NNMonthDisplayDefaultModelFunction,
   NNSingleDaySelectionDefaultModelDependency,
   NNSingleMonthGridSelectionCalculator {}
@@ -147,7 +146,7 @@ extension NNCalendar.MonthDisplay.Model: NNMonthDisplayModelType {
   public func dayRange(_ month: NNCalendar.Month) -> [NNCalendar.Day] {
     let calendar = Calendar.current
 
-    return dependency.dateRange(month).map({
+    return NNCalendar.Util.dateRange(month, firstWeekday, weekdayStacks).map({
       let description = calendar.component(.day, from: $0).description
 
       return NNCalendar.Day($0)
@@ -197,25 +196,19 @@ extension NNCalendar.MonthDisplay.Model {
     private let noDefault: NNMonthDisplayNoDefaultModelDependency
     private let monthGridDp: NNMonthGridModelDependency
     private let daySelectionDp: NNSingleDaySelectionModelDependency
-    private let dateCalc: NNCalendar.DateCalc.Sequential
+    private let dateCalc: NNCalendar.DateCalc.Default
 
     init(_ dependency: NNMonthDisplayNoDefaultModelDependency) {
       noDefault = dependency
       monthGridDp = NNCalendar.MonthGrid.Model.DefaultDependency()
       daySelectionDp = NNCalendar.DaySelection.Model.DefaultDependency(dependency)
 
-      dateCalc = NNCalendar.DateCalc.Sequential(
+      dateCalc = NNCalendar.DateCalc.Default(
         monthGridDp.weekdayStacks, daySelectionDp.firstWeekday)
     }
 
     func isDateSelected(_ date: Date) -> Bool {
       return noDefault.isDateSelected(date)
-    }
-
-    /// We use a sequential date calculator here, since it seems to be the most
-    /// common.
-    func dateRange(_ month: NNCalendar.Month) -> [Date] {
-      return dateCalc.dateRange(month)
     }
 
     func gridSelectionChanges(_ monthComp: NNCalendar.MonthComp,

@@ -33,8 +33,7 @@ public protocol NNMonthSectionNoDefaultModelFunction:
 /// defaults.
 public protocol NNMonthSectionDefaultModelDependency:
   NNMonthSectionDefaultModelFunction,
-  NNSingleDaySelectionDefaultModelDependency,
-  NNSingleDateCalculatorType {}
+  NNSingleDaySelectionDefaultModelDependency {}
 
 /// Dependency for month section model, which contains components that cannot
 /// have defaults.
@@ -206,7 +205,7 @@ extension NNCalendar.MonthSection.Model: NNMonthSectionModelType {
 
   public func dayFromFirstDate(_ month: NNCalendar.Month,
                                _ firstDateOffset: Int) -> NNCalendar.Day? {
-    return dependency.dateWithOffset(month, firstDateOffset).map({
+    return NNCalendar.Util.dateWithOffset(month, firstWeekday, firstDateOffset).map({
       let description = Calendar.current.component(.day, from: $0).description
 
       return NNCalendar.Day($0)
@@ -248,7 +247,7 @@ extension NNCalendar.MonthSection.Model {
     private let noDefault: NNMonthSectionNoDefaultModelDependency
     private let monthGridDp: NNMonthGridModelDependency
     private let daySelectionDp: NNSingleDaySelectionModelDependency
-    private let dateCalc: NNCalendar.DateCalc.Sequential
+    private let dateCalc: NNCalendar.DateCalc.Default
 
     /// Use this to calculate grid selection changes while catering to selection
     /// highlighting. Consult the documentation for this class to understand
@@ -261,13 +260,8 @@ extension NNCalendar.MonthSection.Model {
       daySelectionDp = NNCalendar.DaySelection.Model.DefaultDependency(dependency)
 
       let weekdayStacks = monthGridDp.weekdayStacks
-      dateCalc = NNCalendar.DateCalc.Sequential(weekdayStacks, daySelectionDp.firstWeekday)
+      dateCalc = NNCalendar.DateCalc.Default(weekdayStacks, daySelectionDp.firstWeekday)
       highlightCalc = NNCalendar.DateCalc.HighlightPart(dateCalc, weekdayStacks)
-    }
-
-    func dateWithOffset(_ month: NNCalendar.Month,
-                        _ firstDateOffset: Int) -> Date? {
-      return dateCalc.dateWithOffset(month, firstDateOffset)
     }
 
     func gridSelectionChanges(_ monthComps: [NNCalendar.MonthComp],

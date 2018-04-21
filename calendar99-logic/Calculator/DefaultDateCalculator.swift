@@ -1,5 +1,5 @@
 //
-//  SequentialDateCalculator.swift
+//  DefaultDateCalculator.swift
 //  calendar99-logic
 //
 //  Created by Hai Pham on 13/4/18.
@@ -10,8 +10,8 @@ import SwiftFP
 
 public extension NNCalendar.DateCalc {
 
-  /// Sequential date calculator.
-  public final class Sequential {
+  /// Default date calculator.
+  public final class Default {
     public let weekdayStacks: Int
     public let firstWeekday: Int
     fileprivate let calendar: Calendar
@@ -24,34 +24,8 @@ public extension NNCalendar.DateCalc {
   }
 }
 
-// MARK: - NNDateCalculatorType
-extension NNCalendar.DateCalc.Sequential: NNDateCalculatorType {
-
-  /// We need to find the first day of the week in which the current month
-  /// starts (not necessarily the first day of the month).
-  public func dateRange(_ month: NNCalendar.Month) -> [Date] {
-    let weekdays = NNCalendar.Util.weekdayCount
-
-    return NNCalendar.Util.firstDateWithWeekday(month, firstWeekday)
-      .map({(date: Date) -> [Date] in (0..<weekdayStacks * weekdays).flatMap({
-        return calendar.date(byAdding: .day, value: $0, to: date)
-      })})
-      .getOrElse([])
-  }
-}
-
-// MARK: - NNSingleDateCalculatorType
-extension NNCalendar.DateCalc.Sequential: NNSingleDateCalculatorType {
-  public func dateWithOffset(_ month: NNCalendar.Month,
-                             _ firstDateOffset: Int) -> Date? {
-    return NNCalendar.Util.firstDateWithWeekday(month, firstWeekday).flatMap({
-      return calendar.date(byAdding: .day, value: firstDateOffset, to: $0)
-    })
-  }
-}
-
 // MARK: - NNMultiMonthGridSelectionCalculator
-extension NNCalendar.DateCalc.Sequential: NNMultiMonthGridSelectionCalculator {
+extension NNCalendar.DateCalc.Default: NNMultiMonthGridSelectionCalculator {
   public func gridSelectionChanges(_ monthComps: [NNCalendar.MonthComp],
                                    _ currentMonth: NNCalendar.Month,
                                    _ prev: Set<NNCalendar.Selection>,
@@ -66,7 +40,7 @@ extension NNCalendar.DateCalc.Sequential: NNMultiMonthGridSelectionCalculator {
 }
 
 // MARK: - NNSingleMonthGridSelectionCalculatorType
-extension NNCalendar.DateCalc.Sequential: NNSingleMonthGridSelectionCalculator {
+extension NNCalendar.DateCalc.Default: NNSingleMonthGridSelectionCalculator {
   public func gridSelectionChanges(_ monthComp: NNCalendar.MonthComp,
                                    _ prev: Set<NNCalendar.Selection>,
                                    _ current: Set<NNCalendar.Selection>)

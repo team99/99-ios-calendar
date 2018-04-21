@@ -19,6 +19,44 @@ public extension NNCalendar.Util {
   /// Get the number of days in a week.
   public static var weekdayCount: Int { return 7 }
 
+  /// Produce a range of Dates for a Month instance.
+  ///
+  /// - Parameters:
+  ///   - month: A Month instance.
+  ///   - firstWeekday: The first weekday in a week.
+  ///   - weekdayStacks: The number of weekday stacks in a grid.
+  /// - Returns: An Array of Date.
+  public static func dateRange(_ month: NNCalendar.Month,
+                               _ firstWeekday: Int,
+                               _ weekdayStacks: Int) -> [Date] {
+    let calendar = Calendar.current
+    let weekdays = NNCalendar.Util.weekdayCount
+
+    return NNCalendar.Util.firstDateWithWeekday(month, firstWeekday)
+      .map({(date: Date) -> [Date] in (0..<weekdayStacks * weekdays).flatMap({
+        return calendar.date(byAdding: .day, value: $0, to: date)
+      })})
+      .getOrElse([])
+  }
+
+  /// Calculate the date in a month/year pair using an offset from the first
+  /// date in the grid.
+  ///
+  /// - Parameters:
+  ///   - month: A Month instance.
+  ///   - firstWeekday: The first weekday in a week.
+  ///   - firstDateOffset: The offset from the first date in the grid.
+  /// - Returns: A Date instance.
+  public static func dateWithOffset(_ month: NNCalendar.Month,
+                                    _ firstWeekday: Int,
+                                    _ firstDateOffset: Int) -> Date? {
+    let calendar = Calendar.current
+    
+    return NNCalendar.Util.firstDateWithWeekday(month, firstWeekday).flatMap({
+      return calendar.date(byAdding: .day, value: firstDateOffset, to: $0)
+    })
+  }
+
   /// Calculate the first date in a Month that falls on a certain weekday.
   ///
   /// - Parameters:
