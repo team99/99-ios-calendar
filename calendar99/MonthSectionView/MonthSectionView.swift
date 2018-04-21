@@ -165,7 +165,7 @@ public extension NNMonthSectionView {
       section >= 0 && section < source.sectionModels.count,
       let viewModel = self.viewModel,
       let decorator = self.decorator,
-      let day = viewModel.calculateDayFromFirstDate(sections[section].month, item),
+      let day = viewModel.dayFromFirstDate(sections[section].month, item),
       let cell = view.dequeueReusableCell(
         withReuseIdentifier: cellId,
         for: indexPath) as? NNDateCell else
@@ -179,7 +179,7 @@ public extension NNMonthSectionView {
 
     let actualDay = day
       .with(selected: viewModel.isDateSelected(day.date))
-      .with(highlightPart: viewModel.calculateHighlightPart(day.date))
+      .with(highlightPart: viewModel.highlightPart(day.date))
 
     let cellDecorator = decorator.dateCellDecorator(indexPath, actualDay)
     cell.setupWithDay(cellDecorator, actualDay)
@@ -289,6 +289,6 @@ extension NNCalendar.MonthComp: AnimatableSectionModelType {
   }
 
   public init(original: NNCalendar.MonthComp, items: [Item]) {
-    self.init(original.month, items.count)
+    self.init(original.month, items.count, original.firstWeekday)
   }
 }

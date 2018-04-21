@@ -17,7 +17,7 @@ public final class MonthDisplayTest: RootTest {
   fileprivate var viewModel: NNCalendar.MonthDisplay.ViewModel!
   fileprivate var currentMonth: NNCalendar.Month!
   fileprivate var currentMonthSb: BehaviorSubject<NNCalendar.Month>!
-  fileprivate var allDateSelectionSb: BehaviorSubject<Try<Set<NNCalendar.Selection>>>!
+  fileprivate var allSelectionSb: BehaviorSubject<Try<Set<NNCalendar.Selection>>>!
   fileprivate var defaultModelDp: NNMonthDisplayModelDependency!
 
   override public func setUp() {
@@ -26,8 +26,14 @@ public final class MonthDisplayTest: RootTest {
     viewModel = NNCalendar.MonthDisplay.ViewModel(model)
     currentMonth = NNCalendar.Month(Date())
     currentMonthSb = BehaviorSubject(value: currentMonth!)
-    allDateSelectionSb = BehaviorSubject(value: Try.failure(""))
+    allSelectionSb = BehaviorSubject(value: Try.failure(""))
     defaultModelDp = NNCalendar.MonthDisplay.Model.DefaultDependency(self)
+  }
+}
+
+extension MonthDisplayTest: MonthControlCommonTestProtocol {
+  public func test_backwardAndForwardReceiver_shouldWork() {
+    test_backwardAndForwardReceiver_shouldWork(viewModel!, model!)
   }
 }
 
@@ -68,6 +74,10 @@ public extension MonthDisplayTest {
     )
   }
 
+  public func test_backwardAndForwardMonthReceiver_shouldWork() {
+    
+  }
+
   public func test_dayStreamForCurrentMonth_shouldWorkCorrectly() {
     /// Setup
     let dayObs = scheduler!.createObserver([NNCalendar.Day].self)
@@ -81,14 +91,8 @@ public extension MonthDisplayTest {
       let forward = Bool.random()
       let jump = Int.random(1, 20)
       currentMonth = currentMonth.with(monthOffset: forward ? jump : -jump)!
-      let currentDays = model!.calculateDayRange(currentMonth)
-
-      if forward {
-        viewModel!.currentMonthForwardReceiver.onNext(UInt(jump))
-      } else {
-        viewModel!.currentMonthBackwardReceiver.onNext(UInt(jump))
-      }
-
+      let currentDays = model!.dayRange(currentMonth)
+      viewModel!.currentMonthReceiver.onNext(currentMonth)
       waitOnMainThread(waitDuration!)
 
       /// Then
@@ -108,14 +112,8 @@ public extension MonthDisplayTest {
     for _ in 0..<iterations! {
       let forward = Bool.random()
       currentMonth = currentMonth.with(monthOffset: forward ? 1 : -1)!
-      let currentDays = model!.calculateDayRange(currentMonth)
-
-      if forward {
-        viewModel!.currentMonthForwardReceiver.onNext(1)
-      } else {
-        viewModel!.currentMonthBackwardReceiver.onNext(1)
-      }
-
+      let currentDays = model!.dayRange(currentMonth)
+      viewModel!.currentMonthReceiver.onNext(currentMonth)
       waitOnMainThread(waitDuration!)
 
       // This will be ignored anyway, but we add in just to check.
@@ -129,7 +127,7 @@ public extension MonthDisplayTest {
       waitOnMainThread(waitDuration!)
 
       /// Then
-      let lastSelections = try! allDateSelectionSb.value().getOrElse([])
+      let lastSelections = try! allSelectionSb.value().getOrElse([])
 
       // If the date was selected previously, it should be removed from all date
       // selections (thanks to single day selection logic).
@@ -159,21 +157,15 @@ public extension MonthDisplayTest {
     for _ in 0..<iterations! {
       let forward = Bool.random()
       currentMonth = currentMonth.with(monthOffset: forward ? 1 : -1)!
-
-      if forward {
-        viewModel!.currentMonthForwardReceiver.onNext(1)
-      } else {
-        viewModel!.currentMonthBackwardReceiver.onNext(1)
-      }
-
+      viewModel!.currentMonthReceiver.onNext(currentMonth)
       waitOnMainThread(waitDuration!)
 
-      let dayRange = model!.calculateDayRange(currentMonth)
+      let dayRange = model!.dayRange(currentMonth)
       let selectedIndex = Int.random(0, rowCount * columnCount)
       let selectedDay = dayRange[selectedIndex]
       let wasSelected = viewModel!.isDateSelected(selectedDay.date)
 
-      allDateSelectionReceiver.onNext(Set(arrayLiteral:
+      allSelectionReceiver.onNext(Set(arrayLiteral:
         NNCalendar.DateSelection(selectedDay.date, firstWeekday)))
 
       waitOnMainThread(waitDuration!)
@@ -183,18 +175,24 @@ public extension MonthDisplayTest {
 
       // If this index is already selected previously, it should not appear in
       // in the set of index changes.
-      XCTAssertNotEqual(lastChanges.contains(selectedIndex), wasSelected)
+      //
+      // If we look at a similar test for MonthSectionView (for grid selection
+      // changes), we will see that an extra step (navigating to the current
+      // month) is added. Said step is not needed here because for this view,
+      // there will always be only 1 month active at a time, so the month index
+      // (which is used for calculation by the DateSelection object) is fixed.
+      XCTAssertEqual(lastChanges.contains(selectedIndex), !wasSelected)
     }
   }
 }
 
 extension MonthDisplayTest: NNMonthDisplayNoDefaultModelDependency {
-  public var allDateSelectionReceiver: AnyObserver<Set<NNCalendar.Selection>> {
-    return allDateSelectionSb.mapObserver(Try.success)
+  public var allSelectionReceiver: AnyObserver<Set<NNCalendar.Selection>> {
+    return allSelectionSb.mapObserver(Try.success)
   }
 
-  public var allDateSelectionStream: Observable<Try<Set<NNCalendar.Selection>>> {
-    return allDateSelectionSb.asObservable()
+  public var allSelectionStream: Observable<Try<Set<NNCalendar.Selection>>> {
+    return allSelectionSb.asObservable()
   }
 
   public var initialMonthStream: Single<NNCalendar.Month> {
@@ -210,7 +208,7 @@ extension MonthDisplayTest: NNMonthDisplayNoDefaultModelDependency {
   }
 
   public func isDateSelected(_ date: Date) -> Bool {
-    return try! allDateSelectionSb.value()
+    return try! allSelectionSb.value()
       .map({$0.contains(where: {$0.contains(date)})})
       .getOrElse(false)
   }

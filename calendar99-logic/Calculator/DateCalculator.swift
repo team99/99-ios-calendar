@@ -19,7 +19,7 @@ public protocol NNDateCalculatorType {
   ///
   /// - Parameters month: A Month instance.
   /// - Returns: An Array of Date.
-  func calculateDateRange(_ month: NNCalendar.Month) -> [Date]
+  func dateRange(_ month: NNCalendar.Month) -> [Date]
 }
 
 /// This is similar to the date calculator, but it calculates only single dates
@@ -35,8 +35,8 @@ public protocol NNSingleDateCalculatorType {
   ///   - month: A Month instance.
   ///   - firstDateOffset: The offset from the first date in the grid.
   /// - Returns: A Date instance.
-  func calculateDateWithOffset(_ month: NNCalendar.Month,
-                               _ firstDateOffset: Int) -> Date?
+  func dateWithOffset(_ month: NNCalendar.Month,
+                      _ firstDateOffset: Int) -> Date?
 }
 
 /// Represents a grid selection calculator.
@@ -68,16 +68,19 @@ public protocol NNMultiMonthGridSelectionCalculator: NNGridSelectionCalculator {
 
   /// Calculate grid position changes for a specified MonthComp Array. We compare
   /// the previous and current selections to derive the changed set, on which
-  /// grid selection calculations are performed.
+  /// grid selection calculations are performed. The changes should be relevant
+  /// only to the currently active Month.
   ///
   /// - Parameters:
   ///   - monthComps: A MonthComp Array.
+  ///   - currentMonth: The currently active Month.
   ///   - prev: The previous selections.
   ///   - current: The current selections.
   /// - Returns: A GridPosition Set.
-  func calculateGridSelectionChanges(_ monthComps: [NNCalendar.MonthComp],
-                                     _ prev: Set<NNCalendar.Selection>,
-                                     _ current: Set<NNCalendar.Selection>)
+  func gridSelectionChanges(_ monthComps: [NNCalendar.MonthComp],
+                            _ currentMonth: NNCalendar.Month,
+                            _ prev: Set<NNCalendar.Selection>,
+                            _ current: Set<NNCalendar.Selection>)
     -> Set<NNCalendar.GridPosition>
 }
 
@@ -95,8 +98,8 @@ public protocol NNSingleMonthGridSelectionCalculator: NNGridSelectionCalculator 
   ///   - prev: The previous selections.
   ///   - current: The current selections.
   /// - Returns: A Set of GridPosition.
-  func calculateGridSelectionChanges(_ monthComp: NNCalendar.MonthComp,
-                                     _ prev: Set<NNCalendar.Selection>,
-                                     _ current: Set<NNCalendar.Selection>)
+  func gridSelectionChanges(_ monthComp: NNCalendar.MonthComp,
+                            _ prev: Set<NNCalendar.Selection>,
+                            _ current: Set<NNCalendar.Selection>)
     -> Set<NNCalendar.GridPosition>
 }

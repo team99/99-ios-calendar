@@ -300,15 +300,44 @@ public extension NNCalendar {
   public struct MonthComp: Equatable {
     public let dayCount: Int
     public let month: Month
+    public let firstWeekday: Int
+    private let calendar: Calendar
 
-    public init(_ month: Month, _ dayCount: Int) {
+    public init(_ month: Month, _ dayCount: Int, _ firstWeekday: Int) {
       self.month = month
       self.dayCount = dayCount
+      self.firstWeekday = firstWeekday
+      calendar = Calendar.current
     }
 
     /// Clone the current Month but change the month component.
     public func with(month: Month) -> MonthComp {
-      return MonthComp(month, dayCount)
+      return MonthComp(month, dayCount, firstWeekday)
+    }
+
+    /// Check if a Date falls within the current MonthComp. The Date may not
+    /// belong to the inner Month, but since a MonthComp can store dates in the
+    /// previous and next months, the result may be different from
+    /// Month.contains(_:).
+    ///
+    /// - Parameter date: A Date instance.
+    /// - Returns: A Bool value.
+    public func contains(_ date: Date) -> Bool {
+      return Util.firstDateWithWeekday(month, firstWeekday)
+        .flatMap({firstDate in calendar
+          .date(byAdding: .day, value: dayCount, to: firstDate)
+          .map({(firstDate, $0)})})
+        .map({date >= $0 && date <= $1})
+        .getOrElse(false)
+    }
+
+    /// Get the date at an index.
+    ///
+    /// - Parameter index: An Int value.
+    /// - Returns: A Date instance.
+    public func dateAtIndex(_ index: Int) -> Date? {
+      return Util.firstDateWithWeekday(month, firstWeekday)
+        .flatMap({calendar.date(byAdding: .day, value: index, to: $0)})
     }
 
     public static func ==(_ lhs: MonthComp, _ rhs: MonthComp) -> Bool {

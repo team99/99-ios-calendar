@@ -17,7 +17,7 @@ public final class MonthSectionTest: RootTest {
   fileprivate var model: NNCalendar.MonthSection.Model!
   fileprivate var viewModel: NNCalendar.MonthSection.ViewModel!
   fileprivate var currentMonth: NNCalendar.Month!
-  fileprivate var allDateSelectionSb: BehaviorSubject<Try<Set<NNCalendar.Selection>>>!
+  fileprivate var allSelectionSb: BehaviorSubject<Try<Set<NNCalendar.Selection>>>!
   fileprivate var currentMonthSb: BehaviorSubject<NNCalendar.Month>!
   fileprivate var defaultModelDp: NNMonthSectionModelDependency!
   fileprivate var sequentialDateCalc: NNCalendar.DateCalc.Sequential!
@@ -35,8 +35,14 @@ public final class MonthSectionTest: RootTest {
     model = NNCalendar.MonthSection.Model(self)
     viewModel = NNCalendar.MonthSection.ViewModel(model!)
     currentMonth = NNCalendar.Month(Date())
-    allDateSelectionSb = BehaviorSubject(value: Try.failure(""))
+    allSelectionSb = BehaviorSubject(value: Try.failure(""))
     currentMonthSb = BehaviorSubject(value: currentMonth!)
+  }
+}
+
+extension MonthSectionTest: MonthControlCommonTestProtocol {
+  public func test_backwardAndForwardReceiver_shouldWork() {
+    test_backwardAndForwardReceiver_shouldWork(viewModel!, model!)
   }
 }
 
@@ -107,6 +113,7 @@ public extension MonthSectionTest {
 
     /// When
     for offset in 0..<(pastOffset + 1 + futureOffset) {
+
       // Select the month to test. The range is wider than it needs to be
       // because we want to test that month indexes which lie outside range are
       // filtered out.
@@ -123,7 +130,7 @@ public extension MonthSectionTest {
       let withinRange = offset < months.count
 
       let selectedDate = (withinRange
-        ? viewModel.calculateDayFromFirstDate(months[offset].month, dayIndex)
+        ? viewModel.dayFromFirstDate(months[offset].month, dayIndex)
         : nil)?.date
 
       let wasSelected = selectedDate.map({viewModel!.isDateSelected($0)}) ?? false
@@ -152,6 +159,7 @@ public extension MonthSectionTest {
 
     /// When
     for _ in 0..<iterations! {
+
       // Only select within the month range that could have previous and next
       // months, so that we are sure there will always be valid date selections.
       // For e.g., month index 0 & day index 0 will yield no selections because
@@ -167,21 +175,31 @@ public extension MonthSectionTest {
       let monthIndex = Int.random(1, monthComps.count - 1)
       let dayIndex = Int.random(0, rowCount * columnCount)
       let gridPosition = NNCalendar.GridPosition(monthIndex, dayIndex)
-      let month = monthComps[monthIndex].month
-      let selectedDay = viewModel!.calculateDayFromFirstDate(month, dayIndex)!
+      let monthComp = monthComps[monthIndex]
+      let currentMonth = monthComp.month
+      let selectedDay = viewModel!.dayFromFirstDate(currentMonth, dayIndex)!
+      let selectionObj = NNCalendar.DateSelection(selectedDay.date, firstWeekday)
       let wasSelected = viewModel!.isDateSelected(selectedDay.date)
+      let containedInCurrentMonth = monthComp.contains(selectedDay.date)
 
-      allDateSelectionReceiver.onNext(Set(arrayLiteral:
-        NNCalendar.DateSelection(selectedDay.date, firstWeekday)))
+      // We must go to the current month because the grid selection changes are
+      // only calculate for said month. For more information, consult the docs
+      // for DateSelection.
+      viewModel!.currentMonthReceiver.onNext(currentMonth)
+      waitOnMainThread(waitDuration!)
 
+      allSelectionReceiver.onNext(Set(arrayLiteral: selectionObj))
       waitOnMainThread(waitDuration!)
 
       /// Then
       let lastChanges = selectionChangesObs.nextElements().last!
 
       // Since we only extract differences, if the calculated date has already
-      // been selected it should be skipped.
-      XCTAssertNotEqual(lastChanges.contains(gridPosition), wasSelected)
+      // been selected it should be skipped. Also, since DateSelection only
+      // calculates grid selection changes for the current month, checking
+      // wasSelected alone is not enough.
+      XCTAssertEqual(lastChanges.contains(gridPosition),
+                     !wasSelected && containedInCurrentMonth)
     }
   }
 
@@ -204,13 +222,7 @@ public extension MonthSectionTest {
       let forward = Bool.random()
       currentMonth = currentMonth.with(monthOffset: forward ? 1 : -1)!
       let index = months.index(where: {$0.month == currentMonth})
-
-      if forward {
-        viewModel!.currentMonthForwardReceiver.onNext(1)
-      } else {
-        viewModel!.currentMonthBackwardReceiver.onNext(1)
-      }
-
+      viewModel!.currentMonthReceiver.onNext(currentMonth)
       waitOnMainThread(waitDuration!)
 
       /// Then
@@ -234,12 +246,12 @@ public extension MonthSectionTest {
         .map({calendar.date(byAdding: .day, value: $0, to: startDate)!})
 
       let selections = selectedDates.map({NNCalendar.DateSelection($0, firstWeekday)})
-      allDateSelectionReceiver.onNext(Set(selections))
+      allSelectionReceiver.onNext(Set(selections))
       waitOnMainThread(waitDuration!)
 
       /// Then
-      let highlight1 = selectedDates.map({viewModel!.calculateHighlightPart($0)})
-      let highlight2 = selectedDates.map({calculateHighlightPart($0)})
+      let highlight1 = selectedDates.map({viewModel!.highlightPart($0)})
+      let highlight2 = selectedDates.map({highlightPart($0)})
       XCTAssertEqual(highlight1, highlight2)
     }
   }
@@ -258,18 +270,18 @@ extension MonthSectionTest: NNMonthSectionNoDefaultModelDependency {
     return 100
   }
 
-  public func calculateHighlightPart(_ date: Date) -> NNCalendar.HighlightPart {
-    return try! allDateSelectionSb.value()
-      .map({NNCalendar.Util.calculateHighlightPart($0, date)})
+  public func highlightPart(_ date: Date) -> NNCalendar.HighlightPart {
+    return try! allSelectionSb.value()
+      .map({NNCalendar.Util.highlightPart($0, date)})
       .getOrElse(.none)
   }
 
-  public var allDateSelectionReceiver: AnyObserver<Set<NNCalendar.Selection>> {
-    return allDateSelectionSb.mapObserver(Try.success)
+  public var allSelectionReceiver: AnyObserver<Set<NNCalendar.Selection>> {
+    return allSelectionSb.mapObserver(Try.success)
   }
 
-  public var allDateSelectionStream: Observable<Try<Set<NNCalendar.Selection>>> {
-    return allDateSelectionSb.asObservable()
+  public var allSelectionStream: Observable<Try<Set<NNCalendar.Selection>>> {
+    return allSelectionSb.asObservable()
   }
 
   public var initialMonthStream: Single<NNCalendar.Month> {
@@ -285,7 +297,7 @@ extension MonthSectionTest: NNMonthSectionNoDefaultModelDependency {
   }
 
   public func isDateSelected(_ date: Date) -> Bool {
-    return try! allDateSelectionSb.value()
+    return try! allSelectionSb.value()
       .map({$0.contains(where: {$0.contains(date)})})
       .getOrElse(false)
   }

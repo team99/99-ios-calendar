@@ -39,8 +39,8 @@ public protocol NNMonthSectionViewModelType:
   ///   - month: A Month instance.
   ///   - firstDateOffset: Offset from the initial date in the grid.
   /// - Returns: A Day instance.
-  func calculateDayFromFirstDate(_ month: NNCalendar.Month,
-                                 _ firstDateOffset: Int) -> NNCalendar.Day?
+  func dayFromFirstDate(_ month: NNCalendar.Month,
+                        _ firstDateOffset: Int) -> NNCalendar.Day?
 
   /// Set up month section bindings.
   func setupMonthSectionBindings()
@@ -113,6 +113,13 @@ extension NNCalendar.MonthSection.ViewModel: NNMonthGridViewModelType {
   }
 }
 
+// MARK: - NNMonthControlNoDefaultFunction
+extension NNCalendar.MonthSection.ViewModel: NNMonthControlNoDefaultFunction {
+  public var currentMonthReceiver: AnyObserver<NNCalendar.Month> {
+    return monthControlVM.currentMonthReceiver
+  }
+}
+
 // MARK: - NNMonthControlViewModelType
 extension NNCalendar.MonthSection.ViewModel: NNMonthControlViewModelType {
   public var currentMonthForwardReceiver: AnyObserver<UInt> {
@@ -148,8 +155,8 @@ extension NNCalendar.MonthSection.ViewModel: NNSingleDaySelectionViewModelType {
 
 // MARK: - NNSelectHighlightNoDefaultFunction
 extension NNCalendar.MonthSection.ViewModel: NNSelectHighlightNoDefaultFunction {
-  public func calculateHighlightPart(_ date: Date) -> NNCalendar.HighlightPart {
-    return model.calculateHighlightPart(date)
+  public func highlightPart(_ date: Date) -> NNCalendar.HighlightPart {
+    return model.highlightPart(date)
   }
 }
 
@@ -172,18 +179,18 @@ extension NNCalendar.MonthSection.ViewModel: NNMonthSectionViewModelType {
 
   /// Keep track of the previous selections to know what have been deselected.
   public var gridSelectionChangesStream: Observable<Set<NNCalendar.GridPosition>> {
-    return model.allDateSelectionStream.map({$0.getOrElse([])})
+    return model.allSelectionStream.map({$0.getOrElse([])})
       .scan((p: Set<NNCalendar.Selection>(), c: Set<NNCalendar.Selection>()),
             accumulator: {(p: $0.c, c: $1)})
-      .withLatestFrom(monthCompStream) {($1, $0)}
-      .map({[weak self] in self?.model
-        .calculateGridSelectionChanges($0, $1.p, $1.c)})
+      .withLatestFrom(model.currentMonthStream) {($1, p: $0.p, c: $0.c)}
+      .withLatestFrom(monthCompStream) {($1, $0.0, p: $0.p, c: $0.c)}
+      .map({[weak self] in self?.model.gridSelectionChanges($0.0, $0.1, $0.p, $0.c)})
       .filter({$0.isSome}).map({$0!})
   }
 
-  public func calculateDayFromFirstDate(_ month: NNCalendar.Month,
-                                        _ firstDateOffset: Int) -> NNCalendar.Day? {
-    return model.calculateDayFromFirstDate(month, firstDateOffset)
+  public func dayFromFirstDate(_ month: NNCalendar.Month,
+                               _ firstDateOffset: Int) -> NNCalendar.Day? {
+    return model.dayFromFirstDate(month, firstDateOffset)
   }
 
   public func setupMonthSectionBindings() {
@@ -191,13 +198,14 @@ extension NNCalendar.MonthSection.ViewModel: NNMonthSectionViewModelType {
     let pCount = model.pastMonthsFromCurrent
     let fCount = model.futureMonthsFromCurrent
     let dayCount = monthGridVM.rowCount * monthGridVM.columnCount
+    let firstWeekday = model.firstWeekday
 
     /// Must call onNext manually to avoid completed event, since this is a
     /// cold stream.
     model.initialMonthStream
       .map({[weak self] in self?.model.getAvailableMonths($0, pCount, fCount)})
       .filter({$0.isSome}).map({$0!})
-      .map({$0.map({NNCalendar.MonthComp($0, dayCount)})})
+      .map({$0.map({NNCalendar.MonthComp($0, dayCount, firstWeekday)})})
       .asObservable()
       .subscribe(onNext: {[weak self] in self?.monthCompSbj.onNext($0)})
       .disposed(by: disposable)
@@ -207,7 +215,7 @@ extension NNCalendar.MonthSection.ViewModel: NNMonthSectionViewModelType {
       .filter({$1.monthIndex >= 0 && $1.monthIndex < $0.count})
       .map({[weak self] (months, index) -> Date? in
         let month = months[index.monthIndex].month
-        return self?.calculateDayFromFirstDate(month, index.dayIndex)?.date
+        return self?.dayFromFirstDate(month, index.dayIndex)?.date
       })
       .filter({$0.isSome}).map({$0!})
       .subscribe(dateSelectionReceiver)

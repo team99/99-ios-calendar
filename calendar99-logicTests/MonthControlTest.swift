@@ -24,10 +24,12 @@ public final class MonthControlTest: RootTest {
     initialMonth = NNCalendar.Month(Date())
     currentMonthSb = BehaviorSubject(value: initialMonth!)
   }
+}
 
+public extension MonthControlTest {
   public func test_navigateToPreviousOrNextMonth_shouldWork() {
     /// Setup
-    viewModel.setupMonthControlBindings()
+    viewModel!.setupMonthControlBindings()
     var prevMonth = initialMonth!
 
     /// When

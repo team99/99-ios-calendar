@@ -89,12 +89,12 @@ extension NNCalendar.SelectWeekday.Model: NNMonthAwareNoDefaultModelFunction {
 
 // MARK: - NNMultiDaySelectionNoDefaultFunction
 extension NNCalendar.SelectWeekday.Model: NNMultiDaySelectionNoDefaultFunction {
-  public var allDateSelectionReceiver: AnyObserver<Set<NNCalendar.Selection>> {
-    return dependency.allDateSelectionReceiver
+  public var allSelectionReceiver: AnyObserver<Set<NNCalendar.Selection>> {
+    return dependency.allSelectionReceiver
   }
 
-  public var allDateSelectionStream: Observable<Try<Set<NNCalendar.Selection>>> {
-    return dependency.allDateSelectionStream
+  public var allSelectionStream: Observable<Try<Set<NNCalendar.Selection>>> {
+    return dependency.allSelectionStream
   }
 }
 
@@ -111,12 +111,12 @@ extension NNCalendar.SelectWeekday.Model {
       return noDefault.currentMonthStream
     }
 
-    var allDateSelectionReceiver: AnyObserver<Set<NNCalendar.Selection>> {
-      return noDefault.allDateSelectionReceiver
+    var allSelectionReceiver: AnyObserver<Set<NNCalendar.Selection>> {
+      return noDefault.allSelectionReceiver
     }
 
-    var allDateSelectionStream: Observable<Try<Set<NNCalendar.Selection>>> {
-      return noDefault.allDateSelectionStream
+    var allSelectionStream: Observable<Try<Set<NNCalendar.Selection>>> {
+      return noDefault.allSelectionStream
     }
 
     private let weekdayDp: NNWeekdayDisplayModelDependency

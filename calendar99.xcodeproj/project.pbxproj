@@ -41,6 +41,9 @@
 		D31431C32080B4E70044B936 /* RootTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D31431C22080B4E70044B936 /* RootTest.swift */; };
 		D314670B207DFBEA00A6B186 /* MonthSectionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D314670A207DFBEA00A6B186 /* MonthSectionModel.swift */; };
 		D314670D207E029A00A6B186 /* MonthSectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D314670C207E029A00A6B186 /* MonthSectionViewModel.swift */; };
+		D31734BE208AD55000CD3553 /* MonthControlFunctionality.swift in Sources */ = {isa = PBXBuildFile; fileRef = D31734BD208AD55000CD3553 /* MonthControlFunctionality.swift */; };
+		D31734C0208AE02800CD3553 /* MonthControlCommonTestProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D31734BF208AE02800CD3553 /* MonthControlCommonTestProtocol.swift */; };
+		D31734C2208AE19800CD3553 /* CommonTestProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D31734C1208AE19800CD3553 /* CommonTestProtocol.swift */; };
 		D31837492082E56500575F7D /* MonthSectionTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D31837482082E56500575F7D /* MonthSectionTest.swift */; };
 		D318423520818D5600659EA4 /* MonthHeaderTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D318423420818D5600659EA4 /* MonthHeaderTest.swift */; };
 		D318423720819B2100659EA4 /* WeekdayDisplayTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D318423620819B2100659EA4 /* WeekdayDisplayTest.swift */; };
@@ -200,6 +203,9 @@
 		D31431C22080B4E70044B936 /* RootTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootTest.swift; sourceTree = "<group>"; };
 		D314670A207DFBEA00A6B186 /* MonthSectionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthSectionModel.swift; sourceTree = "<group>"; };
 		D314670C207E029A00A6B186 /* MonthSectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthSectionViewModel.swift; sourceTree = "<group>"; };
+		D31734BD208AD55000CD3553 /* MonthControlFunctionality.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthControlFunctionality.swift; sourceTree = "<group>"; };
+		D31734BF208AE02800CD3553 /* MonthControlCommonTestProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthControlCommonTestProtocol.swift; sourceTree = "<group>"; };
+		D31734C1208AE19800CD3553 /* CommonTestProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonTestProtocol.swift; sourceTree = "<group>"; };
 		D31837482082E56500575F7D /* MonthSectionTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthSectionTest.swift; sourceTree = "<group>"; };
 		D318423420818D5600659EA4 /* MonthHeaderTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthHeaderTest.swift; sourceTree = "<group>"; };
 		D318423620819B2100659EA4 /* WeekdayDisplayTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekdayDisplayTest.swift; sourceTree = "<group>"; };
@@ -488,6 +494,7 @@
 			children = (
 				D31C042A207D17C5000C2C75 /* MonthControlModel.swift */,
 				D31C0428207D1649000C2C75 /* MonthControlViewModel.swift */,
+				D31734BD208AD55000CD3553 /* MonthControlFunctionality.swift */,
 			);
 			path = MonthControl;
 			sourceTree = "<group>";
@@ -624,8 +631,10 @@
 			isa = PBXGroup;
 			children = (
 				D3DA6FC5207C6D2300A3DFE1 /* Info.plist */,
+				D31734C1208AE19800CD3553 /* CommonTestProtocol.swift */,
 				D3107FF2208616DD007482A0 /* HighlightPartDateCalculatorTest.swift */,
 				D319374420844C5000D055A4 /* MiscEntityTest.swift */,
+				D31734BF208AE02800CD3553 /* MonthControlCommonTestProtocol.swift */,
 				D3B510A52080DEC100A2E8EF /* MonthControlTest.swift */,
 				D319374220842BB600D055A4 /* MonthDisplayTest.swift */,
 				D3140144208130930029BA0C /* MonthGridTest.swift */,
@@ -634,11 +643,11 @@
 				D3DA7024207C97F100A3DFE1 /* MonthTest.swift */,
 				D31431C22080B4E70044B936 /* RootTest.swift */,
 				D31FCC4F20826E46005C3D68 /* SelectableWeekdayTest.swift */,
+				D318B4FA2088F26B00556D00 /* SelectionTest.swift */,
 				D31C042E207D2106000C2C75 /* SequentialDateCalculatorTest.swift */,
 				D31431C02080B1EF0044B936 /* SingleDaySelectionTest.swift */,
-				D318423620819B2100659EA4 /* WeekdayDisplayTest.swift */,
 				D3186C06208773160054CE3D /* UtilTest.swift */,
-				D318B4FA2088F26B00556D00 /* SelectionTest.swift */,
+				D318423620819B2100659EA4 /* WeekdayDisplayTest.swift */,
 			);
 			path = "calendar99-logicTests";
 			sourceTree = "<group>";
@@ -1277,6 +1286,7 @@
 				D3186C0520876BB00054CE3D /* Util.swift in Sources */,
 				D31C042D207D1BA6000C2C75 /* DateCalculator.swift in Sources */,
 				D314670B207DFBEA00A6B186 /* MonthSectionModel.swift in Sources */,
+				D31734BE208AD55000CD3553 /* MonthControlFunctionality.swift in Sources */,
 				D31329222085114700E06C2A /* SelectHighlightFunction.swift in Sources */,
 				D31DA885207EF47E00FB4355 /* SingleDaySelectionViewModel.swift in Sources */,
 				D3109E2B2085F4D8000FED4A /* HighlightPartDateCalculator.swift in Sources */,
@@ -1311,7 +1321,9 @@
 				D31431C12080B1EF0044B936 /* SingleDaySelectionTest.swift in Sources */,
 				D3107FF3208616DD007482A0 /* HighlightPartDateCalculatorTest.swift in Sources */,
 				D319374320842BB600D055A4 /* MonthDisplayTest.swift in Sources */,
+				D31734C2208AE19800CD3553 /* CommonTestProtocol.swift in Sources */,
 				D319374520844C5000D055A4 /* MiscEntityTest.swift in Sources */,
+				D31734C0208AE02800CD3553 /* MonthControlCommonTestProtocol.swift in Sources */,
 				D318423520818D5600659EA4 /* MonthHeaderTest.swift in Sources */,
 				D318423720819B2100659EA4 /* WeekdayDisplayTest.swift in Sources */,
 				D31431C32080B4E70044B936 /* RootTest.swift in Sources */,

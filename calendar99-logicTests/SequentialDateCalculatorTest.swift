@@ -34,7 +34,7 @@ public final class SequentialDateCalculatorTest: RootTest {
 
     /// When
     for _ in 0..<iterations! {
-      let range = calculator.calculateDateRange(month)
+      let range = calculator.dateRange(month)
       month = month.with(monthOffset: 1)!
 
       /// Then
@@ -63,7 +63,7 @@ public final class SequentialDateCalculatorTest: RootTest {
 
       /// When
       for jx in 0..<iterations! {
-        let date = calculator.calculateDateWithOffset(month, jx)!
+        let date = calculator.dateWithOffset(month, jx)!
 
         if let prevDate = prevDate {
           let diff = date.timeIntervalSince(prevDate) / 60 / 60 / 24
@@ -82,38 +82,38 @@ public final class SequentialDateCalculatorTest: RootTest {
     let firstWeekday = calculator!.firstWeekday
     let firstMonth = NNCalendar.Month(Date())
     let allMonths = (0..<100).map({firstMonth.with(monthOffset: $0)!})
-    let months = allMonths.map({NNCalendar.MonthComp($0, dayCount!)})
-    var prevSelect = Set<NNCalendar.Selection>()
+    let monthComps = allMonths.map({NNCalendar.MonthComp($0, dayCount!, firstWeekday)})
+    var prevSelections = Set<NNCalendar.Selection>()
 
     /// When
     for _ in 0..<iterations! {
       let selectionCount = Int.random(10, 20)
+      let currentMonth = monthComps.randomElement()!.month
 
-      let currentSelect = Set((0..<selectionCount)
+      let currentSelections = Set((0..<selectionCount)
         .map({(_) -> Date in
-          let month = months.randomElement()!
+          let month = monthComps.randomElement()!
           let dayIndex = Int.random(0, month.dayCount)
-          return calculator.calculateDateWithOffset(month.month, dayIndex)!
+          return calculator.dateWithOffset(month.month, dayIndex)!
         })
         .map({NNCalendar.DateSelection($0, firstWeekday)})
         .map({$0 as NNCalendar.Selection}))
 
-      let changedSelect = calculator.extractChanges(prevSelect, currentSelect)
+      let changedSelect = calculator.extractChanges(prevSelections, currentSelections)
 
-      let gridPositions = calculator
-        .calculateGridSelectionChanges(months, prevSelect, currentSelect)
+      let gridPositions = calculator.gridSelectionChanges(
+        monthComps, currentMonth,
+        prevSelections,
+        currentSelections)
 
       /// Then
       for position in gridPositions {
-        let selectedMonth = months[position.monthIndex].month
-
-        let selectedDate = calculator
-          .calculateDateWithOffset(selectedMonth, position.dayIndex)!
-
+        let selectedMonth = monthComps[position.monthIndex].month
+        let selectedDate = calculator.dateWithOffset(selectedMonth, position.dayIndex)!
         XCTAssertTrue(changedSelect.contains(where: {$0.contains(selectedDate)}))
       }
 
-      prevSelect = currentSelect
+      prevSelections = currentSelections
     }
   }
 
@@ -125,18 +125,18 @@ public final class SequentialDateCalculatorTest: RootTest {
 
     /// When
     for i in 0..<iterations! {
-      let currentMonthComp = NNCalendar.MonthComp(currentMonth, dayCount!)
+      let currentComp = NNCalendar.MonthComp(currentMonth, dayCount!, firstWeekday)
       let selectionCount = Int.random(1, dayCount!)
 
       let currentSelect = Set((0..<selectionCount)
-        .map({calculator.calculateDateWithOffset(currentMonth, $0)!})
+        .map({calculator.dateWithOffset(currentMonth, $0)!})
         .map({NNCalendar.DateSelection($0, firstWeekday)})
         .map({$0 as NNCalendar.Selection}))
 
       let changed = calculator.extractChanges(prevSelect, currentSelect)
 
       let gridPositions = calculator
-        .calculateGridSelectionChanges(currentMonthComp, prevSelect, currentSelect)
+        .gridSelectionChanges(currentComp, prevSelect, currentSelect)
 
       /// Then
       for position in gridPositions {
@@ -145,7 +145,7 @@ public final class SequentialDateCalculatorTest: RootTest {
         // current month value, because we calculate for the previous and next
         // months as well.
         if position.monthIndex == currentMonth.month {
-          let selectedDate = calculator.calculateDateWithOffset(
+          let selectedDate = calculator.dateWithOffset(
             currentMonth, position.dayIndex)!
 
           XCTAssertTrue(changed.contains(where: {$0.contains(selectedDate)}))

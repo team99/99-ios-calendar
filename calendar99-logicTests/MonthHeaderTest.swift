@@ -29,6 +29,12 @@ public final class MonthHeaderTest: RootTest {
   }
 }
 
+extension MonthHeaderTest: MonthControlCommonTestProtocol {
+  public func test_backwardAndForwardReceiver_shouldWork() {
+    test_backwardAndForwardReceiver_shouldWork(viewModel!, model!)
+  }
+}
+
 public extension MonthHeaderTest {
   public func test_multipleConstructors_shouldWork() {
     let monthControlModel = NNCalendar.MonthControl.Model(self)
@@ -66,17 +72,11 @@ public extension MonthHeaderTest {
       let forward = Bool.random()
       let jump = Int.random(0, 1000)
       currentMonth = currentMonth.with(monthOffset: forward ? jump : -jump)!
-      let monthDescription = model!.formatMonthDescription(currentMonth)
-
-      if forward {
-        viewModel!.currentMonthForwardReceiver.onNext(UInt(jump))
-      } else {
-        viewModel!.currentMonthBackwardReceiver.onNext(UInt(jump))
-      }
-
+      viewModel!.currentMonthReceiver.onNext(currentMonth)
       waitOnMainThread(waitDuration!)
 
       /// Then
+      let monthDescription = model!.formatMonthDescription(currentMonth)
       let lastDescription = descObserver.nextElements().last!
       let lastMonth = monthObserver.nextElements().last!
       XCTAssertEqual(lastDescription, monthDescription)

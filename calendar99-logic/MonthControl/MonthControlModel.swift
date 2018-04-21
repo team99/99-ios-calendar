@@ -11,18 +11,17 @@ import RxSwift
 /// Shared functionalities between the model and its dependency that can have
 /// defaults.
 public protocol NNMonthControlDefaultModelFunction:
-  NNMonthAwareDefaultModelFunction {}
+  NNMonthAwareDefaultModelFunction,
+  NNMonthControlDefaultFunction {}
 
 /// Shared functionalities between the model and its dependency that cannot
 /// have defaults.
 public protocol NNMonthControlNoDefaultModelFunction:
-  NNMonthAwareNoDefaultModelFunction
+  NNMonthAwareNoDefaultModelFunction,
+  NNMonthControlNoDefaultFunction
 {
   /// Stream the initial month.
   var initialMonthStream: Single<NNCalendar.Month> { get }
-
-  /// Receive the current month and push it somewhere for external streaming.
-  var currentMonthReceiver: AnyObserver<NNCalendar.Month> { get }
 }
 
 /// Dependency for month control model.

@@ -29,13 +29,13 @@ public extension UtilTest {
     let set2 = Set(select2.map({NNCalendar.DateSelection($0, firstWeekday)}))
 
     /// When
-    let p0 = NNCalendar.Util.calculateHighlightPart(set1, select1[0])
-    let p1 = NNCalendar.Util.calculateHighlightPart(set1, select1[1])
-    let p2 = NNCalendar.Util.calculateHighlightPart(set1, select1[2])
-    let p3 = NNCalendar.Util.calculateHighlightPart(set1, select1[3])
-    let p4 = NNCalendar.Util.calculateHighlightPart(set1, select1[4])
-    let p5 = NNCalendar.Util.calculateHighlightPart(set2, select2[0])
-    let p6 = NNCalendar.Util.calculateHighlightPart([], Date.random()!)
+    let p0 = NNCalendar.Util.highlightPart(set1, select1[0])
+    let p1 = NNCalendar.Util.highlightPart(set1, select1[1])
+    let p2 = NNCalendar.Util.highlightPart(set1, select1[2])
+    let p3 = NNCalendar.Util.highlightPart(set1, select1[3])
+    let p4 = NNCalendar.Util.highlightPart(set1, select1[4])
+    let p5 = NNCalendar.Util.highlightPart(set2, select2[0])
+    let p6 = NNCalendar.Util.highlightPart([], Date.random()!)
 
     /// Then
     XCTAssertEqual(p0, .start)

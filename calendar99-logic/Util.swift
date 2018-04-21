@@ -16,28 +16,26 @@ public extension NNCalendar {
 // MARK: - Connect selection
 public extension NNCalendar.Util {
 
-  /// Calculate the first date in the grid. This date is not necessarily the
-  /// first of the month, because the month grid may extend as far back as the
-  /// first weekday.
+  /// Calculate the first date in a Month that falls on a certain weekday.
   ///
   /// - Parameters:
   ///   - month: A Month instance.
-  ///   - firstWeekday: An Int value.
+  ///   - weekday: An Int value representing a weekday.
   /// - Returns: A Date instance.
-  public static func calculateFirstDate(_ month: NNCalendar.Month,
-                                        _ firstWeekday: Int) -> Date? {
+  public static func firstDateWithWeekday(_ month: NNCalendar.Month,
+                                          _ weekday: Int) -> Date? {
     let calendar = Calendar.current
     let dateComponents = month.dateComponents()
 
     return calendar.date(from: dateComponents)
       .flatMap({(date: Date) -> Date? in
-        let weekday = calendar.component(.weekday, from: date)
+        let weekdayComp = calendar.component(.weekday, from: date)
         let offset: Int
 
-        if weekday < firstWeekday {
-          offset = 7 - (firstWeekday - weekday)
+        if weekdayComp < weekday {
+          offset = 7 - (weekday - weekdayComp)
         } else {
-          offset = weekday - firstWeekday
+          offset = weekdayComp - weekday
         }
 
         return calendar.date(byAdding: .day, value: -offset, to: date)
@@ -54,8 +52,8 @@ public extension NNCalendar.Util {
   ///   - selections: The current selections.
   ///   - date: A Date instance.
   /// - Returns: A HighlightPart instance.
-  public static func calculateHighlightPart(_ selections: Set<NNCalendar.Selection>,
-                                            _ date: Date)
+  public static func highlightPart(_ selections: Set<NNCalendar.Selection>,
+                                   _ date: Date)
     -> NNCalendar.HighlightPart
   {
     guard selections.contains(where: {$0.contains(date)}) else {

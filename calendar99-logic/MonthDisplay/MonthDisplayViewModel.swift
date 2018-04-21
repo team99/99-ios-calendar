@@ -74,6 +74,13 @@ public extension NNCalendar.MonthDisplay {
   }
 }
 
+// MARK: - NNMonthControlNoDefaultFunction
+extension NNCalendar.MonthDisplay.ViewModel: NNMonthControlNoDefaultFunction {
+  public var currentMonthReceiver: AnyObserver<NNCalendar.Month> {
+    return monthControlVM.currentMonthReceiver
+  }
+}
+
 // MARK: - NNMonthControlViewModelType
 extension NNCalendar.MonthDisplay.ViewModel: NNMonthControlViewModelType {
   public var currentMonthForwardReceiver: AnyObserver<UInt> {
@@ -120,16 +127,19 @@ extension NNCalendar.MonthDisplay.ViewModel: NNMonthDisplayViewModelType {
   /// Convenient stream that emits month components.
   private var monthCompStream: Observable<NNCalendar.MonthComp> {
     let dayCount = rowCount * columnCount
-    return model.currentMonthStream.map({NNCalendar.MonthComp($0, dayCount)})
+    let firstWeekday = model.firstWeekday
+    
+    return model.currentMonthStream
+      .map({NNCalendar.MonthComp($0, dayCount, firstWeekday)})
   }
 
   public var gridDayIndexSelectionChangesStream: Observable<Set<Int>> {
-    return model.allDateSelectionStream.map({$0.getOrElse([])})
+    return model.allSelectionStream.map({$0.getOrElse([])})
       .scan((p: Set<NNCalendar.Selection>(), c: Set<NNCalendar.Selection>()),
             accumulator: {(p: $0.c, c: $1)})
       .withLatestFrom(monthCompStream) {($1, $0)}
       .map({[weak self] in self?.model
-        .calculateGridSelectionChanges($0, $1.p, $1.c)})
+        .gridSelectionChanges($0, $1.p, $1.c)})
       .filter({$0.isSome}).map({$0!})
       .map({Set($0.map({$0.dayIndex}))})
   }
@@ -137,7 +147,7 @@ extension NNCalendar.MonthDisplay.ViewModel: NNMonthDisplayViewModelType {
   public func setupMonthDisplayBindings() {
     // Every time the user switches month, we need to update the day stream.
     model.currentMonthStream
-      .map({[weak self] month in self?.model.calculateDayRange(month)})
+      .map({[weak self] month in self?.model.dayRange(month)})
       .filter({$0.isSome}).map({$0!})
       .map(Optional.some)
       .subscribe(daySbj)

@@ -58,7 +58,7 @@ public protocol NNMonthDisplayModelType:
   ///
   /// - Parameters month: A Month instance.
   /// - Returns: An Array of Day.
-  func calculateDayRange(_ month: NNCalendar.Month) -> [NNCalendar.Day]
+  func dayRange(_ month: NNCalendar.Month) -> [NNCalendar.Day]
 }
 
 public extension NNCalendar.MonthDisplay {
@@ -132,12 +132,12 @@ extension NNCalendar.MonthDisplay.Model: NNSingleDaySelectionNoDefaultFunction {
 
 // MARK: - NNSingleDaySelectionModelType
 extension NNCalendar.MonthDisplay.Model: NNSingleDaySelectionModelType {
-  public var allDateSelectionReceiver: AnyObserver<Set<NNCalendar.Selection>> {
-    return daySelectionModel.allDateSelectionReceiver
+  public var allSelectionReceiver: AnyObserver<Set<NNCalendar.Selection>> {
+    return daySelectionModel.allSelectionReceiver
   }
 
-  public var allDateSelectionStream: Observable<Try<Set<NNCalendar.Selection>>> {
-    return daySelectionModel.allDateSelectionStream
+  public var allSelectionStream: Observable<Try<Set<NNCalendar.Selection>>> {
+    return daySelectionModel.allSelectionStream
   }
 }
 
@@ -150,10 +150,10 @@ extension NNCalendar.MonthDisplay.Model: NNWeekdayAwareDefaultModelFunction {
 
 // MARK: - NNMonthDisplayModelType
 extension NNCalendar.MonthDisplay.Model: NNMonthDisplayModelType {
-  public func calculateDayRange(_ month: NNCalendar.Month) -> [NNCalendar.Day] {
+  public func dayRange(_ month: NNCalendar.Month) -> [NNCalendar.Day] {
     let calendar = Calendar.current
 
-    return dependency.calculateDateRange(month).map({
+    return dependency.dateRange(month).map({
       let description = calendar.component(.day, from: $0).description
 
       return NNCalendar.Day($0)
@@ -162,12 +162,12 @@ extension NNCalendar.MonthDisplay.Model: NNMonthDisplayModelType {
     })
   }
 
-  public func calculateGridSelectionChanges(_ monthComp: NNCalendar.MonthComp,
-                                            _ prev: Set<NNCalendar.Selection>,
-                                            _ current: Set<NNCalendar.Selection>)
+  public func gridSelectionChanges(_ monthComp: NNCalendar.MonthComp,
+                                   _ prev: Set<NNCalendar.Selection>,
+                                   _ current: Set<NNCalendar.Selection>)
     -> Set<NNCalendar.GridPosition>
   {
-    return dependency.calculateGridSelectionChanges(monthComp, prev, current)
+    return dependency.gridSelectionChanges(monthComp, prev, current)
   }
 }
 
@@ -185,12 +185,12 @@ extension NNCalendar.MonthDisplay.Model {
       return noDefault.initialMonthStream
     }
 
-    var allDateSelectionStream: Observable<Try<Set<NNCalendar.Selection>>> {
-      return noDefault.allDateSelectionStream
+    var allSelectionStream: Observable<Try<Set<NNCalendar.Selection>>> {
+      return noDefault.allSelectionStream
     }
 
-    var allDateSelectionReceiver: AnyObserver<Set<NNCalendar.Selection>> {
-      return noDefault.allDateSelectionReceiver
+    var allSelectionReceiver: AnyObserver<Set<NNCalendar.Selection>> {
+      return noDefault.allSelectionReceiver
     }
 
     var currentMonthStream: Observable<NNCalendar.Month> {
@@ -223,16 +223,16 @@ extension NNCalendar.MonthDisplay.Model {
 
     /// We use a sequential date calculator here, since it seems to be the most
     /// common.
-    func calculateDateRange(_ month: NNCalendar.Month) -> [Date] {
-      return dateCalc.calculateDateRange(month)
+    func dateRange(_ month: NNCalendar.Month) -> [Date] {
+      return dateCalc.dateRange(month)
     }
 
-    func calculateGridSelectionChanges(_ monthComp: NNCalendar.MonthComp,
-                                       _ prev: Set<NNCalendar.Selection>,
-                                       _ current: Set<NNCalendar.Selection>)
+    func gridSelectionChanges(_ monthComp: NNCalendar.MonthComp,
+                              _ prev: Set<NNCalendar.Selection>,
+                              _ current: Set<NNCalendar.Selection>)
       -> Set<NNCalendar.GridPosition>
     {
-      return dateCalc.calculateGridSelectionChanges(monthComp, prev, current)
+      return dateCalc.gridSelectionChanges(monthComp, prev, current)
     }
   }
 }

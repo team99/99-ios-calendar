@@ -19,5 +19,5 @@ public protocol NNSelectHighlightNoDefaultFunction {
   ///
   /// - Parameter date: A Date instance.
   /// - Returns: A HighlightPart instance.
-  func calculateHighlightPart(_ date: Date) -> NNCalendar.HighlightPart
+  func highlightPart(_ date: Date) -> NNCalendar.HighlightPart
 }

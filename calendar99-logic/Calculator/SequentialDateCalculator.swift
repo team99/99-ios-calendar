@@ -31,8 +31,8 @@ extension NNCalendar.DateCalc.Sequential: NNDateCalculatorType {
 
   /// We need to find the first day of the week in which the current month
   /// starts (not necessarily the first day of the month).
-  public func calculateDateRange(_ month: NNCalendar.Month) -> [Date] {
-    return NNCalendar.Util.calculateFirstDate(month, firstWeekday)
+  public func dateRange(_ month: NNCalendar.Month) -> [Date] {
+    return NNCalendar.Util.firstDateWithWeekday(month, firstWeekday)
       .map({(date: Date) -> [Date] in (0..<rowCount * columnCount).flatMap({
         return calendar.date(byAdding: .day, value: $0, to: date)
       })})
@@ -42,9 +42,9 @@ extension NNCalendar.DateCalc.Sequential: NNDateCalculatorType {
 
 // MARK: - NNSingleDateCalculatorType
 extension NNCalendar.DateCalc.Sequential: NNSingleDateCalculatorType {
-  public func calculateDateWithOffset(_ month: NNCalendar.Month,
-                                      _ firstDateOffset: Int) -> Date? {
-    return NNCalendar.Util.calculateFirstDate(month, firstWeekday).flatMap({
+  public func dateWithOffset(_ month: NNCalendar.Month,
+                             _ firstDateOffset: Int) -> Date? {
+    return NNCalendar.Util.firstDateWithWeekday(month, firstWeekday).flatMap({
       return calendar.date(byAdding: .day, value: firstDateOffset, to: $0)
     })
   }
@@ -52,32 +52,35 @@ extension NNCalendar.DateCalc.Sequential: NNSingleDateCalculatorType {
 
 // MARK: - NNMultiMonthGridSelectionCalculator
 extension NNCalendar.DateCalc.Sequential: NNMultiMonthGridSelectionCalculator {
-  public func calculateGridSelectionChanges(_ monthComps: [NNCalendar.MonthComp],
-                                            _ prev: Set<NNCalendar.Selection>,
-                                            _ current: Set<NNCalendar.Selection>)
+  public func gridSelectionChanges(_ monthComps: [NNCalendar.MonthComp],
+                                   _ currentMonth: NNCalendar.Month,
+                                   _ prev: Set<NNCalendar.Selection>,
+                                   _ current: Set<NNCalendar.Selection>)
     -> Set<NNCalendar.GridPosition>
   {
-    return Set(extractChanges(prev, current)
-      .flatMap({$0.calculateGridPosition(monthComps)}))
+    return monthComps.index(where: {$0.month == currentMonth})
+      .map({monthIndex in Set(extractChanges(prev, current)
+        .flatMap({$0.gridPosition(monthComps, monthIndex)}))})
+      .getOrElse([])
   }
 }
 
 // MARK: - NNSingleMonthGridSelectionCalculatorType
 extension NNCalendar.DateCalc.Sequential: NNSingleMonthGridSelectionCalculator {
-  public func calculateGridSelectionChanges(_ monthComp: NNCalendar.MonthComp,
-                                            _ prev: Set<NNCalendar.Selection>,
-                                            _ current: Set<NNCalendar.Selection>)
+  public func gridSelectionChanges(_ monthComp: NNCalendar.MonthComp,
+                                   _ prev: Set<NNCalendar.Selection>,
+                                   _ current: Set<NNCalendar.Selection>)
     -> Set<NNCalendar.GridPosition>
   {
     return Set(extractChanges(prev, current)
-      .flatMap({self.calculateGridPosition(monthComp, $0)}))
+      .flatMap({self.gridPosition(monthComp, $0)}))
   }
 
   /// We need to include the previous and next month components here as well,
   /// and call the pre-specified method that deals with Month Array. We also
   /// assume that the day count remains the same for all Months.
-  fileprivate func calculateGridPosition(_ monthComp: NNCalendar.MonthComp,
-                                         _ selection: NNCalendar.Selection)
+  fileprivate func gridPosition(_ monthComp: NNCalendar.MonthComp,
+                                _ selection: NNCalendar.Selection)
     -> Set<NNCalendar.GridPosition>
   {
     var monthComps = [NNCalendar.MonthComp]()
@@ -92,6 +95,6 @@ extension NNCalendar.DateCalc.Sequential: NNSingleMonthGridSelectionCalculator {
       .map({monthComp.with(month: $0)})
       .map({monthComps.append($0)})
 
-    return selection.calculateGridPosition(monthComps)
+    return selection.gridPosition(monthComps, 1)
   }
 }

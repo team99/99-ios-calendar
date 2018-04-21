@@ -59,11 +59,11 @@ extension NNCalendar.DaySelection.ViewModel: NNSingleDaySelectionViewModelType {
 
     dateSelectionSbj
       .map({NNCalendar.DateSelection($0, firstWeekday) as NNCalendar.Selection})
-      .withLatestFrom(model.allDateSelectionStream) {($1.getOrElse([]), $0)}
+      .withLatestFrom(model.allSelectionStream) {($1.getOrElse([]), $0)}
       .map({$0.contains($1)
           ? $0.subtracting(Set(arrayLiteral: $1))
           : $0.union(Set(arrayLiteral: $1))})
-      .subscribe(model.allDateSelectionReceiver)
+      .subscribe(model.allSelectionReceiver)
       .disposed(by: disposable)
   }
 }

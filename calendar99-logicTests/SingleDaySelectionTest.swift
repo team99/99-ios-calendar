@@ -65,11 +65,11 @@ public extension SingleDaySelectionTest {
 }
 
 extension SingleDaySelectionTest: NNSingleDaySelectionNoDefaultModelDependency {
-  public var allDateSelectionReceiver: AnyObserver<Set<NNCalendar.Selection>> {
+  public var allSelectionReceiver: AnyObserver<Set<NNCalendar.Selection>> {
     return allSelectionSb.mapObserver(Try.success)
   }
 
-  public var allDateSelectionStream: Observable<Try<Set<NNCalendar.Selection>>> {
+  public var allSelectionStream: Observable<Try<Set<NNCalendar.Selection>>> {
     return allSelectionSb.asObservable()
   }
 

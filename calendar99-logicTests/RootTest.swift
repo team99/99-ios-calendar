@@ -26,3 +26,5 @@ public class RootTest: XCTestCase {
     continueAfterFailure = false
   }
 }
+
+extension RootTest: CommonTestProtocol {}

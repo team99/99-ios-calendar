@@ -33,9 +33,10 @@ public extension HighlightPartDateCalculatorTest {
     /// Setup
     let actualGridPositions = gridPositions
     let totalDayCount = rowCount! * columnCount!
+    let currentMonth = NNCalendar.Month(Date())
 
     /// When
-    let newGridPositions = dateCalc.calculateGridSelectionChanges([], [], [])
+    let newGridPositions = dateCalc.gridSelectionChanges([], currentMonth, [], [])
 
     /// Then
     XCTAssertTrue(newGridPositions.all({
@@ -62,9 +63,10 @@ public extension HighlightPartDateCalculatorTest {
 }
 
 extension HighlightPartDateCalculatorTest: NNMultiMonthGridSelectionCalculator {
-  public func calculateGridSelectionChanges(_ monthComps: [NNCalendar.MonthComp],
-                                            _ prev: Set<NNCalendar.Selection>,
-                                            _ current: Set<NNCalendar.Selection>)
+  public func gridSelectionChanges(_ monthComps: [NNCalendar.MonthComp],
+                                   _ currentMonth: NNCalendar.Month,
+                                   _ prev: Set<NNCalendar.Selection>,
+                                   _ current: Set<NNCalendar.Selection>)
     -> Set<NNCalendar.GridPosition>
   {
     return gridPositions

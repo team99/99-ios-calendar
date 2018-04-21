@@ -73,10 +73,6 @@ extension ViewController: NNMonthHeaderNoDefaultModelDependency {
 }
 
 extension ViewController: NNMonthSectionNoDefaultModelDependency {
-  public var firstWeekday: Int {
-    return 1
-  }
-
   public var pastMonthsFromCurrent: Int {
     return 1000
   }
@@ -85,12 +81,12 @@ extension ViewController: NNMonthSectionNoDefaultModelDependency {
     return 1000
   }
 
-  public var allDateSelectionReceiver: AnyObserver<Set<NNCalendar.Selection>> {
+  public var allSelectionReceiver: AnyObserver<Set<NNCalendar.Selection>> {
     return Singleton.instance.reduxStore.actionTrigger()
       .mapObserver(ReduxCalendar.Action.updateSelection)
   }
 
-  public var allDateSelectionStream: Observable<Try<Set<NNCalendar.Selection>>> {
+  public var allSelectionStream: Observable<Try<Set<NNCalendar.Selection>>> {
     let path = ReduxCalendar.Action.selectionPath
     
     return Singleton.instance.reduxStore
@@ -105,11 +101,11 @@ extension ViewController: NNMonthSectionNoDefaultModelDependency {
       .getOrElse(false)
   }
 
-  public func calculateHighlightPart(_ date: Date) -> NNCalendar.HighlightPart {
+  public func highlightPart(_ date: Date) -> NNCalendar.HighlightPart {
     return Singleton.instance.reduxStore
       .lastState.flatMap({$0.stateValue(ReduxCalendar.Action.selectionPath)})
       .cast(Set<NNCalendar.Selection>.self)
-      .map({NNCalendar.Util.calculateHighlightPart($0, date)})
+      .map({NNCalendar.Util.highlightPart($0, date)})
       .getOrElse(.none)
   }
 }

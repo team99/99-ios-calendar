@@ -16,7 +16,7 @@ import XCTest
 public final class SelectableWeekdayTest: RootTest {
   fileprivate var model: NNCalendar.SelectWeekday.Model!
   fileprivate var viewModel: NNCalendar.SelectWeekday.ViewModel!
-  fileprivate var allDateSelectionSb: BehaviorSubject<Try<Set<NNCalendar.Selection>>>!
+  fileprivate var allSelectionSb: BehaviorSubject<Try<Set<NNCalendar.Selection>>>!
   fileprivate var currentMonth: NNCalendar.Month!
   fileprivate var currentMonthSb: BehaviorSubject<NNCalendar.Month>!
   fileprivate var defaultModelDp: NNSelectableWeekdayModelDependency!
@@ -25,7 +25,7 @@ public final class SelectableWeekdayTest: RootTest {
     super.setUp()
     model = NNCalendar.SelectWeekday.Model(self)
     viewModel = NNCalendar.SelectWeekday.ViewModel(model!)
-    allDateSelectionSb = BehaviorSubject(value: Try.failure(""))
+    allSelectionSb = BehaviorSubject(value: Try.failure(""))
     currentMonth = NNCalendar.Month(Date())
     currentMonthSb = BehaviorSubject(value: currentMonth!)
     defaultModelDp = NNCalendar.SelectWeekday.Model.DefaultDependency(self)
@@ -70,7 +70,7 @@ public extension SelectableWeekdayTest {
 
       for weekdayIndex in 0..<6 {
         viewModel!.weekdaySelectionIndexReceiver.onNext(weekdayIndex)
-        var selections = try! allDateSelectionSb.value().getOrElse([])
+        var selections = try! allSelectionSb.value().getOrElse([])
         XCTAssertGreaterThanOrEqual(selections.count, 4)
 
         XCTAssertTrue(selections
@@ -79,7 +79,7 @@ public extension SelectableWeekdayTest {
           .all({$0 == weekdayIndex + 1}))
 
         viewModel!.weekdaySelectionIndexReceiver.onNext(weekdayIndex)
-        selections = try! allDateSelectionSb.value().value!
+        selections = try! allSelectionSb.value().value!
         XCTAssertEqual(selections.count, 0)
       }
     }
@@ -87,12 +87,12 @@ public extension SelectableWeekdayTest {
 }
 
 extension SelectableWeekdayTest: NNSelectableWeekdayNoDefaultModelDependency {
-  public var allDateSelectionReceiver: AnyObserver<Set<NNCalendar.Selection>> {
-    return allDateSelectionSb.mapObserver(Try.success)
+  public var allSelectionReceiver: AnyObserver<Set<NNCalendar.Selection>> {
+    return allSelectionSb.mapObserver(Try.success)
   }
 
-  public var allDateSelectionStream: Observable<Try<Set<NNCalendar.Selection>>> {
-    return allDateSelectionSb.asObservable()
+  public var allSelectionStream: Observable<Try<Set<NNCalendar.Selection>>> {
+    return allSelectionSb.asObservable()
   }
 
   public var currentMonthStream: Observable<NNCalendar.Month> {

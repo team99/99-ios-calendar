@@ -70,11 +70,21 @@ extension NNCalendar.SelectWeekday.ViewModel: NNWeekdayDisplayViewModelType {
       .withLatestFrom(model.currentMonthStream) {($1, $0)}
       .map({$0.datesWithWeekday($1)})
       .map({Set($0.map({NNCalendar.DateSelection($0, firstWeekday)}))})
-      .withLatestFrom(model.allDateSelectionStream) {
+      .withLatestFrom(model.allSelectionStream) {
         return $1.getOrElse([]).symmetricDifference($0)
       }
-      .subscribe(model.allDateSelectionReceiver)
+      .subscribe(model.allSelectionReceiver)
       .disposed(by: disposable)
+
+//    // Uncomment this (and comment the above binding) to quick-test repeat
+//    // weekday selection.
+//    weekdaySelectionStream
+//      .map({NNCalendar.RepeatWeekdaySelection($0, firstWeekday)})
+//      .withLatestFrom(model.allSelectionStream) {
+//        return $1.getOrElse([]).symmetricDifference(Set(arrayLiteral: $0))
+//      }
+//      .subscribe(model.allSelectionReceiver)
+//      .disposed(by: disposable)
   }
 }
 
