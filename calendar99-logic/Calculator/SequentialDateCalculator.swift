@@ -12,14 +12,12 @@ public extension NNCalendar.DateCalc {
 
   /// Sequential date calculator.
   public final class Sequential {
-    public let rowCount: Int
-    public let columnCount: Int
+    public let weekdayStacks: Int
     public let firstWeekday: Int
     fileprivate let calendar: Calendar
 
-    public init(_ rowCount: Int, _ columnCount: Int, _ firstWeekday: Int) {
-      self.rowCount = rowCount
-      self.columnCount = columnCount
+    public init(_ weekdayStacks: Int, _ firstWeekday: Int) {
+      self.weekdayStacks = weekdayStacks
       self.firstWeekday = firstWeekday
       calendar = Calendar.current
     }
@@ -32,8 +30,10 @@ extension NNCalendar.DateCalc.Sequential: NNDateCalculatorType {
   /// We need to find the first day of the week in which the current month
   /// starts (not necessarily the first day of the month).
   public func dateRange(_ month: NNCalendar.Month) -> [Date] {
+    let weekdays = NNCalendar.Util.weekdayCount
+
     return NNCalendar.Util.firstDateWithWeekday(month, firstWeekday)
-      .map({(date: Date) -> [Date] in (0..<rowCount * columnCount).flatMap({
+      .map({(date: Date) -> [Date] in (0..<weekdayStacks * weekdays).flatMap({
         return calendar.date(byAdding: .day, value: $0, to: date)
       })})
       .getOrElse([])

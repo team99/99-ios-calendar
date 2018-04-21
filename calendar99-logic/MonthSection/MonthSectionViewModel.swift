@@ -93,13 +93,7 @@ public extension NNCalendar.MonthSection {
 
 // MARK: - NNGridDisplayDefaultFunction
 extension NNCalendar.MonthSection.ViewModel: NNGridDisplayDefaultFunction {
-  public var columnCount: Int {
-    return monthGridVM.columnCount
-  }
-
-  public var rowCount: Int {
-    return monthGridVM.rowCount
-  }
+  public var weekdayStacks: Int { return monthGridVM.weekdayStacks }
 }
 
 // MARK: - NNMonthGridViewModelType
@@ -197,7 +191,7 @@ extension NNCalendar.MonthSection.ViewModel: NNMonthSectionViewModelType {
     let disposable = self.disposable
     let pCount = model.pastMonthsFromCurrent
     let fCount = model.futureMonthsFromCurrent
-    let dayCount = monthGridVM.rowCount * monthGridVM.columnCount
+    let dayCount = monthGridVM.weekdayStacks * NNCalendar.Util.weekdayCount
     let firstWeekday = model.firstWeekday
 
     /// Must call onNext manually to avoid completed event, since this is a

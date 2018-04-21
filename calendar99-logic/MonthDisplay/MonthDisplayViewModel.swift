@@ -98,13 +98,7 @@ extension NNCalendar.MonthDisplay.ViewModel: NNMonthControlViewModelType {
 
 // MARK: - NNGridDisplayDefaultFunction
 extension NNCalendar.MonthDisplay.ViewModel: NNGridDisplayDefaultFunction {
-  public var rowCount: Int {
-    return monthGridVM.rowCount
-  }
-
-  public var columnCount: Int {
-    return monthGridVM.columnCount
-  }
+  public var weekdayStacks: Int { return monthGridVM.weekdayStacks }
 }
 
 // MARK: - NNMonthGridViewModelType
@@ -126,7 +120,7 @@ extension NNCalendar.MonthDisplay.ViewModel: NNMonthDisplayViewModelType {
 
   /// Convenient stream that emits month components.
   private var monthCompStream: Observable<NNCalendar.MonthComp> {
-    let dayCount = rowCount * columnCount
+    let dayCount = weekdayStacks * NNCalendar.Util.weekdayCount
     let firstWeekday = model.firstWeekday
     
     return model.currentMonthStream

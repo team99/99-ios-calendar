@@ -39,9 +39,8 @@ public final class ViewController: UIViewController  {
     monthHeader.dependency = (monthHeaderVM, decorator)
 
     let pageCount = monthSectionVM.totalMonthCount
-    let rowCount = monthSectionVM.rowCount
-    let columnCount = monthSectionVM.columnCount
-    let layout = NNMonthSectionHorizontalFlowLayout(pageCount, rowCount, columnCount)
+    let weekdayStacks = monthSectionVM.weekdayStacks
+    let layout = NNMonthSectionHorizontalFlowLayout(pageCount, weekdayStacks)
     monthSectionView.setCollectionViewLayout(layout, animated: true)
     monthSectionView.dependency = (monthSectionVM, decorator)
     monthView.dependency = (monthViewVM, decorator)

@@ -10,11 +10,8 @@
 /// views that can have defaults.
 public protocol NNGridDisplayDefaultFunction {
 
-  /// Represents the number of columns. Should be 7 in most cases.
-  var columnCount: Int { get }
-
-  /// Represents the number of rows. Generally should be 6.
-  var rowCount: Int { get }
+  /// Represents the number of weekday lines in a grid. Generally should be 6.
+  var weekdayStacks: Int { get }
 }
 
 /// Shared functionalities between the model and view model for grid display

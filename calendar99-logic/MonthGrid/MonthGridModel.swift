@@ -46,12 +46,8 @@ public extension NNCalendar.MonthGrid {
 
 // MARK: - NNGridDisplayDefaultFunction
 extension NNCalendar.MonthGrid.Model: NNGridDisplayDefaultFunction {
-  public var columnCount: Int {
-    return dependency.columnCount
-  }
-
-  public var rowCount: Int {
-    return dependency.rowCount
+  public var weekdayStacks: Int {
+    return dependency.weekdayStacks
   }
 }
 
@@ -61,8 +57,7 @@ extension NNCalendar.MonthGrid.Model: NNMonthGridModelType {}
 // MARK: - Default dependency.
 extension NNCalendar.MonthGrid.Model {
   final class DefaultDependency: NNMonthGridModelDependency {
-    var columnCount: Int { return gridDisplayDp.columnCount }
-    var rowCount: Int { return gridDisplayDp.rowCount }
+    var weekdayStacks: Int { return gridDisplayDp.weekdayStacks }
     private let gridDisplayDp: NNMGridDisplayModelDependency
 
     init() {

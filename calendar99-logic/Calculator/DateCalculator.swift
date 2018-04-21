@@ -14,8 +14,8 @@
 public protocol NNDateCalculatorType {
 
   /// Calculate the dates in a month/year pair. The total number of dates should
-  /// equal rowCount * columnCount, but how exactly they should be partitioned
-  /// is left to implementation.
+  /// equal weekdayStacks * 7, but how exactly they should be partitioned is
+  /// left to implementation.
   ///
   /// - Parameters month: A Month instance.
   /// - Returns: An Array of Date.

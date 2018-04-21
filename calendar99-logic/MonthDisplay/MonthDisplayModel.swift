@@ -96,13 +96,7 @@ public extension NNCalendar.MonthDisplay {
 
 // MARK: - NNGridDisplayDefaultFunction
 extension NNCalendar.MonthDisplay.Model: NNGridDisplayDefaultFunction {
-  public var columnCount: Int {
-    return monthGridModel.columnCount
-  }
-
-  public var rowCount: Int {
-    return monthGridModel.rowCount
-  }
+  public var weekdayStacks: Int { return monthGridModel.weekdayStacks }
 }
 
 // MARK: - NNMonthControlModelType
@@ -177,8 +171,7 @@ extension NNCalendar.MonthDisplay.Model {
   /// Default dependency for month display model. This delegates non-default
   /// components to a separate dependency.
   final class DefaultDependency: NNMonthDisplayModelDependency {
-    var columnCount: Int { return monthGridDp.columnCount }
-    var rowCount: Int { return monthGridDp.rowCount }
+    var weekdayStacks: Int { return monthGridDp.weekdayStacks }
     var firstWeekday: Int { return daySelectionDp.firstWeekday }
 
     var initialMonthStream: Single<NNCalendar.Month> {
@@ -212,9 +205,7 @@ extension NNCalendar.MonthDisplay.Model {
       daySelectionDp = NNCalendar.DaySelection.Model.DefaultDependency(dependency)
 
       dateCalc = NNCalendar.DateCalc.Sequential(
-        monthGridDp.rowCount,
-        monthGridDp.columnCount,
-        daySelectionDp.firstWeekday)
+        monthGridDp.weekdayStacks, daySelectionDp.firstWeekday)
     }
 
     func isDateSelected(_ date: Date) -> Bool {

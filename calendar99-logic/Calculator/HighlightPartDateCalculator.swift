@@ -25,15 +25,12 @@ public extension NNCalendar.DateCalc {
   /// as well.
   public final class HighlightPart {
     fileprivate let gridPositionCalculator: NNMultiMonthGridSelectionCalculator
-    fileprivate let rowCount: Int
-    fileprivate let columnCount: Int
+    fileprivate let weekdayStacks: Int
 
     public init(_ gridPositionCalc: NNMultiMonthGridSelectionCalculator,
-                _ rowCount: Int,
-                _ columnCount: Int) {
+                _ weekdayStacks: Int) {
       self.gridPositionCalculator = gridPositionCalc
-      self.rowCount = rowCount
-      self.columnCount = columnCount
+      self.weekdayStacks = weekdayStacks
     }
   }
 }
@@ -49,7 +46,7 @@ extension NNCalendar.DateCalc.HighlightPart: NNMultiMonthGridSelectionCalculator
                                    _ current: Set<NNCalendar.Selection>)
     -> Set<NNCalendar.GridPosition>
   {
-    let totalDayCount = rowCount * columnCount
+    let totalDayCount = weekdayStacks * NNCalendar.Util.weekdayCount
 
     // We could have checked whether the previous/next grid selections have
     // associated dates which are selected (instead of just incrementing/

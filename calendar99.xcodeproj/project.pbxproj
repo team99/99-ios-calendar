@@ -66,7 +66,6 @@
 		D31C042D207D1BA6000C2C75 /* DateCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D31C042C207D1BA6000C2C75 /* DateCalculator.swift */; };
 		D31C042F207D2106000C2C75 /* SequentialDateCalculatorTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D31C042E207D2106000C2C75 /* SequentialDateCalculatorTest.swift */; };
 		D31CE3992085825D00EC24F0 /* GridDisplayFunction.swift in Sources */ = {isa = PBXBuildFile; fileRef = D31CE3982085825D00EC24F0 /* GridDisplayFunction.swift */; };
-		D31CE39B208585A700EC24F0 /* WeekdayDisplayFunction.swift in Sources */ = {isa = PBXBuildFile; fileRef = D31CE39A208585A700EC24F0 /* WeekdayDisplayFunction.swift */; };
 		D31DA881207EF28800FB4355 /* SingleDaySelectionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D31DA880207EF28800FB4355 /* SingleDaySelectionModel.swift */; };
 		D31DA885207EF47E00FB4355 /* SingleDaySelectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D31DA884207EF47E00FB4355 /* SingleDaySelectionViewModel.swift */; };
 		D31DA889207F221B00FB4355 /* SingleDaySelectionFunctionality.swift in Sources */ = {isa = PBXBuildFile; fileRef = D31DA888207F221B00FB4355 /* SingleDaySelectionFunctionality.swift */; };
@@ -230,7 +229,6 @@
 		D31C042C207D1BA6000C2C75 /* DateCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateCalculator.swift; sourceTree = "<group>"; };
 		D31C042E207D2106000C2C75 /* SequentialDateCalculatorTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SequentialDateCalculatorTest.swift; sourceTree = "<group>"; };
 		D31CE3982085825D00EC24F0 /* GridDisplayFunction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridDisplayFunction.swift; sourceTree = "<group>"; };
-		D31CE39A208585A700EC24F0 /* WeekdayDisplayFunction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekdayDisplayFunction.swift; sourceTree = "<group>"; };
 		D31DA880207EF28800FB4355 /* SingleDaySelectionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleDaySelectionModel.swift; sourceTree = "<group>"; };
 		D31DA884207EF47E00FB4355 /* SingleDaySelectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleDaySelectionViewModel.swift; sourceTree = "<group>"; };
 		D31DA888207F221B00FB4355 /* SingleDaySelectionFunctionality.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleDaySelectionFunctionality.swift; sourceTree = "<group>"; };
@@ -400,7 +398,6 @@
 				D31431BA208079D70044B936 /* SelectableWeekdayViewModel.swift */,
 				D31431AD208062FB0044B936 /* WeekdayDisplayModel.swift */,
 				D31431AB20805FD50044B936 /* WeekdayDisplayViewModel.swift */,
-				D31CE39A208585A700EC24F0 /* WeekdayDisplayFunction.swift */,
 			);
 			path = WeekdayDisplay;
 			sourceTree = "<group>";
@@ -1277,7 +1274,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				D31431AC20805FD50044B936 /* WeekdayDisplayViewModel.swift in Sources */,
-				D31CE39B208585A700EC24F0 /* WeekdayDisplayFunction.swift in Sources */,
 				D31DA881207EF28800FB4355 /* SingleDaySelectionModel.swift in Sources */,
 				D31431BB208079D70044B936 /* SelectableWeekdayViewModel.swift in Sources */,
 				D319374F208489EB00D055A4 /* GridDisplayModel.swift in Sources */,

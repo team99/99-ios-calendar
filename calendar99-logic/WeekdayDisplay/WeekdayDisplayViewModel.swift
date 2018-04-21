@@ -9,10 +9,7 @@
 import RxSwift
 
 /// View model for weekday display view.
-public protocol NNWeekdayDisplayViewModelType:
-  NNWeekdayDisplayDefaultFunction,
-  NNWeekdayDisplayNoDefaultFunction
-{
+public protocol NNWeekdayDisplayViewModelType {
   /// Stream weekdays.
   var weekdayStream: Observable<[NNCalendar.Weekday]> { get }
 
@@ -40,18 +37,11 @@ public extension NNCalendar.WeekdayDisplay {
   }
 }
 
-// MARK: - NNWeekdayDisplayDefaultFunction
-extension NNCalendar.WeekdayDisplay.ViewModel: NNWeekdayDisplayDefaultFunction {
-  public var weekdayCount: Int {
-    return model.weekdayCount
-  }
-}
-
 // MARK: - NNWeekdayDisplayViewModelType
 extension NNCalendar.WeekdayDisplay.ViewModel: NNWeekdayDisplayViewModelType {
   public var weekdayStream: Observable<[NNCalendar.Weekday]> {
     let firstWeekday = model.firstWeekday
-    let weekdayCount = model.weekdayCount
+    let weekdayCount = NNCalendar.Util.weekdayCount
 
     let weekdays = NNCalendar.Util.weekdayRange(firstWeekday, weekdayCount)
       .map({(weekday: $0, description: model.weekdayDescription($0))})

@@ -8,6 +8,7 @@
 
 import SwiftFP
 import UIKit
+import calendar99_logic
 
 /// Horizontal layout subclass for month section view.
 ///
@@ -34,14 +35,12 @@ public final class NNMonthSectionHorizontalFlowLayout: UICollectionViewFlowLayou
   }
 
   private let pageCount: Int
-  private let rowCount: Int
-  private let columnCount: Int
+  private let weekdayStacks: Int
   private var cache: [Int : [UICollectionViewLayoutAttributes]]
 
-  public init(_ pageCount: Int, _ rowCount: Int, _ columnCount: Int) {
+  public init(_ pageCount: Int, _ weekdayStacks: Int) {
     self.pageCount = pageCount
-    self.rowCount = rowCount
-    self.columnCount = columnCount
+    self.weekdayStacks = weekdayStacks
     cache = [:]
     super.init()
     minimumLineSpacing = 0
@@ -60,20 +59,21 @@ public final class NNMonthSectionHorizontalFlowLayout: UICollectionViewFlowLayou
       return
     }
 
+    let weekdays = NNCalendar.Util.weekdayCount
     let parentWidth = collectionView.bounds.width
     let parentHeight = collectionView.bounds.height
-    let cellWidth = parentWidth / CGFloat(columnCount)
-    let cellHeight = parentHeight / CGFloat(rowCount)
+    let cellWidth = parentWidth / CGFloat(NNCalendar.Util.weekdayCount)
+    let cellHeight = parentHeight / CGFloat(weekdayStacks)
 
     for page in 0..<pageCount {
       var pageAttrs = [UICollectionViewLayoutAttributes]()
 
-      for row in 0..<rowCount {
-        for column in 0..<columnCount {
+      for row in 0..<weekdayStacks {
+        for column in 0..<weekdays {
           let offset = CGFloat(page) * parentWidth
           let x = offset + CGFloat(column) * cellWidth
           let y = CGFloat(row) * cellHeight
-          let index = IndexPath(row: row * columnCount + column, section: page)
+          let index = IndexPath(row: row * weekdays + column, section: page)
           let attrs = UICollectionViewLayoutAttributes(forCellWith: index)
           attrs.frame = CGRect(x: x, y: y, width: cellWidth, height: cellHeight)
           pageAttrs.append(attrs)

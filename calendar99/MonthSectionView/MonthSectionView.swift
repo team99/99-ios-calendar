@@ -65,52 +65,6 @@ public final class NNMonthSectionView: UICollectionView {
   }
 }
 
-// MARK: - UICollectionViewDelegateFlowLayout
-extension NNMonthSectionView: UICollectionViewDelegateFlowLayout {
-  public func collectionView(
-    _ collectionView: UICollectionView,
-    layout collectionViewLayout: UICollectionViewLayout,
-    referenceSizeForHeaderInSection section: Int) -> CGSize
-  {
-    return CGSize.zero
-  }
-
-  public func collectionView(_ collectionView: UICollectionView,
-                             layout collectionViewLayout: UICollectionViewLayout,
-                             insetForSectionAt section: Int) -> UIEdgeInsets {
-    return UIEdgeInsets.zero
-  }
-
-  public func collectionView(
-    _ collectionView: UICollectionView,
-    layout collectionViewLayout: UICollectionViewLayout,
-    minimumLineSpacingForSectionAt section: Int) -> CGFloat
-  {
-    return 0
-  }
-
-  public func collectionView(
-    _ collectionView: UICollectionView,
-    layout collectionViewLayout: UICollectionViewLayout,
-    minimumInteritemSpacingForSectionAt section: Int) -> CGFloat
-  {
-    return 0
-  }
-
-  public func collectionView(_ collectionView: UICollectionView,
-                             layout collectionViewLayout: UICollectionViewLayout,
-                             sizeForItemAt indexPath: IndexPath) -> CGSize {
-    let cHeight = collectionView.bounds.height
-    let cWidth = collectionView.bounds.width
-
-    return viewModel
-      .map({(cWidth / CGFloat($0.columnCount), cHeight / CGFloat($0.rowCount))})
-      .map({CGSize(width: $0, height: $1)})
-      .getOrElse(CGSize.zero)
-  }
-}
-
-
 // MARK: - Views.
 public extension NNMonthSectionView {
   fileprivate var cellId: String {

@@ -43,17 +43,18 @@ public extension SelectableWeekdayTest {
                      model2.weekdayDescription(weekday))
     }
 
-    let weekdayVM = NNCalendar.WeekdayDisplay.ViewModel(weekdayModel)
-    let viewModel1 = NNCalendar.SelectWeekday.ViewModel(weekdayVM, model1)
-    let viewModel2 = NNCalendar.SelectWeekday.ViewModel(model2)
-    XCTAssertEqual(viewModel1.weekdayCount, viewModel2.weekdayCount)
     XCTAssertEqual(defaultModelDp.firstWeekday, firstWeekdayForTest!)
 
     let weekdays = try! viewModel!.weekdayStream.take(1).toBlocking().first()!
     let firstWeekday = defaultModelDp!.firstWeekday
-    let weekdayCount = viewModel!.weekdayCount
+    let weekdayCount = NNCalendar.Util.weekdayCount
     let weekdayRange = NNCalendar.Util.weekdayRange(firstWeekday, weekdayCount)
     XCTAssertEqual(weekdayRange, weekdays.map({$0.weekday}))
+
+    let weekdayVM = NNCalendar.WeekdayDisplay.ViewModel(weekdayModel)
+    let viewModel1 = NNCalendar.SelectWeekday.ViewModel(weekdayVM, model1)
+    let weekdays1 = try! viewModel1.weekdayStream.take(1).toBlocking().first()
+    XCTAssertEqual(weekdays1, weekdays)
   }
 
   public func test_selectWeekday_shouldWork() {

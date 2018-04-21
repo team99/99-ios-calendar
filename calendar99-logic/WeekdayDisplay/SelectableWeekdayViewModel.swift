@@ -35,13 +35,6 @@ public extension NNCalendar.SelectWeekday {
   }
 }
 
-// MARK: - NNWeekdayDisplayDefaultFunction
-extension NNCalendar.SelectWeekday.ViewModel: NNWeekdayDisplayDefaultFunction {
-  public var weekdayCount: Int {
-    return weekdayVM.weekdayCount
-  }
-}
-
 // MARK: - NNWeekdayDisplayViewModelType
 extension NNCalendar.SelectWeekday.ViewModel: NNWeekdayDisplayViewModelType {
   public var weekdayStream: Observable<[NNCalendar.Weekday]> {

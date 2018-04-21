@@ -30,8 +30,7 @@ public final class MonthGridTest: RootTest {
 public extension MonthGridTest {
   public func test_defaultDependencies_shouldWork() {
     let model1 = NNCalendar.MonthGrid.Model(defaultModelDp!)
-    XCTAssertEqual(model1.columnCount, defaultModelDp.columnCount)
-    XCTAssertEqual(model1.rowCount, defaultModelDp.rowCount)
+    XCTAssertEqual(model1.weekdayStacks, defaultModelDp.weekdayStacks)
   }
 
   public func test_gridSelectionReceiverAndStream_shouldWork() {

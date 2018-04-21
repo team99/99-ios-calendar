@@ -44,7 +44,7 @@ public extension WeekdayDisplayTest {
     viewModel!.setupWeekDisplayBindings()
 
     /// When & Then
-    let weekdayCount = viewModel.weekdayCount
+    let weekdayCount = NNCalendar.Util.weekdayCount
     let firstWeekday = defaultModelDp!.firstWeekday
     let actualRange = NNCalendar.Util.weekdayRange(firstWeekday, weekdayCount)
 
@@ -57,7 +57,7 @@ public extension WeekdayDisplayTest {
   public func test_weekdaySelection_shouldWork() {
     /// Setup
     let selectionObs = scheduler!.createObserver(Int.self)
-    let indexRange = (0..<viewModel!.weekdayCount).map({$0})
+    let indexRange = (0..<NNCalendar.Util.weekdayCount).map({$0})
     let firstWeekday = model!.firstWeekday
     let weekdayRange = indexRange.map({NNCalendar.Util.weekdayWithIndex($0, firstWeekday)})
     viewModel!.weekdaySelectionStream.subscribe(selectionObs).disposed(by: disposable)

@@ -68,13 +68,6 @@ extension NNCalendar.SelectWeekday.Model: NNWeekdayAwareDefaultModelFunction {
   }
 }
 
-// MARK: - NNWeekdayDisplayDefaultFunction
-extension NNCalendar.SelectWeekday.Model: NNWeekdayDisplayDefaultFunction {
-  public var weekdayCount: Int {
-    return weekdayModel.weekdayCount
-  }
-}
-
 // MARK: - NNWeekdayDisplayDefaultModelFunction
 extension NNCalendar.SelectWeekday.Model: NNWeekdayDisplayDefaultModelFunction {
   public func weekdayDescription(_ weekday: Int) -> String {
@@ -106,8 +99,7 @@ extension NNCalendar.SelectWeekday.Model: NNSelectableWeekdayModelType {}
 // MARK: - Default dependency.
 extension NNCalendar.SelectWeekday.Model {
   final class DefaultDependency: NNSelectableWeekdayModelDependency {
-    var firstWeekday: Int { return weekdayDp.firstWeekday }
-    var weekdayCount: Int { return weekdayDp.weekdayCount }
+    var firstWeekday: Int { return weekdayDp.firstWeekday } 
 
     var currentMonthStream: Observable<NNCalendar.Month> {
       return noDefault.currentMonthStream

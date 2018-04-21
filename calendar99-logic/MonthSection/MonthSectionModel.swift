@@ -115,13 +115,7 @@ public extension NNCalendar.MonthSection {
 
 // MARK: - NNGridDisplayDefaultFunction
 extension NNCalendar.MonthSection.Model: NNGridDisplayDefaultFunction {
-  public var columnCount: Int {
-    return monthGridModel.columnCount
-  }
-
-  public var rowCount: Int {
-    return monthGridModel.rowCount
-  }
+  public var weekdayStacks: Int { return monthGridModel.weekdayStacks }
 }
 
 // MARK: - NNMonthAwareNoDefaultModelFunction
@@ -226,8 +220,7 @@ extension NNCalendar.MonthSection.Model {
 
   /// Default dependency for month section model.
   final class DefaultDependency: NNMonthSectionModelDependency {
-    var columnCount: Int { return monthGridDp.columnCount }
-    var rowCount: Int { return monthGridDp.rowCount }
+    var weekdayStacks: Int { return monthGridDp.weekdayStacks }
     var pastMonthsFromCurrent: Int { return noDefault.pastMonthsFromCurrent }
     var futureMonthsFromCurrent: Int { return noDefault.futureMonthsFromCurrent }
     var firstWeekday: Int { return daySelectionDp.firstWeekday }
@@ -266,14 +259,10 @@ extension NNCalendar.MonthSection.Model {
       noDefault = dependency
       monthGridDp = NNCalendar.MonthGrid.Model.DefaultDependency()
       daySelectionDp = NNCalendar.DaySelection.Model.DefaultDependency(dependency)
-      
-      dateCalc = NNCalendar.DateCalc.Sequential(
-        monthGridDp.rowCount,
-        monthGridDp.columnCount,
-        daySelectionDp.firstWeekday)
 
-      highlightCalc = NNCalendar.DateCalc.HighlightPart(
-        dateCalc, monthGridDp.rowCount, monthGridDp.columnCount)
+      let weekdayStacks = monthGridDp.weekdayStacks
+      dateCalc = NNCalendar.DateCalc.Sequential(weekdayStacks, daySelectionDp.firstWeekday)
+      highlightCalc = NNCalendar.DateCalc.HighlightPart(dateCalc, weekdayStacks)
     }
 
     func dateWithOffset(_ month: NNCalendar.Month,

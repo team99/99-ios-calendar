@@ -11,8 +11,7 @@ import calendar99_logic
 
 public final class HighlightPartDateCalculatorTest: RootTest {
   fileprivate var dateCalc: NNCalendar.DateCalc.HighlightPart!
-  fileprivate var rowCount: Int!
-  fileprivate var columnCount: Int!
+  fileprivate var weekdayStacks: Int!
 
   fileprivate var gridPositions: Set<NNCalendar.GridPosition> {
     return Set((0..<10).flatMap({monthIndex in
@@ -22,9 +21,8 @@ public final class HighlightPartDateCalculatorTest: RootTest {
 
   override public func setUp() {
     super.setUp()
-    rowCount = 6
-    columnCount = 7
-    dateCalc = NNCalendar.DateCalc.HighlightPart(self, rowCount!, columnCount!)
+    weekdayStacks = 6
+    dateCalc = NNCalendar.DateCalc.HighlightPart(self, weekdayStacks!)
   }
 }
 
@@ -32,7 +30,7 @@ public extension HighlightPartDateCalculatorTest {
   public func test_calculateGridSelectionChanges_shouldWork() {
     /// Setup
     let actualGridPositions = gridPositions
-    let totalDayCount = rowCount! * columnCount!
+    let totalDayCount = weekdayStacks! * NNCalendar.Util.weekdayCount
     let currentMonth = NNCalendar.Month(Date())
 
     /// When

@@ -38,13 +38,7 @@ public extension NNCalendar.MonthGrid {
 
 // MARK: - NNGridDisplayDefaultFunction
 extension NNCalendar.MonthGrid.ViewModel: NNGridDisplayDefaultFunction {
-  public var columnCount: Int {
-    return model.columnCount
-  }
-
-  public var rowCount: Int {
-    return model.rowCount
-  }
+  public var weekdayStacks: Int { return model.weekdayStacks }
 }
 
 // MARK: - NNMonthGridViewModelType

@@ -15,17 +15,15 @@ public final class SequentialDateCalculatorTest: RootTest {
   fileprivate var calculator: NNCalendar.DateCalc.Sequential!
   fileprivate var dayCount: Int!
   fileprivate var firstWeekDay: Int!
-  fileprivate var rowCount: Int!
-  fileprivate var columnCount: Int!
+  fileprivate var weekdayStacks: Int!
 
   override public func setUp() {
     super.setUp()
     iterations = 1000
-    rowCount = 6
-    columnCount = 7
+    weekdayStacks = 6
     dayCount = 42
     firstWeekDay = 2
-    calculator = NNCalendar.DateCalc.Sequential(rowCount!, columnCount!, firstWeekDay!)
+    calculator = NNCalendar.DateCalc.Sequential(weekdayStacks!, firstWeekDay!)
   }
 
   public func test_calculateDayRange_shouldWork() {

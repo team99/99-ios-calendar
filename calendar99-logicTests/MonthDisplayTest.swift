@@ -65,8 +65,7 @@ public extension MonthDisplayTest {
     let viewModel2 = NNCalendar.MonthDisplay.ViewModel(model2)
     viewModel1.setupAllBindingsAndSubBindings()
     viewModel2.setupAllBindingsAndSubBindings()
-    XCTAssertEqual(viewModel1.rowCount, viewModel2.rowCount)
-    XCTAssertEqual(viewModel1.columnCount, viewModel2.columnCount)
+    XCTAssertEqual(viewModel1.weekdayStacks, viewModel2.weekdayStacks)
 
     XCTAssertEqual(
       try! viewModel1.dayStream.take(1).toBlocking().first(),
@@ -142,8 +141,7 @@ public extension MonthDisplayTest {
   public func test_gridSelectionIndexChanges_shouldWorkCorrectly() {
     /// Setup
     let indexChangesObs = scheduler!.createObserver(Set<Int>.self)
-    let rowCount = viewModel!.rowCount
-    let columnCount = viewModel!.columnCount
+    let weekdayStacks = viewModel!.weekdayStacks
     let firstWeekday = model!.firstWeekday
     var currentMonth = self.currentMonth!
 
@@ -161,7 +159,7 @@ public extension MonthDisplayTest {
       waitOnMainThread(waitDuration!)
 
       let dayRange = model!.dayRange(currentMonth)
-      let selectedIndex = Int.random(0, rowCount * columnCount)
+      let selectedIndex = Int.random(0, weekdayStacks * NNCalendar.Util.weekdayCount)
       let selectedDay = dayRange[selectedIndex]
       let wasSelected = viewModel!.isDateSelected(selectedDay.date)
 

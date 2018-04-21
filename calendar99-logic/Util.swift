@@ -16,6 +16,9 @@ public extension NNCalendar {
 // MARK: - Connect selection
 public extension NNCalendar.Util {
 
+  /// Get the number of days in a week.
+  public static var weekdayCount: Int { return 7 }
+
   /// Calculate the first date in a Month that falls on a certain weekday.
   ///
   /// - Parameters:

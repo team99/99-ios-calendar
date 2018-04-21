@@ -28,8 +28,7 @@ public final class MonthSectionTest: RootTest {
     defaultModelDp = NNCalendar.MonthSection.Model.DefaultDependency(self)
 
     sequentialDateCalc = NNCalendar.DateCalc.Sequential(
-      defaultModelDp.rowCount,
-      defaultModelDp.columnCount,
+      defaultModelDp.weekdayStacks,
       weekdayAwareDp.firstWeekday)
 
     model = NNCalendar.MonthSection.Model(self)
@@ -107,8 +106,7 @@ public extension MonthSectionTest {
     viewModel!.setupDaySelectionBindings()
     let pastOffset = pastMonthsFromCurrent
     let futureOffset = futureMonthsFromCurrent * 2
-    let rowCount = viewModel!.rowCount
-    let columnCount = viewModel!.columnCount
+    let weekdayStacks = viewModel!.weekdayStacks
     let months = try! viewModel!.monthCompStream.take(1).toBlocking().first()!
 
     /// When
@@ -125,7 +123,7 @@ public extension MonthSectionTest {
 
       waitOnMainThread(waitDuration!)
 
-      let dayIndex = Int.random(0, rowCount * columnCount)
+      let dayIndex = Int.random(0, weekdayStacks * NNCalendar.Util.weekdayCount)
       let selection = NNCalendar.GridPosition(offset, dayIndex)
       let withinRange = offset < months.count
 
@@ -147,8 +145,7 @@ public extension MonthSectionTest {
   public func test_gridSelectionChanges_shouldWorkCorrectly() {
     /// Setup
     let selectionChangesObs = scheduler!.createObserver(Set<NNCalendar.GridPosition>.self)
-    let rowCount = viewModel!.rowCount
-    let columnCount = viewModel!.columnCount
+    let weekdayStacks = viewModel!.weekdayStacks
     let firstWeekday = model!.firstWeekday
     viewModel!.setupMonthSectionBindings()
     let monthComps = try! viewModel!.monthCompStream.take(1).toBlocking().first()!
@@ -173,7 +170,7 @@ public extension MonthSectionTest {
       // day index 0 would be in April 2018, but since April 2018 is not within
       // the month comp range, we end up with no selection.
       let monthIndex = Int.random(1, monthComps.count - 1)
-      let dayIndex = Int.random(0, rowCount * columnCount)
+      let dayIndex = Int.random(0, weekdayStacks * NNCalendar.Util.weekdayCount)
       let gridPosition = NNCalendar.GridPosition(monthIndex, dayIndex)
       let monthComp = monthComps[monthIndex]
       let currentMonth = monthComp.month

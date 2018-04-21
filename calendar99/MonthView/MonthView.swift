@@ -103,9 +103,10 @@ extension NNMonthView: UICollectionViewDelegateFlowLayout {
                              sizeForItemAt indexPath: IndexPath) -> CGSize {
     let cHeight = collectionView.bounds.height
     let cWidth = collectionView.bounds.width
+    let weekdays = NNCalendar.Util.weekdayCount
 
     return viewModel
-      .map({(cWidth / CGFloat($0.columnCount), cHeight / CGFloat($0.rowCount))})
+      .map({(cWidth / CGFloat(weekdays), cHeight / CGFloat($0.weekdayStacks))})
       .map({CGSize(width: $0, height: $1)})
       .getOrElse(CGSize.zero)
   }
