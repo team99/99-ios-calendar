@@ -12,12 +12,14 @@ import SwiftFP
 /// Defaultable dependency for selectable weekday display.
 public protocol NNSelectableWeekdayDefaultModelDependency:
   NNMonthAwareDefaultModelFunction,
-  NNMultiDaySelectionDefaultFunction {}
+  NNMultiDaySelectionDefaultFunction,
+  NNWeekdayDisplayDefaultModelDependency {}
 
 /// Non-defaultable dependency for selectable weekday display.
 public protocol NNSelectableWeekdayNoDefaultModelDependency:
   NNMonthAwareNoDefaultModelFunction,
-  NNMultiDaySelectionNoDefaultFunction {}
+  NNMultiDaySelectionNoDefaultFunction,
+  NNWeekdayDisplayNoDefaultModelDependency {}
 
 /// Dependency for selectable weekday display.
 public protocol NNSelectableWeekdayModelDependency:
@@ -124,7 +126,7 @@ extension NNCalendar.SelectWeekday.Model {
 
     init(_ dependency: NNSelectableWeekdayNoDefaultModelDependency) {
       noDefault = dependency
-      weekdayDp = NNCalendar.WeekdayDisplay.Model.DefaultDependency()
+      weekdayDp = NNCalendar.WeekdayDisplay.Model.DefaultDependency(dependency)
     }
 
     func weekdayDescription(_ weekday: Int) -> String {

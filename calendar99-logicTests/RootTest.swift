@@ -14,6 +14,7 @@ import XCTest
 public class RootTest: XCTestCase {
   public var scheduler: TestScheduler!
   public var disposable: DisposeBag!
+  public var firstWeekdayForTest: Int!
   public var iterations: Int!
   public var waitDuration: TimeInterval!
 
@@ -21,6 +22,7 @@ public class RootTest: XCTestCase {
     super.setUp()
     scheduler = TestScheduler(initialClock: 0)
     disposable = DisposeBag()
+    firstWeekdayForTest = 5
     iterations = 1000
     waitDuration = 0
     continueAfterFailure = false

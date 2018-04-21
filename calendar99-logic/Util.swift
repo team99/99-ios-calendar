@@ -42,6 +42,28 @@ public extension NNCalendar.Util {
       })
   }
 
+  /// Produce a weekday range from a first weekday and a weekday count.
+  ///
+  /// - Parameters:
+  ///   - firstWeekday: The first weekday in a week.
+  ///   - weekdayCount: The number of weekdays.
+  /// - Returns: An Array of weekdays.
+  public static func weekdayRange(_ firstWeekday: Int, _ weekdayCount: Int) -> [Int] {
+    return (firstWeekday..<(firstWeekday + weekdayCount))
+      .map({$0 % 7}).map({$0 == 0 ? 7 : $0})
+  }
+
+  /// Get the weekday that corresponds to an index in a weekday range.
+  ///
+  /// - Parameter
+  ///   - index: The weekday index.
+  ///   - firstWeekday: The first weekday in a week.
+  /// - Returns: The weekday value.
+  public static func weekdayWithIndex(_ index: Int, _ firstWeekday: Int) -> Int {
+    let weekday = (index + firstWeekday) % 7
+    return weekday == 0 ? 7 : weekday
+  }
+
   /// Provided that this date is selected, check the previous and next dates:
   /// - If the next date is not selected, add a .end part.
   /// - If the previous date is not selected, add a .start part.

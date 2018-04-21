@@ -12,6 +12,7 @@ import RxTest
 /// Common tests.
 public protocol CommonTestProtocol {
   var disposable: DisposeBag! { get set }
+  var firstWeekdayForTest: Int! { get set }
   var iterations: Int! { get set }
   var scheduler: TestScheduler! { get set }
   var waitDuration: TimeInterval! { get set }

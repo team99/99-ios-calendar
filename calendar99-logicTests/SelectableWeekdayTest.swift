@@ -34,7 +34,7 @@ public final class SelectableWeekdayTest: RootTest {
 
 public extension SelectableWeekdayTest {
   public func test_defaultDependencies_shouldWork() {
-    let weekdayModel = NNCalendar.WeekdayDisplay.Model()
+    let weekdayModel = NNCalendar.WeekdayDisplay.Model(defaultModelDp)
     let model1 = NNCalendar.SelectWeekday.Model(weekdayModel, defaultModelDp)
     let model2 = NNCalendar.SelectWeekday.Model(defaultModelDp)
 
@@ -47,14 +47,13 @@ public extension SelectableWeekdayTest {
     let viewModel1 = NNCalendar.SelectWeekday.ViewModel(weekdayVM, model1)
     let viewModel2 = NNCalendar.SelectWeekday.ViewModel(model2)
     XCTAssertEqual(viewModel1.weekdayCount, viewModel2.weekdayCount)
-    XCTAssertEqual(defaultModelDp.firstWeekday, 1)
+    XCTAssertEqual(defaultModelDp.firstWeekday, firstWeekdayForTest!)
 
     let weekdays = try! viewModel!.weekdayStream.take(1).toBlocking().first()!
     let firstWeekday = defaultModelDp!.firstWeekday
     let weekdayCount = viewModel!.weekdayCount
-
-    XCTAssertEqual((firstWeekday..<(firstWeekday + weekdayCount)).map({$0}),
-                   weekdays.map({$0.weekday}))
+    let weekdayRange = NNCalendar.Util.weekdayRange(firstWeekday, weekdayCount)
+    XCTAssertEqual(weekdayRange, weekdays.map({$0.weekday}))
   }
 
   public func test_selectWeekday_shouldWork() {
@@ -70,13 +69,14 @@ public extension SelectableWeekdayTest {
 
       for weekdayIndex in 0..<6 {
         viewModel!.weekdaySelectionIndexReceiver.onNext(weekdayIndex)
+        let weekday = NNCalendar.Util.weekdayWithIndex(weekdayIndex, firstWeekday)
         var selections = try! allSelectionSb.value().getOrElse([])
         XCTAssertGreaterThanOrEqual(selections.count, 4)
 
-        XCTAssertTrue(selections
+        selections
           .flatMap({$0 as? NNCalendar.DateSelection})
           .map({calendar.component(.weekday, from: $0.date)})
-          .all({$0 == weekdayIndex + 1}))
+          .forEach({XCTAssertEqual($0, weekday)})
 
         viewModel!.weekdaySelectionIndexReceiver.onNext(weekdayIndex)
         selections = try! allSelectionSb.value().value!
@@ -87,6 +87,10 @@ public extension SelectableWeekdayTest {
 }
 
 extension SelectableWeekdayTest: NNSelectableWeekdayNoDefaultModelDependency {
+  public var firstWeekday: Int {
+    return firstWeekdayForTest!
+  }
+  
   public var allSelectionReceiver: AnyObserver<Set<NNCalendar.Selection>> {
     return allSelectionSb.mapObserver(Try.success)
   }

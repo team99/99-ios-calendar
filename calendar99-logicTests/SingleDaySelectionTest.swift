@@ -65,6 +65,10 @@ public extension SingleDaySelectionTest {
 }
 
 extension SingleDaySelectionTest: NNSingleDaySelectionNoDefaultModelDependency {
+  public var firstWeekday: Int {
+    return firstWeekdayForTest!
+  }
+
   public var allSelectionReceiver: AnyObserver<Set<NNCalendar.Selection>> {
     return allSelectionSb.mapObserver(Try.success)
   }

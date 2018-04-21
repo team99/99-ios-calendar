@@ -25,10 +25,20 @@ public protocol NNWeekdayDisplayNoDefaultModelFunction:
   NNWeekdayAwareNoDefaultModelFunction,
   NNWeekdayDisplayNoDefaultFunction {}
 
+/// Defaultable dependency for weekday model.
+public protocol NNWeekdayDisplayDefaultModelDependency:
+  NNWeekdayAwareDefaultModelDependency,
+  NNWeekdayDisplayDefaultModelFunction {}
+
+/// Non-defaultable dependency for weekday model.
+public protocol NNWeekdayDisplayNoDefaultModelDependency:
+  NNWeekdayAwareNoDefaultModelDependency,
+  NNWeekdayDisplayNoDefaultModelFunction {}
+
 /// Dependency for weekday model.
 public protocol NNWeekdayDisplayModelDependency:
-  NNWeekdayDisplayDefaultModelFunction,
-  NNWeekdayDisplayNoDefaultModelFunction {}
+  NNWeekdayDisplayDefaultModelDependency,
+  NNWeekdayDisplayNoDefaultModelDependency {}
 
 /// Model for weekday display view.
 public protocol NNWeekdayDisplayModelType:
@@ -47,8 +57,8 @@ public extension NNCalendar.WeekdayDisplay {
       self.dependency = dependency
     }
 
-    convenience public init() {
-      let defaultDp = DefaultDependency()
+    convenience public init(_ dependency: NNWeekdayDisplayNoDefaultModelDependency) {
+      let defaultDp = DefaultDependency(dependency)
       self.init(defaultDp)
     }
   }
@@ -85,8 +95,8 @@ extension NNCalendar.WeekdayDisplay.Model {
     var weekdayCount: Int { return 7 }
     private let weekdayAwareDp: NNWeekdayAwareModelDependency
 
-    init() {
-      weekdayAwareDp = NNCalendar.WeekdayAware.Model.DefaultDependency()
+    init(_ dependency: NNWeekdayDisplayNoDefaultModelDependency) {
+      weekdayAwareDp = NNCalendar.WeekdayAware.Model.DefaultDependency(dependency)
     }
 
     func weekdayDescription(_ weekday: Int) -> String {

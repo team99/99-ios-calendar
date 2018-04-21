@@ -24,7 +24,7 @@ public final class MonthSectionTest: RootTest {
 
   override public func setUp() {
     super.setUp()
-    let weekdayAwareDp = NNCalendar.WeekdayAware.Model.DefaultDependency()
+    let weekdayAwareDp = NNCalendar.WeekdayAware.Model.DefaultDependency(self)
     defaultModelDp = NNCalendar.MonthSection.Model.DefaultDependency(self)
 
     sequentialDateCalc = NNCalendar.DateCalc.Sequential(
@@ -259,7 +259,7 @@ public extension MonthSectionTest {
 
 extension MonthSectionTest: NNMonthSectionNoDefaultModelDependency {
   public var firstWeekday: Int {
-    return defaultModelDp.firstWeekday
+    return firstWeekdayForTest!
   }
 
   public var pastMonthsFromCurrent: Int {

@@ -17,6 +17,19 @@ public final class UtilTest: RootTest {
 }
 
 public extension UtilTest {
+  public func test_createWeekdayRange_shouldWork() {
+    for firstWeekday in 0...7 {
+      let range = NNCalendar.Util.weekdayRange(firstWeekday, 7)
+      XCTAssertEqual(Set(range).count, range.count)
+      XCTAssertTrue(range.all({$0 <= 7}))
+
+      for index in 0...6 {
+        let weekday = NNCalendar.Util.weekdayWithIndex(index, firstWeekday)
+        XCTAssertEqual(weekday, range[index])
+      }
+    }
+  }
+
   public func test_calculateHighlightParts_shouldWork() {
     /// Setup
     let firstWeekday = 1

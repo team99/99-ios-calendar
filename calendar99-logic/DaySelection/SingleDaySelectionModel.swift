@@ -13,13 +13,13 @@ import SwiftFP
 public protocol NNSingleDaySelectionDefaultModelDependency:
   NNMultiDaySelectionDefaultFunction,
   NNSingleDaySelectionDefaultFunction,
-  NNWeekdayAwareDefaultModelFunction {}
+  NNWeekdayAwareDefaultModelDependency {}
 
 /// Non-defaultable dependency for single day selection model.
 public protocol NNSingleDaySelectionNoDefaultModelDependency:
   NNMultiDaySelectionNoDefaultFunction,
   NNSingleDaySelectionNoDefaultFunction,
-  NNWeekdayAwareNoDefaultModelFunction {}
+  NNWeekdayAwareNoDefaultModelDependency {}
 
 /// Dependency for single day selection model.
 public protocol NNSingleDaySelectionModelDependency:
@@ -101,7 +101,7 @@ extension NNCalendar.DaySelection.Model {
 
     init(_ dependency: NNSingleDaySelectionNoDefaultModelDependency) {
       noDefault = dependency
-      weekdayAwareDp = NNCalendar.WeekdayAware.Model.DefaultDependency()
+      weekdayAwareDp = NNCalendar.WeekdayAware.Model.DefaultDependency(dependency)
     }
 
     func isDateSelected(_ date: Date) -> Bool {

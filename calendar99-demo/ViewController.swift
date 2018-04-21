@@ -73,6 +73,10 @@ extension ViewController: NNMonthHeaderNoDefaultModelDependency {
 }
 
 extension ViewController: NNMonthSectionNoDefaultModelDependency {
+  public var firstWeekday: Int {
+    return 5
+  }
+
   public var pastMonthsFromCurrent: Int {
     return 1000
   }

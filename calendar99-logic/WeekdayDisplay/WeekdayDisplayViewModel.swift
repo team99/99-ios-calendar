@@ -53,7 +53,7 @@ extension NNCalendar.WeekdayDisplay.ViewModel: NNWeekdayDisplayViewModelType {
     let firstWeekday = model.firstWeekday
     let weekdayCount = model.weekdayCount
 
-    let weekdays = (firstWeekday..<firstWeekday + weekdayCount)
+    let weekdays = NNCalendar.Util.weekdayRange(firstWeekday, weekdayCount)
       .map({(weekday: $0, description: model.weekdayDescription($0))})
       .map({NNCalendar.Weekday($0.weekday, $0.description)})
 
@@ -64,10 +64,11 @@ extension NNCalendar.WeekdayDisplay.ViewModel: NNWeekdayDisplayViewModelType {
     return selectionSb.asObserver()
   }
 
-  /// Since we only receive the weekday selection index, add 1 to get the
-  /// actual weekday.
+  /// Since we only receive the weekday selection index, add the firstWeekday
+  /// and mod by 8 to get the actual weekday.
   public var weekdaySelectionStream: Observable<Int> {
-    return selectionSb.map({$0 + 1})
+    let firstWeekday = model.firstWeekday
+    return selectionSb.map({NNCalendar.Util.weekdayWithIndex($0, firstWeekday)})
   }
 
   public func setupWeekDisplayBindings() {}

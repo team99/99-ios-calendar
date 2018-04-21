@@ -19,9 +19,9 @@ public final class WeekdayDisplayTest: RootTest {
 
   override public func setUp() {
     super.setUp()
-    model = NNCalendar.WeekdayDisplay.Model()
+    model = NNCalendar.WeekdayDisplay.Model(self)
     viewModel = NNCalendar.WeekdayDisplay.ViewModel(model)
-    defaultModelDp = NNCalendar.WeekdayDisplay.Model.DefaultDependency()
+    defaultModelDp = NNCalendar.WeekdayDisplay.Model.DefaultDependency(self)
   }
 }
 
@@ -46,7 +46,7 @@ public extension WeekdayDisplayTest {
     /// When & Then
     let weekdayCount = viewModel.weekdayCount
     let firstWeekday = defaultModelDp!.firstWeekday
-    let actualRange = (firstWeekday..<(firstWeekday + weekdayCount)).map({$0})
+    let actualRange = NNCalendar.Util.weekdayRange(firstWeekday, weekdayCount)
 
     let emittedWeekdays = weekdayObserver.nextElements()
       .flatMap({$0.map({$0.weekday})})
@@ -56,20 +56,24 @@ public extension WeekdayDisplayTest {
 
   public func test_weekdaySelection_shouldWork() {
     /// Setup
-    let selectionObserver = scheduler!.createObserver(Int.self)
-    let weekdayIndexRange = (0..<viewModel!.weekdayCount).map({$0})
-
-    viewModel!.weekdaySelectionStream
-      .subscribe(selectionObserver)
-      .disposed(by: disposable)
-
+    let selectionObs = scheduler!.createObserver(Int.self)
+    let indexRange = (0..<viewModel!.weekdayCount).map({$0})
+    let firstWeekday = model!.firstWeekday
+    let weekdayRange = indexRange.map({NNCalendar.Util.weekdayWithIndex($0, firstWeekday)})
+    viewModel!.weekdaySelectionStream.subscribe(selectionObs).disposed(by: disposable)
     viewModel!.setupWeekDisplayBindings()
 
     /// When
-    weekdayIndexRange.forEach(viewModel!.weekdaySelectionIndexReceiver.onNext)
+    indexRange.forEach(viewModel!.weekdaySelectionIndexReceiver.onNext)
 
     /// Then
-    XCTAssertEqual(weekdayIndexRange.map({$0 + 1}),
-                   selectionObserver.nextElements())
+    XCTAssertEqual(weekdayRange, selectionObs.nextElements())
   }
 }
+
+extension WeekdayDisplayTest: NNWeekdayDisplayNoDefaultModelDependency {
+  public var firstWeekday: Int {
+    return firstWeekdayForTest!
+  }
+}
+

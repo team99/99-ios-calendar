@@ -8,20 +8,28 @@
 
 /// Shared functionalities between the model and its dependency that can have
 /// defaults.
-public protocol NNWeekdayAwareDefaultModelFunction {
+public protocol NNWeekdayAwareDefaultModelFunction {}
+
+/// Shared functionalities between the model and its dependency that cannot
+/// have defaults.
+public protocol NNWeekdayAwareNoDefaultModelFunction {
 
   /// Get the first day of a week (e.g. Monday).
   var firstWeekday: Int { get }
 }
 
-/// Shared functionalities between the model and its dependency that cannot
-/// have defaults.
-public protocol NNWeekdayAwareNoDefaultModelFunction {}
+/// Defaultable dependency for weekday-aware model.
+public protocol NNWeekdayAwareDefaultModelDependency:
+  NNWeekdayAwareDefaultModelFunction {}
+
+/// Non-defaultable dependency for weekday-aware model.
+public protocol NNWeekdayAwareNoDefaultModelDependency:
+  NNWeekdayAwareNoDefaultModelFunction {}
 
 /// Dependency for weekday-aware model.
 public protocol NNWeekdayAwareModelDependency:
-  NNWeekdayAwareDefaultModelFunction,
-  NNWeekdayAwareNoDefaultModelFunction {}
+  NNWeekdayAwareDefaultModelDependency,
+  NNWeekdayAwareNoDefaultModelDependency {}
 
 /// Model for weekday-aware views.
 public protocol NNWeekdayAwareModelType:
@@ -38,6 +46,11 @@ extension NNCalendar.WeekdayAware.Model {
 
   /// Default dependency for weekday-aware view models.
   final class DefaultDependency: NNWeekdayAwareModelDependency {
-    var firstWeekday: Int { return 1 }
+    var firstWeekday: Int { return noDefault.firstWeekday }
+    private let noDefault: NNWeekdayAwareNoDefaultModelDependency
+
+    init(_ dependency: NNWeekdayAwareNoDefaultModelDependency) {
+      noDefault = dependency
+    }
   }
 }

@@ -187,6 +187,10 @@ public extension MonthDisplayTest {
 }
 
 extension MonthDisplayTest: NNMonthDisplayNoDefaultModelDependency {
+  public var firstWeekday: Int {
+    return firstWeekdayForTest!
+  }
+  
   public var allSelectionReceiver: AnyObserver<Set<NNCalendar.Selection>> {
     return allSelectionSb.mapObserver(Try.success)
   }
