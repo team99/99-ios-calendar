@@ -56,18 +56,6 @@ public protocol NNMonthSectionModelType:
   NNMonthSectionNoDefaultModelFunction,
   NNSingleDaySelectionModelType
 {
-  /// Calculate the month range, which is anchored by a specified month and goes
-  /// as far back in the past/forward in the future as we want.
-  ///
-  /// - Parameters:
-  ///   - currentMonth: The current Month.
-  ///   - pastMonths: An Int value.
-  ///   - futureMonths: An Int value.
-  /// - Returns: An Array of Month.
-  func getAvailableMonths(_ currentMonth: NNCalendar.Month,
-                          _ pastMonths: Int,
-                          _ futureMonths: Int) -> [NNCalendar.Month]
-  
   /// Calculate the day for a month and a first date offset (i.e. how distant
   /// the day is from the first date in the grid).
   ///
@@ -192,17 +180,6 @@ extension NNCalendar.MonthSection.Model: NNWeekdayAwareDefaultModelFunction {
 
 // MARK: - NNMonthSectionModelType
 extension NNCalendar.MonthSection.Model: NNMonthSectionModelType {
-  public func getAvailableMonths(_ currentComp: NNCalendar.Month,
-                                 _ pastMonths: Int,
-                                 _ futureMonths: Int) -> [NNCalendar.Month] {
-    let earliest = currentComp.with(monthOffset: -pastMonths)
-    let totalMonths = pastMonths + 1 + futureMonths
-
-    return (0..<totalMonths).flatMap({offset in
-      earliest.flatMap({$0.with(monthOffset: offset)})
-    })
-  }
-
   public func dayFromFirstDate(_ month: NNCalendar.Month,
                                _ firstDateOffset: Int) -> NNCalendar.Day? {
     return NNCalendar.Util.dateWithOffset(month, firstWeekday, firstDateOffset).map({

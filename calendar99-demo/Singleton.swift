@@ -119,8 +119,8 @@ extension Singleton: NNMonthSectionNoDefaultModelDependency {
 // MARK: - NNMonthDisplayNoDefaultModelDependency
 extension Singleton: NNMonthDisplayNoDefaultModelDependency {}
 
-// MARK: - NNSelectableWeekdayNoDefaultModelDependency
-extension Singleton: NNSelectableWeekdayNoDefaultModelDependency {}
+// MARK: - NNSelectWeekdayNoDefaultModelDependency
+extension Singleton: NNSelectWeekdayNoDefaultModelDependency {}
 
 // MARK: - NNMonthHeaderNoDefaultModelDependency
 extension Singleton: NNMonthHeaderNoDefaultModelDependency {}

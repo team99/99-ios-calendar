@@ -19,7 +19,7 @@ public final class SelectableWeekdayTest: RootTest {
   fileprivate var allSelectionSb: BehaviorSubject<Try<Set<NNCalendar.Selection>>>!
   fileprivate var currentMonth: NNCalendar.Month!
   fileprivate var currentMonthSb: BehaviorSubject<NNCalendar.Month>!
-  fileprivate var defaultModelDp: NNSelectableWeekdayModelDependency!
+  fileprivate var defaultModelDp: NNSelectWeekdayModelDependency!
 
   override public func setUp() {
     super.setUp()
@@ -87,7 +87,7 @@ public extension SelectableWeekdayTest {
   }
 }
 
-extension SelectableWeekdayTest: NNSelectableWeekdayNoDefaultModelDependency {
+extension SelectableWeekdayTest: NNSelectWeekdayNoDefaultModelDependency {
   public var firstWeekday: Int {
     return firstWeekdayForTest!
   }

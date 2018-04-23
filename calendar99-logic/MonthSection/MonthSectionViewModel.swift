@@ -57,6 +57,15 @@ public extension NNMonthSectionViewModelType {
   }
 }
 
+/// Factory for month section view model.
+public protocol NNMonthSectionViewModelFactory {
+
+  /// Get a month section view model.
+  ///
+  /// - Returns: A NNMonthSectionViewModelType instance.
+  func monthSectionViewModel() -> NNMonthSectionViewModelType
+}
+
 public extension NNCalendar.MonthSection {
 
   /// View model implementation for the month section view.
@@ -197,8 +206,7 @@ extension NNCalendar.MonthSection.ViewModel: NNMonthSectionViewModelType {
     /// Must call onNext manually to avoid completed event, since this is a
     /// cold stream.
     model.initialMonthStream
-      .map({[weak self] in self?.model.getAvailableMonths($0, pCount, fCount)})
-      .filter({$0.isSome}).map({$0!})
+      .map({NNCalendar.Util.getAvailableMonths($0, pCount, fCount)})
       .map({$0.map({NNCalendar.MonthComp($0, dayCount, firstWeekday)})})
       .asObservable()
       .subscribe(onNext: {[weak self] in self?.monthCompSbj.onNext($0)})

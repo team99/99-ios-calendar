@@ -1,5 +1,5 @@
 //
-//  SelectableWeekdayViewModel.swift
+//  SelectWeekdayViewModel.swift
 //  calendar99-logic
 //
 //  Created by Hai Pham on 13/4/18.
@@ -10,7 +10,16 @@ import RxSwift
 
 /// View model for selectable weekday display view. This is a decorator over the
 /// week display view model.
-public protocol NNSelectableWeekdayViewModelType: NNWeekdayDisplayViewModelType {}
+public protocol NNSelectWeekdayViewModelType: NNWeekdayDisplayViewModelType {}
+
+/// Factory for selectable weekday view model.
+public protocol NNSelectWeekdayViewModelFactory {
+
+  /// Create a selectable weekday view model.
+  ///
+  /// - Returns: A NNSelectableWeekdayViewModelType instance.
+  func selectableWeekdayViewModel() -> NNSelectWeekdayViewModelType
+}
 
 // MARK: - View model.
 public extension NNCalendar.SelectWeekday {
@@ -18,17 +27,17 @@ public extension NNCalendar.SelectWeekday {
   /// View model implementation.
   public final class ViewModel {
     fileprivate let weekdayVM: NNWeekdayDisplayViewModelType
-    fileprivate let model: NNSelectableWeekdayModelType
+    fileprivate let model: NNSelectWeekdayModelType
     fileprivate let disposable: DisposeBag
 
     required public init(_ weekdayVM: NNWeekdayDisplayViewModelType,
-                         _ model: NNSelectableWeekdayModelType) {
+                         _ model: NNSelectWeekdayModelType) {
       self.weekdayVM = weekdayVM
       self.model = model
       disposable = DisposeBag()
     }
 
-    convenience public init(_ model: NNSelectableWeekdayModelType) {
+    convenience public init(_ model: NNSelectWeekdayModelType) {
       let weekdayVM = NNCalendar.WeekdayDisplay.ViewModel(model)
       self.init(weekdayVM, model)
     }
@@ -82,4 +91,4 @@ extension NNCalendar.SelectWeekday.ViewModel: NNWeekdayDisplayViewModelType {
 }
 
 // MARK: - NNSelectableWeekdayViewModelType
-extension NNCalendar.SelectWeekday.ViewModel: NNSelectableWeekdayViewModelType {}
+extension NNCalendar.SelectWeekday.ViewModel: NNSelectWeekdayViewModelType {}

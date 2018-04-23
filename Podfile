@@ -64,3 +64,20 @@ target 'calendar99-redux' do
     allTestPods
   end
 end
+
+target 'calendar99-testable' do
+  inherit! :search_paths
+  use_frameworks!
+  allReduxPods
+
+  target 'calendar99-testableTests' do
+    inherit! :search_paths
+    allTestPods
+  end
+end
+
+target 'calendar99-presetLogic' do
+  inherit! :search_paths
+  use_frameworks!
+  allLogicPods
+end

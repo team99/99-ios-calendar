@@ -1,5 +1,5 @@
 //
-//  SelectableWeekdayModel.swift
+//  SelecteekdayModel.swift
 //  calendar99-logic
 //
 //  Created by Hai Pham on 13/4/18.
@@ -10,25 +10,25 @@ import RxSwift
 import SwiftFP
 
 /// Defaultable dependency for selectable weekday display.
-public protocol NNSelectableWeekdayDefaultModelDependency:
+public protocol NNSelectWeekdayDefaultModelDependency:
   NNMonthAwareDefaultModelFunction,
   NNMultiDaySelectionDefaultFunction,
   NNWeekdayDisplayDefaultModelDependency {}
 
 /// Non-defaultable dependency for selectable weekday display.
-public protocol NNSelectableWeekdayNoDefaultModelDependency:
+public protocol NNSelectWeekdayNoDefaultModelDependency:
   NNMonthAwareNoDefaultModelFunction,
   NNMultiDaySelectionNoDefaultFunction,
   NNWeekdayDisplayNoDefaultModelDependency {}
 
 /// Dependency for selectable weekday display.
-public protocol NNSelectableWeekdayModelDependency:
+public protocol NNSelectWeekdayModelDependency:
   NNWeekdayDisplayModelDependency,
-  NNSelectableWeekdayDefaultModelDependency,
-  NNSelectableWeekdayNoDefaultModelDependency {}
+  NNSelectWeekdayDefaultModelDependency,
+  NNSelectWeekdayNoDefaultModelDependency {}
 
 /// Model for selectable weekday display.
-public protocol NNSelectableWeekdayModelType:
+public protocol NNSelectWeekdayModelType:
   NNMonthAwareDefaultModelFunction,
   NNMonthAwareNoDefaultModelFunction,
   NNMultiDaySelectionDefaultFunction,
@@ -41,20 +41,20 @@ public extension NNCalendar.SelectWeekday {
   /// Model implementation.
   public final class Model {
     fileprivate let weekdayModel: NNWeekdayDisplayModelType
-    fileprivate let dependency: NNSelectableWeekdayModelDependency
+    fileprivate let dependency: NNSelectWeekdayModelDependency
 
     required public init(_ weekdayModel: NNWeekdayDisplayModelType,
-                         _ dependency: NNSelectableWeekdayModelDependency) {
+                         _ dependency: NNSelectWeekdayModelDependency) {
       self.weekdayModel = weekdayModel
       self.dependency = dependency
     }
 
-    convenience public init(_ dependency: NNSelectableWeekdayModelDependency) {
+    convenience public init(_ dependency: NNSelectWeekdayModelDependency) {
       let weekdayModel = NNCalendar.WeekdayDisplay.Model(dependency)
       self.init(weekdayModel, dependency)
     }
 
-    convenience public init(_ dependency: NNSelectableWeekdayNoDefaultModelDependency) {
+    convenience public init(_ dependency: NNSelectWeekdayNoDefaultModelDependency) {
       let defaultDp = DefaultDependency(dependency)
       self.init(defaultDp)
     }
@@ -94,11 +94,11 @@ extension NNCalendar.SelectWeekday.Model: NNMultiDaySelectionNoDefaultFunction {
 }
 
 // MARK: - NNSelectableWeekdayModelType
-extension NNCalendar.SelectWeekday.Model: NNSelectableWeekdayModelType {}
+extension NNCalendar.SelectWeekday.Model: NNSelectWeekdayModelType {}
 
 // MARK: - Default dependency.
 extension NNCalendar.SelectWeekday.Model {
-  final class DefaultDependency: NNSelectableWeekdayModelDependency {
+  final class DefaultDependency: NNSelectWeekdayModelDependency {
     var firstWeekday: Int { return weekdayDp.firstWeekday } 
 
     var currentMonthStream: Observable<NNCalendar.Month> {
@@ -114,9 +114,9 @@ extension NNCalendar.SelectWeekday.Model {
     }
 
     private let weekdayDp: NNWeekdayDisplayModelDependency
-    private let noDefault: NNSelectableWeekdayNoDefaultModelDependency
+    private let noDefault: NNSelectWeekdayNoDefaultModelDependency
 
-    init(_ dependency: NNSelectableWeekdayNoDefaultModelDependency) {
+    init(_ dependency: NNSelectWeekdayNoDefaultModelDependency) {
       noDefault = dependency
       weekdayDp = NNCalendar.WeekdayDisplay.Model.DefaultDependency(dependency)
     }

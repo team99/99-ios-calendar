@@ -22,6 +22,15 @@ public extension NNMonthHeaderViewModelType {
   }
 }
 
+/// Factory for month header view model.
+public protocol NNMonthHeaderViewModelFactory {
+
+  /// Create a month header view model.
+  ///
+  /// - Returns: A NNMonthHeaderViewModelType instance.
+  func monthHeaderViewModel() -> NNMonthHeaderViewModelType
+}
+
 public extension NNCalendar.MonthHeader {
   
   /// View model implementation.

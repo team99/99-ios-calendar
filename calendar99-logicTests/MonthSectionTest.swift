@@ -50,12 +50,6 @@ public extension MonthSectionTest {
                                                defaultModelDp)
 
     let model2 = NNCalendar.MonthSection.Model(defaultModelDp)
-    let currentMonth = self.currentMonth!
-    let pastMonths = pastMonthsFromCurrent
-    let futureMonths = futureMonthsFromCurrent
-    let months1 = model1.getAvailableMonths(currentMonth, pastMonths, futureMonths)
-    let months2 = model2.getAvailableMonths(currentMonth, pastMonths, futureMonths)
-    XCTAssertEqual(months1, months2)
     XCTAssertEqual(model1.firstWeekday, firstWeekday)
     XCTAssertEqual(model2.firstWeekday, firstWeekday)
 

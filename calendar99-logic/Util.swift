@@ -39,6 +39,25 @@ public extension NNCalendar.Util {
       .getOrElse([])
   }
 
+  /// Calculate the month range, which is anchored by a specified month and goes
+  /// as far back in the past/forward in the future as we want.
+  ///
+  /// - Parameters:
+  ///   - currentMonth: The current Month.
+  ///   - pastMonths: An Int value.
+  ///   - futureMonths: An Int value.
+  /// - Returns: An Array of Month.
+  public static func getAvailableMonths(_ currentComp: NNCalendar.Month,
+                                        _ pastMonths: Int,
+                                        _ futureMonths: Int) -> [NNCalendar.Month] {
+    let earliest = currentComp.with(monthOffset: -pastMonths)
+    let totalMonths = pastMonths + 1 + futureMonths
+
+    return (0..<totalMonths).flatMap({offset in
+      earliest.flatMap({$0.with(monthOffset: offset)})
+    })
+  }
+
   /// Calculate the date in a month/year pair using an offset from the first
   /// date in the grid.
   ///
