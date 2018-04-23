@@ -36,11 +36,6 @@ target 'calendar99' do
   target 'calendar99Tests' do
     inherit! :search_paths
   end
-
-  target 'calendar99-demo' do
-    inherit! :search_paths
-    allReduxPods
-  end
 end
 
 target 'calendar99-logic' do
@@ -55,7 +50,6 @@ target 'calendar99-logic' do
 end
 
 target 'calendar99-redux' do
-  inherit! :search_paths
   use_frameworks!
   allReduxPods
 
@@ -66,7 +60,6 @@ target 'calendar99-redux' do
 end
 
 target 'calendar99-testable' do
-  inherit! :search_paths
   use_frameworks!
   allReduxPods
 
@@ -77,7 +70,18 @@ target 'calendar99-testable' do
 end
 
 target 'calendar99-presetLogic' do
-  inherit! :search_paths
   use_frameworks!
   allLogicPods
+end
+
+target 'calendar99-preset' do
+  use_frameworks!
+  allLogicPods
+  allViewPods
+end
+
+target 'calendar99-demo' do
+  use_frameworks!
+  allReduxPods
+  allViewPods
 end
