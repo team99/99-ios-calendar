@@ -2,7 +2,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Build Status](https://travis-ci.org/team99/99-ios-calendar.svg?branch=master)](https://travis-ci.org/team99/99-ios-calendar)
-[![Coverage Status](https://coveralls.io/repos/github/team99/99-ios-calendar/badge.svg?branch=master&dummy=true)](https://coveralls.io/github/team99/99-ios-calendar?branch=master&dummy=true)
+[![Coverage Status](https://coveralls.io/repos/github/team99/99-ios-calendar/badge.svg?branch=master&dummy=false)](https://coveralls.io/github/team99/99-ios-calendar?branch=master&dummy=false)
 
 Almost fully-configurable calendar view for iOS applications that runs entirely on Rx.
 
@@ -35,3 +35,9 @@ Each of these views requires its own **ViewModel** and **Model**, so we must be 
 - Usually protocols will have the postfix **Type**, (e.g. **ViewModelType**, **ModelType**), but not always. A **ViewModel** will have a protocol **ViewModelType** and an implementation.
 
 - Actual model and view model implementations are nested in classes defined in **Entry.swift** (e.g. **NNCalendar.MonthSection.ViewModel**).
+
+## Presets
+
+- The target **calendar99-preset** contains preset views with commonly used templates. For example, we have **Regular99**, which is a regular calendar view that can be used in 99's related applications.
+
+- More presets will be added if the need arises.
