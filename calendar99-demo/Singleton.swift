@@ -20,8 +20,8 @@ public final class Singleton {
   private init() {
     reduxStore = RxTreeStore<Any>.createInstance({
       switch $1 {
-      case let action as ReduxCalendar.Action:
-        return ReduxCalendar.Reducer.reduce($0, action)
+      case let action as NNCalendarRedux.Calendar.Action:
+        return NNCalendarRedux.Calendar.Reducer.reduce($0, action)
 
       default:
         fatalError(String(describing: $1))
@@ -33,7 +33,7 @@ public final class Singleton {
 // MARK: - NNMonthAwareNoDefaultModelFunction
 extension Singleton: NNMonthAwareNoDefaultModelFunction {
   public var currentMonthStream: Observable<NNCalendar.Month> {
-    let path = ReduxCalendar.Action.currentMonthPath
+    let path = NNCalendarRedux.Calendar.Action.currentMonthPath
 
     return reduxStore
       .stateValueStream(NNCalendar.Month.self, path)
@@ -44,7 +44,7 @@ extension Singleton: NNMonthAwareNoDefaultModelFunction {
 // MARK: - NNMonthControlNoDefaultFunction
 extension Singleton: NNMonthControlNoDefaultFunction {
   public var currentMonthReceiver: AnyObserver<NNCalendar.Month> {
-    let actionFn = ReduxCalendar.Action.updateCurrentMonth
+    let actionFn = NNCalendarRedux.Calendar.Action.updateCurrentMonth
     return reduxStore.actionTrigger().mapObserver(actionFn)
   }
 }
@@ -69,12 +69,12 @@ extension Singleton: NNWeekdayAwareNoDefaultModelFunction {
 // MARK: - NNMultiDaySelectionNoDefaultFunction
 extension Singleton: NNMultiDaySelectionNoDefaultFunction {
   public var allSelectionReceiver: AnyObserver<Set<NNCalendar.Selection>> {
-    let actionFn = ReduxCalendar.Action.updateSelection
+    let actionFn = NNCalendarRedux.Calendar.Action.updateSelection
     return reduxStore.actionTrigger().mapObserver(actionFn)
   }
 
   public var allSelectionStream: Observable<Try<Set<NNCalendar.Selection>>> {
-    let path = ReduxCalendar.Action.selectionPath
+    let path = NNCalendarRedux.Calendar.Action.selectionPath
     return reduxStore.stateValueStream(Set<NNCalendar.Selection>.self, path)
   }
 }
@@ -82,8 +82,10 @@ extension Singleton: NNMultiDaySelectionNoDefaultFunction {
 // MARK: - NNSingleDaySelectionNoDefaultFunction
 extension Singleton: NNSingleDaySelectionNoDefaultFunction {
   public func isDateSelected(_ date: Date) -> Bool {
+    let path = NNCalendarRedux.Calendar.Action.selectionPath
+
     return reduxStore
-      .lastState.flatMap({$0.stateValue(ReduxCalendar.Action.selectionPath)})
+      .lastState.flatMap({$0.stateValue(path)})
       .cast(Set<NNCalendar.Selection>.self)
       .map({$0.contains(where: {$0.contains(date)})})
       .getOrElse(false)
@@ -93,8 +95,10 @@ extension Singleton: NNSingleDaySelectionNoDefaultFunction {
 // MARK: - NNSelectHighlightNoDefaultFunction
 extension Singleton: NNSelectHighlightNoDefaultFunction {
   public func highlightPart(_ date: Date) -> NNCalendar.HighlightPart {
+    let path = NNCalendarRedux.Calendar.Action.selectionPath
+
     return reduxStore
-      .lastState.flatMap({$0.stateValue(ReduxCalendar.Action.selectionPath)})
+      .lastState.flatMap({$0.stateValue(path)})
       .cast(Set<NNCalendar.Selection>.self)
       .map({NNCalendar.Util.highlightPart($0, date)})
       .getOrElse(.none)

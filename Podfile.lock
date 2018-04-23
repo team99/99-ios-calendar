@@ -58,7 +58,7 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   HMReactiveRedux:
-    :commit: 75d150e691fd24207227f9b7b6c0a56e90ee4ad1
+    :commit: 1d4afd38f4ec1f9d8e7a56ea1622c4d02a1c1fae
     :git: https://github.com/protoman92/HMReactiveRedux-Swift.git
   SwiftFP:
     :commit: eb32feb8cfb44c2d69431ec4cae455daf73339a7

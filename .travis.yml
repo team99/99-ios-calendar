@@ -1,7 +1,7 @@
 osx_image: xcode9.3
 language: objective-c
 xcode_workspace: calendar99.xcworkspace
-xcode_scheme: calendar99-logic
+xcode_scheme: calendar99-testable
 xcode_sdk: iphonesimulator11.2
 
 before_install:
@@ -9,6 +9,6 @@ before_install:
 - pod repo update
 
 script:
-- set -o pipefail && xcodebuild clean test -sdk iphonesimulator -workspace calendar99.xcworkspace -scheme calendar99-logic -destination 'platform=iOS Simulator,name=iPhone 7' | xcpretty
+- set -o pipefail && xcodebuild clean test -sdk iphonesimulator -workspace calendar99.xcworkspace -scheme calendar99-testable -destination 'platform=iOS Simulator,name=iPhone 7' | xcpretty
 
 after_success: slather

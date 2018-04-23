@@ -1,6 +1,6 @@
 ci_service: travis_ci
 coverage_service: coveralls
 xcodeproj: calendar99.xcodeproj
-scheme: calendar99-logic
-source_directory: calendar99-logic
+scheme: calendar99-testable
+source_directory: calendar99-testable
 workspace: calendar99.xcworkspace

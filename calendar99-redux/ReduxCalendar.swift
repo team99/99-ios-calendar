@@ -1,5 +1,5 @@
 //
-//  Calendar.swift
+//  ReduxCalendar.swift
 //  calendar99-redux
 //
 //  Created by Hai Pham on 18/4/18.
@@ -9,8 +9,8 @@
 import HMReactiveRedux
 import calendar99_logic
 
-/// Grouping for calendar-related Redux components.
-public final class ReduxCalendar {
+// MARK: - Redux calendar.
+public extension NNCalendarRedux.Calendar {
 
   /// Calendar actions, including month, date selections etc.
   public enum Action: ReduxActionType {
@@ -50,9 +50,7 @@ public final class ReduxCalendar {
         return prevState.updateValue(Action.selectionPath, selection)
 
       case .clearAll:
-        return prevState
-          .removeValue(Action.currentMonthPath)
-          .removeValue(Action.selectionPath)
+        return prevState.removeSubstate(Action.basePath)
       }
     }
   }
