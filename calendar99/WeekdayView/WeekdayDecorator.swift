@@ -12,6 +12,9 @@ import calendar99_logic
 /// Decorator for weekday view.
 public protocol NNWeekdayViewDecoratorType {
 
+  /// Background color for weekday view.
+  var weekdayViewBackground: UIColor { get }
+
   /// Get a weekday cell decorator.
   ///
   /// - Parameters:

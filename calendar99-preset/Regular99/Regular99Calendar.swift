@@ -43,20 +43,19 @@ public final class NNRegular99Calendar: UIView {
       as? NNMonthSectionView
   }
 
-  required public init?(coder aDecoder: NSCoder) {
-    super.init(coder: aDecoder)
-    initializeViews()
-  }
+  private lazy var initialized = false
 
-  override public init(frame: CGRect) {
-    super.init(frame: frame)
-    initializeViews()
-  }
-
-  private func initializeViews() {
+  fileprivate func initializeViews() {
     let monthHeader = NNMonthHeaderView()
-    let weekdayView = NNWeekdayView()
-    let monthSection = NNMonthSectionView()
+    let weekdayLayout = UICollectionViewFlowLayout()
+    let sectionLayout = UICollectionViewLayout()
+
+    let weekdayView = NNWeekdayView(frame: CGRect.zero,
+                                    collectionViewLayout: weekdayLayout)
+
+    let monthSection = NNMonthSectionView(frame: CGRect.zero,
+                                          collectionViewLayout: sectionLayout)
+
     monthHeader.accessibilityIdentifier = monthHeaderId
     weekdayView.accessibilityIdentifier = weekdayViewId
     monthSection.accessibilityIdentifier = monthSectionId
@@ -103,7 +102,7 @@ public final class NNRegular99Calendar: UIView {
 
     // Weekday view constraints
     let weekdayViewTop =
-      NSLayoutConstraint(item: monthSection,
+      NSLayoutConstraint(item: monthHeader,
                          attribute: .bottom,
                          relatedBy: .equal,
                          toItem: weekdayView,
@@ -124,7 +123,7 @@ public final class NNRegular99Calendar: UIView {
       NSLayoutConstraint(item: weekdayView,
                          attribute: .right,
                          relatedBy: .equal,
-                         toItem: monthSection,
+                         toItem: monthHeader,
                          attribute: .right,
                          multiplier: 1,
                          constant: 0)
@@ -175,6 +174,11 @@ public final class NNRegular99Calendar: UIView {
                          multiplier: 1,
                          constant: 0)
 
+    translatesAutoresizingMaskIntoConstraints = false
+    monthHeader.translatesAutoresizingMaskIntoConstraints = false
+    monthSection.translatesAutoresizingMaskIntoConstraints = false
+    weekdayView.translatesAutoresizingMaskIntoConstraints = false
+
     addConstraints([monthHeaderTop,
                     monthHeaderLeft,
                     monthHeaderRight,
@@ -198,6 +202,8 @@ public extension NNRegular99Calendar {
   }
 
   private func didSetDependency(_ dependency: Dependency?) {
+    initializeViews()
+
     guard
       let dependency = dependency,
       let monthHeader = self.monthHeaderView,
@@ -213,8 +219,15 @@ public extension NNRegular99Calendar {
 
     let vm = dependency.0
     let decorator = dependency.1
+    let monthSectionVM = vm.monthSectionViewModel()
+
+    let sectionLayout = NNMonthSectionHorizontalFlowLayout(
+      monthSectionVM.totalMonthCount,
+      monthSectionVM.weekdayStacks)
+
+    monthSection.collectionViewLayout = sectionLayout
     monthHeader.dependency = (vm.monthHeaderViewModel(), decorator)
-    monthSection.dependency = (vm.monthSectionViewModel(), decorator)
     weekdayView.dependency = (vm.selectableWeekdayViewModel(), decorator)
+    monthSection.dependency = (monthSectionVM, decorator)
   }
 }

@@ -7,6 +7,7 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -46,12 +47,26 @@
                                     <segue destination="BYZ-38-t0r" kind="show" id="bwJ-uy-MgW"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="afG-2a-vpx">
+                                <rect key="frame" x="15" y="124" width="345" height="30"/>
+                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <state key="normal" title="REGULAR99">
+                                    <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <segue destination="xIi-uc-23I" kind="show" id="SoS-Ug-gBy"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="afG-2a-vpx" firstAttribute="top" secondItem="6We-cY-0We" secondAttribute="bottom" constant="15" id="IMb-IS-dUQ"/>
                             <constraint firstAttribute="trailing" secondItem="6We-cY-0We" secondAttribute="trailing" constant="15" id="INx-hm-5cX"/>
+                            <constraint firstItem="afG-2a-vpx" firstAttribute="height" secondItem="6We-cY-0We" secondAttribute="height" id="Io1-De-VLR"/>
                             <constraint firstItem="6We-cY-0We" firstAttribute="top" secondItem="2MB-j9-0be" secondAttribute="top" constant="15" id="QQ1-DA-M0y"/>
                             <constraint firstItem="6We-cY-0We" firstAttribute="leading" secondItem="Sds-ig-wSi" secondAttribute="leading" constant="15" id="qla-pe-N71"/>
+                            <constraint firstItem="afG-2a-vpx" firstAttribute="leading" secondItem="6We-cY-0We" secondAttribute="leading" id="rie-w6-0Av"/>
+                            <constraint firstItem="afG-2a-vpx" firstAttribute="trailing" secondItem="6We-cY-0We" secondAttribute="trailing" id="zGx-d3-bj4"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="2MB-j9-0be"/>
                     </view>
@@ -151,7 +166,37 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="117.59999999999999" y="118.29085457271366"/>
+            <point key="canvasLocation" x="118" y="-5"/>
+        </scene>
+        <!--Regular99 View Controller-->
+        <scene sceneID="M1Y-al-HTU">
+            <objects>
+                <viewController id="xIi-uc-23I" customClass="Regular99ViewController" customModule="calendar99_demo" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="jWh-SB-Eub">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZYn-FK-u7a" customClass="NNRegular99Calendar" customModule="calendar99_preset">
+                                <rect key="frame" x="15" y="79" width="345" height="333.5"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="ZYn-FK-u7a" firstAttribute="top" secondItem="is7-1J-b9g" secondAttribute="top" constant="15" id="BTi-Q6-adt"/>
+                            <constraint firstItem="ZYn-FK-u7a" firstAttribute="leading" secondItem="jWh-SB-Eub" secondAttribute="leading" constant="15" id="X2p-I1-CqU"/>
+                            <constraint firstAttribute="trailing" secondItem="ZYn-FK-u7a" secondAttribute="trailing" constant="15" id="oLQ-ve-iT9"/>
+                            <constraint firstItem="ZYn-FK-u7a" firstAttribute="height" secondItem="jWh-SB-Eub" secondAttribute="height" multiplier="1 / 2" id="suR-yB-OQo"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="is7-1J-b9g"/>
+                    </view>
+                    <connections>
+                        <outlet property="regular99Calendar" destination="ZYn-FK-u7a" id="YDe-Ma-iB8"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="wYm-TY-UTd" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="114" y="658"/>
         </scene>
     </scenes>
 </document>

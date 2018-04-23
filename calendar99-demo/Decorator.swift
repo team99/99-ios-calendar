@@ -8,6 +8,7 @@
 
 import calendar99
 import calendar99_logic
+import calendar99_preset
 
 public struct AppDecorator {
   fileprivate let dateCellHighlighter: NNSelectionHighlighterType
@@ -40,6 +41,10 @@ extension AppDecorator: NNMonthHeaderDecoratorType {
 }
 
 extension AppDecorator: NNWeekdayViewDecoratorType {
+  public var weekdayViewBackground: UIColor {
+    return .white
+  }
+
   public func weekdayCellDecorator(_ indexPath: IndexPath,
                                    _ item: NNCalendar.Weekday)
     -> NNWeekdayCellDecoratorType
@@ -119,3 +124,5 @@ extension AppDecorator: NNMonthSectionDecoratorType {
     return self
   }
 }
+
+extension AppDecorator: NNRegular99CalendarDecoratorType {}

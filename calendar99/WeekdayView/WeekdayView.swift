@@ -112,6 +112,7 @@ public extension NNWeekdayView {
     let bundle = Bundle(for: NNWeekdayView.classForCoder())
     let cellNib = UINib(nibName: "WeekdayCell", bundle: bundle)
     register(cellNib, forCellWithReuseIdentifier: cellId)
+    backgroundColor = decorator?.weekdayViewBackground
   }
 }
 

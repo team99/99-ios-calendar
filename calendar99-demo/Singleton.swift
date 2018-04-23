@@ -11,6 +11,7 @@ import RxSwift
 import SwiftFP
 import calendar99_logic
 import calendar99_redux
+import calendar99_presetLogic
 
 public final class Singleton {
   public static let instance = Singleton()
@@ -108,7 +109,7 @@ extension Singleton: NNSelectHighlightNoDefaultFunction {
 // MARK: - NNMonthSectionNoDefaultModelDependency
 extension Singleton: NNMonthSectionNoDefaultModelDependency {
   public var pastMonthsFromCurrent: Int {
-    return 1000
+    return 0
   }
 
   public var futureMonthsFromCurrent: Int {
@@ -124,3 +125,6 @@ extension Singleton: NNSelectWeekdayNoDefaultModelDependency {}
 
 // MARK: - NNMonthHeaderNoDefaultModelDependency
 extension Singleton: NNMonthHeaderNoDefaultModelDependency {}
+
+// MARK: - NNRegular99CalendarModelDependency
+extension Singleton: NNRegular99CalendarNoDefaultModelDependency {}
