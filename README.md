@@ -6,7 +6,7 @@
 
 Almost fully-configurable calendar view for iOS applications that runs entirely on Rx.
 
-<img width="420" alt="screen shot 2018-04-24 at 3 14 35 pm" src="https://user-images.githubusercontent.com/12141908/39174626-74784740-47d2-11e8-860d-cab387939ad6.png">
+<img width="418" alt="screen shot 2018-04-24 at 3 44 19 pm" src="https://user-images.githubusercontent.com/12141908/39176228-851bc97e-47d6-11e8-9ac0-6b65e8ca6d14.png">
 
 Note that the top and bottom calendars are two different types of views that are driven by the same streams, so any selection or change in month from one view will also show up on the other.
 
