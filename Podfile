@@ -80,6 +80,12 @@ target 'calendar99-preset' do
   allViewPods
 end
 
+target 'calendar99-legacy' do
+  use_frameworks!
+  allLogicPods
+  allViewPods
+end
+
 target 'calendar99-demo' do
   use_frameworks!
   allReduxPods
