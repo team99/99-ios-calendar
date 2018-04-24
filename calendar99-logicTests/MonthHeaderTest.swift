@@ -33,6 +33,10 @@ extension MonthHeaderTest: MonthControlCommonTestProtocol {
   public func test_backwardAndForwardReceiver_shouldWork() {
     test_backwardAndForwardReceiver_shouldWork(viewModel!, model!)
   }
+
+  public func test_minAndMaxMonths_shouldLimitMonthSelection() {
+    test_minAndMaxMonths_shouldLimitMonthSelection(viewModel!, model!)
+  }
 }
 
 public extension MonthHeaderTest {
@@ -51,20 +55,14 @@ public extension MonthHeaderTest {
 
   public func test_monthDescriptionStream_shouldEmitCorrectDescriptions() {
     /// Setup
-    let descObserver = scheduler!.createObserver(String.self)
-    let monthObserver = scheduler!.createObserver(NNCalendar.Month.self)
+    let descObs = scheduler!.createObserver(String.self)
+    let monthObs = scheduler!.createObserver(NNCalendar.Month.self)
     var currentMonth = self.currentMonth!
 
     // Subscribe to the month component and month description streams to test
     // that all elements are emitted correctly.
-    model!.currentMonthStream
-      .subscribe(monthObserver)
-      .disposed(by: disposable)
-
-    viewModel!.monthDescriptionStream
-      .subscribe(descObserver)
-      .disposed(by: disposable!)
-
+    model!.currentMonthStream.subscribe(monthObs).disposed(by: disposable)
+    viewModel!.monthDescriptionStream.subscribe(descObs).disposed(by: disposable!)
     viewModel!.setupMonthControlBindings()
 
     /// When
@@ -77,8 +75,8 @@ public extension MonthHeaderTest {
 
       /// Then
       let monthDescription = model!.formatMonthDescription(currentMonth)
-      let lastDescription = descObserver.nextElements().last!
-      let lastMonth = monthObserver.nextElements().last!
+      let lastDescription = descObs.nextElements().last!
+      let lastMonth = monthObs.nextElements().last!
       XCTAssertEqual(lastDescription, monthDescription)
       XCTAssertEqual(lastMonth, currentMonth)
     }

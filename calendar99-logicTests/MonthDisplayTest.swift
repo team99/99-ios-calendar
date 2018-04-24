@@ -35,6 +35,10 @@ extension MonthDisplayTest: MonthControlCommonTestProtocol {
   public func test_backwardAndForwardReceiver_shouldWork() {
     test_backwardAndForwardReceiver_shouldWork(viewModel!, model!)
   }
+
+  public func test_minAndMaxMonths_shouldLimitMonthSelection() {
+    test_minAndMaxMonths_shouldLimitMonthSelection(viewModel!, model!)
+  }
 }
 
 public extension MonthDisplayTest {
@@ -71,10 +75,6 @@ public extension MonthDisplayTest {
       try! viewModel1.dayStream.take(1).toBlocking().first(),
       try! viewModel2.dayStream.take(1).toBlocking().first()
     )
-  }
-
-  public func test_backwardAndForwardMonthReceiver_shouldWork() {
-    
   }
 
   public func test_dayStreamForCurrentMonth_shouldWorkCorrectly() {

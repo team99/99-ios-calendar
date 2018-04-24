@@ -14,15 +14,15 @@ import XCTest
 public final class MonthControlTest: RootTest {
   fileprivate var model: NNCalendar.MonthControl.Model!
   fileprivate var viewModel: NNMonthControlViewModelType!
-  fileprivate var initialMonth: NNCalendar.Month!
+  fileprivate var currentMonth: NNCalendar.Month!
   fileprivate var currentMonthSb: BehaviorSubject<NNCalendar.Month>!
 
   override public func setUp() {
     super.setUp()
     model = NNCalendar.MonthControl.Model(self)
     viewModel = NNCalendar.MonthControl.ViewModel(model!)
-    initialMonth = NNCalendar.Month(Date())
-    currentMonthSb = BehaviorSubject(value: initialMonth!)
+    currentMonth = NNCalendar.Month(Date())
+    currentMonthSb = BehaviorSubject(value: currentMonth!)
   }
 }
 
@@ -30,31 +30,19 @@ public extension MonthControlTest {
   public func test_navigateToPreviousOrNextMonth_shouldWork() {
     /// Setup
     viewModel!.setupMonthControlBindings()
-    var prevMonth = initialMonth!
+    var prevMonth = currentMonth!
 
     /// When
     for _ in 0..<iterations! {
       let forward = Bool.random()
-      let jump = UInt(Int.random(1, 20))
-
-      if forward {
-        viewModel.currentMonthForwardReceiver.onNext(jump)
-      } else {
-        viewModel.currentMonthBackwardReceiver.onNext(jump)
-      }
-
+      let currentMonth = prevMonth.with(monthOffset: forward ? 1 : -1)!
+      viewModel!.currentMonthReceiver.onNext(currentMonth)
       waitOnMainThread(waitDuration!)
 
       /// Then
-      let currentMonth = try! currentMonthSb.value()
       let monthOffset = prevMonth.monthOffset(from: currentMonth)
       prevMonth = currentMonth
-
-      if forward {
-        XCTAssertEqual(monthOffset, -Int(jump))
-      } else {
-        XCTAssertEqual(monthOffset, Int(jump))
-      }
+      XCTAssertEqual(monthOffset, forward ? -1 : 1)
     }
   }
 }

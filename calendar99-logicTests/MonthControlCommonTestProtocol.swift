@@ -43,4 +43,27 @@ public extension MonthControlCommonTestProtocol {
       XCTAssertEqual(lastMonth, currentMonth)
     }
   }
+
+  public func test_minAndMaxMonths_shouldLimitMonthSelection(
+    _ viewModel: NNMonthControlViewModelType,
+    _ model: NNMonthControlNoDefaultModelFunction)
+  {
+    /// Setup
+    let monthObs = scheduler!.createObserver(NNCalendar.Month.self)
+    model.currentMonthStream.subscribe(monthObs).disposed(by: disposable!)
+    viewModel.setupMonthControlBindings()
+
+    /// When & Then
+    viewModel.currentMonthReceiver.onNext(model.minimumMonth)
+    waitOnMainThread(waitDuration!)
+    viewModel.currentMonthBackwardReceiver.onNext(1)
+    waitOnMainThread(waitDuration!)
+    XCTAssertEqual(monthObs.nextElements().last!, model.minimumMonth)
+
+    viewModel.currentMonthReceiver.onNext(model.maximumMonth)
+    waitOnMainThread(waitDuration!)
+    viewModel.currentMonthForwardReceiver.onNext(1)
+    waitOnMainThread(waitDuration!)
+    XCTAssertEqual(monthObs.nextElements().last!, model.maximumMonth)
+  }
 }
