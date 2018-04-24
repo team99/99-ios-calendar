@@ -16,6 +16,26 @@ public final class NNMonthHeaderView: UIView {
   public typealias ViewModel = NNMonthHeaderViewModelType
   public typealias Dependency = (ViewModel, Decorator)
 
+  fileprivate var backwardImgId: String {
+    return "calendar99_monthHeader_backwardImg"
+  }
+
+  fileprivate var forwardImgId: String {
+    return "calendar99_monthHeader_forwardImg"
+  }
+
+  fileprivate var backwardBtnId: String {
+    return "calendar99_monthHeader_backwardBtn"
+  }
+
+  fileprivate var forwardBtnId: String {
+    return "calendar99_monthHeader_forwardBtn"
+  }
+
+  fileprivate var monthLblId: String {
+    return "calendar99_monthHeader_monthLbl"
+  }
+
   @IBOutlet fileprivate weak var backwardImg: UIImageView!
   @IBOutlet fileprivate weak var backwardBtn: UIButton!
   @IBOutlet fileprivate weak var forwardImg: UIImageView!

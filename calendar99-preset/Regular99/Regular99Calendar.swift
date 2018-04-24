@@ -28,6 +28,16 @@ public final class NNRegular99Calendar: UIView {
     return "regular99_monthSection"
   }
 
+  required public init?(coder aDecoder: NSCoder) {
+    super.init(coder: aDecoder)
+    initializeViews()
+  }
+
+  override public init(frame: CGRect) {
+    super.init(frame: frame)
+    initializeViews()
+  }
+
   fileprivate var monthHeaderView: NNMonthHeaderView? {
     return subviews.first(where: {$0.accessibilityIdentifier == monthHeaderId})
       as? NNMonthHeaderView
@@ -45,7 +55,7 @@ public final class NNRegular99Calendar: UIView {
 
   private lazy var initialized = false
 
-  fileprivate func initializeViews() {
+  private func initializeViews() {
     let monthHeader = NNMonthHeaderView()
     let weekdayLayout = UICollectionViewFlowLayout()
     let sectionLayout = UICollectionViewLayout()
@@ -64,133 +74,56 @@ public final class NNRegular99Calendar: UIView {
     addSubview(monthSection)
 
     // Month header constraints
-    let monthHeaderTop =
-      NSLayoutConstraint(item: monthHeader,
-                         attribute: .top,
-                         relatedBy: .equal,
-                         toItem: self,
-                         attribute: .top,
-                         multiplier: 1,
-                         constant: 0)
+    let allViews = [monthHeaderId : monthHeader,
+                    monthSectionId : monthSection,
+                    weekdayViewId : weekdayView]
 
-    let monthHeaderLeft =
-      NSLayoutConstraint(item: monthHeader,
-                         attribute: .left,
-                         relatedBy: .equal,
-                         toItem: self,
-                         attribute: .left,
-                         multiplier: 1,
-                         constant: 0)
+    let verticalConstraintFormat = "V:|"
+      + "[\(monthHeaderId)(==\(44))]"
+      + "[\(weekdayViewId)(==\(monthHeaderId))]"
+      + "[\(monthSectionId)]"
+      + "|"
 
-    let monthHeaderRight =
-      NSLayoutConstraint(item: monthHeader,
-                         attribute: .right,
-                         relatedBy: .equal,
-                         toItem: self,
-                         attribute: .right,
-                         multiplier: 1,
-                         constant: 0)
+    let monthHeaderHorizontalConstraintFormat = "H:|"
+      + "[\(monthHeaderId)]"
+      + "|"
 
-    let monthHeaderHeight =
-      NSLayoutConstraint(item: monthHeader,
-                         attribute: .height,
-                         relatedBy: .equal,
-                         toItem: nil,
-                         attribute: .notAnAttribute,
-                         multiplier: 1,
-                         constant: 44)
+    let weekdayViewHorizontalConstraintFormat = "H:|"
+      + "[\(weekdayViewId)]"
+      + "|"
 
-    // Weekday view constraints
-    let weekdayViewTop =
-      NSLayoutConstraint(item: monthHeader,
-                         attribute: .bottom,
-                         relatedBy: .equal,
-                         toItem: weekdayView,
-                         attribute: .top,
-                         multiplier: 1,
-                         constant: 0)
-
-    let weekdayViewLeft =
-      NSLayoutConstraint(item: weekdayView,
-                         attribute: .left,
-                         relatedBy: .equal,
-                         toItem: monthHeader,
-                         attribute: .left,
-                         multiplier: 1,
-                         constant: 0)
-
-    let weekdayViewRight =
-      NSLayoutConstraint(item: weekdayView,
-                         attribute: .right,
-                         relatedBy: .equal,
-                         toItem: monthHeader,
-                         attribute: .right,
-                         multiplier: 1,
-                         constant: 0)
-
-    let weekdayViewHeight =
-      NSLayoutConstraint(item: weekdayView,
-                         attribute: .height,
-                         relatedBy: .equal,
-                         toItem: monthHeader,
-                         attribute: .height,
-                         multiplier: 1,
-                         constant: 0)
-
-    // Month section constraints
-    let monthSectionTop =
-      NSLayoutConstraint(item: weekdayView,
-                         attribute: .bottom,
-                         relatedBy: .equal,
-                         toItem: monthSection,
-                         attribute: .top,
-                         multiplier: 1,
-                         constant: 0)
-
-    let monthSectionLeft =
-      NSLayoutConstraint(item: monthSection,
-                         attribute: .left,
-                         relatedBy: .equal,
-                         toItem: weekdayView,
-                         attribute: .left,
-                         multiplier: 1,
-                         constant: 0)
-
-    let monthSectionRight =
-      NSLayoutConstraint(item: monthSection,
-                         attribute: .right,
-                         relatedBy: .equal,
-                         toItem: weekdayView,
-                         attribute: .right,
-                         multiplier: 1,
-                         constant: 0)
-
-    let monthSectionBottom =
-      NSLayoutConstraint(item: monthSection,
-                         attribute: .bottom,
-                         relatedBy: .equal,
-                         toItem: self,
-                         attribute: .bottom,
-                         multiplier: 1,
-                         constant: 0)
+    let monthSectionHorizontalConstraintFormat = "H:|"
+      + "[\(monthSectionId)]"
+      + "|"
 
     translatesAutoresizingMaskIntoConstraints = false
     monthHeader.translatesAutoresizingMaskIntoConstraints = false
     monthSection.translatesAutoresizingMaskIntoConstraints = false
     weekdayView.translatesAutoresizingMaskIntoConstraints = false
 
-    addConstraints([monthHeaderTop,
-                    monthHeaderLeft,
-                    monthHeaderRight,
-                    monthHeaderHeight,
-                    weekdayViewTop,
-                    weekdayViewLeft,
-                    weekdayViewRight,
-                    weekdayViewHeight,
-                    monthSectionTop,
-                    monthSectionLeft,
-                    monthSectionRight,
-                    monthSectionBottom])
+    addConstraints(NSLayoutConstraint.constraints(
+      withVisualFormat: verticalConstraintFormat,
+      options: [],
+      metrics: nil,
+      views: allViews))
+
+    addConstraints(NSLayoutConstraint.constraints(
+      withVisualFormat: monthHeaderHorizontalConstraintFormat,
+      options: [],
+      metrics: nil,
+      views: allViews))
+
+    addConstraints(NSLayoutConstraint.constraints(
+      withVisualFormat: weekdayViewHorizontalConstraintFormat,
+      options: [],
+      metrics: nil,
+      views: allViews))
+
+    addConstraints(NSLayoutConstraint.constraints(
+      withVisualFormat: monthSectionHorizontalConstraintFormat,
+      options: [],
+      metrics: nil,
+      views: allViews))
   }
 }
 
@@ -202,8 +135,6 @@ public extension NNRegular99Calendar {
   }
 
   private func didSetDependency(_ dependency: Dependency?) {
-    initializeViews()
-
     guard
       let dependency = dependency,
       let monthHeader = self.monthHeaderView,
