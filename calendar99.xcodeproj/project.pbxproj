@@ -54,6 +54,7 @@
 		D31837492082E56500575F7D /* MonthSectionTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D31837482082E56500575F7D /* MonthSectionTest.swift */; };
 		D318423520818D5600659EA4 /* MonthHeaderTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D318423420818D5600659EA4 /* MonthHeaderTest.swift */; };
 		D318423720819B2100659EA4 /* WeekdayDisplayTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D318423620819B2100659EA4 /* WeekdayDisplayTest.swift */; };
+		D318642B208F2067004646D5 /* SelectHighlightCommonTestProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D318642A208F2067004646D5 /* SelectHighlightCommonTestProtocol.swift */; };
 		D3186BF420873C970054CE3D /* calendar99_redux.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3186BEB20873C970054CE3D /* calendar99_redux.framework */; };
 		D3186BFB20873C970054CE3D /* calendar99_redux.h in Headers */ = {isa = PBXBuildFile; fileRef = D3186BED20873C970054CE3D /* calendar99_redux.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D3186C0320873CE30054CE3D /* ReduxCalendar.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3186C0220873CE30054CE3D /* ReduxCalendar.swift */; };
@@ -308,6 +309,7 @@
 		D31837482082E56500575F7D /* MonthSectionTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthSectionTest.swift; sourceTree = "<group>"; };
 		D318423420818D5600659EA4 /* MonthHeaderTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthHeaderTest.swift; sourceTree = "<group>"; };
 		D318423620819B2100659EA4 /* WeekdayDisplayTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekdayDisplayTest.swift; sourceTree = "<group>"; };
+		D318642A208F2067004646D5 /* SelectHighlightCommonTestProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectHighlightCommonTestProtocol.swift; sourceTree = "<group>"; };
 		D3186BEB20873C970054CE3D /* calendar99_redux.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = calendar99_redux.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D3186BED20873C970054CE3D /* calendar99_redux.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = calendar99_redux.h; sourceTree = "<group>"; };
 		D3186BEE20873C970054CE3D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -869,6 +871,7 @@
 				D3DA7024207C97F100A3DFE1 /* MonthTest.swift */,
 				D31431C22080B4E70044B936 /* RootTest.swift */,
 				D31FCC4F20826E46005C3D68 /* SelectableWeekdayTest.swift */,
+				D318642A208F2067004646D5 /* SelectHighlightCommonTestProtocol.swift */,
 				D318B4FA2088F26B00556D00 /* SelectionTest.swift */,
 				D31431C02080B1EF0044B936 /* SingleDaySelectionTest.swift */,
 				D3186C06208773160054CE3D /* UtilTest.swift */,
@@ -1866,6 +1869,7 @@
 				D31C042F207D2106000C2C75 /* DefaultDateCalculatorTest.swift in Sources */,
 				D318B4FB2088F26B00556D00 /* SelectionTest.swift in Sources */,
 				D3B510A62080DEC100A2E8EF /* MonthControlTest.swift in Sources */,
+				D318642B208F2067004646D5 /* SelectHighlightCommonTestProtocol.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -68,7 +68,7 @@ extension Singleton: NNMonthControlNoDefaultModelFunction {
 // MARK: - NNWeekdayAwareNoDefaultModelFunction
 extension Singleton: NNWeekdayAwareNoDefaultModelFunction {
   public var firstWeekday: Int {
-    return 5
+    return 1
   }
 }
 

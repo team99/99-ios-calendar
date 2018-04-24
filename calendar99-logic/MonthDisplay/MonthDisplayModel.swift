@@ -14,6 +14,7 @@ import SwiftFP
 public protocol NNMonthDisplayDefaultModelFunction:
   NNMonthControlDefaultModelFunction,
   NNMultiDaySelectionDefaultFunction,
+  NNSelectHighlightDefaultFunction,
   NNSingleDaySelectionDefaultFunction {}
 
 /// Shared functionalities between the model and its dependency that cannot
@@ -21,6 +22,7 @@ public protocol NNMonthDisplayDefaultModelFunction:
 public protocol NNMonthDisplayNoDefaultModelFunction:
   NNMonthControlNoDefaultModelFunction,
   NNMultiDaySelectionNoDefaultFunction,
+  NNSelectHighlightNoDefaultFunction,
   NNSingleDaySelectionNoDefaultFunction {}
 
 /// Defaultable dependency for month display model.
@@ -127,6 +129,13 @@ extension NNCalendar.MonthDisplay.Model: NNMonthControlNoDefaultFunction {
   }
 }
 
+// MARK: - NNSelectHighlightNoDefaultFunction
+extension NNCalendar.MonthDisplay.Model: NNSelectHighlightNoDefaultFunction {
+  public func highlightPart(_ date: Date) -> NNCalendar.HighlightPart {
+    return dependency.highlightPart(date)
+  }
+}
+
 // MARK: - NNSingleDaySelectionNoDefaultFunction
 extension NNCalendar.MonthDisplay.Model: NNSingleDaySelectionNoDefaultFunction {
   public func isDateSelected(_ date: Date) -> Bool {
@@ -222,6 +231,10 @@ extension NNCalendar.MonthDisplay.Model {
 
     func isDateSelected(_ date: Date) -> Bool {
       return noDefault.isDateSelected(date)
+    }
+
+    func highlightPart(_ date: Date) -> NNCalendar.HighlightPart {
+      return noDefault.highlightPart(date)
     }
 
     func gridSelectionChanges(_ monthComp: NNCalendar.MonthComp,

@@ -10,9 +10,7 @@ import RxSwift
 
 /// Shared functionalities between the model and its dependency that can have
 /// defaults.
-public protocol NNMonthHeaderDefaultModelFunction:
-  NNMonthControlDefaultModelFunction
-{
+public protocol NNMonthHeaderDefaultModelFunction: NNMonthControlDefaultModelFunction {
   /// Format month description.
   ///
   /// - Parameter month: A ControlComponents instance.

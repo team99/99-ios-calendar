@@ -12,6 +12,8 @@ import RxSwift
 public protocol NNMonthDisplayViewModelType:
   NNMonthControlViewModelType,
   NNMonthGridViewModelType,
+  NNSelectHighlightDefaultFunction,
+  NNSelectHighlightNoDefaultFunction,
   NNSingleDaySelectionViewModelType
 {
   /// Stream days to display on the month view.
@@ -109,6 +111,13 @@ extension NNCalendar.MonthDisplay.ViewModel: NNMonthGridViewModelType {
 
   public var gridSelectionStream: Observable<NNCalendar.GridPosition> {
     return monthGridVM.gridSelectionStream
+  }
+}
+
+// MARK: - NNSelectHighlightNoDefaultFunction
+extension NNCalendar.MonthDisplay.ViewModel: NNSelectHighlightNoDefaultFunction {
+  public func highlightPart(_ date: Date) -> NNCalendar.HighlightPart {
+    return model.highlightPart(date)
   }
 }
 

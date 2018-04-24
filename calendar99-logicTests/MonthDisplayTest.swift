@@ -41,6 +41,12 @@ extension MonthDisplayTest: MonthControlCommonTestProtocol {
   }
 }
 
+extension MonthDisplayTest: SelectHighlightCommonTestProtocol {
+  public func test_calculateHighlightParts_shouldWorkCorrectly() {
+    test_calculateHighlightParts_shouldWorkCorrectly(viewModel!, model!)
+  }
+}
+
 public extension MonthDisplayTest {
   public func test_defaultDependencies_shouldWork() {
     let monthControlModel = NNCalendar.MonthControl.Model(defaultModelDp)
@@ -213,5 +219,11 @@ extension MonthDisplayTest: NNMonthDisplayNoDefaultModelDependency {
     return try! allSelectionSb.value()
       .map({$0.contains(where: {$0.contains(date)})})
       .getOrElse(false)
+  }
+
+  public func highlightPart(_ date: Date) -> NNCalendar.HighlightPart {
+    return try! allSelectionSb.value()
+      .map({NNCalendar.Util.highlightPart($0, date)})
+      .getOrElse(.none)
   }
 }

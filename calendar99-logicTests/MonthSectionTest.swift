@@ -42,6 +42,12 @@ extension MonthSectionTest: MonthControlCommonTestProtocol {
   }
 }
 
+extension MonthSectionTest: SelectHighlightCommonTestProtocol {
+  public func test_calculateHighlightParts_shouldWorkCorrectly() {
+    test_calculateHighlightParts_shouldWorkCorrectly(viewModel!, model!)
+  }
+}
+
 public extension MonthSectionTest {
   public func test_defaultDependencies_shouldWork() {
     let monthControlModel = NNCalendar.MonthControl.Model(defaultModelDp!)
@@ -207,41 +213,11 @@ public extension MonthSectionTest {
       prevIndex = lastIndex
     }
   }
-
-  public func test_calculateHighlightParts_shouldWorkCorrectly() {
-    /// Setup
-    let calendar = Calendar.current
-    let selectionCount = 100
-    let firstWeekday = model!.firstWeekday
-
-    /// When
-    for _ in 0..<iterations! {
-      let startDate = Date.random()!
-
-      let selectedDates = (0..<selectionCount)
-        .map({calendar.date(byAdding: .day, value: $0, to: startDate)!})
-
-      let selections = selectedDates.map({NNCalendar.DateSelection($0, firstWeekday)})
-      allSelectionReceiver.onNext(Set(selections))
-      waitOnMainThread(waitDuration!)
-
-      /// Then
-      let highlight1 = selectedDates.map({viewModel!.highlightPart($0)})
-      let highlight2 = selectedDates.map({highlightPart($0)})
-      XCTAssertEqual(highlight1, highlight2)
-    }
-  }
 }
 
 extension MonthSectionTest: NNMonthSectionNoDefaultModelDependency {
   public var firstWeekday: Int {
     return firstWeekdayForTest!
-  }
-
-  public func highlightPart(_ date: Date) -> NNCalendar.HighlightPart {
-    return try! allSelectionSb.value()
-      .map({NNCalendar.Util.highlightPart($0, date)})
-      .getOrElse(.none)
   }
 
   public var allSelectionReceiver: AnyObserver<Set<NNCalendar.Selection>> {
@@ -268,5 +244,11 @@ extension MonthSectionTest: NNMonthSectionNoDefaultModelDependency {
     return try! allSelectionSb.value()
       .map({$0.contains(where: {$0.contains(date)})})
       .getOrElse(false)
+  }
+
+  public func highlightPart(_ date: Date) -> NNCalendar.HighlightPart {
+    return try! allSelectionSb.value()
+      .map({NNCalendar.Util.highlightPart($0, date)})
+      .getOrElse(.none)
   }
 }

@@ -171,7 +171,11 @@ public extension NNMonthView {
     }
 
     let selected = viewModel.isDateSelected(item.date)
-    let actualDay = item.with(selected: selected)
+    
+    let actualDay = item
+      .with(selected: viewModel.isDateSelected(item.date))
+      .with(highlightPart: viewModel.highlightPart(item.date))
+
     let cellDecorator = decorator.dateCellDecorator(indexPath, actualDay)
     cell.setupWithDay(cellDecorator, actualDay)
     return cell
