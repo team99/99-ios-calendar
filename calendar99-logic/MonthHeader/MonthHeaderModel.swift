@@ -108,35 +108,31 @@ extension NNCalendar.MonthHeader.Model: NNMonthHeaderModelDependency {
 extension NNCalendar.MonthHeader.Model: NNMonthHeaderModelType {}
 
 // MARK: - Default dependency.
-extension NNCalendar.MonthHeader.Model {
-  final class DefaultDependency: NNMonthHeaderModelDependency {
-    var minimumMonth: NNCalendar.Month { return noDefault.minimumMonth }
-    var maximumMonth: NNCalendar.Month { return noDefault.maximumMonth }
+public extension NNCalendar.MonthHeader.Model {
+  public final class DefaultDependency: NNMonthHeaderModelDependency {
+    public var minimumMonth: NNCalendar.Month { return noDefault.minimumMonth }
+    public var maximumMonth: NNCalendar.Month { return noDefault.maximumMonth }
 
-    var initialMonthStream: PrimitiveSequence<SingleTrait, NNCalendar.Month> {
+    public var initialMonthStream: PrimitiveSequence<SingleTrait, NNCalendar.Month> {
       return noDefault.initialMonthStream
     }
 
-    var currentMonthReceiver: AnyObserver<NNCalendar.Month> {
+    public var currentMonthReceiver: AnyObserver<NNCalendar.Month> {
       return noDefault.currentMonthReceiver
     }
 
-    var currentMonthStream: Observable<NNCalendar.Month> {
+    public var currentMonthStream: Observable<NNCalendar.Month> {
       return noDefault.currentMonthStream
     }
 
     private let noDefault: NNMonthHeaderNoDefaultModelDependency
 
-    init(_ dependency: NNMonthHeaderNoDefaultModelDependency) {
+    public init(_ dependency: NNMonthHeaderNoDefaultModelDependency) {
       self.noDefault = dependency
     }
 
-    func formatMonthDescription(_ month: NNCalendar.Month) -> String {
-      let components = month.dateComponents()
-      let date = Calendar.current.date(from: components)!
-      let dateFormatter = DateFormatter()
-      dateFormatter.dateFormat = "MMM yyyy"
-      return dateFormatter.string(from: date)
+    public func formatMonthDescription(_ month: NNCalendar.Month) -> String {
+      return NNCalendar.Util.defaultMonthDescription(month)
     }
   }
 }

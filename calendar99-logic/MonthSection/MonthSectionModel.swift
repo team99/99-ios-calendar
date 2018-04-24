@@ -185,32 +185,32 @@ extension NNCalendar.MonthSection.Model: NNMonthSectionModelType {
   }
 }
 
-extension NNCalendar.MonthSection.Model {
+public extension NNCalendar.MonthSection.Model {
 
   /// Default dependency for month section model.
-  final class DefaultDependency: NNMonthSectionModelDependency {
-    var weekdayStacks: Int { return monthGridDp.weekdayStacks }
-    var firstWeekday: Int { return daySelectionDp.firstWeekday }
-    var minimumMonth: NNCalendar.Month { return noDefault.minimumMonth }
-    var maximumMonth: NNCalendar.Month { return noDefault.maximumMonth }
+  public final class DefaultDependency: NNMonthSectionModelDependency {
+    public var weekdayStacks: Int { return monthGridDp.weekdayStacks }
+    public var firstWeekday: Int { return daySelectionDp.firstWeekday }
+    public var minimumMonth: NNCalendar.Month { return noDefault.minimumMonth }
+    public var maximumMonth: NNCalendar.Month { return noDefault.maximumMonth }
 
-    var initialMonthStream: Single<NNCalendar.Month> {
+    public var initialMonthStream: Single<NNCalendar.Month> {
       return noDefault.initialMonthStream
     }
 
-    var currentMonthStream: Observable<NNCalendar.Month> {
+    public var currentMonthStream: Observable<NNCalendar.Month> {
       return noDefault.currentMonthStream
     }
 
-    var currentMonthReceiver: AnyObserver<NNCalendar.Month> {
+    public var currentMonthReceiver: AnyObserver<NNCalendar.Month> {
       return noDefault.currentMonthReceiver
     }
 
-    var allSelectionReceiver: AnyObserver<Set<NNCalendar.Selection>> {
+    public var allSelectionReceiver: AnyObserver<Set<NNCalendar.Selection>> {
       return noDefault.allSelectionReceiver
     }
 
-    var allSelectionStream: Observable<Try<Set<NNCalendar.Selection>>> {
+    public var allSelectionStream: Observable<Try<Set<NNCalendar.Selection>>> {
       return noDefault.allSelectionStream
     }
 
@@ -224,7 +224,7 @@ extension NNCalendar.MonthSection.Model {
     /// why we need a separate calculator for this task.
     private let highlightCalc: NNCalendar.DateCalc.HighlightPart
 
-    init(_ dependency: NNMonthSectionNoDefaultModelDependency) {
+    public init(_ dependency: NNMonthSectionNoDefaultModelDependency) {
       noDefault = dependency
       monthGridDp = NNCalendar.MonthGrid.Model.DefaultDependency()
       daySelectionDp = NNCalendar.DaySelection.Model.DefaultDependency(dependency)
@@ -234,21 +234,21 @@ extension NNCalendar.MonthSection.Model {
       highlightCalc = NNCalendar.DateCalc.HighlightPart(dateCalc, weekdayStacks)
     }
 
-    func gridSelectionChanges(_ monthComps: [NNCalendar.MonthComp],
-                              _ currentMonth: NNCalendar.Month,
-                              _ prev: Set<NNCalendar.Selection>,
-                              _ current: Set<NNCalendar.Selection>)
+    public func gridSelectionChanges(_ monthComps: [NNCalendar.MonthComp],
+                                     _ currentMonth: NNCalendar.Month,
+                                     _ prev: Set<NNCalendar.Selection>,
+                                     _ current: Set<NNCalendar.Selection>)
       -> Set<NNCalendar.GridPosition>
     {
       return highlightCalc
         .gridSelectionChanges(monthComps, currentMonth, prev, current)
     }
 
-    func isDateSelected(_ date: Date) -> Bool {
+    public func isDateSelected(_ date: Date) -> Bool {
       return noDefault.isDateSelected(date)
     }
 
-    func highlightPart(_ date: Date) -> NNCalendar.HighlightPart {
+    public func highlightPart(_ date: Date) -> NNCalendar.HighlightPart {
       return noDefault.highlightPart(date)
     }
   }

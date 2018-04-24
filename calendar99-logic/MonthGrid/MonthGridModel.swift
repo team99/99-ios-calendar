@@ -55,12 +55,12 @@ extension NNCalendar.MonthGrid.Model: NNGridDisplayDefaultFunction {
 extension NNCalendar.MonthGrid.Model: NNMonthGridModelType {}
 
 // MARK: - Default dependency.
-extension NNCalendar.MonthGrid.Model {
-  final class DefaultDependency: NNMonthGridModelDependency {
-    var weekdayStacks: Int { return gridDisplayDp.weekdayStacks }
+public extension NNCalendar.MonthGrid.Model {
+  public final class DefaultDependency: NNMonthGridModelDependency {
+    public var weekdayStacks: Int { return gridDisplayDp.weekdayStacks }
     private let gridDisplayDp: NNMGridDisplayModelDependency
 
-    init() {
+    public init() {
       gridDisplayDp = NNCalendar.GridDisplay.Model.DefaultDependency()
     }
   }

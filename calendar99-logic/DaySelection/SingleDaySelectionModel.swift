@@ -82,29 +82,29 @@ extension NNCalendar.DaySelection.Model: NNWeekdayAwareDefaultModelFunction {
 }
 
 // MARK: - Default dependency
-extension NNCalendar.DaySelection.Model {
+public extension NNCalendar.DaySelection.Model {
 
   /// NNSingleDaySelectionModelDependency
-  final class DefaultDependency: NNSingleDaySelectionModelDependency {
-    var firstWeekday: Int { return weekdayAwareDp.firstWeekday }
+  public final class DefaultDependency: NNSingleDaySelectionModelDependency {
+    public var firstWeekday: Int { return weekdayAwareDp.firstWeekday }
 
-    var allSelectionReceiver: AnyObserver<Set<NNCalendar.Selection>> {
+    public var allSelectionReceiver: AnyObserver<Set<NNCalendar.Selection>> {
       return noDefault.allSelectionReceiver
     }
 
-    var allSelectionStream: Observable<Try<Set<NNCalendar.Selection>>> {
+    public var allSelectionStream: Observable<Try<Set<NNCalendar.Selection>>> {
       return noDefault.allSelectionStream
     }
 
     private let noDefault: NNSingleDaySelectionNoDefaultModelDependency
     private let weekdayAwareDp: NNCalendar.WeekdayAware.Model.DefaultDependency
 
-    init(_ dependency: NNSingleDaySelectionNoDefaultModelDependency) {
+    public init(_ dependency: NNSingleDaySelectionNoDefaultModelDependency) {
       noDefault = dependency
       weekdayAwareDp = NNCalendar.WeekdayAware.Model.DefaultDependency(dependency)
     }
 
-    func isDateSelected(_ date: Date) -> Bool {
+    public func isDateSelected(_ date: Date) -> Bool {
       return noDefault.isDateSelected(date)
     }
   }

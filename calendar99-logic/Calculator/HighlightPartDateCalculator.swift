@@ -24,12 +24,12 @@ public extension NNCalendar.DateCalc {
   /// include in the set of grid position changes the selections for these dates
   /// as well.
   public final class HighlightPart {
-    fileprivate let gridPositionCalculator: NNMultiMonthGridSelectionCalculator
-    fileprivate let weekdayStacks: Int
+    fileprivate let gridPositionCalc: NNMultiMonthGridSelectionCalculator
+    public let weekdayStacks: Int
 
     public init(_ gridPositionCalc: NNMultiMonthGridSelectionCalculator,
                 _ weekdayStacks: Int) {
-      self.gridPositionCalculator = gridPositionCalc
+      self.gridPositionCalc = gridPositionCalc
       self.weekdayStacks = weekdayStacks
     }
   }
@@ -51,7 +51,7 @@ extension NNCalendar.DateCalc.HighlightPart: NNMultiMonthGridSelectionCalculator
     // We could have checked whether the previous/next grid selections have
     // associated dates which are selected (instead of just incrementing/
     // decrementing the day index) but that seems more trouble that it's worth.
-    return Set(gridPositionCalculator
+    return Set(gridPositionCalc
       .gridSelectionChanges(monthComps, currentMonth, prev, current)
       .map({[$0.decrementingDayIndex(), $0, $0.incrementingDayIndex()]})
       .flatMap({$0.filter({$0.dayIndex >= 0 && $0.dayIndex < totalDayCount})}))

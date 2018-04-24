@@ -57,13 +57,26 @@
                                     <segue destination="xIi-uc-23I" kind="show" id="SoS-Ug-gBy"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tIh-Gs-hJz">
+                                <rect key="frame" x="15" y="169" width="345" height="30"/>
+                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <state key="normal" title="REGULAR99-LEGACY">
+                                    <color key="titleColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <segue destination="wCe-Ud-kDR" kind="show" id="Aak-jg-Np4"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="tIh-Gs-hJz" firstAttribute="top" secondItem="afG-2a-vpx" secondAttribute="bottom" constant="15" id="HGT-QR-2c9"/>
                             <constraint firstItem="afG-2a-vpx" firstAttribute="top" secondItem="6We-cY-0We" secondAttribute="bottom" constant="15" id="IMb-IS-dUQ"/>
                             <constraint firstAttribute="trailing" secondItem="6We-cY-0We" secondAttribute="trailing" constant="15" id="INx-hm-5cX"/>
                             <constraint firstItem="afG-2a-vpx" firstAttribute="height" secondItem="6We-cY-0We" secondAttribute="height" id="Io1-De-VLR"/>
+                            <constraint firstItem="tIh-Gs-hJz" firstAttribute="trailing" secondItem="afG-2a-vpx" secondAttribute="trailing" id="J0z-Xe-TtQ"/>
                             <constraint firstItem="6We-cY-0We" firstAttribute="top" secondItem="2MB-j9-0be" secondAttribute="top" constant="15" id="QQ1-DA-M0y"/>
+                            <constraint firstItem="tIh-Gs-hJz" firstAttribute="leading" secondItem="afG-2a-vpx" secondAttribute="leading" id="hxH-BL-Ehf"/>
                             <constraint firstItem="6We-cY-0We" firstAttribute="leading" secondItem="Sds-ig-wSi" secondAttribute="leading" constant="15" id="qla-pe-N71"/>
                             <constraint firstItem="afG-2a-vpx" firstAttribute="leading" secondItem="6We-cY-0We" secondAttribute="leading" id="rie-w6-0Av"/>
                             <constraint firstItem="afG-2a-vpx" firstAttribute="trailing" secondItem="6We-cY-0We" secondAttribute="trailing" id="zGx-d3-bj4"/>
@@ -167,6 +180,36 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="118" y="-5"/>
+        </scene>
+        <!--Regular99 Delegate View Controller-->
+        <scene sceneID="pZa-xv-OQI">
+            <objects>
+                <viewController id="wCe-Ud-kDR" customClass="Regular99DelegateViewController" customModule="calendar99_demo" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="bwJ-9n-UJO">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="114-zt-G3L" customClass="NNRegular99Calendar" customModule="calendar99_preset">
+                                <rect key="frame" x="15" y="79" width="345" height="333.5"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="114-zt-G3L" firstAttribute="height" secondItem="bwJ-9n-UJO" secondAttribute="height" multiplier="1 / 2" id="CIK-Kk-OIK"/>
+                            <constraint firstItem="114-zt-G3L" firstAttribute="top" secondItem="hba-P1-IBW" secondAttribute="top" constant="15" id="LT1-5H-fCp"/>
+                            <constraint firstAttribute="trailing" secondItem="114-zt-G3L" secondAttribute="trailing" constant="15" id="S7P-f7-SQz"/>
+                            <constraint firstItem="114-zt-G3L" firstAttribute="leading" secondItem="bwJ-9n-UJO" secondAttribute="leading" constant="15" id="qeH-XH-3Uq"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="hba-P1-IBW"/>
+                    </view>
+                    <connections>
+                        <outlet property="regular99Calendar" destination="114-zt-G3L" id="5cq-Ad-oRw"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Jbc-de-kUa" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-650" y="842"/>
         </scene>
         <!--Regular99 View Controller-->
         <scene sceneID="M1Y-al-HTU">

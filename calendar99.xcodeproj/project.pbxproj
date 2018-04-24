@@ -124,6 +124,7 @@
 		D3E05E2A208F59100008E473 /* Regular99Delegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3E05E29208F59100008E473 /* Regular99Delegate.swift */; };
 		D3E05E2C208F5A070008E473 /* LegacyEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3E05E2B208F5A070008E473 /* LegacyEntry.swift */; };
 		D3E05E32208F67200008E473 /* Regular99DelegateBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3E05E31208F67200008E473 /* Regular99DelegateBridge.swift */; };
+		D3E05E34208F7D760008E473 /* Regular99DelegateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3E05E33208F7D760008E473 /* Regular99DelegateViewController.swift */; };
 		E2DCBB123488442269125D97 /* Pods_calendar99Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0824444065A1A7B969DBD579 /* Pods_calendar99Tests.framework */; };
 		F24CBFC94F7F7C2C6FE9960C /* Pods_calendar99_presetLogic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74C4F8512A19A1D221F75875 /* Pods_calendar99_presetLogic.framework */; };
 /* End PBXBuildFile section */
@@ -268,6 +269,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = D3DA6F96207C6CEE00A3DFE1;
 			remoteInfo = calendar99;
+		};
+		D3E05E35208F7D980008E473 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D3DA6F8E207C6CEE00A3DFE1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D3E05E1B208F58B70008E473;
+			remoteInfo = "calendar99-legacy";
 		};
 /* End PBXContainerItemProxy section */
 
@@ -429,6 +437,7 @@
 		D3E05E29208F59100008E473 /* Regular99Delegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Regular99Delegate.swift; sourceTree = "<group>"; };
 		D3E05E2B208F5A070008E473 /* LegacyEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LegacyEntry.swift; sourceTree = "<group>"; };
 		D3E05E31208F67200008E473 /* Regular99DelegateBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Regular99DelegateBridge.swift; sourceTree = "<group>"; };
+		D3E05E33208F7D760008E473 /* Regular99DelegateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Regular99DelegateViewController.swift; sourceTree = "<group>"; };
 		D82C2503C9BAE5ECC9A44729 /* Pods-calendar99-redux.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-calendar99-redux.release.xcconfig"; path = "Pods/Target Support Files/Pods-calendar99-redux/Pods-calendar99-redux.release.xcconfig"; sourceTree = "<group>"; };
 		D938B372CAFDEAD5B7917D27 /* Pods_calendar99.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_calendar99.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DC0500C39A1AAAB2A6015400 /* Pods-calendar99-legacy.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-calendar99-legacy.debug.xcconfig"; path = "Pods/Target Support Files/Pods-calendar99-legacy/Pods-calendar99-legacy.debug.xcconfig"; sourceTree = "<group>"; };
@@ -939,12 +948,13 @@
 				D3DA6FEB207C739500A3DFE1 /* Info.plist */,
 				D3DA6FDF207C739400A3DFE1 /* AppDelegate.swift */,
 				D31329102084E9A900E06C2A /* Decorator.swift */,
+				D3E05E33208F7D760008E473 /* Regular99DelegateViewController.swift */,
+				D316D7A1208E3E2500973851 /* Regular99ViewController.swift */,
 				D3186C0B20878A520054CE3D /* Singleton.swift */,
 				D3DA6FE1207C739400A3DFE1 /* ViewController.swift */,
 				D3DA6FE6207C739500A3DFE1 /* Assets.xcassets */,
 				D3DA6FE8207C739500A3DFE1 /* LaunchScreen.storyboard */,
 				D3DA6FE3207C739400A3DFE1 /* Main.storyboard */,
-				D316D7A1208E3E2500973851 /* Regular99ViewController.swift */,
 			);
 			path = "calendar99-demo";
 			sourceTree = "<group>";
@@ -1280,6 +1290,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				D3E05E36208F7D980008E473 /* PBXTargetDependency */,
 				D3CE68C9208E394C00E40F31 /* PBXTargetDependency */,
 				D3CE68CB208E394C00E40F31 /* PBXTargetDependency */,
 				D3186C09208789760054CE3D /* PBXTargetDependency */,
@@ -2017,6 +2028,7 @@
 				D3186C0C20878A520054CE3D /* Singleton.swift in Sources */,
 				D316D7A2208E3E2500973851 /* Regular99ViewController.swift in Sources */,
 				D3DA6FE0207C739400A3DFE1 /* AppDelegate.swift in Sources */,
+				D3E05E34208F7D760008E473 /* Regular99DelegateViewController.swift in Sources */,
 				D31329112084E9A900E06C2A /* Decorator.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2133,6 +2145,11 @@
 			isa = PBXTargetDependency;
 			target = D3DA6F96207C6CEE00A3DFE1 /* calendar99 */;
 			targetProxy = D3E05E2F208F5C6E0008E473 /* PBXContainerItemProxy */;
+		};
+		D3E05E36208F7D980008E473 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D3E05E1B208F58B70008E473 /* calendar99-legacy */;
+			targetProxy = D3E05E35208F7D980008E473 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 

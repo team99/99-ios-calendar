@@ -30,11 +30,11 @@ public extension NNCalendar.GridDisplay {
 }
 
 // MARK: - Default dependency.
-extension NNCalendar.GridDisplay.Model {
-  final class DefaultDependency: NNMGridDisplayModelDependency {
+public extension NNCalendar.GridDisplay.Model {
+  public final class DefaultDependency: NNMGridDisplayModelDependency {
     
     /// Seems like most calendar apps have 6 rows, so in total 42 date cells.
-    var weekdayStacks: Int {
+    public var weekdayStacks: Int {
       return 6
     }
   }

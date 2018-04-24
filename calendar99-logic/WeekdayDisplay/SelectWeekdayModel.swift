@@ -97,31 +97,31 @@ extension NNCalendar.SelectWeekday.Model: NNMultiDaySelectionNoDefaultFunction {
 extension NNCalendar.SelectWeekday.Model: NNSelectWeekdayModelType {}
 
 // MARK: - Default dependency.
-extension NNCalendar.SelectWeekday.Model {
-  final class DefaultDependency: NNSelectWeekdayModelDependency {
-    var firstWeekday: Int { return weekdayDp.firstWeekday } 
+public extension NNCalendar.SelectWeekday.Model {
+  public final class DefaultDependency: NNSelectWeekdayModelDependency {
+    public var firstWeekday: Int { return weekdayDp.firstWeekday }
 
-    var currentMonthStream: Observable<NNCalendar.Month> {
+    public var currentMonthStream: Observable<NNCalendar.Month> {
       return noDefault.currentMonthStream
     }
 
-    var allSelectionReceiver: AnyObserver<Set<NNCalendar.Selection>> {
+    public var allSelectionReceiver: AnyObserver<Set<NNCalendar.Selection>> {
       return noDefault.allSelectionReceiver
     }
 
-    var allSelectionStream: Observable<Try<Set<NNCalendar.Selection>>> {
+    public var allSelectionStream: Observable<Try<Set<NNCalendar.Selection>>> {
       return noDefault.allSelectionStream
     }
 
     private let weekdayDp: NNWeekdayDisplayModelDependency
     private let noDefault: NNSelectWeekdayNoDefaultModelDependency
 
-    init(_ dependency: NNSelectWeekdayNoDefaultModelDependency) {
+    public init(_ dependency: NNSelectWeekdayNoDefaultModelDependency) {
       noDefault = dependency
       weekdayDp = NNCalendar.WeekdayDisplay.Model.DefaultDependency(dependency)
     }
 
-    func weekdayDescription(_ weekday: Int) -> String {
+    public func weekdayDescription(_ weekday: Int) -> String {
       return weekdayDp.weekdayDescription(weekday)
     }
   }

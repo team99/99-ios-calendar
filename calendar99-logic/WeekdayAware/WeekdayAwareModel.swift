@@ -42,14 +42,14 @@ public extension NNCalendar.WeekdayAware {
 }
 
 // MARK: - Default dependencies.
-extension NNCalendar.WeekdayAware.Model {
+public extension NNCalendar.WeekdayAware.Model {
 
   /// Default dependency for weekday-aware view models.
-  final class DefaultDependency: NNWeekdayAwareModelDependency {
-    var firstWeekday: Int { return noDefault.firstWeekday }
+  public final class DefaultDependency: NNWeekdayAwareModelDependency {
+    public var firstWeekday: Int { return noDefault.firstWeekday }
     private let noDefault: NNWeekdayAwareNoDefaultModelDependency
 
-    init(_ dependency: NNWeekdayAwareNoDefaultModelDependency) {
+    public init(_ dependency: NNWeekdayAwareNoDefaultModelDependency) {
       noDefault = dependency
     }
   }

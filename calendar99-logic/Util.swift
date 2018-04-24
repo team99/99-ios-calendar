@@ -19,6 +19,29 @@ public extension NNCalendar.Util {
   /// Get the number of days in a week.
   public static var weekdayCount: Int { return 7 }
 
+  /// Get the default weekday description.
+  ///
+  /// - Parameter weekday: A weekday value.
+  /// - Returns: A String value.
+  public static func defaultWeekdayDescription(_ weekday: Int) -> String {
+    let date = Calendar.current.date(bySetting: .weekday, value: weekday, of: Date())
+    let formatter = DateFormatter()
+    formatter.dateFormat = "EEE"
+    return date.map({formatter.string(from: $0).uppercased()}).getOrElse("")
+  }
+
+  /// Get the default month description.
+  ///
+  /// - Parameter month: A Month instance.
+  /// - Returns: A String value.
+  public static func defaultMonthDescription(_ month: NNCalendar.Month) -> String {
+    let components = month.dateComponents()
+    let date = Calendar.current.date(from: components)!
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateFormat = "MMM yyyy"
+    return dateFormatter.string(from: date)
+  }
+
   /// Produce a range of Dates for a Month instance.
   ///
   /// - Parameters:
