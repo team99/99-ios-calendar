@@ -83,6 +83,36 @@ public extension MonthHeaderTest {
       XCTAssertEqual(lastMonth, currentMonth)
     }
   }
+
+  public func test_reachedMonthLimits_shouldEmitEvents() {
+    /// Setup
+    let minObs = scheduler!.createObserver(Bool.self)
+    let maxObs = scheduler!.createObserver(Bool.self)
+    let minMonth = model!.minimumMonth
+    let maxMonth = model!.maximumMonth
+    viewModel!.reachedMinimumMonth.subscribe(minObs).disposed(by: disposable!)
+    viewModel!.reachedMaximumMonth.subscribe(maxObs).disposed(by: disposable!)
+    viewModel!.setupMonthControlBindings()
+
+    let testMonths = [currentMonth!,
+                      currentMonth!,
+                      minMonth,
+                      minMonth,
+                      currentMonth!,
+                      currentMonth!,
+                      maxMonth,
+                      maxMonth]
+
+    /// When
+    for testMonth in testMonths {
+      viewModel!.currentMonthReceiver.onNext(testMonth)
+      waitOnMainThread(waitDuration!)
+    }
+
+    /// Then
+    XCTAssertEqual(minObs.nextElements(), [false, true, false])
+    XCTAssertEqual(maxObs.nextElements(), [false, true])
+  }
 }
 
 extension MonthHeaderTest: NNMonthHeaderModelDependency {

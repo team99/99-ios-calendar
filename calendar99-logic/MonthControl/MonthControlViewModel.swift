@@ -59,6 +59,8 @@ extension NNCalendar.MonthControl.ViewModel: NNMonthControlViewModelType {
 
   public func setupMonthControlBindings() {
     let disposable = self.disposable
+    let minMonth = model.minimumMonth
+    let maxMonth = model.maximumMonth
 
     Observable
       .merge(
@@ -69,6 +71,7 @@ extension NNCalendar.MonthControl.ViewModel: NNMonthControlViewModelType {
           .map({$0.with(monthOffset: $1)})
           .filter({$0.isSome}).map({$0!})
       )
+      .map({Swift.min(maxMonth, Swift.max(minMonth, $0))})
       .subscribe(model.currentMonthReceiver)
       .disposed(by: disposable)
   }

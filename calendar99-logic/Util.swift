@@ -39,23 +39,28 @@ public extension NNCalendar.Util {
       .getOrElse([])
   }
 
-  /// Calculate the month range, which is anchored by a specified month and goes
-  /// as far back in the past/forward in the future as we want.
+  /// Calculate the month range between min/max months.
   ///
   /// - Parameters:
-  ///   - currentMonth: The current Month.
-  ///   - pastMonths: An Int value.
-  ///   - futureMonths: An Int value.
+  ///   - minMonth: The minimum Month.
+  ///   - maxMonth: The maximum Month.
   /// - Returns: An Array of Month.
-  public static func getAvailableMonths(_ currentComp: NNCalendar.Month,
-                                        _ pastMonths: Int,
-                                        _ futureMonths: Int) -> [NNCalendar.Month] {
-    let earliest = currentComp.with(monthOffset: -pastMonths)
-    let totalMonths = pastMonths + 1 + futureMonths
+  public static func monthRange(_ minMonth: NNCalendar.Month,
+                                _ maxMonth: NNCalendar.Month) -> [NNCalendar.Month] {
+    guard minMonth <= maxMonth else { return [] }
+    let monthOffset = maxMonth.monthOffset(from: minMonth)
+    return (0...monthOffset).flatMap({minMonth.with(monthOffset: $0)})
+  }
 
-    return (0..<totalMonths).flatMap({offset in
-      earliest.flatMap({$0.with(monthOffset: offset)})
-    })
+  /// Get the total number of months between two months.
+  ///
+  /// - Parameters:
+  ///   - minMonth: The minimum Month.
+  ///   - maxMonth: The maximum Month.
+  /// - Returns: An Int value.
+  public static func monthCount(_ minMonth: NNCalendar.Month,
+                                _ maxMonth: NNCalendar.Month) -> Int {
+    return Swift.max(maxMonth.monthOffset(from: minMonth) + 1, 0)
   }
 
   /// Calculate the date in a month/year pair using an offset from the first

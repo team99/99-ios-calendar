@@ -12,6 +12,9 @@ public protocol NNMonthHeaderDecoratorType {
   /// Tint color for navigation buttons.
   var navigationButtonTintColor: UIColor { get }
 
+  /// Tint color for navigation buttons, for when the user has reached min/max.
+  var navigationButtonDisabledTintColor: UIColor { get }
+
   /// Text color for month description label.
   var monthDescriptionTextColor: UIColor { get }
 

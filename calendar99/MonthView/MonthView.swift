@@ -22,47 +22,32 @@ public final class NNMonthView: UICollectionView {
   public typealias Dependency = (ViewModel, Decorator)
 
   public var dependency: Dependency? {
-    get { return nil }
-    
-    set {
-      viewModel = newValue?.0
-      decorator = newValue?.1
-      didSetViewModel()
-    }
-  }
-
-  fileprivate var viewModel: NNMonthDisplayViewModelType? {
     willSet {
       #if DEBUG
-      if viewModel != nil {
-        fatalError("Cannot mutate view model!")
+      if dependency != nil {
+        fatalError("Cannot mutate!")
       }
       #endif
     }
-  }
 
-  fileprivate var decorator: NNMonthViewDecoratorType? {
-    willSet {
-      #if DEBUG
-      if decorator != nil {
-        fatalError("Cannot mutate decorator!")
-      }
-      #endif
+    didSet {
+      bindViewModel()
+      setupViewsWithDecorator()
     }
   }
 
+  fileprivate var viewModel: ViewModel? { return dependency?.0 }
+  fileprivate var decorator: Decorator? { return dependency?.1 }
   fileprivate lazy var disposable: DisposeBag = DisposeBag()
-  private lazy var initialized = false
 
-  override public func layoutSubviews() {
-    super.layoutSubviews()
-    guard !initialized else { return }
-    initialized = true
+  required public init?(coder aDecoder: NSCoder) {
+    super.init(coder: aDecoder)
     setupViews()
   }
 
-  private func didSetViewModel() {
-    bindViewModel()
+  override public init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout) {
+    super.init(frame: frame, collectionViewLayout: layout)
+    setupViews()
   }
 }
 
@@ -120,10 +105,13 @@ public extension NNMonthView {
 
   /// Set up views/sub-views in the calendar view.
   fileprivate func setupViews() {
-    guard let decorator = self.decorator else { return }
     let bundle = Bundle(for: NNDateCell.classForCoder())
     let cellNib = UINib(nibName: "DateCell", bundle: bundle)
     register(cellNib, forCellWithReuseIdentifier: cellId)
+  }
+
+  fileprivate func setupViewsWithDecorator() {
+    guard let decorator = self.decorator else { return }
     backgroundColor = decorator.monthViewBackgroundColor
   }
 }

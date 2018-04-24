@@ -536,10 +536,10 @@
 		D31431A420805CFB0044B936 /* WeekdayView */ = {
 			isa = PBXGroup;
 			children = (
-				D31431A520805D150044B936 /* WeekdayView.swift */,
 				D31431AF208068300044B936 /* WeekdayCell.swift */,
-				D31431B12080684C0044B936 /* WeekdayCell.xib */,
 				D31329122084EA6800E06C2A /* WeekdayDecorator.swift */,
+				D31431A520805D150044B936 /* WeekdayView.swift */,
+				D31431B12080684C0044B936 /* WeekdayCell.xib */,
 			);
 			path = WeekdayView;
 			sourceTree = "<group>";
@@ -604,8 +604,8 @@
 		D319374620847AD600D055A4 /* SelectionHighlight */ = {
 			isa = PBXGroup;
 			children = (
-				D313290C2084E73500E06C2A /* SelectionHighlighter.swift */,
 				D313291C2084F78500E06C2A /* HorizontalSelectionHighlighter.swift */,
+				D313290C2084E73500E06C2A /* SelectionHighlighter.swift */,
 			);
 			path = SelectionHighlight;
 			sourceTree = "<group>";
@@ -857,6 +857,7 @@
 			children = (
 				D3DA6FC5207C6D2300A3DFE1 /* Info.plist */,
 				D31734C1208AE19800CD3553 /* CommonTestProtocol.swift */,
+				D31C042E207D2106000C2C75 /* DefaultDateCalculatorTest.swift */,
 				D3107FF2208616DD007482A0 /* HighlightPartDateCalculatorTest.swift */,
 				D319374420844C5000D055A4 /* MiscEntityTest.swift */,
 				D31734BF208AE02800CD3553 /* MonthControlCommonTestProtocol.swift */,
@@ -869,7 +870,6 @@
 				D31431C22080B4E70044B936 /* RootTest.swift */,
 				D31FCC4F20826E46005C3D68 /* SelectableWeekdayTest.swift */,
 				D318B4FA2088F26B00556D00 /* SelectionTest.swift */,
-				D31C042E207D2106000C2C75 /* DefaultDateCalculatorTest.swift */,
 				D31431C02080B1EF0044B936 /* SingleDaySelectionTest.swift */,
 				D3186C06208773160054CE3D /* UtilTest.swift */,
 				D318423620819B2100659EA4 /* WeekdayDisplayTest.swift */,

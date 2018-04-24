@@ -30,6 +30,34 @@ public extension UtilTest {
     }
   }
 
+  public func test_getAvailableMonthsForMinAndMax_shouldWork() {
+    let min1 = NNCalendar.Month(1, 2018)
+    let max1 = NNCalendar.Month(8, 2017)
+    XCTAssertEqual(NNCalendar.Util.monthRange(min1, max1).count, 0)
+
+    let min2 = NNCalendar.Month(1, 2018)
+    let max2 = NNCalendar.Month(1, 2018)
+    XCTAssertEqual(NNCalendar.Util.monthRange(min2, max2).count, 1)
+
+    let min3 = NNCalendar.Month(1, 2018)
+    let max3 = NNCalendar.Month(4, 2018)
+    XCTAssertEqual(NNCalendar.Util.monthRange(min3, max3).count, 4)
+  }
+
+  public func test_getAvailableMonths_shouldWork() {
+    let min1 = NNCalendar.Month(1, 2018)
+    let max1 = NNCalendar.Month(2, 2017)
+    XCTAssertEqual(NNCalendar.Util.monthCount(min1, max1), 0)
+
+    let min2 = NNCalendar.Month(1, 2018)
+    let max2 = NNCalendar.Month(1, 2018)
+    XCTAssertEqual(NNCalendar.Util.monthCount(min2, max2), 1)
+
+    let min3 = NNCalendar.Month(1, 2018)
+    let max3 = NNCalendar.Month(10, 2018)
+    XCTAssertEqual(NNCalendar.Util.monthCount(min3, max3), 10)
+  }
+
   public func test_calculateHighlightParts_shouldWork() {
     /// Setup
     let firstWeekday = 1

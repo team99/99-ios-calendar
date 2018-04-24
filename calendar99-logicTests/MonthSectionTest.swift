@@ -78,44 +78,32 @@ public extension MonthSectionTest {
     let monthComps = try! viewModel!.monthCompStream.take(1).toBlocking().first()!
 
     /// Then
-    let pastOffset = pastMonthsFromCurrent
-    let futureOffset = futureMonthsFromCurrent
-    let firstMonth = currentMonth!.with(monthOffset: -pastOffset)!
-    let lastMonth = currentMonth!.with(monthOffset: futureOffset)!
     XCTAssertEqual(monthComps.count, viewModel.totalMonthCount)
-    XCTAssertEqual(monthComps.first!.month, firstMonth)
-    XCTAssertEqual(monthComps.last!.month, lastMonth)
+    XCTAssertEqual(monthComps.first!.month, minimumMonth)
+    XCTAssertEqual(monthComps.last!.month, maximumMonth)
   }
 
   public func test_gridSelections_shouldWorkCorrectly() {
     /// Setup
     viewModel!.setupMonthSectionBindings()
     viewModel!.setupDaySelectionBindings()
-    let pastOffset = pastMonthsFromCurrent
-    let futureOffset = futureMonthsFromCurrent * 2
     let weekdayStacks = viewModel!.weekdayStacks
-    let months = try! viewModel!.monthCompStream.take(1).toBlocking().first()!
+    let minMonth = minimumMonth
+    let maxMonth = maximumMonth
+    let monthRange = NNCalendar.Util.monthRange(minMonth, maxMonth)
+    let monthComps = try! viewModel!.monthCompStream.take(1).toBlocking().first()!
 
     /// When
-    for offset in 0..<(pastOffset + 1 + futureOffset) {
-
-      // Select the month to test. The range is wider than it needs to be
-      // because we want to test that month indexes which lie outside range are
-      // filtered out.
-      if offset < pastOffset {
-        viewModel!.currentMonthBackwardReceiver.onNext(UInt(offset))
-      } else {
-        viewModel!.currentMonthForwardReceiver.onNext(UInt(offset))
-      }
-
+    for (ix, currentMonth) in monthRange.enumerated() {
+      viewModel!.currentMonthReceiver.onNext(currentMonth)
       waitOnMainThread(waitDuration!)
 
       let dayIndex = Int.random(0, weekdayStacks * NNCalendar.Util.weekdayCount)
-      let selection = NNCalendar.GridPosition(offset, dayIndex)
-      let withinRange = offset < months.count
+      let selection = NNCalendar.GridPosition(ix, dayIndex)
+      let withinRange = ix < monthComps.count
 
       let selectedDate = (withinRange
-        ? viewModel.dayFromFirstDate(months[offset].month, dayIndex)
+        ? viewModel.dayFromFirstDate(monthComps[ix].month, dayIndex)
         : nil)?.date
 
       let wasSelected = selectedDate.map({viewModel!.isDateSelected($0)}) ?? false
@@ -199,7 +187,7 @@ public extension MonthSectionTest {
     viewModel!.setupMonthControlBindings()
     viewModel!.setupMonthSectionBindings()
     let months = try! viewModel!.monthCompStream.take(1).toBlocking().first()!
-    var prevIndex = pastMonthsFromCurrent
+    var prevIndex = 0
 
     /// When
     for _ in 0..<iterations! {
@@ -244,14 +232,6 @@ public extension MonthSectionTest {
 extension MonthSectionTest: NNMonthSectionNoDefaultModelDependency {
   public var firstWeekday: Int {
     return firstWeekdayForTest!
-  }
-
-  public var pastMonthsFromCurrent: Int {
-    return 100
-  }
-
-  public var futureMonthsFromCurrent: Int {
-    return 100
   }
 
   public func highlightPart(_ date: Date) -> NNCalendar.HighlightPart {

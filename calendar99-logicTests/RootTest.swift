@@ -9,6 +9,7 @@
 import RxSwift
 import RxTest
 import XCTest
+@testable import calendar99_logic
 
 /// Root tests.
 public class RootTest: XCTestCase {
@@ -30,3 +31,13 @@ public class RootTest: XCTestCase {
 }
 
 extension RootTest: CommonTestProtocol {}
+
+public extension RootTest {
+  public var minimumMonth: NNCalendar.Month {
+    return NNCalendar.Month(1, 1970)
+  }
+
+  public var maximumMonth: NNCalendar.Month {
+    return NNCalendar.Month(12, 3000)
+  }
+}

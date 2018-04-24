@@ -31,6 +31,10 @@ extension AppDecorator: NNMonthHeaderDecoratorType {
     return .black
   }
 
+  public var navigationButtonDisabledTintColor: UIColor {
+    return .lightGray
+  }
+
   public var monthDescriptionTextColor: UIColor {
     return .black
   }

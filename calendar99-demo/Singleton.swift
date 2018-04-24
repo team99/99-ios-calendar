@@ -53,10 +53,15 @@ extension Singleton: NNMonthControlNoDefaultFunction {
 // MARK: - NNMonthControlNoDefaultModelFunction
 extension Singleton: NNMonthControlNoDefaultModelFunction {
   public var initialMonthStream: Single<NNCalendar.Month> {
-    let date = Date()
-    let monthValue = Calendar.current.component(.month, from: date)
-    let yearValue = Calendar.current.component(.year, from: date)
-    return Single.just(NNCalendar.Month(monthValue, yearValue))
+    return Single.just(NNCalendar.Month(1, 1970))
+  }
+
+  public var minimumMonth: NNCalendar.Month {
+    return NNCalendar.Month(4, 2018)
+  }
+
+  public var maximumMonth: NNCalendar.Month {
+    return NNCalendar.Month(10, 2018)
   }
 }
 
@@ -103,17 +108,6 @@ extension Singleton: NNSelectHighlightNoDefaultFunction {
       .cast(Set<NNCalendar.Selection>.self)
       .map({NNCalendar.Util.highlightPart($0, date)})
       .getOrElse(.none)
-  }
-}
-
-// MARK: - NNMonthSectionNoDefaultModelDependency
-extension Singleton: NNMonthSectionNoDefaultModelDependency {
-  public var pastMonthsFromCurrent: Int {
-    return 0
-  }
-
-  public var futureMonthsFromCurrent: Int {
-    return 1000
   }
 }
 

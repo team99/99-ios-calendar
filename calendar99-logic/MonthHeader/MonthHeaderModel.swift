@@ -77,14 +77,25 @@ extension NNCalendar.MonthHeader.Model: NNMonthAwareNoDefaultModelFunction {
   }
 }
 
+// MARK: - NNMonthControlNoDefaultFunction
+extension NNCalendar.MonthHeader.Model: NNMonthControlNoDefaultFunction {
+  public var currentMonthReceiver: AnyObserver<NNCalendar.Month> {
+    return monthControlModel.currentMonthReceiver
+  }
+}
+
 // MARK: - NNMonthControlNoDefaultModelFunction
 extension NNCalendar.MonthHeader.Model: NNMonthControlNoDefaultModelFunction {
   public var initialMonthStream: PrimitiveSequence<SingleTrait, NNCalendar.Month> {
     return monthControlModel.initialMonthStream
   }
 
-  public var currentMonthReceiver: AnyObserver<NNCalendar.Month> {
-    return monthControlModel.currentMonthReceiver
+  public var minimumMonth: NNCalendar.Month {
+    return monthControlModel.minimumMonth
+  }
+
+  public var maximumMonth: NNCalendar.Month {
+    return monthControlModel.maximumMonth
   }
 }
 
@@ -101,6 +112,9 @@ extension NNCalendar.MonthHeader.Model: NNMonthHeaderModelType {}
 // MARK: - Default dependency.
 extension NNCalendar.MonthHeader.Model {
   final class DefaultDependency: NNMonthHeaderModelDependency {
+    var minimumMonth: NNCalendar.Month { return noDefault.minimumMonth }
+    var maximumMonth: NNCalendar.Month { return noDefault.maximumMonth }
+
     var initialMonthStream: PrimitiveSequence<SingleTrait, NNCalendar.Month> {
       return noDefault.initialMonthStream
     }

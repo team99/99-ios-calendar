@@ -98,19 +98,30 @@ extension NNCalendar.MonthDisplay.Model: NNGridDisplayDefaultFunction {
   public var weekdayStacks: Int { return monthGridModel.weekdayStacks }
 }
 
+// MARK: - NNMonthAwareNoDefaultModelFunction
+extension NNCalendar.MonthDisplay.Model: NNMonthAwareNoDefaultModelFunction {
+  public var currentMonthStream: Observable<NNCalendar.Month> {
+    return dependency.currentMonthStream
+  }
+}
+
 // MARK: - NNMonthControlModelType
 extension NNCalendar.MonthDisplay.Model: NNMonthControlModelType {
   public var initialMonthStream: Single<NNCalendar.Month> {
     return monthControlModel.initialMonthStream
   }
-}
 
-// MARK: - NNMonthControlModelDependency
-extension NNCalendar.MonthDisplay.Model: NNMonthControlModelDependency {
-  public var currentMonthStream: Observable<NNCalendar.Month> {
-    return dependency.currentMonthStream
+  public var minimumMonth: NNCalendar.Month {
+    return monthControlModel.minimumMonth
   }
 
+  public var maximumMonth: NNCalendar.Month {
+    return monthControlModel.maximumMonth
+  }
+}
+
+// MARK: - NNMonthControlNoDefaultFunction
+extension NNCalendar.MonthDisplay.Model: NNMonthControlNoDefaultFunction {
   public var currentMonthReceiver: AnyObserver<NNCalendar.Month> {
     return dependency.currentMonthReceiver
   }
@@ -172,6 +183,8 @@ extension NNCalendar.MonthDisplay.Model {
   final class DefaultDependency: NNMonthDisplayModelDependency {
     var weekdayStacks: Int { return monthGridDp.weekdayStacks }
     var firstWeekday: Int { return daySelectionDp.firstWeekday }
+    var minimumMonth: NNCalendar.Month { return noDefault.minimumMonth }
+    var maximumMonth: NNCalendar.Month { return noDefault.maximumMonth }
 
     var initialMonthStream: Single<NNCalendar.Month> {
       return noDefault.initialMonthStream

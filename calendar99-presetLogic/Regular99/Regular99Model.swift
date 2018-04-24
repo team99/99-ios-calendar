@@ -95,6 +95,14 @@ extension NNCalendarPreset.Regular99.Model: NNMonthControlNoDefaultModelFunction
   public var initialMonthStream: PrimitiveSequence<SingleTrait, NNCalendar.Month> {
     return monthSectionModel.initialMonthStream
   }
+
+  public var minimumMonth: NNCalendar.Month {
+    return monthSectionModel.minimumMonth
+  }
+
+  public var maximumMonth: NNCalendar.Month {
+    return monthSectionModel.maximumMonth
+  }
 }
 
 // MARK: - NNSelectHighlightNoDefaultFunction
@@ -108,17 +116,6 @@ extension NNCalendarPreset.Regular99.Model: NNSelectHighlightNoDefaultFunction {
 extension NNCalendarPreset.Regular99.Model: NNMonthHeaderDefaultModelFunction {
   public func formatMonthDescription(_ month: NNCalendar.Month) -> String {
     return monthHeaderModel.formatMonthDescription(month)
-  }
-}
-
-// MARK: - NNMonthSectionNoDefaultModelFunction
-extension NNCalendarPreset.Regular99.Model: NNMonthSectionNoDefaultModelFunction {
-  public var pastMonthsFromCurrent: Int {
-    return monthSectionModel.pastMonthsFromCurrent
-  }
-
-  public var futureMonthsFromCurrent: Int {
-    return monthSectionModel.futureMonthsFromCurrent
   }
 }
 

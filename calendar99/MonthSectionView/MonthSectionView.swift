@@ -21,47 +21,32 @@ public final class NNMonthSectionView: UICollectionView {
   public typealias Dependency = (ViewModel, Decorator)
 
   public var dependency: Dependency? {
-    get { return nil }
+    willSet {
+      #if DEBUG
+      if dependency != nil {
+        fatalError("Cannot mutate!")
+      }
+      #endif
+    }
     
-    set {
-      viewModel = newValue?.0
-      decorator = newValue?.1
-      didSetViewModel()
+    didSet {
+      bindViewModel()
+      setupViewsWithDecorator()
     }
   }
 
-  fileprivate var viewModel: ViewModel? {
-    willSet {
-      #if DEBUG
-      if viewModel != nil {
-        fatalError("Cannot mutate view model!")
-      }
-      #endif
-    }
-  }
-
-  fileprivate var decorator: Decorator? {
-    willSet {
-      #if DEBUG
-      if decorator != nil {
-        fatalError("Cannot mutate decorator!")
-      }
-      #endif
-    }
-  }
-
+  fileprivate var viewModel: ViewModel? { return dependency?.0 }
+  fileprivate var decorator: Decorator? { return dependency?.1 }
   fileprivate lazy var disposable: DisposeBag = DisposeBag()
-  private lazy var initialized = false
 
-  override public func layoutSubviews() {
-    super.layoutSubviews()
-    guard !initialized else { return }
-    initialized = true
+  required public init?(coder aDecoder: NSCoder) {
+    super.init(coder: aDecoder)
     setupViews()
   }
 
-  private func didSetViewModel() {
-    bindViewModel()
+  override public init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout) {
+    super.init(frame: frame, collectionViewLayout: layout)
+    setupViews()
   }
 }
 
@@ -72,14 +57,17 @@ public extension NNMonthSectionView {
   }
 
   fileprivate func setupViews() {
-    guard let decorator = self.decorator else { return }
     let bundle = Bundle(for: NNDateCell.classForCoder())
     let cellNib = UINib(nibName: "DateCell", bundle: bundle)
     register(cellNib, forCellWithReuseIdentifier: cellId)
-    backgroundColor = decorator.monthSectionBackgroundColor
     showsVerticalScrollIndicator = false
     showsHorizontalScrollIndicator = false
     isPagingEnabled = true
+  }
+
+  fileprivate func setupViewsWithDecorator() {
+    guard let decorator = self.decorator else { return }
+    backgroundColor = decorator.monthSectionBackgroundColor
   }
 }
 

@@ -166,7 +166,7 @@ extension NNCalendar.MonthSection.ViewModel: NNSelectHighlightNoDefaultFunction 
 // MARK: - NNMonthSectionViewModelType
 extension NNCalendar.MonthSection.ViewModel: NNMonthSectionViewModelType {
   public var totalMonthCount: Int {
-    return 1 + model.pastMonthsFromCurrent + model.futureMonthsFromCurrent
+    return NNCalendar.Util.monthCount(model.minimumMonth, model.maximumMonth)
   }
 
   public var monthCompStream: Observable<[NNCalendar.MonthComp]> {
@@ -198,17 +198,15 @@ extension NNCalendar.MonthSection.ViewModel: NNMonthSectionViewModelType {
 
   public func setupMonthSectionBindings() {
     let disposable = self.disposable
-    let pCount = model.pastMonthsFromCurrent
-    let fCount = model.futureMonthsFromCurrent
+    let minMonth = model.minimumMonth
+    let maxMonth = model.maximumMonth
     let dayCount = monthGridVM.weekdayStacks * NNCalendar.Util.weekdayCount
     let firstWeekday = model.firstWeekday
 
     /// Must call onNext manually to avoid completed event, since this is a
     /// cold stream.
-    model.initialMonthStream
-      .map({NNCalendar.Util.getAvailableMonths($0, pCount, fCount)})
+    Observable.just(NNCalendar.Util.monthRange(minMonth, maxMonth))
       .map({$0.map({NNCalendar.MonthComp($0, dayCount, firstWeekday)})})
-      .asObservable()
       .subscribe(onNext: {[weak self] in self?.monthCompSbj.onNext($0)})
       .disposed(by: disposable)
 

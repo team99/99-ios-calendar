@@ -20,6 +20,12 @@ public protocol NNMonthControlNoDefaultModelFunction:
   NNMonthAwareNoDefaultModelFunction,
   NNMonthControlNoDefaultFunction
 {
+  /// Get the minimum month that we cannot go past.
+  var minimumMonth: NNCalendar.Month { get }
+
+  /// Get the maximum month that we cannot go past.
+  var maximumMonth: NNCalendar.Month { get }
+
   /// Stream the initial month.
   var initialMonthStream: Single<NNCalendar.Month> { get }
 }
@@ -53,14 +59,25 @@ extension NNCalendar.MonthControl.Model: NNMonthAwareNoDefaultModelFunction {
   }
 }
 
+// MARK: - NNMonthControlNoDefaultFunction
+extension NNCalendar.MonthControl.Model: NNMonthControlNoDefaultFunction {
+  public var currentMonthReceiver: AnyObserver<NNCalendar.Month> {
+    return dependency.currentMonthReceiver
+  }
+}
+
 /// NNMonthControlNoDefaultModelFunction
 extension NNCalendar.MonthControl.Model: NNMonthControlNoDefaultModelFunction {
   public var initialMonthStream: Single<NNCalendar.Month> {
     return dependency.initialMonthStream
   }
 
-  public var currentMonthReceiver: AnyObserver<NNCalendar.Month> {
-    return dependency.currentMonthReceiver
+  public var minimumMonth: NNCalendar.Month {
+    return dependency.minimumMonth
+  }
+
+  public var maximumMonth: NNCalendar.Month {
+    return dependency.maximumMonth
   }
 }
 

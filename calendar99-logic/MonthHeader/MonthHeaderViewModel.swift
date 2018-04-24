@@ -13,6 +13,12 @@ public protocol NNMonthHeaderViewModelType: NNMonthControlViewModelType {
 
   /// Stream month descriptions to populate the month display label.
   var monthDescriptionStream: Observable<String> { get }
+
+  /// Emit an event whenever the user has reached the minimum month.
+  var reachedMinimumMonth: Observable<Bool> { get }
+
+  /// Emit an event whenever the user has reached the maximum month.
+  var reachedMaximumMonth: Observable<Bool> { get }
 }
 
 // MARK: - All bindings.
@@ -79,6 +85,16 @@ extension NNCalendar.MonthHeader.ViewModel: NNMonthControlViewModelType {
 
 // MARK: - NNMonthHeaderViewModelType
 extension NNCalendar.MonthHeader.ViewModel: NNMonthHeaderViewModelType {
+  public var reachedMinimumMonth: Observable<Bool> {
+    let minMonth = model.minimumMonth
+    return model.currentMonthStream.map({$0 == minMonth}).distinctUntilChanged()
+  }
+
+  public var reachedMaximumMonth: Observable<Bool> {
+    let maxMonth = model.maximumMonth
+    return model.currentMonthStream.map({$0 == maxMonth}).distinctUntilChanged()
+  }
+
   public var monthDescriptionStream: Observable<String> {
     return model.currentMonthStream
       .map({[weak self] in self?.model.formatMonthDescription($0)})

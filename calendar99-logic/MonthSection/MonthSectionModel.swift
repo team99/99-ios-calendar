@@ -20,14 +20,7 @@ public protocol NNMonthSectionDefaultModelFunction:
 /// have dependencies.
 public protocol NNMonthSectionNoDefaultModelFunction:
   NNMonthControlNoDefaultModelFunction,
-  NNSelectHighlightNoDefaultFunction
-{
-  /// Get the number of past months to include in the month data stream.
-  var pastMonthsFromCurrent: Int { get }
-
-  /// Get the number of future months to include in the month data stream.
-  var futureMonthsFromCurrent: Int { get }
-}
+  NNSelectHighlightNoDefaultFunction {}
 
 /// Dependency for month section model, which contains components that can have
 /// defaults.
@@ -112,14 +105,25 @@ extension NNCalendar.MonthSection.Model: NNMonthAwareNoDefaultModelFunction {
   }
 }
 
-// MARK: - NNMonthControlModelType
-extension NNCalendar.MonthSection.Model: NNMonthControlModelType {
+// MARK: - NNMonthControlNoDefaultFunction
+extension NNCalendar.MonthSection.Model: NNMonthControlNoDefaultFunction {
+  public var currentMonthReceiver: AnyObserver<NNCalendar.Month> {
+    return monthControlModel.currentMonthReceiver
+  }
+}
+
+// MARK: - NNMonthControlNoDefaultModelFunction
+extension NNCalendar.MonthSection.Model: NNMonthControlNoDefaultModelFunction {
   public var initialMonthStream: Single<NNCalendar.Month> {
     return monthControlModel.initialMonthStream
   }
 
-  public var currentMonthReceiver: AnyObserver<NNCalendar.Month> {
-    return monthControlModel.currentMonthReceiver
+  public var minimumMonth: NNCalendar.Month {
+    return monthControlModel.minimumMonth
+  }
+
+  public var maximumMonth: NNCalendar.Month {
+    return monthControlModel.maximumMonth
   }
 }
 
@@ -146,17 +150,6 @@ extension NNCalendar.MonthSection.Model: NNSingleDaySelectionNoDefaultFunction {
 extension NNCalendar.MonthSection.Model: NNSelectHighlightNoDefaultFunction {
   public func highlightPart(_ date: Date) -> NNCalendar.HighlightPart {
     return dependency.highlightPart(date)
-  }
-}
-
-// MARK: - NNMonthSectionNoDefaultModelFunction
-extension NNCalendar.MonthSection.Model: NNMonthSectionNoDefaultModelFunction {
-  public var pastMonthsFromCurrent: Int {
-    return dependency.pastMonthsFromCurrent
-  }
-
-  public var futureMonthsFromCurrent: Int {
-    return dependency.futureMonthsFromCurrent
   }
 }
 
@@ -197,9 +190,9 @@ extension NNCalendar.MonthSection.Model {
   /// Default dependency for month section model.
   final class DefaultDependency: NNMonthSectionModelDependency {
     var weekdayStacks: Int { return monthGridDp.weekdayStacks }
-    var pastMonthsFromCurrent: Int { return noDefault.pastMonthsFromCurrent }
-    var futureMonthsFromCurrent: Int { return noDefault.futureMonthsFromCurrent }
     var firstWeekday: Int { return daySelectionDp.firstWeekday }
+    var minimumMonth: NNCalendar.Month { return noDefault.minimumMonth }
+    var maximumMonth: NNCalendar.Month { return noDefault.maximumMonth }
 
     var initialMonthStream: Single<NNCalendar.Month> {
       return noDefault.initialMonthStream

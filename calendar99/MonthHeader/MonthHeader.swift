@@ -44,34 +44,22 @@ public final class NNMonthHeaderView: UIView {
 
   /// Set all dependencies here.
   public var dependency: Dependency? {
-    get { return nil }
-    
-    set {
-      self.viewModel = newValue?.0
-      self.decorator = newValue?.1
-      didSetViewModel()
+    willSet {
+      #if DEBUG
+      if dependency != nil {
+        fatalError("Cannot mutate!")
+      }
+      #endif
+    }
+
+    didSet {
+      bindViewModel()
+      setupViewsWithDecorator()
     }
   }
   
-  fileprivate var viewModel: ViewModel? {
-    willSet {
-      #if DEBUG
-      if viewModel != nil {
-        fatalError("Cannot mutate view model!")
-      }
-      #endif
-    }
-  }
-
-  fileprivate var decorator: Decorator? {
-    willSet {
-      #if DEBUG
-      if decorator != nil {
-        fatalError("Cannot mutate decorator!")
-      }
-      #endif
-    }
-  }
+  fileprivate var viewModel: ViewModel? { return dependency?.0 }
+  fileprivate var decorator: Decorator? { return dependency?.1 }
 
   fileprivate lazy var disposable: DisposeBag = DisposeBag()
   fileprivate lazy var initialized = false
@@ -102,10 +90,6 @@ public final class NNMonthHeaderView: UIView {
     initialized = true
     setupViews()
   }
-
-  private func didSetViewModel() {
-    bindViewModel()
-  }
 }
 
 // MARK: - Views
@@ -114,8 +98,6 @@ public extension NNMonthHeaderView {
     let bundle = Bundle(for: NNMonthHeaderView.classForCoder())
 
     guard
-      let decorator = self.decorator,
-      let monthDescriptionLbl = self.monthLbl,
       let backwardImg = self.backwardImg,
       let forwardImg = self.forwardImg,
       let backwardIcon = UIImage(named: "backward", in: bundle, compatibleWith: nil)?
@@ -134,11 +116,20 @@ public extension NNMonthHeaderView {
       .withRenderingMode(.alwaysTemplate)
 
     backwardImg.image = backwardIcon
-    backwardImg.tintColor = decorator.navigationButtonTintColor
     forwardImg.image = forwardIcon
-    forwardImg.tintColor = decorator.navigationButtonTintColor
-    monthDescriptionLbl.textColor = decorator.monthDescriptionTextColor
-    monthDescriptionLbl.font = decorator.monthDescriptionFont
+  }
+
+  fileprivate func setupViewsWithDecorator() {
+    guard let decorator = self.decorator, let monthLbl = self.monthLbl else {
+      #if DEBUG
+      fatalError("Properties cannot be nil")
+      #else
+      return
+      #endif
+    }
+
+    monthLbl.textColor = decorator.monthDescriptionTextColor
+    monthLbl.font = decorator.monthDescriptionFont
   }
 }
 
@@ -149,9 +140,12 @@ public extension NNMonthHeaderView {
   fileprivate func bindViewModel() {
     guard
       let viewModel = self.viewModel,
+      let decorator = self.decorator,
       let monthLbl = self.monthLbl,
       let backwardBtn = self.backwardBtn,
-      let forwardBtn = self.forwardBtn else
+      let backwardImg = self.backwardImg,
+      let forwardBtn = self.forwardBtn,
+      let forwardImg = self.forwardImg else
     {
       #if DEBUG
       fatalError("Properties cannot be nil")
@@ -163,12 +157,39 @@ public extension NNMonthHeaderView {
     let disposable = self.disposable
     viewModel.setupAllBindingsAndSubBindings()
 
+    let navButtonTint = decorator.navigationButtonTintColor
+    let navButtonDisabledTint = decorator.navigationButtonDisabledTintColor
+    let reachedMinStream = viewModel.reachedMinimumMonth.share(replay: 1)
+    let reachedMaxStream = viewModel.reachedMaximumMonth.share(replay: 1)
+
     backwardBtn.rx.tap.map({1})
       .bind(to: viewModel.currentMonthBackwardReceiver)
       .disposed(by: disposable)
 
+    reachedMinStream.map({!$0})
+      .observeOn(MainScheduler.instance)
+      .bind(to: backwardBtn.rx.isEnabled)
+      .disposed(by: disposable)
+
+    reachedMinStream
+      .map({$0 ? navButtonDisabledTint : navButtonTint})
+      .observeOn(MainScheduler.instance)
+      .bind(onNext: {[weak backwardImg] in backwardImg?.tintColor = $0})
+      .disposed(by: disposable)
+
     forwardBtn.rx.tap.map({1})
       .bind(to: viewModel.currentMonthForwardReceiver)
+      .disposed(by: disposable)
+
+    reachedMaxStream.map({!$0})
+      .observeOn(MainScheduler.instance)
+      .bind(to: forwardBtn.rx.isEnabled)
+      .disposed(by: disposable)
+
+    reachedMaxStream
+      .map({$0 ? navButtonDisabledTint : navButtonTint})
+      .observeOn(MainScheduler.instance)
+      .bind(onNext: {[weak forwardImg] in forwardImg?.tintColor = $0})
       .disposed(by: disposable)
 
     viewModel.monthDescriptionStream
