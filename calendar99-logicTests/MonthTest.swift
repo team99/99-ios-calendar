@@ -78,4 +78,17 @@ public final class MonthTest: RootTest {
       }
     }
   }
+
+  public func test_compareMonths_shouldWork() {
+    for _ in 0..<iterations! {
+      /// Setup
+      let month1 = NNCalendar.Month(Date.random()!)
+      let month2 = NNCalendar.Month(Date.random()!)
+      let date1 = month1.date!
+      let date2 = month2.date!
+
+      /// When && Then
+      XCTAssertEqual(month1 >= month2, date1 >= date2)
+    }
+  }
 }

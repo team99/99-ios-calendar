@@ -78,7 +78,7 @@ public extension NNCalendar {
   /// Represents a month that can be controlled by the user. This is used
   /// throughout the library, esp. by the month header (whereby there are
   // forward and backward arrows to control the currently selected month).
-  public struct Month: Equatable {
+  public struct Month: Comparable {
     public let month: Int
     public let year: Int
 
@@ -88,6 +88,14 @@ public extension NNCalendar {
       hash = hash * 29 + month.hashValue
       hash = hash * 29 + year.hashValue
       return hash
+    }
+
+    public var date: Date? {
+      let calendar = Calendar.current
+      var components = DateComponents()
+      components.setValue(month, for: .month)
+      components.setValue(year, for: .year)
+      return calendar.date(from: components)
     }
 
     public init(_ month: Int, _ year: Int) {
@@ -188,6 +196,10 @@ public extension NNCalendar {
 
     public static func ==(_ lhs: Month, _ rhs: Month) -> Bool {
       return lhs.month == rhs.month && lhs.year == rhs.year
+    }
+
+    public static func <(_ lhs: Month, _ rhs: Month) -> Bool {
+      return lhs.monthOffset(from: rhs) < 0
     }
   }
 }
