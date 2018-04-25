@@ -218,15 +218,18 @@ public extension NNCalendar.MonthDisplay.Model {
     private let noDefault: NNMonthDisplayNoDefaultModelDependency
     private let monthGridDp: NNMonthGridModelDependency
     private let daySelectionDp: NNSingleDaySelectionModelDependency
-    private let dateCalc: NNCalendar.DateCalc.Default
+    private let highlightCalc: NNCalendar.DateCalc.HighlightPart
 
     public init(_ dependency: NNMonthDisplayNoDefaultModelDependency) {
       noDefault = dependency
       monthGridDp = NNCalendar.MonthGrid.Model.DefaultDependency()
       daySelectionDp = NNCalendar.DaySelection.Model.DefaultDependency(dependency)
 
-      dateCalc = NNCalendar.DateCalc.Default(
-        monthGridDp.weekdayStacks, daySelectionDp.firstWeekday)
+      let dateCalc = NNCalendar.DateCalc
+        .Default(monthGridDp.weekdayStacks, daySelectionDp.firstWeekday)
+
+      highlightCalc = NNCalendar.DateCalc
+        .HighlightPart(dateCalc, monthGridDp.weekdayStacks)
     }
 
     public func isDateSelected(_ date: Date) -> Bool {
@@ -242,7 +245,7 @@ public extension NNCalendar.MonthDisplay.Model {
                                      _ current: Set<NNCalendar.Selection>)
       -> Set<NNCalendar.GridPosition>
     {
-      return dateCalc.gridSelectionChanges(monthComp, prev, current)
+      return highlightCalc.gridSelectionChanges(monthComp, prev, current)
     }
   }
 }
