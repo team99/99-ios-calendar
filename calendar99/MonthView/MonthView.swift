@@ -88,7 +88,7 @@ extension NNMonthView: UICollectionViewDelegateFlowLayout {
                              sizeForItemAt indexPath: IndexPath) -> CGSize {
     let cHeight = collectionView.bounds.height
     let cWidth = collectionView.bounds.width
-    let weekdays = NNCalendar.Util.weekdayCount
+    let weekdays = NNCalendarLogic.Util.weekdayCount
 
     return viewModel
       .map({(cWidth / CGFloat(weekdays), cHeight / CGFloat($0.weekdayStacks))})
@@ -118,7 +118,7 @@ public extension NNMonthView {
 
 // MARK: - Data source.
 public extension NNMonthView {
-  typealias Section = AnimatableSectionModel<String, NNCalendar.Day>
+  typealias Section = AnimatableSectionModel<String, NNCalendarLogic.Day>
   typealias CVSource = CollectionViewSectionedDataSource<Section>
   typealias RxDataSource = RxCollectionViewSectionedAnimatedDataSource<Section>
 
@@ -214,7 +214,7 @@ public extension NNMonthView {
       .disposed(by: disposable)
 
     self.rx.itemSelected
-      .map({NNCalendar.GridPosition(0, $0.row)})
+      .map({NNCalendarLogic.GridPosition(0, $0.row)})
       .bind(to: viewModel.gridSelectionReceiver)
       .disposed(by: disposable)
 
@@ -227,7 +227,7 @@ public extension NNMonthView {
   }
 }
 
-extension NNCalendar.Day: IdentifiableType {
+extension NNCalendarLogic.Day: IdentifiableType {
   public typealias Identity = String
 
   public var identity: Identity {

@@ -7,14 +7,14 @@
 //
 
 // MARK: - Utilities
-public extension NNCalendar {
+public extension NNCalendarLogic {
 
   /// Utilities for calendar views.
   public final class Util {}
 }
 
 // MARK: - Connect selection
-public extension NNCalendar.Util {
+public extension NNCalendarLogic.Util {
 
   /// Get the number of days in a week.
   public static var weekdayCount: Int { return 7 }
@@ -34,7 +34,7 @@ public extension NNCalendar.Util {
   ///
   /// - Parameter month: A Month instance.
   /// - Returns: A String value.
-  public static func defaultMonthDescription(_ month: NNCalendar.Month) -> String {
+  public static func defaultMonthDescription(_ month: NNCalendarLogic.Month) -> String {
     let components = month.dateComponents()
     let date = Calendar.current.date(from: components)!
     let dateFormatter = DateFormatter()
@@ -49,13 +49,13 @@ public extension NNCalendar.Util {
   ///   - firstWeekday: The first weekday in a week.
   ///   - weekdayStacks: The number of weekday stacks in a grid.
   /// - Returns: An Array of Date.
-  public static func dateRange(_ month: NNCalendar.Month,
+  public static func dateRange(_ month: NNCalendarLogic.Month,
                                _ firstWeekday: Int,
                                _ weekdayStacks: Int) -> [Date] {
     let calendar = Calendar.current
-    let weekdays = NNCalendar.Util.weekdayCount
+    let weekdays = NNCalendarLogic.Util.weekdayCount
 
-    return NNCalendar.Util.firstDateWithWeekday(month, firstWeekday)
+    return NNCalendarLogic.Util.firstDateWithWeekday(month, firstWeekday)
       .map({(date: Date) -> [Date] in (0..<weekdayStacks * weekdays).flatMap({
         return calendar.date(byAdding: .day, value: $0, to: date)
       })})
@@ -68,8 +68,8 @@ public extension NNCalendar.Util {
   ///   - minMonth: The minimum Month.
   ///   - maxMonth: The maximum Month.
   /// - Returns: An Array of Month.
-  public static func monthRange(_ minMonth: NNCalendar.Month,
-                                _ maxMonth: NNCalendar.Month) -> [NNCalendar.Month] {
+  public static func monthRange(_ minMonth: NNCalendarLogic.Month,
+                                _ maxMonth: NNCalendarLogic.Month) -> [NNCalendarLogic.Month] {
     guard minMonth <= maxMonth else { return [] }
     let monthOffset = maxMonth.monthOffset(from: minMonth)
     return (0...monthOffset).flatMap({minMonth.with(monthOffset: $0)})
@@ -81,8 +81,8 @@ public extension NNCalendar.Util {
   ///   - minMonth: The minimum Month.
   ///   - maxMonth: The maximum Month.
   /// - Returns: An Int value.
-  public static func monthCount(_ minMonth: NNCalendar.Month,
-                                _ maxMonth: NNCalendar.Month) -> Int {
+  public static func monthCount(_ minMonth: NNCalendarLogic.Month,
+                                _ maxMonth: NNCalendarLogic.Month) -> Int {
     return Swift.max(maxMonth.monthOffset(from: minMonth) + 1, 0)
   }
 
@@ -94,12 +94,12 @@ public extension NNCalendar.Util {
   ///   - firstWeekday: The first weekday in a week.
   ///   - firstDateOffset: The offset from the first date in the grid.
   /// - Returns: A Date instance.
-  public static func dateWithOffset(_ month: NNCalendar.Month,
+  public static func dateWithOffset(_ month: NNCalendarLogic.Month,
                                     _ firstWeekday: Int,
                                     _ firstDateOffset: Int) -> Date? {
     let calendar = Calendar.current
     
-    return NNCalendar.Util.firstDateWithWeekday(month, firstWeekday).flatMap({
+    return NNCalendarLogic.Util.firstDateWithWeekday(month, firstWeekday).flatMap({
       return calendar.date(byAdding: .day, value: firstDateOffset, to: $0)
     })
   }
@@ -110,7 +110,7 @@ public extension NNCalendar.Util {
   ///   - month: A Month instance.
   ///   - weekday: An Int value representing a weekday.
   /// - Returns: A Date instance.
-  public static func firstDateWithWeekday(_ month: NNCalendar.Month,
+  public static func firstDateWithWeekday(_ month: NNCalendarLogic.Month,
                                           _ weekday: Int) -> Date? {
     let calendar = Calendar.current
     let dateComponents = month.dateComponents()
@@ -162,16 +162,16 @@ public extension NNCalendar.Util {
   ///   - selections: The current selections.
   ///   - date: A Date instance.
   /// - Returns: A HighlightPart instance.
-  public static func highlightPart(_ selections: Set<NNCalendar.Selection>,
+  public static func highlightPart(_ selections: Set<NNCalendarLogic.Selection>,
                                    _ date: Date)
-    -> NNCalendar.HighlightPart
+    -> NNCalendarLogic.HighlightPart
   {
     guard selections.contains(where: {$0.contains(date)}) else {
       return .none
     }
     
     let calendar = Calendar.current
-    var flags: NNCalendar.HighlightPart?
+    var flags: NNCalendarLogic.HighlightPart?
 
     if
       let nextDate = calendar.date(byAdding: .day, value: 1, to: date),

@@ -18,5 +18,5 @@ public protocol NNMonthAwareDefaultModelFunction {}
 public protocol NNMonthAwareNoDefaultModelFunction {
 
   /// Stream the current selected components.
-  var currentMonthStream: Observable<NNCalendar.Month> { get }
+  var currentMonthStream: Observable<NNCalendarLogic.Month> { get }
 }

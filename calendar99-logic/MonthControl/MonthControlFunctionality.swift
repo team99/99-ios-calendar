@@ -17,5 +17,5 @@ public protocol NNMonthControlDefaultFunction {}
 public protocol NNMonthControlNoDefaultFunction {
   
   /// Receive the current month and push it somewhere for external streaming.
-  var currentMonthReceiver: AnyObserver<NNCalendar.Month> { get }
+  var currentMonthReceiver: AnyObserver<NNCalendarLogic.Month> { get }
 }

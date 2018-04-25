@@ -33,11 +33,11 @@ public class RootTest: XCTestCase {
 extension RootTest: CommonTestProtocol {}
 
 public extension RootTest {
-  public var minimumMonth: NNCalendar.Month {
-    return NNCalendar.Month(1, 1970)
+  public var minimumMonth: NNCalendarLogic.Month {
+    return NNCalendarLogic.Month(1, 1970)
   }
 
-  public var maximumMonth: NNCalendar.Month {
-    return NNCalendar.Month(12, 3000)
+  public var maximumMonth: NNCalendarLogic.Month {
+    return NNCalendarLogic.Month(12, 3000)
   }
 }

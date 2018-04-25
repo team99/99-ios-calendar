@@ -27,7 +27,7 @@ public protocol NNMonthGridModelType:
   NNMonthGridNoDefaultModelDependency {}
 
 // MARK: - Model.
-public extension NNCalendar.MonthGrid {
+public extension NNCalendarLogic.MonthGrid {
 
   /// Model implementation.
   public final class Model {
@@ -45,23 +45,23 @@ public extension NNCalendar.MonthGrid {
 }
 
 // MARK: - NNGridDisplayDefaultFunction
-extension NNCalendar.MonthGrid.Model: NNGridDisplayDefaultFunction {
+extension NNCalendarLogic.MonthGrid.Model: NNGridDisplayDefaultFunction {
   public var weekdayStacks: Int {
     return dependency.weekdayStacks
   }
 }
 
 // MARK: - NNMonthGridModelType
-extension NNCalendar.MonthGrid.Model: NNMonthGridModelType {}
+extension NNCalendarLogic.MonthGrid.Model: NNMonthGridModelType {}
 
 // MARK: - Default dependency.
-public extension NNCalendar.MonthGrid.Model {
+public extension NNCalendarLogic.MonthGrid.Model {
   public final class DefaultDependency: NNMonthGridModelDependency {
     public var weekdayStacks: Int { return gridDisplayDp.weekdayStacks }
     private let gridDisplayDp: NNMGridDisplayModelDependency
 
     public init() {
-      gridDisplayDp = NNCalendar.GridDisplay.Model.DefaultDependency()
+      gridDisplayDp = NNCalendarLogic.GridDisplay.Model.DefaultDependency()
     }
   }
 }

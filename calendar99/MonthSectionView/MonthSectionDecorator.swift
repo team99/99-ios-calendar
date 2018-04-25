@@ -24,6 +24,6 @@ public protocol NNMonthSectionDecoratorType {
   ///   - indexPath: An IndexPath instance.
   ///   - item: A Day instance.
   /// - Returns: A NNDateCellDecoratorType instance.
-  func dateCellDecorator(_ indexPath: IndexPath, _ item: NNCalendar.Day)
+  func dateCellDecorator(_ indexPath: IndexPath, _ item: NNCalendarLogic.Day)
     -> NNDateCellDecoratorType
 }

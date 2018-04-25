@@ -15,8 +15,8 @@ public final class SelectionTest: RootTest {}
 public extension SelectionTest {
   public func test_defaultSelection_shouldWorkd() {
     /// Setup
-    let selection1 = NNCalendar.Selection()
-    let selection2 = NNCalendar.Selection()
+    let selection1 = NNCalendarLogic.Selection()
+    let selection2 = NNCalendarLogic.Selection()
 
     /// When & Then
     XCTAssertEqual(selection1, selection2)
@@ -36,19 +36,19 @@ public extension SelectionTest {
 
     /// When
     for _ in 0..<iterations! {
-      let month = NNCalendar.Month(Date.random()!)
+      let month = NNCalendarLogic.Month(Date.random()!)
 
       let monthComps = (0..<100)
         .map({month.with(monthOffset: $0)!})
-        .map({NNCalendar.MonthComp($0, 42, 1)})
+        .map({NNCalendarLogic.MonthComp($0, 42, 1)})
 
       for weekday in 1...6 {
         let weekday1 = weekday
         let weekday2 = weekday + 1
-        let s1 = NNCalendar.RepeatWeekdaySelection(weekday1, firstWeekday)
-        let s2 = NNCalendar.RepeatWeekdaySelection(weekday2, firstWeekday)
-        let date1 = NNCalendar.Util.firstDateWithWeekday(month, weekday1)!
-        let date2 = NNCalendar.Util.firstDateWithWeekday(month, weekday2)!
+        let s1 = NNCalendarLogic.RepeatWeekdaySelection(weekday1, firstWeekday)
+        let s2 = NNCalendarLogic.RepeatWeekdaySelection(weekday2, firstWeekday)
+        let date1 = NNCalendarLogic.Util.firstDateWithWeekday(month, weekday1)!
+        let date2 = NNCalendarLogic.Util.firstDateWithWeekday(month, weekday2)!
         let position1 = s1.gridPosition(monthComps, 0)
         let position2 = s2.gridPosition(monthComps, 0)
 

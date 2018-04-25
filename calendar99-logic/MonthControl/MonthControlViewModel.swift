@@ -24,7 +24,7 @@ public protocol NNMonthControlViewModelType:
   func setupMonthControlBindings()
 }
 
-public extension NNCalendar.MonthControl {
+public extension NNCalendarLogic.MonthControl {
   
   /// Month control view model implementation.
   public final class ViewModel {
@@ -41,14 +41,14 @@ public extension NNCalendar.MonthControl {
 }
 
 // MARK: - NNMonthControlNoDefaultFunction
-extension NNCalendar.MonthControl.ViewModel: NNMonthControlNoDefaultFunction {
-  public var currentMonthReceiver: AnyObserver<NNCalendar.Month> {
+extension NNCalendarLogic.MonthControl.ViewModel: NNMonthControlNoDefaultFunction {
+  public var currentMonthReceiver: AnyObserver<NNCalendarLogic.Month> {
     return model.currentMonthReceiver
   }
 }
 
 // MARK: - NNMonthControlViewModelType
-extension NNCalendar.MonthControl.ViewModel: NNMonthControlViewModelType {
+extension NNCalendarLogic.MonthControl.ViewModel: NNMonthControlViewModelType {
   public var currentMonthForwardReceiver: AnyObserver<UInt> {
     return currentMonthMovementSb.mapObserver(MonthDirection.forward)
   }

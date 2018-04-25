@@ -14,23 +14,23 @@ import XCTest
 
 /// Tests for single day selection view model.
 public final class SingleDaySelectionTest: RootTest {
-  fileprivate var model: NNCalendar.DaySelection.Model!
-  fileprivate var viewModel: NNCalendar.DaySelection.ViewModel!
-  fileprivate var allSelectionSb: BehaviorSubject<Try<Set<NNCalendar.Selection>>>!
-  fileprivate var defaultModelDp: NNCalendar.DaySelection.Model.DefaultDependency!
+  fileprivate var model: NNCalendarLogic.DaySelect.Model!
+  fileprivate var viewModel: NNCalendarLogic.DaySelect.ViewModel!
+  fileprivate var allSelectionSb: BehaviorSubject<Try<Set<NNCalendarLogic.Selection>>>!
+  fileprivate var defaultModelDp: NNCalendarLogic.DaySelect.Model.DefaultDependency!
 
   override public func setUp() {
     super.setUp()
-    model = NNCalendar.DaySelection.Model(self)
-    viewModel = NNCalendar.DaySelection.ViewModel(model!)
+    model = NNCalendarLogic.DaySelect.Model(self)
+    viewModel = NNCalendarLogic.DaySelect.ViewModel(model!)
     allSelectionSb = BehaviorSubject(value: Try.failure(""))
-    defaultModelDp = NNCalendar.DaySelection.Model.DefaultDependency(self)
+    defaultModelDp = NNCalendarLogic.DaySelect.Model.DefaultDependency(self)
   }
 }
 
 public extension SingleDaySelectionTest {
   public func test_defaultDependencies_shouldWork() {
-    let model1 = NNCalendar.DaySelection.Model(defaultModelDp)
+    let model1 = NNCalendarLogic.DaySelect.Model(defaultModelDp)
     XCTAssertEqual(model!.firstWeekday, model1.firstWeekday)
   }
 
@@ -69,11 +69,11 @@ extension SingleDaySelectionTest: NNSingleDaySelectionNoDefaultModelDependency {
     return firstWeekdayForTest!
   }
 
-  public var allSelectionReceiver: AnyObserver<Set<NNCalendar.Selection>> {
+  public var allSelectionReceiver: AnyObserver<Set<NNCalendarLogic.Selection>> {
     return allSelectionSb.mapObserver(Try.success)
   }
 
-  public var allSelectionStream: Observable<Try<Set<NNCalendar.Selection>>> {
+  public var allSelectionStream: Observable<Try<Set<NNCalendarLogic.Selection>>> {
     return allSelectionSb.asObservable()
   }
 

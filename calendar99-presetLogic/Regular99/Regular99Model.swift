@@ -54,16 +54,16 @@ public extension NNCalendarPreset.Regular99 {
     }
 
     convenience public init(_ dependency: NNRegular99CalendarModelDependency) {
-      let monthHeaderModel = NNCalendar.MonthHeader.Model(dependency)
-      let monthSectionModel = NNCalendar.MonthSection.Model(dependency)
-      let selectableWdModel = NNCalendar.SelectWeekday.Model(dependency)
+      let monthHeaderModel = NNCalendarLogic.MonthHeader.Model(dependency)
+      let monthSectionModel = NNCalendarLogic.MonthSection.Model(dependency)
+      let selectableWdModel = NNCalendarLogic.SelectWeekday.Model(dependency)
       self.init(monthHeaderModel, monthSectionModel, selectableWdModel)
     }
 
     convenience public init(_ dependency: NNRegular99CalendarNoDefaultModelDependency) {
-      let monthHeaderModel = NNCalendar.MonthHeader.Model(dependency)
-      let monthSectionModel = NNCalendar.MonthSection.Model(dependency)
-      let selectableWdModel = NNCalendar.SelectWeekday.Model(dependency)
+      let monthHeaderModel = NNCalendarLogic.MonthHeader.Model(dependency)
+      let monthSectionModel = NNCalendarLogic.MonthSection.Model(dependency)
+      let selectableWdModel = NNCalendarLogic.SelectWeekday.Model(dependency)
       self.init(monthHeaderModel, monthSectionModel, selectableWdModel)
     }
   }
@@ -78,54 +78,54 @@ extension NNCalendarPreset.Regular99.Model: NNGridDisplayDefaultFunction {
 
 // MARK: - NNMonthAwareNoDefaultModelFunction
 extension NNCalendarPreset.Regular99.Model: NNMonthAwareNoDefaultModelFunction {
-  public var currentMonthStream: Observable<NNCalendar.Month> {
+  public var currentMonthStream: Observable<NNCalendarLogic.Month> {
     return monthSectionModel.currentMonthStream
   }
 }
 
 // MARK: - NNMonthControlNoDefaultFunction
 extension NNCalendarPreset.Regular99.Model: NNMonthControlNoDefaultFunction {
-  public var currentMonthReceiver: AnyObserver<NNCalendar.Month> {
+  public var currentMonthReceiver: AnyObserver<NNCalendarLogic.Month> {
     return monthSectionModel.currentMonthReceiver
   }
 }
 
 // MARK: - NNMonthControlNoDefaultModelFunction
 extension NNCalendarPreset.Regular99.Model: NNMonthControlNoDefaultModelFunction {
-  public var initialMonthStream: PrimitiveSequence<SingleTrait, NNCalendar.Month> {
+  public var initialMonthStream: PrimitiveSequence<SingleTrait, NNCalendarLogic.Month> {
     return monthSectionModel.initialMonthStream
   }
 
-  public var minimumMonth: NNCalendar.Month {
+  public var minimumMonth: NNCalendarLogic.Month {
     return monthSectionModel.minimumMonth
   }
 
-  public var maximumMonth: NNCalendar.Month {
+  public var maximumMonth: NNCalendarLogic.Month {
     return monthSectionModel.maximumMonth
   }
 }
 
 // MARK: - NNSelectHighlightNoDefaultFunction
 extension NNCalendarPreset.Regular99.Model: NNSelectHighlightNoDefaultFunction {
-  public func highlightPart(_ date: Date) -> NNCalendar.HighlightPart {
+  public func highlightPart(_ date: Date) -> NNCalendarLogic.HighlightPart {
     return monthSectionModel.highlightPart(date)
   }
 }
 
 // MARK: - NNMonthHeaderNoDefaultModelFunction
 extension NNCalendarPreset.Regular99.Model: NNMonthHeaderDefaultModelFunction {
-  public func formatMonthDescription(_ month: NNCalendar.Month) -> String {
+  public func formatMonthDescription(_ month: NNCalendarLogic.Month) -> String {
     return monthHeaderModel.formatMonthDescription(month)
   }
 }
 
 // MARK: - NNMultiDaySelectionNoDefaultFunction
 extension NNCalendarPreset.Regular99.Model: NNMultiDaySelectionNoDefaultFunction {
-  public var allSelectionReceiver: AnyObserver<Set<NNCalendar.Selection>> {
+  public var allSelectionReceiver: AnyObserver<Set<NNCalendarLogic.Selection>> {
     return monthSectionModel.allSelectionReceiver
   }
 
-  public var allSelectionStream: Observable<Try<Set<NNCalendar.Selection>>> {
+  public var allSelectionStream: Observable<Try<Set<NNCalendarLogic.Selection>>> {
     return monthSectionModel.allSelectionStream
   }
 }
@@ -139,11 +139,11 @@ extension NNCalendarPreset.Regular99.Model: NNSingleDaySelectionNoDefaultFunctio
 
 // MARK: - NNMultiMonthGridSelectionCalculator
 extension NNCalendarPreset.Regular99.Model: NNMultiMonthGridSelectionCalculator {
-  public func gridSelectionChanges(_ monthComps: [NNCalendar.MonthComp],
-                                   _ currentMonth: NNCalendar.Month,
-                                   _ prev: Set<NNCalendar.Selection>,
-                                   _ current: Set<NNCalendar.Selection>)
-    -> Set<NNCalendar.GridPosition>
+  public func gridSelectionChanges(_ monthComps: [NNCalendarLogic.MonthComp],
+                                   _ currentMonth: NNCalendarLogic.Month,
+                                   _ prev: Set<NNCalendarLogic.Selection>,
+                                   _ current: Set<NNCalendarLogic.Selection>)
+    -> Set<NNCalendarLogic.GridPosition>
   {
     return monthSectionModel
       .gridSelectionChanges(monthComps, currentMonth, prev, current)
@@ -166,8 +166,8 @@ extension NNCalendarPreset.Regular99.Model: NNWeekdayDisplayDefaultModelFunction
 
 // MARK: - NNMonthSectionNoDefaultModelDependency
 extension NNCalendarPreset.Regular99.Model: NNMonthSectionNoDefaultModelDependency {
-  public func dayFromFirstDate(_ month: NNCalendar.Month,
-                               _ firstDateOffset: Int) -> NNCalendar.Day? {
+  public func dayFromFirstDate(_ month: NNCalendarLogic.Month,
+                               _ firstDateOffset: Int) -> NNCalendarLogic.Day? {
     return monthSectionModel.dayFromFirstDate(month, firstDateOffset)
   }
 }

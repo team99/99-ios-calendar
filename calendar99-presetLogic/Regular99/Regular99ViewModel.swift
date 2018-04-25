@@ -37,21 +37,21 @@ public extension NNCalendarPreset.Regular99 {
 // MARK: - NNMonthHeaderViewModelFactory
 extension NNCalendarPreset.Regular99.ViewModel: NNMonthHeaderViewModelFactory {
   public func monthHeaderViewModel() -> NNMonthHeaderViewModelType {
-    return NNCalendar.MonthHeader.ViewModel(model)
+    return NNCalendarLogic.MonthHeader.ViewModel(model)
   }
 }
 
 // MARK: - NNMonthSectionViewModelFactory
 extension NNCalendarPreset.Regular99.ViewModel: NNMonthSectionViewModelFactory {
   public func monthSectionViewModel() -> NNMonthSectionViewModelType {
-    return NNCalendar.MonthSection.ViewModel(model)
+    return NNCalendarLogic.MonthSection.ViewModel(model)
   }
 }
 
 // MARK: - NNSelectWeekdayViewModelFactory
 extension NNCalendarPreset.Regular99.ViewModel: NNSelectWeekdayViewModelFactory {
   public func selectableWeekdayViewModel() -> NNSelectWeekdayViewModelType {
-    return NNCalendar.SelectWeekday.ViewModel(model)
+    return NNCalendarLogic.SelectWeekday.ViewModel(model)
   }
 }
 

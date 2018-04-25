@@ -25,7 +25,7 @@ enum MonthDirection {
 }
 
 // MARK: - GridPosition.
-public extension NNCalendar {
+public extension NNCalendarLogic {
 
   /// Represents a month-grid position. A GridPosition comprises the month index
   /// (with which we can identify the particular Month in question in a Month
@@ -73,7 +73,7 @@ public extension NNCalendar {
 }
 
 // MARK: - Month.
-public extension NNCalendar {
+public extension NNCalendarLogic {
 
   /// Represents a month that can be controlled by the user. This is used
   /// throughout the library, esp. by the month header (whereby there are
@@ -142,7 +142,7 @@ public extension NNCalendar {
         .flatMap({calendar.date(byAdding: componentOffset, to: $0)})
         .flatMap({(calendar.component(.month, from: $0),
                    calendar.component(.year, from: $0))})
-        .map({NNCalendar.Month($0, $1)})
+        .map({NNCalendarLogic.Month($0, $1)})
     }
 
     /// Get the difference between the current month and a specified month in
@@ -205,7 +205,7 @@ public extension NNCalendar {
 }
 
 // MARK: - Days.
-public extension NNCalendar {
+public extension NNCalendarLogic {
 
   /// Represents a container for dates that can be used to display on the month
   /// view and month section view.
@@ -220,7 +220,7 @@ public extension NNCalendar {
     public fileprivate(set) var isSelected: Bool
 
     /// This is used for highlighting date selections.
-    public fileprivate(set) var highlightPart: NNCalendar.HighlightPart
+    public fileprivate(set) var highlightPart: NNCalendarLogic.HighlightPart
 
     /// Check if this Day is today.
     public var isToday: Bool {
@@ -261,7 +261,7 @@ public extension NNCalendar {
     }
 
     /// Copy the current day, but change its highlight part.
-    public func with(highlightPart: NNCalendar.HighlightPart) -> Day {
+    public func with(highlightPart: NNCalendarLogic.HighlightPart) -> Day {
       var day = self
       day.highlightPart = highlightPart
       return day
@@ -283,7 +283,7 @@ public extension NNCalendar {
 }
 
 /// Weekdays.
-public extension NNCalendar {
+public extension NNCalendarLogic {
 
   /// Represents a weekday.
   public struct Weekday: Equatable, CustomStringConvertible {
@@ -302,7 +302,7 @@ public extension NNCalendar {
 }
 
 // MARK: - Months.
-public extension NNCalendar {
+public extension NNCalendarLogic {
 
   /// Represents a container for months that can be used to display on the month
   /// section view. Each month component will have a number of Days (generally
@@ -359,7 +359,7 @@ public extension NNCalendar {
 }
 
 // MARK: - Highlight part flags.
-public extension NNCalendar {
+public extension NNCalendarLogic {
 
   /// Use this to perform custom selection highlights when selecting dates.
   public struct HighlightPart: OptionSet {

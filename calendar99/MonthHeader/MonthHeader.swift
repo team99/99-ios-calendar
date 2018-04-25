@@ -66,12 +66,12 @@ public final class NNMonthHeaderView: UIView {
 
   required public init?(coder aDecoder: NSCoder) {
     super.init(coder: aDecoder)
-    NNCalendar.ViewUtil.initializeWithNib(view: self, "MonthHeader")
+    NNCalendarLogic.ViewUtil.initializeWithNib(view: self, "MonthHeader")
   }
 
   override public init(frame: CGRect) {
     super.init(frame: frame)
-    NNCalendar.ViewUtil.initializeWithNib(view: self, "MonthHeader")
+    NNCalendarLogic.ViewUtil.initializeWithNib(view: self, "MonthHeader")
   }
 
   override public func layoutSubviews() {

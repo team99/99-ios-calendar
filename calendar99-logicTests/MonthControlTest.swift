@@ -12,16 +12,16 @@ import XCTest
 @testable import calendar99_logic
 
 public final class MonthControlTest: RootTest {
-  fileprivate var model: NNCalendar.MonthControl.Model!
+  fileprivate var model: NNCalendarLogic.MonthControl.Model!
   fileprivate var viewModel: NNMonthControlViewModelType!
-  fileprivate var currentMonth: NNCalendar.Month!
-  fileprivate var currentMonthSb: BehaviorSubject<NNCalendar.Month>!
+  fileprivate var currentMonth: NNCalendarLogic.Month!
+  fileprivate var currentMonthSb: BehaviorSubject<NNCalendarLogic.Month>!
 
   override public func setUp() {
     super.setUp()
-    model = NNCalendar.MonthControl.Model(self)
-    viewModel = NNCalendar.MonthControl.ViewModel(model!)
-    currentMonth = NNCalendar.Month(Date())
+    model = NNCalendarLogic.MonthControl.Model(self)
+    viewModel = NNCalendarLogic.MonthControl.ViewModel(model!)
+    currentMonth = NNCalendarLogic.Month(Date())
     currentMonthSb = BehaviorSubject(value: currentMonth!)
   }
 }
@@ -48,15 +48,15 @@ public extension MonthControlTest {
 }
 
 extension MonthControlTest: NNMonthControlModelDependency {
-  public var initialMonthStream: Single<NNCalendar.Month> {
+  public var initialMonthStream: Single<NNCalendarLogic.Month> {
     return currentMonthSb.take(1).asSingle()
   }
 
-  public var currentMonthReceiver: AnyObserver<NNCalendar.Month> {
+  public var currentMonthReceiver: AnyObserver<NNCalendarLogic.Month> {
     return currentMonthSb.asObserver()
   }
 
-  public var currentMonthStream: Observable<NNCalendar.Month> {
+  public var currentMonthStream: Observable<NNCalendarLogic.Month> {
     return currentMonthSb.asObservable()
   }
 }

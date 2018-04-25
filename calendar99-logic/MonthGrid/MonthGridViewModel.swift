@@ -15,19 +15,19 @@ public protocol NNMonthGridViewModelType:
 {
   /// Trigger grid item selection. Each grid selection corresponds to an Index
   /// Path in the current month grid.
-  var gridSelectionReceiver: AnyObserver<NNCalendar.GridPosition> { get }
+  var gridSelectionReceiver: AnyObserver<NNCalendarLogic.GridPosition> { get }
 
   /// Stream grid selections.
-  var gridSelectionStream: Observable<NNCalendar.GridPosition> { get }
+  var gridSelectionStream: Observable<NNCalendarLogic.GridPosition> { get }
 }
 
 // MARK: - ViewModel.
-public extension NNCalendar.MonthGrid {
+public extension NNCalendarLogic.MonthGrid {
 
   /// View model implementation for month grid view.
   public final class ViewModel {
     fileprivate let model: NNMonthGridModelType
-    fileprivate let gridSelectionSb: PublishSubject<NNCalendar.GridPosition>
+    fileprivate let gridSelectionSb: PublishSubject<NNCalendarLogic.GridPosition>
 
     required public init(_ model: NNMonthGridModelType) {
       self.model = model
@@ -37,17 +37,17 @@ public extension NNCalendar.MonthGrid {
 }
 
 // MARK: - NNGridDisplayDefaultFunction
-extension NNCalendar.MonthGrid.ViewModel: NNGridDisplayDefaultFunction {
+extension NNCalendarLogic.MonthGrid.ViewModel: NNGridDisplayDefaultFunction {
   public var weekdayStacks: Int { return model.weekdayStacks }
 }
 
 // MARK: - NNMonthGridViewModelType
-extension NNCalendar.MonthGrid.ViewModel: NNMonthGridViewModelType {
-  public var gridSelectionStream: Observable<NNCalendar.GridPosition> {
+extension NNCalendarLogic.MonthGrid.ViewModel: NNMonthGridViewModelType {
+  public var gridSelectionStream: Observable<NNCalendarLogic.GridPosition> {
     return gridSelectionSb.asObservable()
   }
 
-  public var gridSelectionReceiver: AnyObserver<NNCalendar.GridPosition> {
+  public var gridSelectionReceiver: AnyObserver<NNCalendarLogic.GridPosition> {
     return gridSelectionSb.asObserver()
   }
 }

@@ -17,7 +17,7 @@ public protocol NNMonthDisplayViewModelType:
   NNSingleDaySelectionViewModelType
 {
   /// Stream days to display on the month view.
-  var dayStream: Observable<[NNCalendar.Day]> { get }
+  var dayStream: Observable<[NNCalendarLogic.Day]> { get }
 
   /// Stream day index selections changed based on the selected dates. These
   /// indexes can be used to reload the cells with said selected dates. Beware
@@ -44,7 +44,7 @@ public extension NNMonthDisplayViewModelType {
   }
 }
 
-public extension NNCalendar.MonthDisplay {
+public extension NNCalendarLogic.MonthDisplay {
 
   /// Month display view model implementation.
   public final class ViewModel {
@@ -52,7 +52,7 @@ public extension NNCalendar.MonthDisplay {
     fileprivate let monthGridVM: NNMonthGridViewModelType
     fileprivate let daySelectionVM: NNSingleDaySelectionViewModelType
     fileprivate let model: NNMonthDisplayModelType
-    fileprivate let daySbj: BehaviorSubject<[NNCalendar.Day]?>
+    fileprivate let daySbj: BehaviorSubject<[NNCalendarLogic.Day]?>
     fileprivate let disposable: DisposeBag
 
     required public init(_ monthControlVM: NNMonthControlViewModelType,
@@ -68,23 +68,23 @@ public extension NNCalendar.MonthDisplay {
     }
 
     convenience public init(_ model: NNMonthDisplayModelType) {
-      let monthControlVM = NNCalendar.MonthControl.ViewModel(model)
-      let monthGridVM = NNCalendar.MonthGrid.ViewModel(model)
-      let daySelectionVM = NNCalendar.DaySelection.ViewModel(model)
+      let monthControlVM = NNCalendarLogic.MonthControl.ViewModel(model)
+      let monthGridVM = NNCalendarLogic.MonthGrid.ViewModel(model)
+      let daySelectionVM = NNCalendarLogic.DaySelect.ViewModel(model)
       self.init(monthControlVM, monthGridVM, daySelectionVM, model)
     }
   }
 }
 
 // MARK: - NNMonthControlNoDefaultFunction
-extension NNCalendar.MonthDisplay.ViewModel: NNMonthControlNoDefaultFunction {
-  public var currentMonthReceiver: AnyObserver<NNCalendar.Month> {
+extension NNCalendarLogic.MonthDisplay.ViewModel: NNMonthControlNoDefaultFunction {
+  public var currentMonthReceiver: AnyObserver<NNCalendarLogic.Month> {
     return monthControlVM.currentMonthReceiver
   }
 }
 
 // MARK: - NNMonthControlViewModelType
-extension NNCalendar.MonthDisplay.ViewModel: NNMonthControlViewModelType {
+extension NNCalendarLogic.MonthDisplay.ViewModel: NNMonthControlViewModelType {
   public var currentMonthForwardReceiver: AnyObserver<UInt> {
     return monthControlVM.currentMonthForwardReceiver
   }
@@ -99,46 +99,46 @@ extension NNCalendar.MonthDisplay.ViewModel: NNMonthControlViewModelType {
 }
 
 // MARK: - NNGridDisplayDefaultFunction
-extension NNCalendar.MonthDisplay.ViewModel: NNGridDisplayDefaultFunction {
+extension NNCalendarLogic.MonthDisplay.ViewModel: NNGridDisplayDefaultFunction {
   public var weekdayStacks: Int { return monthGridVM.weekdayStacks }
 }
 
 // MARK: - NNMonthGridViewModelType
-extension NNCalendar.MonthDisplay.ViewModel: NNMonthGridViewModelType {
-  public var gridSelectionReceiver: AnyObserver<NNCalendar.GridPosition> {
+extension NNCalendarLogic.MonthDisplay.ViewModel: NNMonthGridViewModelType {
+  public var gridSelectionReceiver: AnyObserver<NNCalendarLogic.GridPosition> {
     return monthGridVM.gridSelectionReceiver
   }
 
-  public var gridSelectionStream: Observable<NNCalendar.GridPosition> {
+  public var gridSelectionStream: Observable<NNCalendarLogic.GridPosition> {
     return monthGridVM.gridSelectionStream
   }
 }
 
 // MARK: - NNSelectHighlightNoDefaultFunction
-extension NNCalendar.MonthDisplay.ViewModel: NNSelectHighlightNoDefaultFunction {
-  public func highlightPart(_ date: Date) -> NNCalendar.HighlightPart {
+extension NNCalendarLogic.MonthDisplay.ViewModel: NNSelectHighlightNoDefaultFunction {
+  public func highlightPart(_ date: Date) -> NNCalendarLogic.HighlightPart {
     return model.highlightPart(date)
   }
 }
 
 // MARK: - NNMonthDisplayViewModelType
-extension NNCalendar.MonthDisplay.ViewModel: NNMonthDisplayViewModelType {
-  public var dayStream: Observable<[NNCalendar.Day]> {
+extension NNCalendarLogic.MonthDisplay.ViewModel: NNMonthDisplayViewModelType {
+  public var dayStream: Observable<[NNCalendarLogic.Day]> {
     return daySbj.filter({$0.isSome}).map({$0!})
   }
 
   /// Convenient stream that emits month components.
-  private var monthCompStream: Observable<NNCalendar.MonthComp> {
-    let dayCount = weekdayStacks * NNCalendar.Util.weekdayCount
+  private var monthCompStream: Observable<NNCalendarLogic.MonthComp> {
+    let dayCount = weekdayStacks * NNCalendarLogic.Util.weekdayCount
     let firstWeekday = model.firstWeekday
     
     return model.currentMonthStream
-      .map({NNCalendar.MonthComp($0, dayCount, firstWeekday)})
+      .map({NNCalendarLogic.MonthComp($0, dayCount, firstWeekday)})
   }
 
   public var gridDayIndexSelectionChangesStream: Observable<Set<Int>> {
     return model.allSelectionStream.map({$0.getOrElse([])})
-      .scan((p: Set<NNCalendar.Selection>(), c: Set<NNCalendar.Selection>()),
+      .scan((p: Set<NNCalendarLogic.Selection>(), c: Set<NNCalendarLogic.Selection>()),
             accumulator: {(p: $0.c, c: $1)})
       .withLatestFrom(monthCompStream) {($1, $0)}
       .map({[weak self] in self?.model
@@ -167,14 +167,14 @@ extension NNCalendar.MonthDisplay.ViewModel: NNMonthDisplayViewModelType {
 }
 
 // MARK: - NNSingleDaySelectionDefaultFunction
-extension NNCalendar.MonthDisplay.ViewModel: NNSingleDaySelectionDefaultFunction {
+extension NNCalendarLogic.MonthDisplay.ViewModel: NNSingleDaySelectionDefaultFunction {
   public func isDateSelected(_ date: Date) -> Bool {
     return daySelectionVM.isDateSelected(date)
   }
 }
 
 // MARK: - NNDaySelectionViewModelType
-extension NNCalendar.MonthDisplay.ViewModel: NNSingleDaySelectionViewModelType {
+extension NNCalendarLogic.MonthDisplay.ViewModel: NNSingleDaySelectionViewModelType {
   public var dateSelectionReceiver: AnyObserver<Date> {
     return daySelectionVM.dateSelectionReceiver
   }

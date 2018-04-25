@@ -51,7 +51,7 @@ extension NNCalendarLegacy.Regular99.DelegateBridge: NNGridDisplayDefaultFunctio
 
 // MARK: - NNMonthAwareNoDefaultModelFunction
 extension NNCalendarLegacy.Regular99.DelegateBridge: NNMonthAwareNoDefaultModelFunction {
-  var currentMonthStream: Observable<NNCalendar.Month> {
+  var currentMonthStream: Observable<NNCalendarLogic.Month> {
     return currentMonthSb
       .map({[weak self] in (self?.calendar).zipWith(self?.delegate, {
         $1.currentMonth(for: $0)})
@@ -62,7 +62,7 @@ extension NNCalendarLegacy.Regular99.DelegateBridge: NNMonthAwareNoDefaultModelF
 
 // MARK: - NNMonthControlNoDefaultFunction
 extension NNCalendarLegacy.Regular99.DelegateBridge: NNMonthControlNoDefaultFunction {
-  var currentMonthReceiver: AnyObserver<NNCalendar.Month> {
+  var currentMonthReceiver: AnyObserver<NNCalendarLogic.Month> {
     return currentMonthSb.mapObserver({[weak self] month -> Void in
       (self?.calendar).zipWith(self?.delegate, {
         $1.regular99($0, onCurrentMonthChangedTo: month)
@@ -73,25 +73,25 @@ extension NNCalendarLegacy.Regular99.DelegateBridge: NNMonthControlNoDefaultFunc
 
 // MARK: - NNMonthControlNoDefaultModelFunction
 extension NNCalendarLegacy.Regular99.DelegateBridge: NNMonthControlNoDefaultModelFunction {
-  var minimumMonth: NNCalendar.Month {
+  var minimumMonth: NNCalendarLogic.Month {
     return calendar.zipWith(delegate, {$1.minimumMonth(for: $0)})
-      .getOrElse(NNCalendar.Month(Date()))
+      .getOrElse(NNCalendarLogic.Month(Date()))
   }
 
-  var maximumMonth: NNCalendar.Month {
+  var maximumMonth: NNCalendarLogic.Month {
     return calendar.zipWith(delegate, {$1.maximumMonth(for: $0)})
-      .getOrElse(NNCalendar.Month(Date()))
+      .getOrElse(NNCalendarLogic.Month(Date()))
   }
 
-  var initialMonthStream: Single<NNCalendar.Month> {
+  var initialMonthStream: Single<NNCalendarLogic.Month> {
     return Single.just(calendar.zipWith(delegate, {$1.initialMonth(for: $0)})
-      .getOrElse(NNCalendar.Month(Date())))
+      .getOrElse(NNCalendarLogic.Month(Date())))
   }
 }
 
 // MARK: - NNMonthHeaderDefaultModelFunction
 extension NNCalendarLegacy.Regular99.DelegateBridge: NNMonthHeaderDefaultModelFunction {
-  func formatMonthDescription(_ month: NNCalendar.Month) -> String {
+  func formatMonthDescription(_ month: NNCalendarLogic.Month) -> String {
     return calendar.zipWith(delegate, {
       $1.regular99($0, monthDescriptionFor: month)
     }).getOrElse("")
@@ -100,7 +100,7 @@ extension NNCalendarLegacy.Regular99.DelegateBridge: NNMonthHeaderDefaultModelFu
 
 // MARK: - NNMultiDaySelectionNoDefaultFunction
 extension NNCalendarLegacy.Regular99.DelegateBridge: NNMultiDaySelectionNoDefaultFunction {
-  var allSelectionReceiver: AnyObserver<Set<NNCalendar.Selection>> {
+  var allSelectionReceiver: AnyObserver<Set<NNCalendarLogic.Selection>> {
     return selectionSb.mapObserver({[weak self] selection -> Void in
       (self?.calendar).zipWith(self?.delegate, {
         $1.regular99($0, onSelectionChangedTo: selection)
@@ -108,7 +108,7 @@ extension NNCalendarLegacy.Regular99.DelegateBridge: NNMultiDaySelectionNoDefaul
     })
   }
 
-  var allSelectionStream: Observable<Try<Set<NNCalendar.Selection>>> {
+  var allSelectionStream: Observable<Try<Set<NNCalendarLogic.Selection>>> {
     return selectionSb
       .map({[weak self] in (self?.calendar).zipWith(self?.delegate, {
         $1.currentSelections(for: $0)
@@ -119,11 +119,11 @@ extension NNCalendarLegacy.Regular99.DelegateBridge: NNMultiDaySelectionNoDefaul
 
 // MARK: - NNMultiMonthGridSelectionCalculator
 extension NNCalendarLegacy.Regular99.DelegateBridge: NNMultiMonthGridSelectionCalculator {
-  func gridSelectionChanges(_ monthComps: [NNCalendar.MonthComp],
-                            _ currentMonth: NNCalendar.Month,
-                            _ prev: Set<NNCalendar.Selection>,
-                            _ current: Set<NNCalendar.Selection>)
-    -> Set<NNCalendar.GridPosition>
+  func gridSelectionChanges(_ monthComps: [NNCalendarLogic.MonthComp],
+                            _ currentMonth: NNCalendarLogic.Month,
+                            _ prev: Set<NNCalendarLogic.Selection>,
+                            _ current: Set<NNCalendarLogic.Selection>)
+    -> Set<NNCalendarLogic.GridPosition>
   {
     return calendar.zipWith(delegate, {
       $1.regular99($0, gridSelectionChangesFor: monthComps,
@@ -136,7 +136,7 @@ extension NNCalendarLegacy.Regular99.DelegateBridge: NNMultiMonthGridSelectionCa
 
 // MARK: - NNSelectHighlightNoDefaultFunction
 extension NNCalendarLegacy.Regular99.DelegateBridge: NNSelectHighlightNoDefaultFunction {
-  func highlightPart(_ date: Date) -> NNCalendar.HighlightPart {
+  func highlightPart(_ date: Date) -> NNCalendarLogic.HighlightPart {
     return calendar.zipWith(delegate, {$1.regular99($0, highlightPartFor: date)})
       .getOrElse(.none)
   }
@@ -197,16 +197,16 @@ extension NNCalendarLegacy.Regular99.DelegateBridge {
     }
 
     func regular99(_ calendar: NNRegular99Calendar,
-                   monthDescriptionFor month: NNCalendar.Month) -> String {
-      return NNCalendar.Util.defaultMonthDescription(month)
+                   monthDescriptionFor month: NNCalendarLogic.Month) -> String {
+      return NNCalendarLogic.Util.defaultMonthDescription(month)
     }
 
     func regular99(_ calendar: NNRegular99Calendar,
-                   gridSelectionChangesFor months: [NNCalendar.MonthComp],
-                   whileCurrentMonthIs month: NNCalendar.Month,
-                   withPreviousSelection prev: Set<NNCalendar.Selection>,
-                   andCurrentSelection current: Set<NNCalendar.Selection>)
-      -> Set<NNCalendar.GridPosition>
+                   gridSelectionChangesFor months: [NNCalendarLogic.MonthComp],
+                   whileCurrentMonthIs month: NNCalendarLogic.Month,
+                   withPreviousSelection prev: Set<NNCalendarLogic.Selection>,
+                   andCurrentSelection current: Set<NNCalendarLogic.Selection>)
+      -> Set<NNCalendarLogic.GridPosition>
     {
       return delegate?.regular99(calendar,
                                  gridSelectionChangesFor: months,
@@ -216,33 +216,33 @@ extension NNCalendarLegacy.Regular99.DelegateBridge {
     }
 
     /// Non-defaultable.
-    func minimumMonth(for calendar: NNRegular99Calendar) -> NNCalendar.Month {
-      return delegate?.minimumMonth(for: calendar) ?? NNCalendar.Month(Date())
+    func minimumMonth(for calendar: NNRegular99Calendar) -> NNCalendarLogic.Month {
+      return delegate?.minimumMonth(for: calendar) ?? NNCalendarLogic.Month(Date())
     }
 
-    func maximumMonth(for calendar: NNRegular99Calendar) -> NNCalendar.Month {
-      return delegate?.maximumMonth(for: calendar) ?? NNCalendar.Month(Date())
+    func maximumMonth(for calendar: NNRegular99Calendar) -> NNCalendarLogic.Month {
+      return delegate?.maximumMonth(for: calendar) ?? NNCalendarLogic.Month(Date())
     }
 
-    func initialMonth(for calendar: NNRegular99Calendar) -> NNCalendar.Month {
-      return delegate?.initialMonth(for: calendar) ?? NNCalendar.Month(Date())
+    func initialMonth(for calendar: NNRegular99Calendar) -> NNCalendarLogic.Month {
+      return delegate?.initialMonth(for: calendar) ?? NNCalendarLogic.Month(Date())
     }
 
-    func currentMonth(for calendar: NNRegular99Calendar) -> NNCalendar.Month {
-      return delegate?.currentMonth(for: calendar) ?? NNCalendar.Month(Date())
+    func currentMonth(for calendar: NNRegular99Calendar) -> NNCalendarLogic.Month {
+      return delegate?.currentMonth(for: calendar) ?? NNCalendarLogic.Month(Date())
     }
 
     func regular99(_ calendar: NNRegular99Calendar,
-                   onCurrentMonthChangedTo month: NNCalendar.Month) {
+                   onCurrentMonthChangedTo month: NNCalendarLogic.Month) {
       delegate?.regular99(calendar, onCurrentMonthChangedTo: month)
     }
 
-    func currentSelections(for calendar: NNRegular99Calendar) -> Set<NNCalendar.Selection>? {
+    func currentSelections(for calendar: NNRegular99Calendar) -> Set<NNCalendarLogic.Selection>? {
       return delegate?.currentSelections(for: calendar) ?? []
     }
 
     func regular99(_ calendar: NNRegular99Calendar,
-                   onSelectionChangedTo selections: Set<NNCalendar.Selection>) {
+                   onSelectionChangedTo selections: Set<NNCalendarLogic.Selection>) {
       delegate?.regular99(calendar, onSelectionChangedTo: selections)
     }
 
@@ -251,7 +251,7 @@ extension NNCalendarLegacy.Regular99.DelegateBridge {
     }
 
     func regular99(_ calendar: NNRegular99Calendar,
-                   highlightPartFor date: Date) -> NNCalendar.HighlightPart {
+                   highlightPartFor date: Date) -> NNCalendarLogic.HighlightPart {
       return delegate?.regular99(calendar, highlightPartFor: date) ?? .none
     }
   }
@@ -260,14 +260,14 @@ extension NNCalendarLegacy.Regular99.DelegateBridge {
 // MARK: - Default delegate
 extension NNCalendarLegacy.Regular99.DelegateBridge {
   final class DefaultDelegate: NNRegular99CalendarDelegate {
-    private let highlightCalc: NNCalendar.DateCalc.HighlightPart
+    private let highlightCalc: NNCalendarLogic.DateCalc.HighlightPart
     private weak var delegate: NNRegular99CalendarNoDefaultDelegate?
 
     init(_ delegate: NNRegular99CalendarNoDefaultDelegate) {
       self.delegate = delegate
       let weekdayStacks = 6
-      let sequentialCalc = NNCalendar.DateCalc.Default(weekdayStacks, 1)
-      highlightCalc = NNCalendar.DateCalc.HighlightPart(sequentialCalc, weekdayStacks)
+      let sequentialCalc = NNCalendarLogic.DateCalc.Default(weekdayStacks, 1)
+      highlightCalc = NNCalendarLogic.DateCalc.HighlightPart(sequentialCalc, weekdayStacks)
     }
 
     /// Defaultable.
@@ -277,7 +277,7 @@ extension NNCalendarLegacy.Regular99.DelegateBridge {
 
     func regular99(_ calendar: NNRegular99Calendar,
                    weekdayDescriptionFor weekday: Int) -> String {
-      return NNCalendar.Util.defaultWeekdayDescription(weekday)
+      return NNCalendarLogic.Util.defaultWeekdayDescription(weekday)
     }
 
     func weekdayStacks(for calendar: NNRegular99Calendar) -> Int {
@@ -285,48 +285,48 @@ extension NNCalendarLegacy.Regular99.DelegateBridge {
     }
 
     func regular99(_ calendar: NNRegular99Calendar,
-                   monthDescriptionFor month: NNCalendar.Month) -> String {
-      return NNCalendar.Util.defaultMonthDescription(month)
+                   monthDescriptionFor month: NNCalendarLogic.Month) -> String {
+      return NNCalendarLogic.Util.defaultMonthDescription(month)
     }
 
     func regular99(_ calendar: NNRegular99Calendar,
-                   gridSelectionChangesFor months: [NNCalendar.MonthComp],
-                   whileCurrentMonthIs month: NNCalendar.Month,
-                   withPreviousSelection prev: Set<NNCalendar.Selection>,
-                   andCurrentSelection current: Set<NNCalendar.Selection>)
-      -> Set<NNCalendar.GridPosition>
+                   gridSelectionChangesFor months: [NNCalendarLogic.MonthComp],
+                   whileCurrentMonthIs month: NNCalendarLogic.Month,
+                   withPreviousSelection prev: Set<NNCalendarLogic.Selection>,
+                   andCurrentSelection current: Set<NNCalendarLogic.Selection>)
+      -> Set<NNCalendarLogic.GridPosition>
     {
       return highlightCalc.gridSelectionChanges(months, month, prev, current)
     }
 
     /// Non-defaultable.
-    func minimumMonth(for calendar: NNRegular99Calendar) -> NNCalendar.Month {
-      return delegate?.minimumMonth(for: calendar) ?? NNCalendar.Month(Date())
+    func minimumMonth(for calendar: NNRegular99Calendar) -> NNCalendarLogic.Month {
+      return delegate?.minimumMonth(for: calendar) ?? NNCalendarLogic.Month(Date())
     }
 
-    func maximumMonth(for calendar: NNRegular99Calendar) -> NNCalendar.Month {
-      return delegate?.maximumMonth(for: calendar) ?? NNCalendar.Month(Date())
+    func maximumMonth(for calendar: NNRegular99Calendar) -> NNCalendarLogic.Month {
+      return delegate?.maximumMonth(for: calendar) ?? NNCalendarLogic.Month(Date())
     }
 
-    func initialMonth(for calendar: NNRegular99Calendar) -> NNCalendar.Month {
-      return delegate?.initialMonth(for: calendar) ?? NNCalendar.Month(Date())
+    func initialMonth(for calendar: NNRegular99Calendar) -> NNCalendarLogic.Month {
+      return delegate?.initialMonth(for: calendar) ?? NNCalendarLogic.Month(Date())
     }
 
-    func currentMonth(for calendar: NNRegular99Calendar) -> NNCalendar.Month {
-      return delegate?.currentMonth(for: calendar) ?? NNCalendar.Month(Date())
+    func currentMonth(for calendar: NNRegular99Calendar) -> NNCalendarLogic.Month {
+      return delegate?.currentMonth(for: calendar) ?? NNCalendarLogic.Month(Date())
     }
 
     func regular99(_ calendar: NNRegular99Calendar,
-                   onCurrentMonthChangedTo month: NNCalendar.Month) {
+                   onCurrentMonthChangedTo month: NNCalendarLogic.Month) {
       delegate?.regular99(calendar, onCurrentMonthChangedTo: month)
     }
 
-    func currentSelections(for calendar: NNRegular99Calendar) -> Set<NNCalendar.Selection>? {
+    func currentSelections(for calendar: NNRegular99Calendar) -> Set<NNCalendarLogic.Selection>? {
       return delegate?.currentSelections(for: calendar) ?? []
     }
 
     func regular99(_ calendar: NNRegular99Calendar,
-                   onSelectionChangedTo selections: Set<NNCalendar.Selection>) {
+                   onSelectionChangedTo selections: Set<NNCalendarLogic.Selection>) {
       delegate?.regular99(calendar, onSelectionChangedTo: selections)
     }
 
@@ -335,7 +335,7 @@ extension NNCalendarLegacy.Regular99.DelegateBridge {
     }
 
     func regular99(_ calendar: NNRegular99Calendar,
-                   highlightPartFor date: Date) -> NNCalendar.HighlightPart {
+                   highlightPartFor date: Date) -> NNCalendarLogic.HighlightPart {
       return delegate?.regular99(calendar, highlightPartFor: date) ?? .none
     }
   }

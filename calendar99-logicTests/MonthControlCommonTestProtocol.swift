@@ -20,10 +20,10 @@ public extension MonthControlCommonTestProtocol {
     _ model: NNMonthAwareNoDefaultModelFunction)
   {
     /// Setup
-    let monthObs = scheduler!.createObserver(NNCalendar.Month.self)
+    let monthObs = scheduler!.createObserver(NNCalendarLogic.Month.self)
     model.currentMonthStream.subscribe(monthObs).disposed(by: disposable!)
     viewModel.setupMonthControlBindings()
-    var currentMonth = NNCalendar.Month(Date())
+    var currentMonth = NNCalendarLogic.Month(Date())
 
     /// When
     for _ in 0..<iterations {
@@ -49,7 +49,7 @@ public extension MonthControlCommonTestProtocol {
     _ model: NNMonthControlNoDefaultModelFunction)
   {
     /// Setup
-    let monthObs = scheduler!.createObserver(NNCalendar.Month.self)
+    let monthObs = scheduler!.createObserver(NNCalendarLogic.Month.self)
     model.currentMonthStream.subscribe(monthObs).disposed(by: disposable!)
     viewModel.setupMonthControlBindings()
 

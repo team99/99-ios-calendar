@@ -50,7 +50,7 @@ extension AppDecorator: NNWeekdayViewDecoratorType {
   }
 
   public func weekdayCellDecorator(_ indexPath: IndexPath,
-                                   _ item: NNCalendar.Weekday)
+                                   _ item: NNCalendarLogic.Weekday)
     -> NNWeekdayCellDecoratorType
   {
     return self
@@ -122,7 +122,7 @@ extension AppDecorator: NNMonthSectionDecoratorType {
     return true
   }
 
-  public func dateCellDecorator(_ indexPath: IndexPath, _ item: NNCalendar.Day)
+  public func dateCellDecorator(_ indexPath: IndexPath, _ item: NNCalendarLogic.Day)
     -> NNDateCellDecoratorType
   {
     return self

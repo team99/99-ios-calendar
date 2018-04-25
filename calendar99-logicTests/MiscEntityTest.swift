@@ -20,7 +20,7 @@ public final class MiscEntityTest: RootTest {
     /// Setup
     let calendar = Calendar.current
 
-    let highlightParts = [NNCalendar.HighlightPart.startAndEnd,
+    let highlightParts = [NNCalendarLogic.HighlightPart.startAndEnd,
                           .start, .end, .mid, .none]
 
     /// When
@@ -33,13 +33,13 @@ public final class MiscEntityTest: RootTest {
       let isSelected = Bool.random()
       let highlightPart = highlightParts.randomElement()!
 
-      let day1 = NNCalendar.Day(date)
+      let day1 = NNCalendarLogic.Day(date)
         .with(dateDescription: description)
         .with(currentMonth: isCurrentMonth)
         .with(selected: isSelected)
         .with(highlightPart: highlightPart)
 
-      let day2 = NNCalendar.Day(date)
+      let day2 = NNCalendarLogic.Day(date)
         .with(dateDescription: description)
         .with(currentMonth: isCurrentMonth)
         .with(selected: isSelected)
@@ -55,8 +55,8 @@ public final class MiscEntityTest: RootTest {
     /// Setup & When
     for _ in 0..<iterations! {
       for weekday in 1...7 {
-        let wd1 = NNCalendar.Weekday(weekday, String(describing: weekday))
-        let wd2 = NNCalendar.Weekday(weekday, String(describing: weekday))
+        let wd1 = NNCalendarLogic.Weekday(weekday, String(describing: weekday))
+        let wd2 = NNCalendarLogic.Weekday(weekday, String(describing: weekday))
 
         /// Then
         XCTAssertEqual(wd1, wd2)
@@ -67,8 +67,8 @@ public final class MiscEntityTest: RootTest {
   public func test_monthImplementation_shouldWorkCorrectly() {
     /// Setup && Then
     for _ in 0..<iterations! {
-      let month1 = NNCalendar.Month(Date())
-      let month2 = NNCalendar.Month(Date())
+      let month1 = NNCalendarLogic.Month(Date())
+      let month2 = NNCalendarLogic.Month(Date())
 
       /// Then
       XCTAssertEqual(month1.hashValue, month2.hashValue)
@@ -76,8 +76,8 @@ public final class MiscEntityTest: RootTest {
   }
 
   public func test_hightlightPosition_shouldWorkCorrectly() {
-    XCTAssertTrue(NNCalendar.HighlightPart.startAndEnd.contains(.start))
-    XCTAssertTrue(NNCalendar.HighlightPart.startAndEnd.contains(.end))
-    XCTAssertFalse(NNCalendar.HighlightPart.startAndEnd.contains(.mid))
+    XCTAssertTrue(NNCalendarLogic.HighlightPart.startAndEnd.contains(.start))
+    XCTAssertTrue(NNCalendarLogic.HighlightPart.startAndEnd.contains(.end))
+    XCTAssertFalse(NNCalendarLogic.HighlightPart.startAndEnd.contains(.mid))
   }
 }

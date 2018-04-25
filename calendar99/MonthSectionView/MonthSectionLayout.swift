@@ -59,10 +59,10 @@ public final class NNMonthSectionHorizontalFlowLayout: UICollectionViewFlowLayou
       return
     }
 
-    let weekdays = NNCalendar.Util.weekdayCount
+    let weekdays = NNCalendarLogic.Util.weekdayCount
     let parentWidth = collectionView.bounds.width
     let parentHeight = collectionView.bounds.height
-    let cellWidth = parentWidth / CGFloat(NNCalendar.Util.weekdayCount)
+    let cellWidth = parentWidth / CGFloat(NNCalendarLogic.Util.weekdayCount)
     let cellHeight = parentHeight / CGFloat(weekdayStacks)
 
     for page in 0..<pageCount {

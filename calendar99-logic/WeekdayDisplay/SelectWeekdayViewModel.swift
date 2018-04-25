@@ -22,7 +22,7 @@ public protocol NNSelectWeekdayViewModelFactory {
 }
 
 // MARK: - View model.
-public extension NNCalendar.SelectWeekday {
+public extension NNCalendarLogic.SelectWeekday {
 
   /// View model implementation.
   public final class ViewModel {
@@ -38,15 +38,15 @@ public extension NNCalendar.SelectWeekday {
     }
 
     convenience public init(_ model: NNSelectWeekdayModelType) {
-      let weekdayVM = NNCalendar.WeekdayDisplay.ViewModel(model)
+      let weekdayVM = NNCalendarLogic.WeekdayDisplay.ViewModel(model)
       self.init(weekdayVM, model)
     }
   }
 }
 
 // MARK: - NNWeekdayDisplayViewModelType
-extension NNCalendar.SelectWeekday.ViewModel: NNWeekdayDisplayViewModelType {
-  public var weekdayStream: Observable<[NNCalendar.Weekday]> {
+extension NNCalendarLogic.SelectWeekday.ViewModel: NNWeekdayDisplayViewModelType {
+  public var weekdayStream: Observable<[NNCalendarLogic.Weekday]> {
     return weekdayVM.weekdayStream
   }
 
@@ -71,7 +71,7 @@ extension NNCalendar.SelectWeekday.ViewModel: NNWeekdayDisplayViewModelType {
     weekdaySelectionStream
       .withLatestFrom(model.currentMonthStream) {($1, $0)}
       .map({$0.datesWithWeekday($1)})
-      .map({Set($0.map({NNCalendar.DateSelection($0, firstWeekday)}))})
+      .map({Set($0.map({NNCalendarLogic.DateSelection($0, firstWeekday)}))})
       .withLatestFrom(model.allSelectionStream) {
         return $1.getOrElse([]).symmetricDifference($0)
       }
@@ -81,7 +81,7 @@ extension NNCalendar.SelectWeekday.ViewModel: NNWeekdayDisplayViewModelType {
 //    // Uncomment this (and comment the above binding) to quick-test repeat
 //    // weekday selection.
 //    weekdaySelectionStream
-//      .map({NNCalendar.RepeatWeekdaySelection($0, firstWeekday)})
+//      .map({NNCalendarLogic.RepeatWeekdaySelection($0, firstWeekday)})
 //      .withLatestFrom(model.allSelectionStream) {
 //        return $1.getOrElse([]).symmetricDifference(Set(arrayLiteral: $0))
 //      }
@@ -91,4 +91,4 @@ extension NNCalendar.SelectWeekday.ViewModel: NNWeekdayDisplayViewModelType {
 }
 
 // MARK: - NNSelectableWeekdayViewModelType
-extension NNCalendar.SelectWeekday.ViewModel: NNSelectWeekdayViewModelType {}
+extension NNCalendarLogic.SelectWeekday.ViewModel: NNSelectWeekdayViewModelType {}

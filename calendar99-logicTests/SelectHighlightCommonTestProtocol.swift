@@ -31,7 +31,7 @@ public extension SelectHighlightCommonTestProtocol {
       let selectedDates = (0..<selectionCount)
         .map({calendar.date(byAdding: .day, value: $0, to: startDate)!})
 
-      let selections = selectedDates.map({NNCalendar.DateSelection($0, firstWeekday)})
+      let selections = selectedDates.map({NNCalendarLogic.DateSelection($0, firstWeekday)})
       model.allSelectionReceiver.onNext(Set(selections))
       waitOnMainThread(waitDuration!)
 

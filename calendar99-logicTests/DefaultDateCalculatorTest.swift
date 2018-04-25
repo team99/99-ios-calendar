@@ -12,7 +12,7 @@ import XCTest
 
 /// Tests for date calculator.
 public final class DefaultDateCalculatorTest: RootTest {
-  fileprivate var calculator: NNCalendar.DateCalc.Default!
+  fileprivate var calculator: NNCalendarLogic.DateCalc.Default!
   fileprivate var dayCount: Int!
   fileprivate var firstWeekDay: Int!
   fileprivate var weekdayStacks: Int!
@@ -23,16 +23,16 @@ public final class DefaultDateCalculatorTest: RootTest {
     weekdayStacks = 6
     dayCount = 42
     firstWeekDay = 2
-    calculator = NNCalendar.DateCalc.Default(weekdayStacks!, firstWeekDay!)
+    calculator = NNCalendarLogic.DateCalc.Default(weekdayStacks!, firstWeekDay!)
   }
 
   public func test_calculateMultiMonthGridSelections_shouldWork() {
     /// Setup
     let firstWeekday = calculator!.firstWeekday
-    let firstMonth = NNCalendar.Month(Date())
+    let firstMonth = NNCalendarLogic.Month(Date())
     let allMonths = (0..<100).map({firstMonth.with(monthOffset: $0)!})
-    let monthComps = allMonths.map({NNCalendar.MonthComp($0, dayCount!, firstWeekday)})
-    var prevSelections = Set<NNCalendar.Selection>()
+    let monthComps = allMonths.map({NNCalendarLogic.MonthComp($0, dayCount!, firstWeekday)})
+    var prevSelections = Set<NNCalendarLogic.Selection>()
 
     /// When
     for _ in 0..<iterations! {
@@ -43,10 +43,10 @@ public final class DefaultDateCalculatorTest: RootTest {
         .map({(_) -> Date in
           let month = monthComps.randomElement()!
           let dayIndex = Int.random(0, month.dayCount)
-          return NNCalendar.Util.dateWithOffset(month.month, firstWeekday, dayIndex)!
+          return NNCalendarLogic.Util.dateWithOffset(month.month, firstWeekday, dayIndex)!
         })
-        .map({NNCalendar.DateSelection($0, firstWeekday)})
-        .map({$0 as NNCalendar.Selection}))
+        .map({NNCalendarLogic.DateSelection($0, firstWeekday)})
+        .map({$0 as NNCalendarLogic.Selection}))
 
       let changedSelect = calculator.extractChanges(prevSelections, currentSelections)
 
@@ -59,7 +59,7 @@ public final class DefaultDateCalculatorTest: RootTest {
       for position in gridPositions {
         let selectedMonth = monthComps[position.monthIndex].month
 
-        let selectedDate = NNCalendar.Util
+        let selectedDate = NNCalendarLogic.Util
           .dateWithOffset(selectedMonth, firstWeekday, position.dayIndex)!
 
         XCTAssertTrue(changedSelect.contains(where: {$0.contains(selectedDate)}))
@@ -72,18 +72,18 @@ public final class DefaultDateCalculatorTest: RootTest {
   public func test_calculateSingleMonthGridSelection_shouldWork() {
     /// Setup
     let firstWeekday = calculator!.firstWeekday
-    var currentMonth = NNCalendar.Month(Date())
-    var prevSelect = Set<NNCalendar.Selection>()
+    var currentMonth = NNCalendarLogic.Month(Date())
+    var prevSelect = Set<NNCalendarLogic.Selection>()
 
     /// When
     for i in 0..<iterations! {
-      let currentComp = NNCalendar.MonthComp(currentMonth, dayCount!, firstWeekday)
+      let currentComp = NNCalendarLogic.MonthComp(currentMonth, dayCount!, firstWeekday)
       let selectionCount = Int.random(1, dayCount!)
 
       let currentSelect = Set((0..<selectionCount)
-        .map({NNCalendar.Util.dateWithOffset(currentMonth, firstWeekday, $0)!})
-        .map({NNCalendar.DateSelection($0, firstWeekday)})
-        .map({$0 as NNCalendar.Selection}))
+        .map({NNCalendarLogic.Util.dateWithOffset(currentMonth, firstWeekday, $0)!})
+        .map({NNCalendarLogic.DateSelection($0, firstWeekday)})
+        .map({$0 as NNCalendarLogic.Selection}))
 
       let changed = calculator.extractChanges(prevSelect, currentSelect)
 
@@ -97,7 +97,7 @@ public final class DefaultDateCalculatorTest: RootTest {
         // current month value, because we calculate for the previous and next
         // months as well.
         if position.monthIndex == currentMonth.month {
-          let selectedDate = NNCalendar.Util
+          let selectedDate = NNCalendarLogic.Util
             .dateWithOffset(currentMonth, firstWeekday, position.dayIndex)!
 
           XCTAssertTrue(changed.contains(where: {$0.contains(selectedDate)}))

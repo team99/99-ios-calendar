@@ -73,7 +73,7 @@ public extension NNMonthSectionView {
 
 // MARK: - Data source.
 public extension NNMonthSectionView {
-  typealias Section = NNCalendar.MonthComp
+  typealias Section = NNCalendarLogic.MonthComp
   typealias CVSource = CollectionViewSectionedDataSource<Section>
   typealias RxDataSource = RxCollectionViewSectionedAnimatedDataSource<Section>
 
@@ -182,7 +182,7 @@ public extension NNMonthSectionView {
       .disposed(by: disposable)
 
     self.rx.itemSelected
-      .map({NNCalendar.GridPosition($0.section, $0.row)})
+      .map({NNCalendarLogic.GridPosition($0.section, $0.row)})
       .bind(to: viewModel.gridSelectionReceiver)
       .disposed(by: disposable)
 
@@ -212,7 +212,7 @@ public extension NNMonthSectionView {
 }
 
 // MARK: - IdentifiableType
-extension NNCalendar.MonthComp: IdentifiableType {
+extension NNCalendarLogic.MonthComp: IdentifiableType {
   public typealias Identity = String
 
   public var identity: String {
@@ -223,14 +223,14 @@ extension NNCalendar.MonthComp: IdentifiableType {
 /// Notice that we don't actually store any data here - this is done so that
 /// the memory footprint is as small as possible. If a cell requires data to
 /// display, that data will be calculated at the time it's requested.
-extension NNCalendar.MonthComp: AnimatableSectionModelType {
+extension NNCalendarLogic.MonthComp: AnimatableSectionModelType {
   public typealias Item = Int
 
   public var items: [Item] {
     return (0..<dayCount).map({$0})
   }
 
-  public init(original: NNCalendar.MonthComp, items: [Item]) {
+  public init(original: NNCalendarLogic.MonthComp, items: [Item]) {
     self.init(original.month, items.count, original.firstWeekday)
   }
 }

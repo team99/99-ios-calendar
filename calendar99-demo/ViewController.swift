@@ -31,14 +31,14 @@ public final class ViewController: UIViewController  {
     disposable = DisposeBag()
 
     let dependency = Singleton.instance
-    let weekdayModel = NNCalendar.SelectWeekday.Model(dependency)
-    let weekdayVM = NNCalendar.SelectWeekday.ViewModel(weekdayModel)
-    let monthViewModel = NNCalendar.MonthDisplay.Model(dependency)
-    let monthViewVM = NNCalendar.MonthDisplay.ViewModel(monthViewModel)
-    let monthHeaderModel = NNCalendar.MonthHeader.Model(dependency)
-    let monthHeaderVM = NNCalendar.MonthHeader.ViewModel(monthHeaderModel)
-    let monthSectionModel = NNCalendar.MonthSection.Model(dependency)
-    let monthSectionVM = NNCalendar.MonthSection.ViewModel(monthSectionModel)
+    let weekdayModel = NNCalendarLogic.SelectWeekday.Model(dependency)
+    let weekdayVM = NNCalendarLogic.SelectWeekday.ViewModel(weekdayModel)
+    let monthViewModel = NNCalendarLogic.MonthDisplay.Model(dependency)
+    let monthViewVM = NNCalendarLogic.MonthDisplay.ViewModel(monthViewModel)
+    let monthHeaderModel = NNCalendarLogic.MonthHeader.Model(dependency)
+    let monthHeaderVM = NNCalendarLogic.MonthHeader.ViewModel(monthHeaderModel)
+    let monthSectionModel = NNCalendarLogic.MonthSection.Model(dependency)
+    let monthSectionVM = NNCalendarLogic.MonthSection.ViewModel(monthSectionModel)
 
     weekdayView.dependency = (weekdayVM, decorator)
     monthHeader.dependency = (monthHeaderVM, decorator)

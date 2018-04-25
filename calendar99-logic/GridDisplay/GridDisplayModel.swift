@@ -25,12 +25,12 @@ public protocol NNGridDisplayModelType:
   NNGridDisplayNoDefaultFunction {}
 
 // MARK: - Model.
-public extension NNCalendar.GridDisplay {
+public extension NNCalendarLogic.GridDisplay {
   public final class Model {}
 }
 
 // MARK: - Default dependency.
-public extension NNCalendar.GridDisplay.Model {
+public extension NNCalendarLogic.GridDisplay.Model {
   public final class DefaultDependency: NNMGridDisplayModelDependency {
     
     /// Seems like most calendar apps have 6 rows, so in total 42 date cells.

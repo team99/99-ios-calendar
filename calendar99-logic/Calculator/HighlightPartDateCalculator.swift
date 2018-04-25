@@ -7,7 +7,7 @@
 //
 
 // MARK: - HighlightPartDateCalculator
-public extension NNCalendar.DateCalc {
+public extension NNCalendarLogic.DateCalc {
 
   /// This calculator is used specifically to cater to highlight parts. If we
   /// use a normal grid position changes calculator, when the user selects or
@@ -47,17 +47,17 @@ public extension NNCalendar.DateCalc {
 }
 
 // MARK: - NNGridSelectionCalculator
-extension NNCalendar.DateCalc.HighlightPart: NNMultiMonthGridSelectionCalculator {
+extension NNCalendarLogic.DateCalc.HighlightPart: NNMultiMonthGridSelectionCalculator {
 
   /// We include the previous and next selection for each grid selection so that
   /// they are refreshed too (rationale for this can be found above).
-  public func gridSelectionChanges(_ monthComps: [NNCalendar.MonthComp],
-                                   _ currentMonth: NNCalendar.Month,
-                                   _ prev: Set<NNCalendar.Selection>,
-                                   _ current: Set<NNCalendar.Selection>)
-    -> Set<NNCalendar.GridPosition>
+  public func gridSelectionChanges(_ monthComps: [NNCalendarLogic.MonthComp],
+                                   _ currentMonth: NNCalendarLogic.Month,
+                                   _ prev: Set<NNCalendarLogic.Selection>,
+                                   _ current: Set<NNCalendarLogic.Selection>)
+    -> Set<NNCalendarLogic.GridPosition>
   {
-    let totalDayCount = weekdayStacks * NNCalendar.Util.weekdayCount
+    let totalDayCount = weekdayStacks * NNCalendarLogic.Util.weekdayCount
 
     // We could have checked whether the previous/next grid selections have
     // associated dates which are selected (instead of just incrementing/
@@ -70,14 +70,14 @@ extension NNCalendar.DateCalc.HighlightPart: NNMultiMonthGridSelectionCalculator
 }
 
 // MARK: - NNSingleMonthGridSelectionCalculator
-extension NNCalendar.DateCalc.HighlightPart: NNSingleMonthGridSelectionCalculator {
+extension NNCalendarLogic.DateCalc.HighlightPart: NNSingleMonthGridSelectionCalculator {
 
   /// We include the previous and next selection for each grid selection so that
   /// they are refreshed too (rationale for this can be found above).
-  public func gridSelectionChanges(_ monthComp: NNCalendar.MonthComp,
-                                   _ prev: Set<NNCalendar.Selection>,
-                                   _ current: Set<NNCalendar.Selection>)
-    -> Set<NNCalendar.GridPosition>
+  public func gridSelectionChanges(_ monthComp: NNCalendarLogic.MonthComp,
+                                   _ prev: Set<NNCalendarLogic.Selection>,
+                                   _ current: Set<NNCalendarLogic.Selection>)
+    -> Set<NNCalendarLogic.GridPosition>
   {
     let dayCount = monthComp.dayCount
 

@@ -19,12 +19,12 @@ public final class NNDateCell: UICollectionViewCell {
 
   /// Set this variable instead of setting each individually to ensure all draw
   /// dependencies are available at the same time.
-  private var drawDependency: (NNCalendar.Day, NNSelectionHighlighterType?)? {
+  private var drawDependency: (NNCalendarLogic.Day, NNSelectionHighlighterType?)? {
     didSet { setNeedsDisplay() }
   }
 
   /// Store some properties here to perform some custom drawing.
-  private var currentDay: NNCalendar.Day? {
+  private var currentDay: NNCalendarLogic.Day? {
     return drawDependency?.0
   }
 
@@ -61,7 +61,7 @@ public final class NNDateCell: UICollectionViewCell {
   ///
   /// - Parameter day: A Day instance.
   public func setupWithDay(_ decorator: NNDateCellDecoratorType,
-                           _ day: NNCalendar.Day) {
+                           _ day: NNCalendarLogic.Day) {
     self.drawDependency = (day, decorator.selectionHighlighter)
     guard let dateLbl = self.dateLbl else { return }
 

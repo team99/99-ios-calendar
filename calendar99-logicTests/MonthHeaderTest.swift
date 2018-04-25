@@ -15,16 +15,16 @@ import XCTest
 
 /// Tests for month header.
 public final class MonthHeaderTest: RootTest {
-  fileprivate var model: NNCalendar.MonthHeader.Model!
-  fileprivate var viewModel: NNCalendar.MonthHeader.ViewModel!
-  fileprivate var currentMonth: NNCalendar.Month!
-  fileprivate var currentMonthSb: BehaviorSubject<NNCalendar.Month>!
+  fileprivate var model: NNCalendarLogic.MonthHeader.Model!
+  fileprivate var viewModel: NNCalendarLogic.MonthHeader.ViewModel!
+  fileprivate var currentMonth: NNCalendarLogic.Month!
+  fileprivate var currentMonthSb: BehaviorSubject<NNCalendarLogic.Month>!
 
   override public func setUp() {
     super.setUp()
-    model = NNCalendar.MonthHeader.Model(self as NNMonthHeaderNoDefaultModelDependency)
-    viewModel = NNCalendar.MonthHeader.ViewModel(model)
-    currentMonth = NNCalendar.Month(Date())
+    model = NNCalendarLogic.MonthHeader.Model(self as NNMonthHeaderNoDefaultModelDependency)
+    viewModel = NNCalendarLogic.MonthHeader.ViewModel(model)
+    currentMonth = NNCalendarLogic.Month(Date())
     currentMonthSb = BehaviorSubject(value: currentMonth!)
   }
 }
@@ -41,22 +41,22 @@ extension MonthHeaderTest: MonthControlCommonTestProtocol {
 
 public extension MonthHeaderTest {
   public func test_multipleConstructors_shouldWork() {
-    let monthControlModel = NNCalendar.MonthControl.Model(self)
-    let model1 = NNCalendar.MonthHeader.Model(monthControlModel, self)
-    let model2 = NNCalendar.MonthHeader.Model(self)
+    let monthControlModel = NNCalendarLogic.MonthControl.Model(self)
+    let model1 = NNCalendarLogic.MonthHeader.Model(monthControlModel, self)
+    let model2 = NNCalendarLogic.MonthHeader.Model(self)
     
     XCTAssertEqual(model1.formatMonthDescription(currentMonth!),
                    model2.formatMonthDescription(currentMonth!))
 
-    let monthControlVM = NNCalendar.MonthControl.ViewModel(monthControlModel)
-    let viewModel1 = NNCalendar.MonthHeader.ViewModel(monthControlVM, model1)
+    let monthControlVM = NNCalendarLogic.MonthControl.ViewModel(monthControlModel)
+    let viewModel1 = NNCalendarLogic.MonthHeader.ViewModel(monthControlVM, model1)
     viewModel1.setupAllBindingsAndSubBindings()
   }
 
   public func test_monthDescriptionStream_shouldEmitCorrectDescriptions() {
     /// Setup
     let descObs = scheduler!.createObserver(String.self)
-    let monthObs = scheduler!.createObserver(NNCalendar.Month.self)
+    let monthObs = scheduler!.createObserver(NNCalendarLogic.Month.self)
     var currentMonth = self.currentMonth!
 
     // Subscribe to the month component and month description streams to test
@@ -114,19 +114,19 @@ public extension MonthHeaderTest {
 }
 
 extension MonthHeaderTest: NNMonthHeaderModelDependency {
-  public var initialMonthStream: Single<NNCalendar.Month> {
+  public var initialMonthStream: Single<NNCalendarLogic.Month> {
     return currentMonthSb.take(1).asSingle()
   }
 
-  public var currentMonthReceiver: AnyObserver<NNCalendar.Month> {
+  public var currentMonthReceiver: AnyObserver<NNCalendarLogic.Month> {
     return currentMonthSb.asObserver()
   }
 
-  public var currentMonthStream: Observable<NNCalendar.Month> {
+  public var currentMonthStream: Observable<NNCalendarLogic.Month> {
     return currentMonthSb.asObservable()
   }
 
-  public func formatMonthDescription(_ month: NNCalendar.Month) -> String {
+  public func formatMonthDescription(_ month: NNCalendarLogic.Month) -> String {
     return String(describing: month)
   }
 }

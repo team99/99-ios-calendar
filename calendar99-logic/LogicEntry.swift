@@ -1,5 +1,5 @@
 //
-//  Entry.swift
+//  LogicEntry.swift
 //  calendar99-logic
 //
 //  Created by Hai Pham on 10/4/18.
@@ -8,7 +8,7 @@
 
 /// This is the entry point to all features, and acts as a namespace to the
 /// underlying logic.
-public final class NNCalendar {
+public final class NNCalendarLogic {
 
   /// Represents date calculators.
   public final class DateCalc {}
@@ -54,7 +54,7 @@ public final class NNCalendar {
 
   /// Represents day selection views, including the month view and month section
   /// view.
-  public final class DaySelection {}
+  public final class DaySelect {}
 
   /// Represents views that are weekday-aware, such as the weekday view and
   /// month-grid based views.

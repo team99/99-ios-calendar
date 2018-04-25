@@ -11,7 +11,7 @@ import RxSwift
 /// View model for weekday display view.
 public protocol NNWeekdayDisplayViewModelType {
   /// Stream weekdays.
-  var weekdayStream: Observable<[NNCalendar.Weekday]> { get }
+  var weekdayStream: Observable<[NNCalendarLogic.Weekday]> { get }
 
   /// Receive weekday selection indexes. Beware that this is 0-based so we need
   /// to add 1 to get the actual weekday.
@@ -25,7 +25,7 @@ public protocol NNWeekdayDisplayViewModelType {
 }
 
 // MARK: - View model.
-public extension NNCalendar.WeekdayDisplay {
+public extension NNCalendarLogic.WeekdayDisplay {
   public final class ViewModel {
     fileprivate let model: NNWeekdayDisplayModelType
     fileprivate let selectionSb: PublishSubject<Int>
@@ -38,14 +38,14 @@ public extension NNCalendar.WeekdayDisplay {
 }
 
 // MARK: - NNWeekdayDisplayViewModelType
-extension NNCalendar.WeekdayDisplay.ViewModel: NNWeekdayDisplayViewModelType {
-  public var weekdayStream: Observable<[NNCalendar.Weekday]> {
+extension NNCalendarLogic.WeekdayDisplay.ViewModel: NNWeekdayDisplayViewModelType {
+  public var weekdayStream: Observable<[NNCalendarLogic.Weekday]> {
     let firstWeekday = model.firstWeekday
-    let weekdayCount = NNCalendar.Util.weekdayCount
+    let weekdayCount = NNCalendarLogic.Util.weekdayCount
 
-    let weekdays = NNCalendar.Util.weekdayRange(firstWeekday, weekdayCount)
+    let weekdays = NNCalendarLogic.Util.weekdayRange(firstWeekday, weekdayCount)
       .map({(weekday: $0, description: model.weekdayDescription($0))})
-      .map({NNCalendar.Weekday($0.weekday, $0.description)})
+      .map({NNCalendarLogic.Weekday($0.weekday, $0.description)})
 
     return Observable.just(weekdays)
   }
@@ -58,7 +58,7 @@ extension NNCalendar.WeekdayDisplay.ViewModel: NNWeekdayDisplayViewModelType {
   /// and mod by 8 to get the actual weekday.
   public var weekdaySelectionStream: Observable<Int> {
     let firstWeekday = model.firstWeekday
-    return selectionSb.map({NNCalendar.Util.weekdayWithIndex($0, firstWeekday)})
+    return selectionSb.map({NNCalendarLogic.Util.weekdayWithIndex($0, firstWeekday)})
   }
 
   public func setupWeekDisplayBindings() {}

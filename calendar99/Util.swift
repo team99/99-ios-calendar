@@ -9,7 +9,7 @@
 import calendar99_logic
 
 // MARK: - Utilities.
-public extension NNCalendar {
+public extension NNCalendarLogic {
 
   /// View utilities.
   public final class ViewUtil {

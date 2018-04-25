@@ -21,7 +21,7 @@ public protocol NNWeekdayViewDecoratorType {
   ///   - indexPath: An IndexPath instance.
   ///   - item: A Weekday instance.
   /// - Returns: A NNWeekdayCellDecoratorType instance.
-  func weekdayCellDecorator(_ indexPath: IndexPath, _ item: NNCalendar.Weekday)
+  func weekdayCellDecorator(_ indexPath: IndexPath, _ item: NNCalendarLogic.Weekday)
     -> NNWeekdayCellDecoratorType
 }
 

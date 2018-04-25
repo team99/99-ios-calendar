@@ -20,7 +20,7 @@ public protocol NNMonthSectionViewModelType:
   var totalMonthCount: Int { get }
   
   /// Stream month components to display on the month section view.
-  var monthCompStream: Observable<[NNCalendar.MonthComp]> { get }
+  var monthCompStream: Observable<[NNCalendarLogic.MonthComp]> { get }
 
   /// Stream the current month selection index. This will change, for e.g. when
   /// the user swipes the calendar view to reveal a new month.
@@ -31,7 +31,7 @@ public protocol NNMonthSectionViewModelType:
   ///
   /// Beware that this stream only emits changes in grid selections by comparing
   /// the previous and current selections.
-  var gridSelectionChangesStream: Observable<Set<NNCalendar.GridPosition>> { get }
+  var gridSelectionChangesStream: Observable<Set<NNCalendarLogic.GridPosition>> { get }
 
   /// Calculate the day for a month and a first date offset.
   ///
@@ -39,8 +39,8 @@ public protocol NNMonthSectionViewModelType:
   ///   - month: A Month instance.
   ///   - firstDateOffset: Offset from the initial date in the grid.
   /// - Returns: A Day instance.
-  func dayFromFirstDate(_ month: NNCalendar.Month,
-                        _ firstDateOffset: Int) -> NNCalendar.Day?
+  func dayFromFirstDate(_ month: NNCalendarLogic.Month,
+                        _ firstDateOffset: Int) -> NNCalendarLogic.Day?
 
   /// Set up month section bindings.
   func setupMonthSectionBindings()
@@ -66,7 +66,7 @@ public protocol NNMonthSectionViewModelFactory {
   func monthSectionViewModel() -> NNMonthSectionViewModelType
 }
 
-public extension NNCalendar.MonthSection {
+public extension NNCalendarLogic.MonthSection {
 
   /// View model implementation for the month section view.
   public final class ViewModel {
@@ -77,7 +77,7 @@ public extension NNCalendar.MonthSection {
     fileprivate let disposable: DisposeBag
 
     /// Cache here to improve performance.
-    fileprivate let monthCompSbj: BehaviorSubject<[NNCalendar.MonthComp]?>
+    fileprivate let monthCompSbj: BehaviorSubject<[NNCalendarLogic.MonthComp]?>
 
     required public init(_ monthControlVM: NNMonthControlViewModelType,
                          _ monthGridVM: NNMonthGridViewModelType,
@@ -92,39 +92,39 @@ public extension NNCalendar.MonthSection {
     }
 
     convenience public init(_ model: NNMonthSectionModelType) {
-      let monthControlVM = NNCalendar.MonthControl.ViewModel(model)
-      let monthGridVM = NNCalendar.MonthGrid.ViewModel(model)
-      let daySelectionVM = NNCalendar.DaySelection.ViewModel(model)
+      let monthControlVM = NNCalendarLogic.MonthControl.ViewModel(model)
+      let monthGridVM = NNCalendarLogic.MonthGrid.ViewModel(model)
+      let daySelectionVM = NNCalendarLogic.DaySelect.ViewModel(model)
       self.init(monthControlVM, monthGridVM, daySelectionVM, model)
     }
   }
 }
 
 // MARK: - NNGridDisplayDefaultFunction
-extension NNCalendar.MonthSection.ViewModel: NNGridDisplayDefaultFunction {
+extension NNCalendarLogic.MonthSection.ViewModel: NNGridDisplayDefaultFunction {
   public var weekdayStacks: Int { return monthGridVM.weekdayStacks }
 }
 
 // MARK: - NNMonthGridViewModelType
-extension NNCalendar.MonthSection.ViewModel: NNMonthGridViewModelType {
-  public var gridSelectionReceiver: AnyObserver<NNCalendar.GridPosition> {
+extension NNCalendarLogic.MonthSection.ViewModel: NNMonthGridViewModelType {
+  public var gridSelectionReceiver: AnyObserver<NNCalendarLogic.GridPosition> {
     return monthGridVM.gridSelectionReceiver
   }
 
-  public var gridSelectionStream: Observable<NNCalendar.GridPosition> {
+  public var gridSelectionStream: Observable<NNCalendarLogic.GridPosition> {
     return monthGridVM.gridSelectionStream
   }
 }
 
 // MARK: - NNMonthControlNoDefaultFunction
-extension NNCalendar.MonthSection.ViewModel: NNMonthControlNoDefaultFunction {
-  public var currentMonthReceiver: AnyObserver<NNCalendar.Month> {
+extension NNCalendarLogic.MonthSection.ViewModel: NNMonthControlNoDefaultFunction {
+  public var currentMonthReceiver: AnyObserver<NNCalendarLogic.Month> {
     return monthControlVM.currentMonthReceiver
   }
 }
 
 // MARK: - NNMonthControlViewModelType
-extension NNCalendar.MonthSection.ViewModel: NNMonthControlViewModelType {
+extension NNCalendarLogic.MonthSection.ViewModel: NNMonthControlViewModelType {
   public var currentMonthForwardReceiver: AnyObserver<UInt> {
     return monthControlVM.currentMonthForwardReceiver
   }
@@ -139,14 +139,14 @@ extension NNCalendar.MonthSection.ViewModel: NNMonthControlViewModelType {
 }
 
 // MARK: - NNSingleDaySelectionNoDefaultFunction
-extension NNCalendar.MonthSection.ViewModel: NNSingleDaySelectionNoDefaultFunction {
+extension NNCalendarLogic.MonthSection.ViewModel: NNSingleDaySelectionNoDefaultFunction {
   public func isDateSelected(_ date: Date) -> Bool {
     return daySelectionVM.isDateSelected(date)
   }
 }
 
 // MARK: - NNDaySelectionViewModelType
-extension NNCalendar.MonthSection.ViewModel: NNSingleDaySelectionViewModelType {
+extension NNCalendarLogic.MonthSection.ViewModel: NNSingleDaySelectionViewModelType {
   public var dateSelectionReceiver: AnyObserver<Date> {
     return daySelectionVM.dateSelectionReceiver
   }
@@ -157,19 +157,19 @@ extension NNCalendar.MonthSection.ViewModel: NNSingleDaySelectionViewModelType {
 }
 
 // MARK: - NNSelectHighlightNoDefaultFunction
-extension NNCalendar.MonthSection.ViewModel: NNSelectHighlightNoDefaultFunction {
-  public func highlightPart(_ date: Date) -> NNCalendar.HighlightPart {
+extension NNCalendarLogic.MonthSection.ViewModel: NNSelectHighlightNoDefaultFunction {
+  public func highlightPart(_ date: Date) -> NNCalendarLogic.HighlightPart {
     return model.highlightPart(date)
   }
 }
 
 // MARK: - NNMonthSectionViewModelType
-extension NNCalendar.MonthSection.ViewModel: NNMonthSectionViewModelType {
+extension NNCalendarLogic.MonthSection.ViewModel: NNMonthSectionViewModelType {
   public var totalMonthCount: Int {
-    return NNCalendar.Util.monthCount(model.minimumMonth, model.maximumMonth)
+    return NNCalendarLogic.Util.monthCount(model.minimumMonth, model.maximumMonth)
   }
 
-  public var monthCompStream: Observable<[NNCalendar.MonthComp]> {
+  public var monthCompStream: Observable<[NNCalendarLogic.MonthComp]> {
     return monthCompSbj.filter({$0.isSome}).map({$0!})
   }
 
@@ -181,9 +181,9 @@ extension NNCalendar.MonthSection.ViewModel: NNMonthSectionViewModelType {
   }
 
   /// Keep track of the previous selections to know what have been deselected.
-  public var gridSelectionChangesStream: Observable<Set<NNCalendar.GridPosition>> {
+  public var gridSelectionChangesStream: Observable<Set<NNCalendarLogic.GridPosition>> {
     return model.allSelectionStream.map({$0.getOrElse([])})
-      .scan((p: Set<NNCalendar.Selection>(), c: Set<NNCalendar.Selection>()),
+      .scan((p: Set<NNCalendarLogic.Selection>(), c: Set<NNCalendarLogic.Selection>()),
             accumulator: {(p: $0.c, c: $1)})
       .withLatestFrom(model.currentMonthStream) {($1, p: $0.p, c: $0.c)}
       .withLatestFrom(monthCompStream) {($1, $0.0, p: $0.p, c: $0.c)}
@@ -191,8 +191,8 @@ extension NNCalendar.MonthSection.ViewModel: NNMonthSectionViewModelType {
       .filter({$0.isSome}).map({$0!})
   }
 
-  public func dayFromFirstDate(_ month: NNCalendar.Month,
-                               _ firstDateOffset: Int) -> NNCalendar.Day? {
+  public func dayFromFirstDate(_ month: NNCalendarLogic.Month,
+                               _ firstDateOffset: Int) -> NNCalendarLogic.Day? {
     return model.dayFromFirstDate(month, firstDateOffset)
   }
 
@@ -200,13 +200,13 @@ extension NNCalendar.MonthSection.ViewModel: NNMonthSectionViewModelType {
     let disposable = self.disposable
     let minMonth = model.minimumMonth
     let maxMonth = model.maximumMonth
-    let dayCount = monthGridVM.weekdayStacks * NNCalendar.Util.weekdayCount
+    let dayCount = monthGridVM.weekdayStacks * NNCalendarLogic.Util.weekdayCount
     let firstWeekday = model.firstWeekday
 
     /// Must call onNext manually to avoid completed event, since this is a
     /// cold stream.
-    Observable.just(NNCalendar.Util.monthRange(minMonth, maxMonth))
-      .map({$0.map({NNCalendar.MonthComp($0, dayCount, firstWeekday)})})
+    Observable.just(NNCalendarLogic.Util.monthRange(minMonth, maxMonth))
+      .map({$0.map({NNCalendarLogic.MonthComp($0, dayCount, firstWeekday)})})
       .subscribe(onNext: {[weak self] in self?.monthCompSbj.onNext($0)})
       .disposed(by: disposable)
 

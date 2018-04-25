@@ -36,7 +36,7 @@ Each of these views requires its own **ViewModel** and **Model**, so we must be 
 
 - Usually protocols will have the postfix **Type**, (e.g. **ViewModelType**, **ModelType**), but not always. A **ViewModel** will have a protocol **ViewModelType** and an implementation.
 
-- Actual model and view model implementations are nested in classes defined in **Entry.swift** (e.g. **NNCalendar.MonthSection.ViewModel**).
+- Actual model and view model implementations are nested in classes defined in **Entry.swift** (e.g. **NNCalendarLogic.MonthSection.ViewModel**).
 
 ## Presets
 

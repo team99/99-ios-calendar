@@ -14,8 +14,8 @@ public extension NNCalendarRedux.Calendar {
 
   /// Calendar actions, including month, date selections etc.
   public enum Action: ReduxActionType {
-    case updateCurrentMonth(NNCalendar.Month)
-    case updateSelection(Set<NNCalendar.Selection>)
+    case updateCurrentMonth(NNCalendarLogic.Month)
+    case updateSelection(Set<NNCalendarLogic.Selection>)
     case clearAll
 
     fileprivate static var basePath: String {

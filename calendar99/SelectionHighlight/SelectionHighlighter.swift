@@ -19,5 +19,5 @@ public protocol NNSelectionHighlighterType {
   ///   - part: A HighlightPart instance.
   func drawHighlight(_ context: CGContext,
                      _ rect: CGRect,
-                     _ part: NNCalendar.HighlightPart)
+                     _ part: NNCalendarLogic.HighlightPart)
 }

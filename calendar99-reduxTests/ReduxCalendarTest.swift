@@ -22,11 +22,11 @@ public extension ReduxCalendarTest {
     var path: String!
 
     /// When & Then
-    let currentMonth = NNCalendar.Month(Date.random()!)
+    let currentMonth = NNCalendarLogic.Month(Date.random()!)
     path = NNCalendarRedux.Calendar.Action.currentMonthPath
     action = NNCalendarRedux.Calendar.Action.updateCurrentMonth(currentMonth)
     state = NNCalendarRedux.Calendar.Reducer.reduce(state, action)
-    let storedMonth = state.stateValue(path).value! as! NNCalendar.Month
+    let storedMonth = state.stateValue(path).value! as! NNCalendarLogic.Month
     XCTAssertEqual(storedMonth, currentMonth)
 
     path = NNCalendarRedux.Calendar.Action.selectionPath
@@ -34,19 +34,19 @@ public extension ReduxCalendarTest {
     let firstWday = Int.random(1, 7)
 
     let selections = Set((0..<selectionCount)
-      .map({(ix: Int) -> NNCalendar.Selection in
+      .map({(ix: Int) -> NNCalendarLogic.Selection in
         switch ix % 2 {
         case 1:
-          return NNCalendar.RepeatWeekdaySelection(Int.random(0, 7), firstWday)
+          return NNCalendarLogic.RepeatWeekdaySelection(Int.random(0, 7), firstWday)
 
         default:
-          return NNCalendar.DateSelection(Date.random()!, firstWday)
+          return NNCalendarLogic.DateSelection(Date.random()!, firstWday)
         }
       }))
 
     action = NNCalendarRedux.Calendar.Action.updateSelection(selections)
     state = NNCalendarRedux.Calendar.Reducer.reduce(state, action)
-    let storedSl = state.stateValue(path).value! as! Set<NNCalendar.Selection>
+    let storedSl = state.stateValue(path).value! as! Set<NNCalendarLogic.Selection>
     XCTAssertEqual(storedSl, selections)
 
     action = NNCalendarRedux.Calendar.Action.clearAll

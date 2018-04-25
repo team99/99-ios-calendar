@@ -15,27 +15,27 @@ import XCTest
 
 /// Tests for month grid.
 public final class MonthGridTest: RootTest {
-  fileprivate var model: NNCalendar.MonthGrid.Model!
-  fileprivate var viewModel: NNCalendar.MonthGrid.ViewModel!
+  fileprivate var model: NNCalendarLogic.MonthGrid.Model!
+  fileprivate var viewModel: NNCalendarLogic.MonthGrid.ViewModel!
   fileprivate var defaultModelDp: NNMonthGridModelDependency!
 
   override public func setUp() {
     super.setUp()
-    model = NNCalendar.MonthGrid.Model()
-    viewModel = NNCalendar.MonthGrid.ViewModel(model!)
-    defaultModelDp = NNCalendar.MonthGrid.Model.DefaultDependency()
+    model = NNCalendarLogic.MonthGrid.Model()
+    viewModel = NNCalendarLogic.MonthGrid.ViewModel(model!)
+    defaultModelDp = NNCalendarLogic.MonthGrid.Model.DefaultDependency()
   }
 }
 
 public extension MonthGridTest {
   public func test_defaultDependencies_shouldWork() {
-    let model1 = NNCalendar.MonthGrid.Model(defaultModelDp!)
+    let model1 = NNCalendarLogic.MonthGrid.Model(defaultModelDp!)
     XCTAssertEqual(model1.weekdayStacks, defaultModelDp.weekdayStacks)
   }
 
   public func test_gridSelectionReceiverAndStream_shouldWork() {
     /// Setup
-    let selectionObs = scheduler!.createObserver(NNCalendar.GridPosition.self)
+    let selectionObs = scheduler!.createObserver(NNCalendarLogic.GridPosition.self)
 
     viewModel.gridSelectionStream
       .subscribe(selectionObs)
@@ -45,7 +45,7 @@ public extension MonthGridTest {
     for _ in 0..<iterations! {
       let month = Int.random(0, 1000)
       let day = Int.random(0, 1000)
-      let selection = NNCalendar.GridPosition(month, day)
+      let selection = NNCalendarLogic.GridPosition(month, day)
       viewModel.gridSelectionReceiver.onNext(selection)
       waitOnMainThread(waitDuration!)
 

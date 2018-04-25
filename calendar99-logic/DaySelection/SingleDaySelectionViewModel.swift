@@ -22,7 +22,7 @@ public protocol NNSingleDaySelectionViewModelType:
 }
 
 // MARK: - View model.
-public extension NNCalendar.DaySelection {
+public extension NNCalendarLogic.DaySelect {
 
   /// View model implementation.
   public final class ViewModel {
@@ -39,14 +39,14 @@ public extension NNCalendar.DaySelection {
 }
 
 // MARK: - NNSingleDaySelectionNoDefaultFunction
-extension NNCalendar.DaySelection.ViewModel: NNSingleDaySelectionNoDefaultFunction {
+extension NNCalendarLogic.DaySelect.ViewModel: NNSingleDaySelectionNoDefaultFunction {
   public func isDateSelected(_ date: Date) -> Bool {
     return model.isDateSelected(date)
   }
 }
 
 // MARK: - NNDaySelectionViewModelType
-extension NNCalendar.DaySelection.ViewModel: NNSingleDaySelectionViewModelType {
+extension NNCalendarLogic.DaySelect.ViewModel: NNSingleDaySelectionViewModelType {
   public var dateSelectionReceiver: AnyObserver<Date> {
     return dateSelectionSbj.asObserver()
   }
@@ -58,7 +58,7 @@ extension NNCalendar.DaySelection.ViewModel: NNSingleDaySelectionViewModelType {
     let firstWeekday = model.firstWeekday
 
     dateSelectionSbj
-      .map({NNCalendar.DateSelection($0, firstWeekday) as NNCalendar.Selection})
+      .map({NNCalendarLogic.DateSelection($0, firstWeekday) as NNCalendarLogic.Selection})
       .withLatestFrom(model.allSelectionStream) {($1.getOrElse([]), $0)}
       .map({$0.contains($1)
           ? $0.subtracting(Set(arrayLiteral: $1))

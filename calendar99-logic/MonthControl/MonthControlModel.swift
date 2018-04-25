@@ -21,13 +21,13 @@ public protocol NNMonthControlNoDefaultModelFunction:
   NNMonthControlNoDefaultFunction
 {
   /// Get the minimum month that we cannot go past.
-  var minimumMonth: NNCalendar.Month { get }
+  var minimumMonth: NNCalendarLogic.Month { get }
 
   /// Get the maximum month that we cannot go past.
-  var maximumMonth: NNCalendar.Month { get }
+  var maximumMonth: NNCalendarLogic.Month { get }
 
   /// Stream the initial month.
-  var initialMonthStream: Single<NNCalendar.Month> { get }
+  var initialMonthStream: Single<NNCalendarLogic.Month> { get }
 }
 
 /// Dependency for month control model.
@@ -40,7 +40,7 @@ public protocol NNMonthControlModelType:
   NNMonthControlDefaultModelFunction,
   NNMonthControlNoDefaultModelFunction {}
 
-public extension NNCalendar.MonthControl {
+public extension NNCalendarLogic.MonthControl {
 
   /// Model implementation.
   public final class Model {
@@ -53,33 +53,33 @@ public extension NNCalendar.MonthControl {
 }
 
 // MARK: - NNMonthAwareNoDefaultModelFunction
-extension NNCalendar.MonthControl.Model: NNMonthAwareNoDefaultModelFunction {
-  public var currentMonthStream: Observable<NNCalendar.Month> {
+extension NNCalendarLogic.MonthControl.Model: NNMonthAwareNoDefaultModelFunction {
+  public var currentMonthStream: Observable<NNCalendarLogic.Month> {
     return dependency.currentMonthStream
   }
 }
 
 // MARK: - NNMonthControlNoDefaultFunction
-extension NNCalendar.MonthControl.Model: NNMonthControlNoDefaultFunction {
-  public var currentMonthReceiver: AnyObserver<NNCalendar.Month> {
+extension NNCalendarLogic.MonthControl.Model: NNMonthControlNoDefaultFunction {
+  public var currentMonthReceiver: AnyObserver<NNCalendarLogic.Month> {
     return dependency.currentMonthReceiver
   }
 }
 
 /// NNMonthControlNoDefaultModelFunction
-extension NNCalendar.MonthControl.Model: NNMonthControlNoDefaultModelFunction {
-  public var initialMonthStream: Single<NNCalendar.Month> {
+extension NNCalendarLogic.MonthControl.Model: NNMonthControlNoDefaultModelFunction {
+  public var initialMonthStream: Single<NNCalendarLogic.Month> {
     return dependency.initialMonthStream
   }
 
-  public var minimumMonth: NNCalendar.Month {
+  public var minimumMonth: NNCalendarLogic.Month {
     return dependency.minimumMonth
   }
 
-  public var maximumMonth: NNCalendar.Month {
+  public var maximumMonth: NNCalendarLogic.Month {
     return dependency.maximumMonth
   }
 }
 
 // MARK: - NNMonthControlModelType
-extension NNCalendar.MonthControl.Model: NNMonthControlModelType {}
+extension NNCalendarLogic.MonthControl.Model: NNMonthControlModelType {}

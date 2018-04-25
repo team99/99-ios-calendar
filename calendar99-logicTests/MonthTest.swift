@@ -23,7 +23,7 @@ public final class MonthTest: RootTest {
   public func test_newMonthWithMonthOffset_shouldWork() {
     /// Setup
     var date = Date()
-    var month = NNCalendar.Month(date)
+    var month = NNCalendarLogic.Month(date)
 
     /// When
     for _ in 0..<iterations! {
@@ -43,7 +43,7 @@ public final class MonthTest: RootTest {
     /// Setup
     let calendar = Calendar.current
     let date = Date()
-    let firstMonth = NNCalendar.Month(date)
+    let firstMonth = NNCalendarLogic.Month(date)
 
     /// When
     for i in 0..<iterations! {
@@ -52,7 +52,7 @@ public final class MonthTest: RootTest {
       let newDate = calendar.date(byAdding: .day, value: dateOffset, to: date)!
 
       /// Then
-      let newMonthForDate = NNCalendar.Month(newDate)
+      let newMonthForDate = NNCalendarLogic.Month(newDate)
       XCTAssertEqual(newMonth == newMonthForDate, newMonth.contains(newDate))
     }
   }
@@ -60,7 +60,7 @@ public final class MonthTest: RootTest {
   public func test_getDatesWithWeekday_shouldWork() {
     /// Setup
     let calendar = Calendar.current
-    let firstMonth = NNCalendar.Month(Date())
+    let firstMonth = NNCalendarLogic.Month(Date())
 
     /// When
     for i in 0..<iterations! {
@@ -73,7 +73,7 @@ public final class MonthTest: RootTest {
         for date in dates {
           let weekdayComp = calendar.component(.weekday, from: date)
           XCTAssertEqual(weekdayComp, weekday)
-          XCTAssertEqual(NNCalendar.Month(date), month)
+          XCTAssertEqual(NNCalendarLogic.Month(date), month)
         }
       }
     }
@@ -82,8 +82,8 @@ public final class MonthTest: RootTest {
   public func test_compareMonths_shouldWork() {
     for _ in 0..<iterations! {
       /// Setup
-      let month1 = NNCalendar.Month(Date.random()!)
-      let month2 = NNCalendar.Month(Date.random()!)
+      let month1 = NNCalendarLogic.Month(Date.random()!)
+      let month2 = NNCalendarLogic.Month(Date.random()!)
       let date1 = month1.date!
       let date2 = month2.date!
 

@@ -61,7 +61,7 @@ public struct NNHorizontalSelectHighlighter {
 extension NNHorizontalSelectHighlighter: NNSelectionHighlighterType {
   public func drawHighlight(_ context: CGContext,
                             _ rect: CGRect,
-                            _ part: NNCalendar.HighlightPart) {
+                            _ part: NNCalendarLogic.HighlightPart) {
     context.saveGState()
     defer { context.restoreGState() }
     var highlightRect = rect.insetBy(dx: 0, dy: verticalInset)

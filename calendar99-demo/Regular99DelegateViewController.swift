@@ -13,8 +13,8 @@ import calendar99_legacy
 
 public final class Regular99DelegateViewController: UIViewController {
   @IBOutlet fileprivate weak var regular99Calendar: NNRegular99Calendar!
-  fileprivate var currentMonth: NNCalendar.Month?
-  fileprivate var selections: Set<NNCalendar.Selection>?
+  fileprivate var currentMonth: NNCalendarLogic.Month?
+  fileprivate var selections: Set<NNCalendarLogic.Selection>?
 
   deinit {
     print("DEINIT \(self)")
@@ -28,35 +28,35 @@ public final class Regular99DelegateViewController: UIViewController {
 }
 
 extension Regular99DelegateViewController: NNRegular99CalendarNoDefaultDelegate {
-  public func minimumMonth(for calendar: NNRegular99Calendar) -> NNCalendar.Month {
-    return NNCalendar.Month(4, 2018)
+  public func minimumMonth(for calendar: NNRegular99Calendar) -> NNCalendarLogic.Month {
+    return NNCalendarLogic.Month(4, 2018)
   }
 
-  public func maximumMonth(for calendar: NNRegular99Calendar) -> NNCalendar.Month {
-    return NNCalendar.Month(10, 2018)
+  public func maximumMonth(for calendar: NNRegular99Calendar) -> NNCalendarLogic.Month {
+    return NNCalendarLogic.Month(10, 2018)
   }
 
-  public func initialMonth(for calendar: NNRegular99Calendar) -> NNCalendar.Month {
-    return NNCalendar.Month(6, 2018)
+  public func initialMonth(for calendar: NNRegular99Calendar) -> NNCalendarLogic.Month {
+    return NNCalendarLogic.Month(6, 2018)
   }
 
-  public func currentMonth(for calendar: NNRegular99Calendar) -> NNCalendar.Month {
+  public func currentMonth(for calendar: NNRegular99Calendar) -> NNCalendarLogic.Month {
     return currentMonth ?? initialMonth(for: calendar)
   }
 
   public func regular99(_ calendar: NNRegular99Calendar,
-                        onCurrentMonthChangedTo month: NNCalendar.Month) {
+                        onCurrentMonthChangedTo month: NNCalendarLogic.Month) {
     currentMonth = month
   }
 
   public func currentSelections(for calendar: NNRegular99Calendar)
-    -> Set<NNCalendar.Selection>?
+    -> Set<NNCalendarLogic.Selection>?
   {
     return selections
   }
 
   public func regular99(_ calendar: NNRegular99Calendar,
-                        onSelectionChangedTo selections: Set<NNCalendar.Selection>) {
+                        onSelectionChangedTo selections: Set<NNCalendarLogic.Selection>) {
     self.selections = selections
   }
 
@@ -66,7 +66,7 @@ extension Regular99DelegateViewController: NNRegular99CalendarNoDefaultDelegate 
   }
 
   public func regular99(_ calendar: NNRegular99Calendar,
-                        highlightPartFor date: Date) -> NNCalendar.HighlightPart {
-    return selections.map({NNCalendar.Util.highlightPart($0, date)}).getOrElse(.none)
+                        highlightPartFor date: Date) -> NNCalendarLogic.HighlightPart {
+    return selections.map({NNCalendarLogic.Util.highlightPart($0, date)}).getOrElse(.none)
   }
 }

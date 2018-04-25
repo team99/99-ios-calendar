@@ -18,9 +18,9 @@ public extension NNGridSelectionCalculator {
   ///   - prevSelections: A Set of selections.
   ///   - currentSelections: A Set of selections.
   /// - Returns: A Set of selections that were actually changed.
-  func extractChanges(_ prevSelections: Set<NNCalendar.Selection>,
-                      _ currentSelections: Set<NNCalendar.Selection>)
-    -> Set<NNCalendar.Selection>
+  func extractChanges(_ prevSelections: Set<NNCalendarLogic.Selection>,
+                      _ currentSelections: Set<NNCalendarLogic.Selection>)
+    -> Set<NNCalendarLogic.Selection>
   {
     /// Since it's either the previous selections set is larger than the
     /// current selections or vice versa, so unioning these subtracted sets
@@ -44,11 +44,11 @@ public protocol NNMultiMonthGridSelectionCalculator: NNGridSelectionCalculator {
   ///   - prev: The previous selections.
   ///   - current: The current selections.
   /// - Returns: A GridPosition Set.
-  func gridSelectionChanges(_ monthComps: [NNCalendar.MonthComp],
-                            _ currentMonth: NNCalendar.Month,
-                            _ prev: Set<NNCalendar.Selection>,
-                            _ current: Set<NNCalendar.Selection>)
-    -> Set<NNCalendar.GridPosition>
+  func gridSelectionChanges(_ monthComps: [NNCalendarLogic.MonthComp],
+                            _ currentMonth: NNCalendarLogic.Month,
+                            _ prev: Set<NNCalendarLogic.Selection>,
+                            _ current: Set<NNCalendarLogic.Selection>)
+    -> Set<NNCalendarLogic.GridPosition>
 }
 
 /// The functionality of this calculator is almost the same as the one above,
@@ -65,8 +65,8 @@ public protocol NNSingleMonthGridSelectionCalculator: NNGridSelectionCalculator 
   ///   - prev: The previous selections.
   ///   - current: The current selections.
   /// - Returns: A Set of GridPosition.
-  func gridSelectionChanges(_ monthComp: NNCalendar.MonthComp,
-                            _ prev: Set<NNCalendar.Selection>,
-                            _ current: Set<NNCalendar.Selection>)
-    -> Set<NNCalendar.GridPosition>
+  func gridSelectionChanges(_ monthComp: NNCalendarLogic.MonthComp,
+                            _ prev: Set<NNCalendarLogic.Selection>,
+                            _ current: Set<NNCalendarLogic.Selection>)
+    -> Set<NNCalendarLogic.GridPosition>
 }

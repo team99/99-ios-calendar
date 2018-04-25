@@ -37,7 +37,7 @@ public protocol NNMonthHeaderViewModelFactory {
   func monthHeaderViewModel() -> NNMonthHeaderViewModelType
 }
 
-public extension NNCalendar.MonthHeader {
+public extension NNCalendarLogic.MonthHeader {
   
   /// View model implementation.
   public final class ViewModel {
@@ -55,21 +55,21 @@ public extension NNCalendar.MonthHeader {
     }
 
     convenience public init(_ model: NNMonthHeaderModelType) {
-      let monthControlVM = NNCalendar.MonthControl.ViewModel(model)
+      let monthControlVM = NNCalendarLogic.MonthControl.ViewModel(model)
       self.init(monthControlVM, model)
     }
   }
 }
 
 // MARK: - NNMonthControlNoDefaultFunction
-extension NNCalendar.MonthHeader.ViewModel: NNMonthControlNoDefaultFunction {
-  public var currentMonthReceiver: AnyObserver<NNCalendar.Month> {
+extension NNCalendarLogic.MonthHeader.ViewModel: NNMonthControlNoDefaultFunction {
+  public var currentMonthReceiver: AnyObserver<NNCalendarLogic.Month> {
     return monthControlVM.currentMonthReceiver
   }
 }
 
 // MARK: - NNMonthControlViewModelType
-extension NNCalendar.MonthHeader.ViewModel: NNMonthControlViewModelType {
+extension NNCalendarLogic.MonthHeader.ViewModel: NNMonthControlViewModelType {
   public var currentMonthForwardReceiver: AnyObserver<UInt> {
     return monthControlVM.currentMonthForwardReceiver
   }
@@ -84,7 +84,7 @@ extension NNCalendar.MonthHeader.ViewModel: NNMonthControlViewModelType {
 }
 
 // MARK: - NNMonthHeaderViewModelType
-extension NNCalendar.MonthHeader.ViewModel: NNMonthHeaderViewModelType {
+extension NNCalendarLogic.MonthHeader.ViewModel: NNMonthHeaderViewModelType {
   public var reachedMinimumMonth: Observable<Bool> {
     let minMonth = model.minimumMonth
     return model.currentMonthStream.map({$0 == minMonth}).distinctUntilChanged()

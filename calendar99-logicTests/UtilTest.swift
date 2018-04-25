@@ -19,43 +19,43 @@ public final class UtilTest: RootTest {
 public extension UtilTest {
   public func test_createWeekdayRange_shouldWork() {
     for firstWeekday in 0...7 {
-      let range = NNCalendar.Util.weekdayRange(firstWeekday, 7)
+      let range = NNCalendarLogic.Util.weekdayRange(firstWeekday, 7)
       XCTAssertEqual(Set(range).count, range.count)
       XCTAssertTrue(range.all({$0 <= 7}))
 
       for index in 0...6 {
-        let weekday = NNCalendar.Util.weekdayWithIndex(index, firstWeekday)
+        let weekday = NNCalendarLogic.Util.weekdayWithIndex(index, firstWeekday)
         XCTAssertEqual(weekday, range[index])
       }
     }
   }
 
   public func test_getAvailableMonthsForMinAndMax_shouldWork() {
-    let min1 = NNCalendar.Month(1, 2018)
-    let max1 = NNCalendar.Month(8, 2017)
-    XCTAssertEqual(NNCalendar.Util.monthRange(min1, max1).count, 0)
+    let min1 = NNCalendarLogic.Month(1, 2018)
+    let max1 = NNCalendarLogic.Month(8, 2017)
+    XCTAssertEqual(NNCalendarLogic.Util.monthRange(min1, max1).count, 0)
 
-    let min2 = NNCalendar.Month(1, 2018)
-    let max2 = NNCalendar.Month(1, 2018)
-    XCTAssertEqual(NNCalendar.Util.monthRange(min2, max2).count, 1)
+    let min2 = NNCalendarLogic.Month(1, 2018)
+    let max2 = NNCalendarLogic.Month(1, 2018)
+    XCTAssertEqual(NNCalendarLogic.Util.monthRange(min2, max2).count, 1)
 
-    let min3 = NNCalendar.Month(1, 2018)
-    let max3 = NNCalendar.Month(4, 2018)
-    XCTAssertEqual(NNCalendar.Util.monthRange(min3, max3).count, 4)
+    let min3 = NNCalendarLogic.Month(1, 2018)
+    let max3 = NNCalendarLogic.Month(4, 2018)
+    XCTAssertEqual(NNCalendarLogic.Util.monthRange(min3, max3).count, 4)
   }
 
   public func test_getAvailableMonths_shouldWork() {
-    let min1 = NNCalendar.Month(1, 2018)
-    let max1 = NNCalendar.Month(2, 2017)
-    XCTAssertEqual(NNCalendar.Util.monthCount(min1, max1), 0)
+    let min1 = NNCalendarLogic.Month(1, 2018)
+    let max1 = NNCalendarLogic.Month(2, 2017)
+    XCTAssertEqual(NNCalendarLogic.Util.monthCount(min1, max1), 0)
 
-    let min2 = NNCalendar.Month(1, 2018)
-    let max2 = NNCalendar.Month(1, 2018)
-    XCTAssertEqual(NNCalendar.Util.monthCount(min2, max2), 1)
+    let min2 = NNCalendarLogic.Month(1, 2018)
+    let max2 = NNCalendarLogic.Month(1, 2018)
+    XCTAssertEqual(NNCalendarLogic.Util.monthCount(min2, max2), 1)
 
-    let min3 = NNCalendar.Month(1, 2018)
-    let max3 = NNCalendar.Month(10, 2018)
-    XCTAssertEqual(NNCalendar.Util.monthCount(min3, max3), 10)
+    let min3 = NNCalendarLogic.Month(1, 2018)
+    let max3 = NNCalendarLogic.Month(10, 2018)
+    XCTAssertEqual(NNCalendarLogic.Util.monthCount(min3, max3), 10)
   }
 
   public func test_calculateHighlightParts_shouldWork() {
@@ -66,17 +66,17 @@ public extension UtilTest {
     let startDate = Date()
     let select1 = (0..<times).map({calendar.date(byAdding: .day, value: $0, to: startDate)!})
     let select2 = [startDate]
-    let set1 = Set(select1.map({NNCalendar.DateSelection($0, firstWeekday)}))
-    let set2 = Set(select2.map({NNCalendar.DateSelection($0, firstWeekday)}))
+    let set1 = Set(select1.map({NNCalendarLogic.DateSelection($0, firstWeekday)}))
+    let set2 = Set(select2.map({NNCalendarLogic.DateSelection($0, firstWeekday)}))
 
     /// When
-    let p0 = NNCalendar.Util.highlightPart(set1, select1[0])
-    let p1 = NNCalendar.Util.highlightPart(set1, select1[1])
-    let p2 = NNCalendar.Util.highlightPart(set1, select1[2])
-    let p3 = NNCalendar.Util.highlightPart(set1, select1[3])
-    let p4 = NNCalendar.Util.highlightPart(set1, select1[4])
-    let p5 = NNCalendar.Util.highlightPart(set2, select2[0])
-    let p6 = NNCalendar.Util.highlightPart([], Date.random()!)
+    let p0 = NNCalendarLogic.Util.highlightPart(set1, select1[0])
+    let p1 = NNCalendarLogic.Util.highlightPart(set1, select1[1])
+    let p2 = NNCalendarLogic.Util.highlightPart(set1, select1[2])
+    let p3 = NNCalendarLogic.Util.highlightPart(set1, select1[3])
+    let p4 = NNCalendarLogic.Util.highlightPart(set1, select1[4])
+    let p5 = NNCalendarLogic.Util.highlightPart(set2, select2[0])
+    let p6 = NNCalendarLogic.Util.highlightPart([], Date.random()!)
 
     /// Then
     XCTAssertEqual(p0, .start)
@@ -105,13 +105,13 @@ public extension UtilTest {
       })
 
       let min = selections.min()!, max = selections.max()!
-      let connected = NNCalendar.Util.connectSelection(selections)
+      let connected = NNCalendarLogic.Util.connectSelection(selections)
       let connectedMin = connected.min()!, connectedMax = connected.max()!
       XCTAssertEqual(connectedMin, min)
       XCTAssertEqual(connectedMax, max)
     }
 
-    XCTAssertTrue(NNCalendar.Util.connectSelection([]).isEmpty)
-    XCTAssertEqual(NNCalendar.Util.connectSelection([Date.random()!]).count, 1)
+    XCTAssertTrue(NNCalendarLogic.Util.connectSelection([]).isEmpty)
+    XCTAssertEqual(NNCalendarLogic.Util.connectSelection([Date.random()!]).count, 1)
   }
 }

@@ -43,7 +43,7 @@ public protocol NNRegular99CalendarDefaultDelegate: class {
   ///   - month: A Month instance.
   /// - Returns: A String value.
   func regular99(_ calendar: NNRegular99Calendar,
-                 monthDescriptionFor month: NNCalendar.Month) -> String
+                 monthDescriptionFor month: NNCalendarLogic.Month) -> String
 
   /// Calculate grid selection changes when the selection changes.
   ///
@@ -55,11 +55,11 @@ public protocol NNRegular99CalendarDefaultDelegate: class {
   ///   - current: The current selections.
   /// - Returns: A Set of GridPosition.
   func regular99(_ calendar: NNRegular99Calendar,
-                 gridSelectionChangesFor months: [NNCalendar.MonthComp],
-                 whileCurrentMonthIs month: NNCalendar.Month,
-                 withPreviousSelection prev: Set<NNCalendar.Selection>,
-                 andCurrentSelection current: Set<NNCalendar.Selection>)
-    -> Set<NNCalendar.GridPosition>
+                 gridSelectionChangesFor months: [NNCalendarLogic.MonthComp],
+                 whileCurrentMonthIs month: NNCalendarLogic.Month,
+                 withPreviousSelection prev: Set<NNCalendarLogic.Selection>,
+                 andCurrentSelection current: Set<NNCalendarLogic.Selection>)
+    -> Set<NNCalendarLogic.GridPosition>
 }
 
 /// Non-defaultable delegate for Regular99 calendar.
@@ -69,25 +69,25 @@ public protocol NNRegular99CalendarNoDefaultDelegate: class {
   ///
   /// - Parameter calendar: A NNRegular99Calendar instance.
   /// - Returns: A Month instance.
-  func minimumMonth(for calendar: NNRegular99Calendar) -> NNCalendar.Month
+  func minimumMonth(for calendar: NNRegular99Calendar) -> NNCalendarLogic.Month
 
   /// Get the maximum month.
   ///
   /// - Parameter calendar: A NNRegular99Calendar instance.
   /// - Returns: A Month instance.
-  func maximumMonth(for calendar: NNRegular99Calendar) -> NNCalendar.Month
+  func maximumMonth(for calendar: NNRegular99Calendar) -> NNCalendarLogic.Month
 
   /// Get the initial month.
   ///
   /// - Parameter calendar: A NNRegular99Calendar instance.
   /// - Returns: A Month instance.
-  func initialMonth(for calendar: NNRegular99Calendar) -> NNCalendar.Month
+  func initialMonth(for calendar: NNRegular99Calendar) -> NNCalendarLogic.Month
 
   /// Get the current month.
   ///
   /// - Parameter calendar: A NNRegular99Calendar instance.
   /// - Returns: A Month instance.
-  func currentMonth(for calendar: NNRegular99Calendar) -> NNCalendar.Month
+  func currentMonth(for calendar: NNRegular99Calendar) -> NNCalendarLogic.Month
 
   /// Trigger callback when the current month changed. Ideally we should store
   /// this month externally.
@@ -96,13 +96,13 @@ public protocol NNRegular99CalendarNoDefaultDelegate: class {
   ///   - calendar: A NNRegular99Calendar instance.
   ///   - month: A Month instance.
   func regular99(_ calendar: NNRegular99Calendar,
-                         onCurrentMonthChangedTo month: NNCalendar.Month)
+                         onCurrentMonthChangedTo month: NNCalendarLogic.Month)
 
   /// Get the current selection set.
   ///
   /// - Parameter calendar: A NNRegular99Calendar instance.
   /// - Returns: A Set of Selection.
-  func currentSelections(for calendar: NNRegular99Calendar) -> Set<NNCalendar.Selection>?
+  func currentSelections(for calendar: NNRegular99Calendar) -> Set<NNCalendarLogic.Selection>?
 
   /// Trigger callback when the selection changes. Ideally we should store this
   /// so that we can access later.
@@ -111,7 +111,7 @@ public protocol NNRegular99CalendarNoDefaultDelegate: class {
   ///   - calendar: A NNRegular99Calendar instance.
   ///   - selections: A Set of Selection.
   func regular99(_ calendar: NNRegular99Calendar,
-                 onSelectionChangedTo selections: Set<NNCalendar.Selection>)
+                 onSelectionChangedTo selections: Set<NNCalendarLogic.Selection>)
 
   /// Check if a Date is selected.
   ///
@@ -129,7 +129,7 @@ public protocol NNRegular99CalendarNoDefaultDelegate: class {
   ///   - date: A Date instance.
   /// - Returns: A HighlightPart instance.
   func regular99(_ calendar: NNRegular99Calendar,
-                 highlightPartFor date: Date) -> NNCalendar.HighlightPart
+                 highlightPartFor date: Date) -> NNCalendarLogic.HighlightPart
 }
 
 /// Delegate for Regular99 calendar.

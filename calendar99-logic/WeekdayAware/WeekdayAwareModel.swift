@@ -37,12 +37,12 @@ public protocol NNWeekdayAwareModelType:
   NNWeekdayAwareNoDefaultModelFunction {}
 
 // MARK: - Model.
-public extension NNCalendar.WeekdayAware {
+public extension NNCalendarLogic.WeekdayAware {
   public final class Model {}
 }
 
 // MARK: - Default dependencies.
-public extension NNCalendar.WeekdayAware.Model {
+public extension NNCalendarLogic.WeekdayAware.Model {
 
   /// Default dependency for weekday-aware view models.
   public final class DefaultDependency: NNWeekdayAwareModelDependency {

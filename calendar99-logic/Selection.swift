@@ -7,7 +7,7 @@
 //
 
 // MARK: - Selection.
-extension NNCalendar {
+extension NNCalendarLogic {
 
   /// Represents a Selection object that determines whether a Date is selected.
   /// We use this Selection object instead of storing the Date directly because
@@ -50,9 +50,9 @@ extension NNCalendar {
     ///   - monthComps: A MonthComp Array.
     ///   - currentMonthIndex: The current Month index.
     /// - Returns: A Set of GridPosition.
-    open func gridPosition(_ monthComps: [NNCalendar.MonthComp],
+    open func gridPosition(_ monthComps: [NNCalendarLogic.MonthComp],
                            _ currentMonthIndex: Int)
-      -> Set<NNCalendar.GridPosition> { return [] }
+      -> Set<NNCalendarLogic.GridPosition> { return [] }
 
     public static func ==(_ lhs: Selection, _ rhs: Selection) -> Bool {
       return lhs.isSameAs(rhs)
@@ -61,7 +61,7 @@ extension NNCalendar {
 }
 
 // MARK: - Date Selection.
-public extension NNCalendar {
+public extension NNCalendarLogic {
 
   /// Store a Date and compare it against the input Date.
   public final class DateSelection: Selection {
@@ -77,7 +77,7 @@ public extension NNCalendar {
       self.firstWeekday = firstWeekday
     }
 
-    override public func isSameAs(_ selection: NNCalendar.Selection) -> Bool {
+    override public func isSameAs(_ selection: NNCalendarLogic.Selection) -> Bool {
       guard let selection = selection as? DateSelection else { return false }
       return selection.date == date
     }
@@ -88,9 +88,9 @@ public extension NNCalendar {
 
     /// If the date falls out of the current month, don't return anything. This
     /// is for performance reasons.
-    override public func gridPosition(_ monthComps: [NNCalendar.MonthComp],
+    override public func gridPosition(_ monthComps: [NNCalendarLogic.MonthComp],
                                       _ monthIndex: Int)
-      -> Set<NNCalendar.GridPosition>
+      -> Set<NNCalendarLogic.GridPosition>
     {
       guard
         monthIndex >= 0 && monthIndex < monthComps.count,
@@ -107,29 +107,29 @@ public extension NNCalendar {
     /// more than 31 cells, the calendar view may include dates from previous/
     /// next months). To be safe, we calculate the selection for one month before
     /// and after the specified month.
-    fileprivate func gridPosition(_ monthComps: [NNCalendar.MonthComp],
-                                  _ monthComp: NNCalendar.MonthComp,
+    fileprivate func gridPosition(_ monthComps: [NNCalendarLogic.MonthComp],
+                                  _ monthComp: NNCalendarLogic.MonthComp,
                                   _ monthIndex: Int,
                                   _ selection: Date)
-      -> Set<NNCalendar.GridPosition>
+      -> Set<NNCalendarLogic.GridPosition>
     {
       let calendar = Calendar.current
       let firstWeekday = self.firstWeekday
 
-      let calculate = {(monthComp: NNCalendar.MonthComp, offset: Int)
-        -> NNCalendar.GridPosition? in
+      let calculate = {(monthComp: NNCalendarLogic.MonthComp, offset: Int)
+        -> NNCalendarLogic.GridPosition? in
         if let fDate = Util.firstDateWithWeekday(monthComp.month, firstWeekday) {
           let diff = calendar.dateComponents([.day], from: fDate, to: selection)
 
           if let dayDiff = diff.day, dayDiff >= 0 && dayDiff < monthComp.dayCount {
-            return NNCalendar.GridPosition(offset, dayDiff)
+            return NNCalendarLogic.GridPosition(offset, dayDiff)
           }
         }
 
         return Optional.none
       }
 
-      var gridPositions = Set<NNCalendar.GridPosition>()
+      var gridPositions = Set<NNCalendarLogic.GridPosition>()
       _ = calculate(monthComp, monthIndex).map({gridPositions.insert($0)})
       let prevMonthIndex = monthIndex - 1
       let nextMonthIndex = monthIndex + 1
@@ -150,7 +150,7 @@ public extension NNCalendar {
 }
 
 // MARK: - RepeatWeekdaySelection.
-public extension NNCalendar {
+public extension NNCalendarLogic {
   public final class RepeatWeekdaySelection: Selection {
     public let weekday: Int
     public let firstWeekday: Int
@@ -162,7 +162,7 @@ public extension NNCalendar {
       calendar = Calendar.current
     }
 
-    override public func isSameAs(_ selection: NNCalendar.Selection) -> Bool {
+    override public func isSameAs(_ selection: NNCalendarLogic.Selection) -> Bool {
       guard let rws = selection as? RepeatWeekdaySelection else { return false }
       return weekday == rws.weekday
     }
@@ -174,9 +174,9 @@ public extension NNCalendar {
 
     /// Since we only need to refresh for the current month, only calculate for
     /// that month.
-    override public func gridPosition(_ monthComps: [NNCalendar.MonthComp],
+    override public func gridPosition(_ monthComps: [NNCalendarLogic.MonthComp],
                                       _ monthIndex: Int)
-      -> Set<NNCalendar.GridPosition>
+      -> Set<NNCalendarLogic.GridPosition>
     {
       guard
         monthIndex >= 0 && monthIndex < monthComps.count,
@@ -186,11 +186,11 @@ public extension NNCalendar {
       }
 
       let monthComp = monthComps[monthIndex]
-      var positions = Set<NNCalendar.GridPosition>()
+      var positions = Set<NNCalendarLogic.GridPosition>()
       var currentDayIndex = weekday - firstWeekday
 
       while currentDayIndex < monthComp.dayCount {
-        let position = NNCalendar.GridPosition(monthIndex, currentDayIndex)
+        let position = NNCalendarLogic.GridPosition(monthIndex, currentDayIndex)
         positions.insert(position)
         currentDayIndex += 7
       }
