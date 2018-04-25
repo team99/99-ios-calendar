@@ -43,3 +43,13 @@ Each of these views requires its own **ViewModel** and **Model**, so we must be 
 - The target **calendar99-preset** contains preset views with commonly used templates. For example, we have **Regular99**, which is a regular calendar view that can be used in 99's related applications.
 
 - More presets will be added if the need arises.
+
+## Namespace
+
+- **NNCalendarLogic** contains basic logic, **Model** and **ViewModel** for views in **calendar99** target. All classes under this namespace can be found in **calendar99-logic**, and the entry file for this namespace is **LogicEntry.swift**.
+
+- **NNCalendarRedux** contains Redux components. All classes under this namespace can be found in **calendar99-redux**, and the entry file for this namespace is **ReduxEntry.swift**.
+
+- **NNCalendarLegacy** contains legacy components. All classes under this namespace can be found in **calendar99-legacy**, and the entry file for this namespace is **LegacyEntry.swift**.
+
+- Since protocols cannot be nested in classes, they are defined at top level, depending on the features they are supposed to provide (e.g. **NNMultiDaySelectionNoDefaultFunction** contains non-defaultable multi-date selection features).
