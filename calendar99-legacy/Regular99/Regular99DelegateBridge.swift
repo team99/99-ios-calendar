@@ -16,7 +16,7 @@ import calendar99_preset
 extension NNCalendarLegacy.Regular99 {
 
   /// Delegate bridge for Regular99 calendar preset.
-  final class DelegateBridge {
+  final class Bridge {
     fileprivate weak var calendar: NNRegular99Calendar?
     fileprivate let delegate: NNRegular99CalendarDelegate?
     fileprivate let currentMonthSb: BehaviorSubject<Void>
@@ -43,25 +43,25 @@ extension NNCalendarLegacy.Regular99 {
 }
 
 // MARK: - NNGridDisplayDefaultFunction
-extension NNCalendarLegacy.Regular99.DelegateBridge: NNGridDisplayDefaultFunction {
+extension NNCalendarLegacy.Regular99.Bridge: NNGridDisplayDefaultFunction {
   var weekdayStacks: Int {
     return calendar.zipWith(delegate, {$1.weekdayStacks(for: $0)}).getOrElse(0)
   }
 }
 
 // MARK: - NNMonthAwareNoDefaultModelFunction
-extension NNCalendarLegacy.Regular99.DelegateBridge: NNMonthAwareNoDefaultModelFunction {
+extension NNCalendarLegacy.Regular99.Bridge: NNMonthAwareNoDefaultModelFunction {
   var currentMonthStream: Observable<NNCalendarLogic.Month> {
     return currentMonthSb
-      .map({[weak self] in (self?.calendar).zipWith(self?.delegate, {
-        $1.currentMonth(for: $0)})
-      })
+      .map({[weak self] in (self?.calendar)
+        .zipWith(self?.delegate, {$1.currentMonth(for: $0)})
+        .flatMap({$0})})
       .filter({$0.isSome}).map({$0!})
   }
 }
 
 // MARK: - NNMonthControlNoDefaultFunction
-extension NNCalendarLegacy.Regular99.DelegateBridge: NNMonthControlNoDefaultFunction {
+extension NNCalendarLegacy.Regular99.Bridge: NNMonthControlNoDefaultFunction {
   var currentMonthReceiver: AnyObserver<NNCalendarLogic.Month> {
     return currentMonthSb.mapObserver({[weak self] month -> Void in
       (self?.calendar).zipWith(self?.delegate, {
@@ -72,14 +72,16 @@ extension NNCalendarLegacy.Regular99.DelegateBridge: NNMonthControlNoDefaultFunc
 }
 
 // MARK: - NNMonthControlNoDefaultModelFunction
-extension NNCalendarLegacy.Regular99.DelegateBridge: NNMonthControlNoDefaultModelFunction {
+extension NNCalendarLegacy.Regular99.Bridge: NNMonthControlNoDefaultModelFunction {
   var minimumMonth: NNCalendarLogic.Month {
-    return calendar.zipWith(delegate, {$1.minimumMonth(for: $0)})
+    return calendar
+      .zipWith(delegate, {$1.minimumMonth(for: $0)})
       .getOrElse(NNCalendarLogic.Month(Date()))
   }
 
   var maximumMonth: NNCalendarLogic.Month {
-    return calendar.zipWith(delegate, {$1.maximumMonth(for: $0)})
+    return calendar
+      .zipWith(delegate, {$1.maximumMonth(for: $0)})
       .getOrElse(NNCalendarLogic.Month(Date()))
   }
 
@@ -90,87 +92,89 @@ extension NNCalendarLegacy.Regular99.DelegateBridge: NNMonthControlNoDefaultMode
 }
 
 // MARK: - NNMonthHeaderDefaultModelFunction
-extension NNCalendarLegacy.Regular99.DelegateBridge: NNMonthHeaderDefaultModelFunction {
+extension NNCalendarLegacy.Regular99.Bridge: NNMonthHeaderDefaultModelFunction {
   func formatMonthDescription(_ month: NNCalendarLogic.Month) -> String {
-    return calendar.zipWith(delegate, {
-      $1.regular99($0, monthDescriptionFor: month)
-    }).getOrElse("")
+    return calendar
+      .zipWith(delegate, {$1.regular99($0, monthDescriptionFor: month)})
+      .getOrElse("")
   }
 }
 
 // MARK: - NNMultiDaySelectionNoDefaultFunction
-extension NNCalendarLegacy.Regular99.DelegateBridge: NNMultiDaySelectionNoDefaultFunction {
+extension NNCalendarLegacy.Regular99.Bridge: NNMultiDaySelectionNoDefaultFunction {
   var allSelectionReceiver: AnyObserver<Set<NNCalendarLogic.Selection>> {
     return selectionSb.mapObserver({[weak self] selection -> Void in
       (self?.calendar).zipWith(self?.delegate, {
         $1.regular99($0, onSelectionChangedTo: selection)
-      })
-    })
+      })})
   }
 
   var allSelectionStream: Observable<Try<Set<NNCalendarLogic.Selection>>> {
     return selectionSb
-      .map({[weak self] in (self?.calendar).zipWith(self?.delegate, {
-        $1.currentSelections(for: $0)
-      })})
+      .map({[weak self] in (self?.calendar)
+        .zipWith(self?.delegate, {$1.currentSelections(for: $0)})
+      })
       .filter({$0.isSome}).map({$0!.asTry()})
   }
 }
 
 // MARK: - NNMultiMonthGridSelectionCalculator
-extension NNCalendarLegacy.Regular99.DelegateBridge: NNMultiMonthGridSelectionCalculator {
+extension NNCalendarLegacy.Regular99.Bridge: NNMultiMonthGridSelectionCalculator {
   func gridSelectionChanges(_ monthComps: [NNCalendarLogic.MonthComp],
                             _ currentMonth: NNCalendarLogic.Month,
                             _ prev: Set<NNCalendarLogic.Selection>,
                             _ current: Set<NNCalendarLogic.Selection>)
     -> Set<NNCalendarLogic.GridPosition>
   {
-    return calendar.zipWith(delegate, {
-      $1.regular99($0, gridSelectionChangesFor: monthComps,
-                           whileCurrentMonthIs: currentMonth,
-                           withPreviousSelection: prev,
-                           andCurrentSelection: current)
-    }).getOrElse([])
+    return calendar
+      .zipWith(delegate, {
+        $1.regular99($0, gridSelectionChangesFor: monthComps,
+                     whileCurrentMonthIs: currentMonth,
+                     withPreviousSelection: prev,
+                     andCurrentSelection: current)})
+      .getOrElse([])
   }
 }
 
 // MARK: - NNSelectHighlightNoDefaultFunction
-extension NNCalendarLegacy.Regular99.DelegateBridge: NNSelectHighlightNoDefaultFunction {
+extension NNCalendarLegacy.Regular99.Bridge: NNSelectHighlightNoDefaultFunction {
   func highlightPart(_ date: Date) -> NNCalendarLogic.HighlightPart {
-    return calendar.zipWith(delegate, {$1.regular99($0, highlightPartFor: date)})
+    return calendar
+      .zipWith(delegate, {$1.regular99($0, highlightPartFor: date)})
       .getOrElse(.none)
   }
 }
 
 // MARK: - NNSingleDaySelectionNoDefaultFunction
-extension NNCalendarLegacy.Regular99.DelegateBridge: NNSingleDaySelectionNoDefaultFunction {
+extension NNCalendarLegacy.Regular99.Bridge: NNSingleDaySelectionNoDefaultFunction {
   func isDateSelected(_ date: Date) -> Bool {
-    return calendar.zipWith(delegate, {$1.regular99($0, isDateSelected: date)})
+    return calendar
+      .zipWith(delegate, {$1.regular99($0, isDateSelected: date)})
       .getOrElse(false)
   }
 }
 
 // MARK: - NNWeekdayAwareNoDefaultModelFunction
-extension NNCalendarLegacy.Regular99.DelegateBridge: NNWeekdayAwareNoDefaultModelFunction {
+extension NNCalendarLegacy.Regular99.Bridge: NNWeekdayAwareNoDefaultModelFunction {
   var firstWeekday: Int {
     return calendar.zipWith(delegate, {$1.firstWeekday(for: $0)}).getOrElse(1)
   }
 }
 
 // MARK: - NNWeekdayDisplayDefaultModelFunction
-extension NNCalendarLegacy.Regular99.DelegateBridge: NNWeekdayDisplayDefaultModelFunction {
+extension NNCalendarLegacy.Regular99.Bridge: NNWeekdayDisplayDefaultModelFunction {
   func weekdayDescription(_ weekday: Int) -> String {
-    return calendar.zipWith(delegate, {
-      $1.regular99($0, weekdayDescriptionFor: weekday)
-    }).getOrElse("")
+    return calendar
+      .zipWith(delegate, {$1.regular99($0, weekdayDescriptionFor: weekday)})
+      .getOrElse("")
   }
 }
 
 // MARK: - NNRegular99CalendarModelDependency
-extension NNCalendarLegacy.Regular99.DelegateBridge: NNRegular99CalendarModelDependency {}
+extension NNCalendarLegacy.Regular99.Bridge: NNRegular99CalendarModelDependency {}
 
 // MARK: - Delegate wrapper.
-extension NNCalendarLegacy.Regular99.DelegateBridge {
+extension NNCalendarLegacy.Regular99.Bridge {
 
   /// Wrapper for delegate to store reference weakly. This is because we need
   /// to store a strong reference to the delegate in the bridge class to cater
@@ -217,19 +221,25 @@ extension NNCalendarLegacy.Regular99.DelegateBridge {
 
     /// Non-defaultable.
     func minimumMonth(for calendar: NNRegular99Calendar) -> NNCalendarLogic.Month {
-      return delegate?.minimumMonth(for: calendar) ?? NNCalendarLogic.Month(Date())
+      return delegate
+        .map({$0.minimumMonth(for: calendar)})
+        .getOrElse(NNCalendarLogic.Month(Date()))
     }
 
     func maximumMonth(for calendar: NNRegular99Calendar) -> NNCalendarLogic.Month {
-      return delegate?.maximumMonth(for: calendar) ?? NNCalendarLogic.Month(Date())
+      return delegate
+        .map({$0.maximumMonth(for: calendar)})
+        .getOrElse(NNCalendarLogic.Month(Date()))
     }
 
     func initialMonth(for calendar: NNRegular99Calendar) -> NNCalendarLogic.Month {
-      return delegate?.initialMonth(for: calendar) ?? NNCalendarLogic.Month(Date())
+      return delegate
+        .map({$0.initialMonth(for: calendar)})
+        .getOrElse(NNCalendarLogic.Month(Date()))
     }
 
-    func currentMonth(for calendar: NNRegular99Calendar) -> NNCalendarLogic.Month {
-      return delegate?.currentMonth(for: calendar) ?? NNCalendarLogic.Month(Date())
+    func currentMonth(for calendar: NNRegular99Calendar) -> NNCalendarLogic.Month? {
+      return delegate?.currentMonth(for: calendar)
     }
 
     func regular99(_ calendar: NNRegular99Calendar,
@@ -258,16 +268,35 @@ extension NNCalendarLegacy.Regular99.DelegateBridge {
 }
 
 // MARK: - Default delegate
-extension NNCalendarLegacy.Regular99.DelegateBridge {
+extension NNCalendarLegacy.Regular99.Bridge {
+
+  /// This default delegate also includes embedded storage for current month
+  /// and selections, all of which are guarded by a lock for concurrent access.
+  /// As a result, using these defaults will dramatically reduce the number of
+  /// methods to be implemented by a delegate.
   final class DefaultDelegate: NNRegular99CalendarDelegate {
-    private let highlightCalc: NNCalendarLogic.DateCalc.HighlightPart
     private weak var delegate: NNRegular99CalendarNoDefaultDelegate?
+    private let highlightCalc: NNCalendarLogic.DateCalc.HighlightPart
+    private let lock: NSLock
+    private var _currentMonth: NNCalendarLogic.Month?
+    private var _currentSelections: Set<NNCalendarLogic.Selection>?
+
+    private var currentMonth: NNCalendarLogic.Month? {
+      get { lock.lock(); defer { lock.unlock() }; return _currentMonth }
+      set { lock.lock(); defer { lock.unlock() }; _currentMonth = newValue }
+    }
+
+    private var currentSelections: Set<NNCalendarLogic.Selection>? {
+      get { lock.lock(); defer { lock.unlock() }; return _currentSelections }
+      set { lock.lock(); defer { lock.unlock() }; _currentSelections = newValue }
+    }
 
     init(_ delegate: NNRegular99CalendarNoDefaultDelegate) {
       self.delegate = delegate
       let weekdayStacks = 6
       let sequentialCalc = NNCalendarLogic.DateCalc.Default(weekdayStacks, 1)
       highlightCalc = NNCalendarLogic.DateCalc.HighlightPart(sequentialCalc, weekdayStacks)
+      lock = NSLock()
     }
 
     /// Defaultable.
@@ -312,31 +341,37 @@ extension NNCalendarLegacy.Regular99.DelegateBridge {
       return delegate?.initialMonth(for: calendar) ?? NNCalendarLogic.Month(Date())
     }
 
-    func currentMonth(for calendar: NNRegular99Calendar) -> NNCalendarLogic.Month {
-      return delegate?.currentMonth(for: calendar) ?? NNCalendarLogic.Month(Date())
+    func currentMonth(for calendar: NNRegular99Calendar) -> NNCalendarLogic.Month? {
+      return currentMonth
     }
 
     func regular99(_ calendar: NNRegular99Calendar,
                    onCurrentMonthChangedTo month: NNCalendarLogic.Month) {
+      currentMonth = month
       delegate?.regular99(calendar, onCurrentMonthChangedTo: month)
     }
 
     func currentSelections(for calendar: NNRegular99Calendar) -> Set<NNCalendarLogic.Selection>? {
-      return delegate?.currentSelections(for: calendar) ?? []
+      return currentSelections
     }
 
     func regular99(_ calendar: NNRegular99Calendar,
                    onSelectionChangedTo selections: Set<NNCalendarLogic.Selection>) {
+      currentSelections = selections
       delegate?.regular99(calendar, onSelectionChangedTo: selections)
     }
 
     func regular99(_ calendar: NNRegular99Calendar, isDateSelected date: Date) -> Bool {
-      return delegate?.regular99(calendar, isDateSelected: date) ?? false
+      return currentSelections
+        .map({$0.contains(where: {$0.contains(date)})})
+        .getOrElse(false)
     }
 
     func regular99(_ calendar: NNRegular99Calendar,
                    highlightPartFor date: Date) -> NNCalendarLogic.HighlightPart {
-      return delegate?.regular99(calendar, highlightPartFor: date) ?? .none
+      return currentSelections
+        .map({NNCalendarLogic.Util.highlightPart($0, date)})
+        .getOrElse(.none)
     }
   }
 }
@@ -348,8 +383,8 @@ public extension NNRegular99Calendar {
   public typealias NoDefaultLegacyDependency = (NoDefaultDelegate, Decorator)
   public typealias LegacyDependency = (Delegate, Decorator)
 
-  /// Non-defaultable legacy dependencies.
-  public var noDefaultLegacyDependency: NoDefaultLegacyDependency? {
+  /// All-inclusive legacy dependency, with no default components.
+  public var legacyDependencyLevel1: LegacyDependency? {
     get { return nil }
 
     set {
@@ -361,7 +396,28 @@ public extension NNRegular99Calendar {
         #endif
       }
 
-      let modelDp = NNCalendarLegacy.Regular99.DelegateBridge(self, newValue.0)
+      let modelDp = NNCalendarLegacy.Regular99.Bridge(self, newValue.0)
+      let model = NNCalendarPreset.Regular99.Model(modelDp)
+      let viewModel = NNCalendarPreset.Regular99.ViewModel(model)
+      dependency = (viewModel, newValue.1)
+    }
+  }
+
+  /// Only need to implement non-defaultable legacy dependencies. Others will
+  /// be provided with defaults.
+  public var legacyDependencyLevel2: NoDefaultLegacyDependency? {
+    get { return nil }
+
+    set {
+      guard let newValue = newValue else {
+        #if DEBUG
+        fatalError("Properties cannot be nil")
+        #else
+        return
+        #endif
+      }
+
+      let modelDp = NNCalendarLegacy.Regular99.Bridge(self, newValue.0)
       let model = NNCalendarPreset.Regular99.Model(modelDp)
       let viewModel = NNCalendarPreset.Regular99.ViewModel(model)
       dependency = (viewModel, newValue.1)

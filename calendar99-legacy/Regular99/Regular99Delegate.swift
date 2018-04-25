@@ -60,6 +60,36 @@ public protocol NNRegular99CalendarDefaultDelegate: class {
                  withPreviousSelection prev: Set<NNCalendarLogic.Selection>,
                  andCurrentSelection current: Set<NNCalendarLogic.Selection>)
     -> Set<NNCalendarLogic.GridPosition>
+
+  /// Check if a Date is selected.
+  ///
+  /// - Parameters:
+  ///   - calendar: A NNRegular99Calendar instance.
+  ///   - date: A Date instance.
+  /// - Returns: A Bool value.
+  func regular99(_ calendar: NNRegular99Calendar,
+                 isDateSelected date: Date) -> Bool
+
+  /// Get the current month.
+  ///
+  /// - Parameter calendar: A NNRegular99Calendar instance.
+  /// - Returns: A Month instance.
+  func currentMonth(for calendar: NNRegular99Calendar) -> NNCalendarLogic.Month?
+
+  /// Get the current selection set.
+  ///
+  /// - Parameter calendar: A NNRegular99Calendar instance.
+  /// - Returns: A Set of Selection.
+  func currentSelections(for calendar: NNRegular99Calendar) -> Set<NNCalendarLogic.Selection>?
+
+  /// Calculate highlight part for a Date.
+  ///
+  /// - Parameters:
+  ///   - calendar: A NNRegular99Calendar instance.
+  ///   - date: A Date instance.
+  /// - Returns: A HighlightPart instance.
+  func regular99(_ calendar: NNRegular99Calendar,
+                 highlightPartFor date: Date) -> NNCalendarLogic.HighlightPart
 }
 
 /// Non-defaultable delegate for Regular99 calendar.
@@ -83,12 +113,6 @@ public protocol NNRegular99CalendarNoDefaultDelegate: class {
   /// - Returns: A Month instance.
   func initialMonth(for calendar: NNRegular99Calendar) -> NNCalendarLogic.Month
 
-  /// Get the current month.
-  ///
-  /// - Parameter calendar: A NNRegular99Calendar instance.
-  /// - Returns: A Month instance.
-  func currentMonth(for calendar: NNRegular99Calendar) -> NNCalendarLogic.Month
-
   /// Trigger callback when the current month changed. Ideally we should store
   /// this month externally.
   ///
@@ -96,13 +120,7 @@ public protocol NNRegular99CalendarNoDefaultDelegate: class {
   ///   - calendar: A NNRegular99Calendar instance.
   ///   - month: A Month instance.
   func regular99(_ calendar: NNRegular99Calendar,
-                         onCurrentMonthChangedTo month: NNCalendarLogic.Month)
-
-  /// Get the current selection set.
-  ///
-  /// - Parameter calendar: A NNRegular99Calendar instance.
-  /// - Returns: A Set of Selection.
-  func currentSelections(for calendar: NNRegular99Calendar) -> Set<NNCalendarLogic.Selection>?
+                 onCurrentMonthChangedTo month: NNCalendarLogic.Month)
 
   /// Trigger callback when the selection changes. Ideally we should store this
   /// so that we can access later.
@@ -112,24 +130,6 @@ public protocol NNRegular99CalendarNoDefaultDelegate: class {
   ///   - selections: A Set of Selection.
   func regular99(_ calendar: NNRegular99Calendar,
                  onSelectionChangedTo selections: Set<NNCalendarLogic.Selection>)
-
-  /// Check if a Date is selected.
-  ///
-  /// - Parameters:
-  ///   - calendar: A NNRegular99Calendar instance.
-  ///   - date: A Date instance.
-  /// - Returns: A Bool value.
-  func regular99(_ calendar: NNRegular99Calendar,
-                 isDateSelected date: Date) -> Bool
-
-  /// Calculate highlight part for a Date.
-  ///
-  /// - Parameters:
-  ///   - calendar: A NNRegular99Calendar instance.
-  ///   - date: A Date instance.
-  /// - Returns: A HighlightPart instance.
-  func regular99(_ calendar: NNRegular99Calendar,
-                 highlightPartFor date: Date) -> NNCalendarLogic.HighlightPart
 }
 
 /// Delegate for Regular99 calendar.
