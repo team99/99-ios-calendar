@@ -12,7 +12,7 @@
 		<key>calendar99-legacy.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>33</integer>
+			<integer>34</integer>
 		</dict>
 		<key>calendar99-logic.xcscheme_^#shared#^_</key>
 		<dict>
@@ -27,7 +27,7 @@
 		<key>calendar99-preset.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>31</integer>
+			<integer>33</integer>
 		</dict>
 		<key>calendar99-presetLogic.xcscheme</key>
 		<dict>

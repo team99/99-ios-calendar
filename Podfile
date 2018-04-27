@@ -14,6 +14,7 @@ def allViewPods
   allLogicPods
   pod 'RxCocoa', '~> 4.0'
   pod 'RxDataSources'
+  pod 'ui99/Main', git: 'https://github.com/team99/99-ios-ui-utils.git'
 end
 
 def allReduxPods

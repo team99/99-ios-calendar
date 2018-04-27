@@ -111,7 +111,6 @@
 		D3DA6FEA207C739500A3DFE1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D3DA6FE8207C739500A3DFE1 /* LaunchScreen.storyboard */; };
 		D3DA7010207C805300A3DFE1 /* Entity.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3DA700F207C805300A3DFE1 /* Entity.swift */; };
 		D3DA7014207C868F00A3DFE1 /* MonthHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3DA7013207C868F00A3DFE1 /* MonthHeader.swift */; };
-		D3DA7016207C876300A3DFE1 /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3DA7015207C876300A3DFE1 /* Util.swift */; };
 		D3DA701F207C8E0F00A3DFE1 /* calendar99_logic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3DA6FB6207C6D2200A3DFE1 /* calendar99_logic.framework */; };
 		D3DA7020207C8E0F00A3DFE1 /* calendar99.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3DA6F97207C6CEE00A3DFE1 /* calendar99.framework */; };
 		D3DA7021207C8E2300A3DFE1 /* calendar99_logic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3DA6FB6207C6D2200A3DFE1 /* calendar99_logic.framework */; };
@@ -425,7 +424,6 @@
 		D3DA6FEB207C739500A3DFE1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D3DA700F207C805300A3DFE1 /* Entity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Entity.swift; sourceTree = "<group>"; };
 		D3DA7013207C868F00A3DFE1 /* MonthHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthHeader.swift; sourceTree = "<group>"; };
-		D3DA7015207C876300A3DFE1 /* Util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
 		D3DA7024207C97F100A3DFE1 /* MonthTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthTest.swift; sourceTree = "<group>"; };
 		D3DA7026207CA55300A3DFE1 /* DateCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DateCell.xib; sourceTree = "<group>"; };
 		D3DA7028207CA98400A3DFE1 /* MonthHeader.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MonthHeader.xib; sourceTree = "<group>"; };
@@ -872,7 +870,6 @@
 			children = (
 				D3DA6F9A207C6CEE00A3DFE1 /* calendar99.h */,
 				D3DA6F9B207C6CEE00A3DFE1 /* Info.plist */,
-				D3DA7015207C876300A3DFE1 /* Util.swift */,
 				D319C2B5207D9E2A005D1828 /* DateCell */,
 				D319C2B3207D9E15005D1828 /* MonthHeader */,
 				D319C2C1207DA4F9005D1828 /* MonthSectionView */,
@@ -1639,6 +1636,7 @@
 				"${BUILT_PRODUCTS_DIR}/RxDataSources/RxDataSources.framework",
 				"${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftFP-Main/SwiftFP.framework",
+				"${BUILT_PRODUCTS_DIR}/ui99/ui99.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
@@ -1647,6 +1645,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxDataSources.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftFP.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ui99.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -1701,6 +1700,7 @@
 				"${BUILT_PRODUCTS_DIR}/RxDataSources/RxDataSources.framework",
 				"${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftFP-Main/SwiftFP.framework",
+				"${BUILT_PRODUCTS_DIR}/ui99/ui99.framework",
 				"${BUILT_PRODUCTS_DIR}/HMReactiveRedux/HMReactiveRedux.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
@@ -1710,6 +1710,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxDataSources.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftFP.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ui99.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/HMReactiveRedux.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1946,7 +1947,6 @@
 				D3D63C68207E49A700772F53 /* MonthSectionLayout.swift in Sources */,
 				D31431B0208068300044B936 /* WeekdayCell.swift in Sources */,
 				D313291D2084F78500E06C2A /* HorizontalSelectionHighlighter.swift in Sources */,
-				D3DA7016207C876300A3DFE1 /* Util.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

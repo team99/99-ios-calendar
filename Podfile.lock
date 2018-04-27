@@ -27,6 +27,7 @@ PODS:
     - RxCocoa (~> 4.0)
     - RxSwift (~> 4.0)
     - RxTest (~> 4.0)
+  - ui99/Main (1.0.0)
 
 DEPENDENCIES:
   - "HMReactiveRedux/Main+Rx (from `https://github.com/protoman92/HMReactiveRedux-Swift.git`)"
@@ -36,6 +37,7 @@ DEPENDENCIES:
   - SwiftFP/Main (from `https://github.com/protoman92/SwiftFP.git`)
   - "SwiftUtilities/Main+Rx (from `https://github.com/protoman92/SwiftUtilities.git`)"
   - "SwiftUtilitiesTests/Main+Rx (from `https://github.com/protoman92/SwiftUtilities.git`)"
+  - ui99/Main (from `https://github.com/team99/99-ios-ui-utils.git`)
 
 SPEC REPOS:
   https://github.com/CocoaPods/Specs.git:
@@ -55,6 +57,8 @@ EXTERNAL SOURCES:
     :git: https://github.com/protoman92/SwiftUtilities.git
   SwiftUtilitiesTests:
     :git: https://github.com/protoman92/SwiftUtilities.git
+  ui99:
+    :git: https://github.com/team99/99-ios-ui-utils.git
 
 CHECKOUT OPTIONS:
   HMReactiveRedux:
@@ -69,6 +73,9 @@ CHECKOUT OPTIONS:
   SwiftUtilitiesTests:
     :commit: 7a3e200e71ec3048177eced1e5eb1d201c9e2502
     :git: https://github.com/protoman92/SwiftUtilities.git
+  ui99:
+    :commit: 847524cc41cbba464c6b38bb9e3e1038aa25ea46
+    :git: https://github.com/team99/99-ios-ui-utils.git
 
 SPEC CHECKSUMS:
   Differentiator: a87be69eba49ec4ab460c7671143ee3a9eececfd
@@ -81,7 +88,8 @@ SPEC CHECKSUMS:
   SwiftFP: 25277c3c13de8b45771702a77443cd1d3c2761b2
   SwiftUtilities: f7e2e01683284be61a2e5f2b2e5cfa9096cc6b5d
   SwiftUtilitiesTests: 51ad0d8703fbfa924ade7609453a2b4783f23f29
+  ui99: ea6c77430a41253d4e508382c4f0ede2cdb67dcf
 
-PODFILE CHECKSUM: 36a5585b50a0a6979462c92885175cbec0a12042
+PODFILE CHECKSUM: 975ae9e0397975b853e3e0d11816fce94c31c52e
 
 COCOAPODS: 1.5.0

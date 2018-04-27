@@ -120,7 +120,7 @@ public protocol NNRegular99CalendarNoDefaultDelegate: class {
   ///   - calendar: A NNRegular99Calendar instance.
   ///   - month: A Month instance.
   func regular99(_ calendar: NNRegular99Calendar,
-                 onCurrentMonthChangedTo month: NNCalendarLogic.Month)
+                 currentMonthChanged month: NNCalendarLogic.Month)
 
   /// Trigger callback when the selection changes. Ideally we should store this
   /// so that we can access later.
@@ -129,7 +129,7 @@ public protocol NNRegular99CalendarNoDefaultDelegate: class {
   ///   - calendar: A NNRegular99Calendar instance.
   ///   - selections: A Set of Selection.
   func regular99(_ calendar: NNRegular99Calendar,
-                 onSelectionChangedTo selections: Set<NNCalendarLogic.Selection>)
+                 selectionChanged selections: Set<NNCalendarLogic.Selection>)
 }
 
 /// Delegate for Regular99 calendar.

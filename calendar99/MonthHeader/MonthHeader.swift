@@ -9,6 +9,7 @@
 import RxSwift
 import UIKit
 import calendar99_logic
+import ui99
 
 /// Month header view for calendar.
 public final class NNMonthHeaderView: UIView {
@@ -66,12 +67,12 @@ public final class NNMonthHeaderView: UIView {
 
   required public init?(coder aDecoder: NSCoder) {
     super.init(coder: aDecoder)
-    NNCalendarLogic.ViewUtil.initializeWithNib(view: self, "MonthHeader")
+    UI99.View.initializeWithNib(view: self, nibName: "MonthHeader")
   }
 
   override public init(frame: CGRect) {
     super.init(frame: frame)
-    NNCalendarLogic.ViewUtil.initializeWithNib(view: self, "MonthHeader")
+    UI99.View.initializeWithNib(view: self, nibName: "MonthHeader")
   }
 
   override public func layoutSubviews() {

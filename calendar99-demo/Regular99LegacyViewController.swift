@@ -40,8 +40,8 @@ extension Regular99LegacyViewController: NNRegular99CalendarNoDefaultDelegate {
   }
 
   public func regular99(_ calendar: NNRegular99Calendar,
-                        onCurrentMonthChangedTo month: NNCalendarLogic.Month) {}
+                        currentMonthChanged month: NNCalendarLogic.Month) {}
 
   public func regular99(_ calendar: NNRegular99Calendar,
-                        onSelectionChangedTo selections: Set<NNCalendarLogic.Selection>) {}
+                        selectionChanged selections: Set<NNCalendarLogic.Selection>) {}
 }

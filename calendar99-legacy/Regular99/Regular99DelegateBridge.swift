@@ -65,7 +65,7 @@ extension NNCalendarLegacy.Regular99.Bridge: NNMonthControlNoDefaultFunction {
   var currentMonthReceiver: AnyObserver<NNCalendarLogic.Month> {
     return currentMonthSb.mapObserver({[weak self] month -> Void in
       (self?.calendar).zipWith(self?.delegate, {
-        $1.regular99($0, onCurrentMonthChangedTo: month)
+        $1.regular99($0, currentMonthChanged: month)
       })
     })
   }
@@ -105,7 +105,7 @@ extension NNCalendarLegacy.Regular99.Bridge: NNMultiDaySelectionNoDefaultFunctio
   var allSelectionReceiver: AnyObserver<Set<NNCalendarLogic.Selection>> {
     return selectionSb.mapObserver({[weak self] selection -> Void in
       (self?.calendar).zipWith(self?.delegate, {
-        $1.regular99($0, onSelectionChangedTo: selection)
+        $1.regular99($0, selectionChanged: selection)
       })})
   }
 
@@ -243,8 +243,8 @@ extension NNCalendarLegacy.Regular99.Bridge {
     }
 
     func regular99(_ calendar: NNRegular99Calendar,
-                   onCurrentMonthChangedTo month: NNCalendarLogic.Month) {
-      delegate?.regular99(calendar, onCurrentMonthChangedTo: month)
+                   currentMonthChanged month: NNCalendarLogic.Month) {
+      delegate?.regular99(calendar, currentMonthChanged: month)
     }
 
     func currentSelections(for calendar: NNRegular99Calendar) -> Set<NNCalendarLogic.Selection>? {
@@ -252,8 +252,8 @@ extension NNCalendarLegacy.Regular99.Bridge {
     }
 
     func regular99(_ calendar: NNRegular99Calendar,
-                   onSelectionChangedTo selections: Set<NNCalendarLogic.Selection>) {
-      delegate?.regular99(calendar, onSelectionChangedTo: selections)
+                   selectionChanged selections: Set<NNCalendarLogic.Selection>) {
+      delegate?.regular99(calendar, selectionChanged: selections)
     }
 
     func regular99(_ calendar: NNRegular99Calendar, isDateSelected date: Date) -> Bool {
@@ -346,9 +346,9 @@ extension NNCalendarLegacy.Regular99.Bridge {
     }
 
     func regular99(_ calendar: NNRegular99Calendar,
-                   onCurrentMonthChangedTo month: NNCalendarLogic.Month) {
+                   currentMonthChanged month: NNCalendarLogic.Month) {
       currentMonth = month
-      delegate?.regular99(calendar, onCurrentMonthChangedTo: month)
+      delegate?.regular99(calendar, currentMonthChanged: month)
     }
 
     func currentSelections(for calendar: NNRegular99Calendar) -> Set<NNCalendarLogic.Selection>? {
@@ -356,9 +356,9 @@ extension NNCalendarLegacy.Regular99.Bridge {
     }
 
     func regular99(_ calendar: NNRegular99Calendar,
-                   onSelectionChangedTo selections: Set<NNCalendarLogic.Selection>) {
+                   selectionChanged selections: Set<NNCalendarLogic.Selection>) {
       currentSelections = selections
-      delegate?.regular99(calendar, onSelectionChangedTo: selections)
+      delegate?.regular99(calendar, selectionChanged: selections)
     }
 
     func regular99(_ calendar: NNRegular99Calendar, isDateSelected date: Date) -> Bool {
