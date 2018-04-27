@@ -124,7 +124,7 @@
 		D3E05E2A208F59100008E473 /* Regular99Delegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3E05E29208F59100008E473 /* Regular99Delegate.swift */; };
 		D3E05E2C208F5A070008E473 /* LegacyEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3E05E2B208F5A070008E473 /* LegacyEntry.swift */; };
 		D3E05E32208F67200008E473 /* Regular99DelegateBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3E05E31208F67200008E473 /* Regular99DelegateBridge.swift */; };
-		D3E05E34208F7D760008E473 /* Regular99DelegateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3E05E33208F7D760008E473 /* Regular99DelegateViewController.swift */; };
+		D3E05E34208F7D760008E473 /* Regular99LegacyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3E05E33208F7D760008E473 /* Regular99LegacyViewController.swift */; };
 		E2DCBB123488442269125D97 /* Pods_calendar99Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0824444065A1A7B969DBD579 /* Pods_calendar99Tests.framework */; };
 		F24CBFC94F7F7C2C6FE9960C /* Pods_calendar99_presetLogic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74C4F8512A19A1D221F75875 /* Pods_calendar99_presetLogic.framework */; };
 /* End PBXBuildFile section */
@@ -437,7 +437,7 @@
 		D3E05E29208F59100008E473 /* Regular99Delegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Regular99Delegate.swift; sourceTree = "<group>"; };
 		D3E05E2B208F5A070008E473 /* LegacyEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LegacyEntry.swift; sourceTree = "<group>"; };
 		D3E05E31208F67200008E473 /* Regular99DelegateBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Regular99DelegateBridge.swift; sourceTree = "<group>"; };
-		D3E05E33208F7D760008E473 /* Regular99DelegateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Regular99DelegateViewController.swift; sourceTree = "<group>"; };
+		D3E05E33208F7D760008E473 /* Regular99LegacyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Regular99LegacyViewController.swift; sourceTree = "<group>"; };
 		D82C2503C9BAE5ECC9A44729 /* Pods-calendar99-redux.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-calendar99-redux.release.xcconfig"; path = "Pods/Target Support Files/Pods-calendar99-redux/Pods-calendar99-redux.release.xcconfig"; sourceTree = "<group>"; };
 		D938B372CAFDEAD5B7917D27 /* Pods_calendar99.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_calendar99.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DC0500C39A1AAAB2A6015400 /* Pods-calendar99-legacy.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-calendar99-legacy.debug.xcconfig"; path = "Pods/Target Support Files/Pods-calendar99-legacy/Pods-calendar99-legacy.debug.xcconfig"; sourceTree = "<group>"; };
@@ -948,7 +948,7 @@
 				D3DA6FEB207C739500A3DFE1 /* Info.plist */,
 				D3DA6FDF207C739400A3DFE1 /* AppDelegate.swift */,
 				D31329102084E9A900E06C2A /* Decorator.swift */,
-				D3E05E33208F7D760008E473 /* Regular99DelegateViewController.swift */,
+				D3E05E33208F7D760008E473 /* Regular99LegacyViewController.swift */,
 				D316D7A1208E3E2500973851 /* Regular99ViewController.swift */,
 				D3186C0B20878A520054CE3D /* Singleton.swift */,
 				D3DA6FE1207C739400A3DFE1 /* ViewController.swift */,
@@ -2028,7 +2028,7 @@
 				D3186C0C20878A520054CE3D /* Singleton.swift in Sources */,
 				D316D7A2208E3E2500973851 /* Regular99ViewController.swift in Sources */,
 				D3DA6FE0207C739400A3DFE1 /* AppDelegate.swift in Sources */,
-				D3E05E34208F7D760008E473 /* Regular99DelegateViewController.swift in Sources */,
+				D3E05E34208F7D760008E473 /* Regular99LegacyViewController.swift in Sources */,
 				D31329112084E9A900E06C2A /* Decorator.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

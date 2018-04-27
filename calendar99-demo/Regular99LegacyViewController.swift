@@ -1,5 +1,5 @@
 //
-//  Regular99DelegateViewController.swift
+//  Regular99LegacyViewController.swift
 //  calendar99-demo
 //
 //  Created by Hai Pham on 24/4/18.
@@ -11,7 +11,7 @@ import calendar99_logic
 import calendar99_preset
 import calendar99_legacy
 
-public final class Regular99DelegateViewController: UIViewController {
+public final class Regular99LegacyViewController: UIViewController {
   @IBOutlet fileprivate weak var regular99Calendar: NNRegular99Calendar!
 
   deinit {
@@ -25,7 +25,8 @@ public final class Regular99DelegateViewController: UIViewController {
   }
 }
 
-extension Regular99DelegateViewController: NNRegular99CalendarNoDefaultDelegate {
+// MARK: - NNRegular99CalendarNoDefaultDelegate
+extension Regular99LegacyViewController: NNRegular99CalendarNoDefaultDelegate {
   public func minimumMonth(for calendar: NNRegular99Calendar) -> NNCalendarLogic.Month {
     return NNCalendarLogic.Month(4, 2018)
   }

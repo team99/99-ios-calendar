@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="ZIn-df-fYc">
-    <device id="retina4_7" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
@@ -33,11 +29,11 @@
             <objects>
                 <viewController id="mlY-Pm-2n1" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Sds-ig-wSi">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6We-cY-0We">
-                                <rect key="frame" x="15" y="79" width="345" height="30"/>
+                                <rect key="frame" x="15" y="79" width="570" height="30"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <state key="normal" title="CALENDAR">
                                     <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -48,7 +44,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="afG-2a-vpx">
-                                <rect key="frame" x="15" y="124" width="345" height="30"/>
+                                <rect key="frame" x="15" y="124" width="570" height="30"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <state key="normal" title="REGULAR99">
                                     <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -58,7 +54,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tIh-Gs-hJz">
-                                <rect key="frame" x="15" y="169" width="345" height="30"/>
+                                <rect key="frame" x="15" y="169" width="570" height="30"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <state key="normal" title="REGULAR99-LEGACY">
                                     <color key="titleColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -94,14 +90,14 @@
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="calendar99_demo" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uN7-km-d0J">
-                                <rect key="frame" x="15" y="43" width="345" height="581"/>
+                                <rect key="frame" x="15" y="-324" width="570" height="1248"/>
                                 <subviews>
                                     <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="2bo-eT-edI" customClass="NNMonthSectionView" customModule="calendar99">
-                                        <rect key="frame" x="0.0" y="116" width="345" height="230"/>
+                                        <rect key="frame" x="0.0" y="483" width="570" height="380"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="height" secondItem="2bo-eT-edI" secondAttribute="width" multiplier="2 / 3" id="2iP-yv-mjW"/>
@@ -115,7 +111,7 @@
                                         <cells/>
                                     </collectionView>
                                     <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="PlQ-do-Q55" customClass="NNMonthView" customModule="calendar99">
-                                        <rect key="frame" x="0.0" y="351" width="345" height="230"/>
+                                        <rect key="frame" x="0.0" y="868" width="570" height="380"/>
                                         <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="n1V-TA-W8N">
                                             <size key="itemSize" width="50" height="50"/>
                                             <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -125,7 +121,7 @@
                                         <cells/>
                                     </collectionView>
                                     <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="0BL-Sr-OGf" customClass="NNWeekdayView" customModule="calendar99">
-                                        <rect key="frame" x="0.0" y="76" width="345" height="40"/>
+                                        <rect key="frame" x="0.0" y="443" width="570" height="40"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Gkh-2M-LAN">
                                             <size key="itemSize" width="50" height="50"/>
@@ -136,7 +132,7 @@
                                         <cells/>
                                     </collectionView>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OAw-Fd-26I" customClass="NNMonthHeaderView" customModule="calendar99">
-                                        <rect key="frame" x="0.0" y="36" width="345" height="40"/>
+                                        <rect key="frame" x="0.0" y="403" width="570" height="40"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="40" id="Gn8-uA-dTC"/>
@@ -181,16 +177,16 @@
             </objects>
             <point key="canvasLocation" x="118" y="-5"/>
         </scene>
-        <!--Regular99 Delegate View Controller-->
+        <!--Regular99 Legacy View Controller-->
         <scene sceneID="pZa-xv-OQI">
             <objects>
-                <viewController id="wCe-Ud-kDR" customClass="Regular99DelegateViewController" customModule="calendar99_demo" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="wCe-Ud-kDR" customClass="Regular99LegacyViewController" customModule="calendar99_demo" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="bwJ-9n-UJO">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="114-zt-G3L" customClass="NNRegular99Calendar" customModule="calendar99_preset">
-                                <rect key="frame" x="15" y="79" width="345" height="333.5"/>
+                                <rect key="frame" x="15" y="79" width="570" height="300"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
                         </subviews>
@@ -216,11 +212,11 @@
             <objects>
                 <viewController id="xIi-uc-23I" customClass="Regular99ViewController" customModule="calendar99_demo" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="jWh-SB-Eub">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZYn-FK-u7a" customClass="NNRegular99Calendar" customModule="calendar99_preset">
-                                <rect key="frame" x="15" y="79" width="345" height="333.5"/>
+                                <rect key="frame" x="15" y="79" width="570" height="300"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
                         </subviews>
