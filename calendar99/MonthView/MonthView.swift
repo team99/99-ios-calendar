@@ -169,8 +169,6 @@ public extension NNMonthView {
       return UICollectionViewCell()
       #endif
     }
-
-    let selected = viewModel.isDateSelected(item.date)
     
     let actualDay = item
       .with(selected: viewModel.isDateSelected(item.date))
