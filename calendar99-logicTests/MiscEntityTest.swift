@@ -65,13 +65,46 @@ public final class MiscEntityTest: RootTest {
   }
 
   public func test_monthImplementation_shouldWorkCorrectly() {
-    /// Setup && Then
+    /// Setup && When && Then
     for _ in 0..<iterations! {
       let month1 = NNCalendarLogic.Month(Date())
       let month2 = NNCalendarLogic.Month(Date())
 
       /// Then
       XCTAssertEqual(month1.hashValue, month2.hashValue)
+    }
+  }
+  
+  public func test_monthCompEquality_shouldWork() {
+    /// Setup && When && Then
+    for _ in 0..<iterations! {
+      let shouldEqual = Bool.random()
+      let month1: NNCalendarLogic.Month
+      let month2: NNCalendarLogic.Month
+      let dayCount1: Int
+      let dayCount2: Int
+      let firstWeekday1: Int
+      let firstWeekday2: Int
+      
+      if shouldEqual {
+        month1 = NNCalendarLogic.Month(Date.random()!)
+        month2 = month1
+        dayCount1 = Int.random(1, 1000)
+        dayCount2 = dayCount1
+        firstWeekday1 = Int.random(1, 1000)
+        firstWeekday2 = firstWeekday1
+      } else {
+        month1 = NNCalendarLogic.Month(Date.random()!)
+        month2 = month1.with(monthOffset: Int.random(1, 1000))!
+        dayCount1 = Int.random(1, 1000)
+        dayCount2 = dayCount1 + Int.random(1, 1000)
+        firstWeekday1 = Int.random(1, 1000)
+        firstWeekday2 = firstWeekday1 + Int.random(1, 1000)
+      }
+      
+      let monthComp1 = NNCalendarLogic.MonthComp(month1, dayCount1, firstWeekday1)
+      let monthComp2 = NNCalendarLogic.MonthComp(month2, dayCount2, firstWeekday2)
+      XCTAssertEqual(monthComp1 == monthComp2, shouldEqual)
     }
   }
 

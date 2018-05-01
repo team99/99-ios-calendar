@@ -12,8 +12,7 @@ import RxSwift
 public protocol NNMonthDisplayViewModelType:
   NNMonthControlViewModelType,
   NNMonthGridViewModelType,
-  NNSelectHighlightDefaultFunction,
-  NNSelectHighlightNoDefaultFunction,
+  NNSelectHighlightFunction,
   NNSingleDaySelectionViewModelType
 {
   /// Stream days to display on the month view.
@@ -76,8 +75,8 @@ public extension NNCalendarLogic.MonthDisplay {
   }
 }
 
-// MARK: - NNMonthControlNoDefaultFunction
-extension NNCalendarLogic.MonthDisplay.ViewModel: NNMonthControlNoDefaultFunction {
+// MARK: - NNMonthControlFunction
+extension NNCalendarLogic.MonthDisplay.ViewModel: NNMonthControlFunction {
   public var currentMonthReceiver: AnyObserver<NNCalendarLogic.Month> {
     return monthControlVM.currentMonthReceiver
   }
@@ -98,8 +97,8 @@ extension NNCalendarLogic.MonthDisplay.ViewModel: NNMonthControlViewModelType {
   }
 }
 
-// MARK: - NNGridDisplayDefaultFunction
-extension NNCalendarLogic.MonthDisplay.ViewModel: NNGridDisplayDefaultFunction {
+// MARK: - NNGridDisplayFunction
+extension NNCalendarLogic.MonthDisplay.ViewModel: NNGridDisplayFunction {
   public var weekdayStacks: Int { return monthGridVM.weekdayStacks }
 }
 
@@ -114,8 +113,8 @@ extension NNCalendarLogic.MonthDisplay.ViewModel: NNMonthGridViewModelType {
   }
 }
 
-// MARK: - NNSelectHighlightNoDefaultFunction
-extension NNCalendarLogic.MonthDisplay.ViewModel: NNSelectHighlightNoDefaultFunction {
+// MARK: - NNSelectHighlightFunction
+extension NNCalendarLogic.MonthDisplay.ViewModel: NNSelectHighlightFunction {
   public func highlightPart(_ date: Date) -> NNCalendarLogic.HighlightPart {
     return model.highlightPart(date)
   }
@@ -166,8 +165,8 @@ extension NNCalendarLogic.MonthDisplay.ViewModel: NNMonthDisplayViewModelType {
   }
 }
 
-// MARK: - NNSingleDaySelectionDefaultFunction
-extension NNCalendarLogic.MonthDisplay.ViewModel: NNSingleDaySelectionDefaultFunction {
+// MARK: - NNSingleDaySelectionFunction
+extension NNCalendarLogic.MonthDisplay.ViewModel: NNSingleDaySelectionFunction {
   public func isDateSelected(_ date: Date) -> Bool {
     return daySelectionVM.isDateSelected(date)
   }

@@ -19,7 +19,6 @@ public final class SelectableWeekdayTest: RootTest {
   fileprivate var allSelectionSb: BehaviorSubject<Try<Set<NNCalendarLogic.Selection>>>!
   fileprivate var currentMonth: NNCalendarLogic.Month!
   fileprivate var currentMonthSb: BehaviorSubject<NNCalendarLogic.Month>!
-  fileprivate var defaultModelDp: NNSelectWeekdayModelDependency!
 
   override public func setUp() {
     super.setUp()
@@ -28,35 +27,31 @@ public final class SelectableWeekdayTest: RootTest {
     allSelectionSb = BehaviorSubject(value: Try.failure(""))
     currentMonth = NNCalendarLogic.Month(Date())
     currentMonthSb = BehaviorSubject(value: currentMonth!)
-    defaultModelDp = NNCalendarLogic.SelectWeekday.Model.DefaultDependency(self)
   }
 }
 
 public extension SelectableWeekdayTest {
-  public func test_defaultDependencies_shouldWork() {
-    let weekdayModel = NNCalendarLogic.WeekdayDisplay.Model(defaultModelDp)
-    let model1 = NNCalendarLogic.SelectWeekday.Model(weekdayModel, defaultModelDp)
-    let model2 = NNCalendarLogic.SelectWeekday.Model(defaultModelDp)
-
+  public func test_multipleConstructors_shouldWork() {
+    let weekdayModel = NNCalendarLogic.WeekdayDisplay.Model(self)
+    let model1 = NNCalendarLogic.SelectWeekday.Model(weekdayModel, self)
+    
     for weekday in 1...7 {
-      XCTAssertEqual(model1.weekdayDescription(weekday),
-                     model2.weekdayDescription(weekday))
+      XCTAssertEqual(model!.weekdayDescription(weekday),
+                     model1.weekdayDescription(weekday))
     }
 
-    XCTAssertEqual(defaultModelDp.firstWeekday, firstWeekdayForTest!)
-
+    
     let weekdays = try! viewModel!.weekdayStream.take(1).toBlocking().first()!
-    let firstWeekday = defaultModelDp!.firstWeekday
     let weekdayCount = NNCalendarLogic.Util.weekdayCount
     let weekdayRange = NNCalendarLogic.Util.weekdayRange(firstWeekday, weekdayCount)
     XCTAssertEqual(weekdayRange, weekdays.map({$0.weekday}))
-
+    
     let weekdayVM = NNCalendarLogic.WeekdayDisplay.ViewModel(weekdayModel)
     let viewModel1 = NNCalendarLogic.SelectWeekday.ViewModel(weekdayVM, model1)
     let weekdays1 = try! viewModel1.weekdayStream.take(1).toBlocking().first()
     XCTAssertEqual(weekdays1, weekdays)
   }
-
+  
   public func test_selectWeekday_shouldWork() {
     /// Setup
     let calendar = Calendar.current
@@ -87,7 +82,7 @@ public extension SelectableWeekdayTest {
   }
 }
 
-extension SelectableWeekdayTest: NNSelectWeekdayNoDefaultModelDependency {
+extension SelectableWeekdayTest: NNSelectWeekdayModelDependency {
   public var firstWeekday: Int {
     return firstWeekdayForTest!
   }
@@ -102,5 +97,9 @@ extension SelectableWeekdayTest: NNSelectWeekdayNoDefaultModelDependency {
 
   public var currentMonthStream: Observable<NNCalendarLogic.Month> {
     return currentMonthSb.asObservable()
+  }
+  
+  public func weekdayDescription(_ weekday: Int) -> String {
+    return NNCalendarLogic.Util.defaultWeekdayDescription(weekday)
   }
 }

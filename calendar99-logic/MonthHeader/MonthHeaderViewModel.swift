@@ -61,8 +61,8 @@ public extension NNCalendarLogic.MonthHeader {
   }
 }
 
-// MARK: - NNMonthControlNoDefaultFunction
-extension NNCalendarLogic.MonthHeader.ViewModel: NNMonthControlNoDefaultFunction {
+// MARK: - NNMonthControlFunction
+extension NNCalendarLogic.MonthHeader.ViewModel: NNMonthControlFunction {
   public var currentMonthReceiver: AnyObserver<NNCalendarLogic.Month> {
     return monthControlVM.currentMonthReceiver
   }

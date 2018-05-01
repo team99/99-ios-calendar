@@ -10,10 +10,8 @@ import RxSwift
 
 /// View model for controlling month. This can be used both by the month header
 /// (with the forward/backward buttons) and the month view (right/left swipes).
-public protocol NNMonthControlViewModelType:
-  NNMonthControlDefaultFunction,
-  NNMonthControlNoDefaultFunction
-{
+public protocol NNMonthControlViewModelType: NNMonthControlFunction {
+
   /// Move forward by some months.
   var currentMonthForwardReceiver: AnyObserver<UInt> { get }
 
@@ -40,8 +38,8 @@ public extension NNCalendarLogic.MonthControl {
   }
 }
 
-// MARK: - NNMonthControlNoDefaultFunction
-extension NNCalendarLogic.MonthControl.ViewModel: NNMonthControlNoDefaultFunction {
+// MARK: - NNMonthControlFunction
+extension NNCalendarLogic.MonthControl.ViewModel: NNMonthControlFunction {
   public var currentMonthReceiver: AnyObserver<NNCalendarLogic.Month> {
     return model.currentMonthReceiver
   }

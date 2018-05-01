@@ -22,7 +22,7 @@ public final class MonthHeaderTest: RootTest {
 
   override public func setUp() {
     super.setUp()
-    model = NNCalendarLogic.MonthHeader.Model(self as NNMonthHeaderNoDefaultModelDependency)
+    model = NNCalendarLogic.MonthHeader.Model(self)
     viewModel = NNCalendarLogic.MonthHeader.ViewModel(model)
     currentMonth = NNCalendarLogic.Month(Date())
     currentMonthSb = BehaviorSubject(value: currentMonth!)
@@ -43,10 +43,9 @@ public extension MonthHeaderTest {
   public func test_multipleConstructors_shouldWork() {
     let monthControlModel = NNCalendarLogic.MonthControl.Model(self)
     let model1 = NNCalendarLogic.MonthHeader.Model(monthControlModel, self)
-    let model2 = NNCalendarLogic.MonthHeader.Model(self)
     
-    XCTAssertEqual(model1.formatMonthDescription(currentMonth!),
-                   model2.formatMonthDescription(currentMonth!))
+    XCTAssertEqual(model!.formatMonthDescription(currentMonth!),
+                   model1.formatMonthDescription(currentMonth!))
 
     let monthControlVM = NNCalendarLogic.MonthControl.ViewModel(monthControlModel)
     let viewModel1 = NNCalendarLogic.MonthHeader.ViewModel(monthControlVM, model1)
@@ -127,6 +126,6 @@ extension MonthHeaderTest: NNMonthHeaderModelDependency {
   }
 
   public func formatMonthDescription(_ month: NNCalendarLogic.Month) -> String {
-    return String(describing: month)
+    return NNCalendarLogic.Util.defaultMonthDescription(month)
   }
 }

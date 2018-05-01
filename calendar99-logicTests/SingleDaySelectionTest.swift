@@ -17,23 +17,16 @@ public final class SingleDaySelectionTest: RootTest {
   fileprivate var model: NNCalendarLogic.DaySelect.Model!
   fileprivate var viewModel: NNCalendarLogic.DaySelect.ViewModel!
   fileprivate var allSelectionSb: BehaviorSubject<Try<Set<NNCalendarLogic.Selection>>>!
-  fileprivate var defaultModelDp: NNCalendarLogic.DaySelect.Model.DefaultDependency!
 
   override public func setUp() {
     super.setUp()
     model = NNCalendarLogic.DaySelect.Model(self)
     viewModel = NNCalendarLogic.DaySelect.ViewModel(model!)
     allSelectionSb = BehaviorSubject(value: Try.failure(""))
-    defaultModelDp = NNCalendarLogic.DaySelect.Model.DefaultDependency(self)
   }
 }
 
 public extension SingleDaySelectionTest {
-  public func test_defaultDependencies_shouldWork() {
-    let model1 = NNCalendarLogic.DaySelect.Model(defaultModelDp)
-    XCTAssertEqual(model!.firstWeekday, model1.firstWeekday)
-  }
-
   public func test_selectSingleDates_shouldUpdateAllSelectionsCorrectly() {
     /// Setup
     viewModel!.setupDaySelectionBindings()
@@ -64,7 +57,7 @@ public extension SingleDaySelectionTest {
   }
 }
 
-extension SingleDaySelectionTest: NNSingleDaySelectionNoDefaultModelDependency {
+extension SingleDaySelectionTest: NNSingleDaySelectionModelDependency {
   public var firstWeekday: Int {
     return firstWeekdayForTest!
   }

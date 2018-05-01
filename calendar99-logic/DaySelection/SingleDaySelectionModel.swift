@@ -9,30 +9,19 @@
 import RxSwift
 import SwiftFP
 
-/// Defaultable dependency for single day selection model.
-public protocol NNSingleDaySelectionDefaultModelDependency:
-  NNMultiDaySelectionDefaultFunction,
-  NNSingleDaySelectionDefaultFunction,
-  NNWeekdayAwareDefaultModelDependency {}
-
-/// Non-defaultable dependency for single day selection model.
-public protocol NNSingleDaySelectionNoDefaultModelDependency:
-  NNMultiDaySelectionNoDefaultFunction,
-  NNSingleDaySelectionNoDefaultFunction,
-  NNWeekdayAwareNoDefaultModelDependency {}
+/// Shared functionalities between the model and its dependency.
+public protocol NNSingleDaySelectionModelFunction:
+  NNMultiDaySelectionFunction,
+  NNSingleDaySelectionFunction {}
 
 /// Dependency for single day selection model.
 public protocol NNSingleDaySelectionModelDependency:
-  NNSingleDaySelectionDefaultModelDependency,
-  NNSingleDaySelectionNoDefaultModelDependency,
+  NNSingleDaySelectionModelFunction,
   NNWeekdayAwareModelDependency {}
 
 /// Day selection model.
 public protocol NNSingleDaySelectionModelType:
-  NNMultiDaySelectionDefaultFunction,
-  NNMultiDaySelectionNoDefaultFunction,
-  NNSingleDaySelectionDefaultFunction,
-  NNSingleDaySelectionNoDefaultFunction,
+  NNSingleDaySelectionModelFunction,
   NNWeekdayAwareModelType {}
 
 // MARK: - Model.
@@ -45,16 +34,11 @@ public extension NNCalendarLogic.DaySelect {
     required public init(_ dependency: NNSingleDaySelectionModelDependency) {
       self.dependency = dependency
     }
-
-    convenience public init(_ dependency: NNSingleDaySelectionNoDefaultModelDependency) {
-      let defaultDp = DefaultDependency(dependency)
-      self.init(defaultDp)
-    }
   }
 }
 
-// MARK: - NNMultiDaySelectionNoDefaultFunction
-extension NNCalendarLogic.DaySelect.Model: NNMultiDaySelectionNoDefaultFunction {
+// MARK: - NNMultiDaySelectionFunction
+extension NNCalendarLogic.DaySelect.Model: NNMultiDaySelectionFunction {
   public var allSelectionReceiver: AnyObserver<Set<NNCalendarLogic.Selection>> {
     return dependency.allSelectionReceiver
   }
@@ -64,8 +48,8 @@ extension NNCalendarLogic.DaySelect.Model: NNMultiDaySelectionNoDefaultFunction 
   }
 }
 
-// MARK: - NNSingleDaySelectionNoDefaultFunction
-extension NNCalendarLogic.DaySelect.Model: NNSingleDaySelectionNoDefaultFunction {
+// MARK: - NNSingleDaySelectionFunction
+extension NNCalendarLogic.DaySelect.Model: NNSingleDaySelectionFunction {
   public func isDateSelected(_ date: Date) -> Bool {
     return dependency.isDateSelected(date)
   }
@@ -74,38 +58,9 @@ extension NNCalendarLogic.DaySelect.Model: NNSingleDaySelectionNoDefaultFunction
 // MARK: - NNSingleDaySelectionModelType
 extension NNCalendarLogic.DaySelect.Model: NNSingleDaySelectionModelType {}
 
-// MARK: - NNWeekdayAwareDefaultModelFunction
-extension NNCalendarLogic.DaySelect.Model: NNWeekdayAwareDefaultModelFunction {
+// MARK: - NNWeekdayAwareModelFunction
+extension NNCalendarLogic.DaySelect.Model: NNWeekdayAwareModelFunction {
   public var firstWeekday: Int {
     return dependency.firstWeekday
-  }
-}
-
-// MARK: - Default dependency
-public extension NNCalendarLogic.DaySelect.Model {
-
-  /// NNSingleDaySelectionModelDependency
-  public final class DefaultDependency: NNSingleDaySelectionModelDependency {
-    public var firstWeekday: Int { return weekdayAwareDp.firstWeekday }
-
-    public var allSelectionReceiver: AnyObserver<Set<NNCalendarLogic.Selection>> {
-      return noDefault.allSelectionReceiver
-    }
-
-    public var allSelectionStream: Observable<Try<Set<NNCalendarLogic.Selection>>> {
-      return noDefault.allSelectionStream
-    }
-
-    private let noDefault: NNSingleDaySelectionNoDefaultModelDependency
-    private let weekdayAwareDp: NNCalendarLogic.WeekdayAware.Model.DefaultDependency
-
-    public init(_ dependency: NNSingleDaySelectionNoDefaultModelDependency) {
-      noDefault = dependency
-      weekdayAwareDp = NNCalendarLogic.WeekdayAware.Model.DefaultDependency(dependency)
-    }
-
-    public func isDateSelected(_ date: Date) -> Bool {
-      return noDefault.isDateSelected(date)
-    }
   }
 }

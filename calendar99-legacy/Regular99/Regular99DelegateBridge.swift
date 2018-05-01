@@ -42,15 +42,15 @@ extension NNCalendarLegacy.Regular99 {
   }
 }
 
-// MARK: - NNGridDisplayDefaultFunction
-extension NNCalendarLegacy.Regular99.Bridge: NNGridDisplayDefaultFunction {
+// MARK: - NNGridDisplayFunction
+extension NNCalendarLegacy.Regular99.Bridge: NNGridDisplayFunction {
   var weekdayStacks: Int {
     return calendar.zipWith(delegate, {$1.weekdayStacks(for: $0)}).getOrElse(0)
   }
 }
 
-// MARK: - NNMonthAwareNoDefaultModelFunction
-extension NNCalendarLegacy.Regular99.Bridge: NNMonthAwareNoDefaultModelFunction {
+// MARK: - NNMonthAwareModelFunction
+extension NNCalendarLegacy.Regular99.Bridge: NNMonthAwareModelFunction {
   var currentMonthStream: Observable<NNCalendarLogic.Month> {
     return currentMonthSb
       .map({[weak self] in (self?.calendar)
@@ -60,8 +60,8 @@ extension NNCalendarLegacy.Regular99.Bridge: NNMonthAwareNoDefaultModelFunction 
   }
 }
 
-// MARK: - NNMonthControlNoDefaultFunction
-extension NNCalendarLegacy.Regular99.Bridge: NNMonthControlNoDefaultFunction {
+// MARK: - NNMonthControlFunction
+extension NNCalendarLegacy.Regular99.Bridge: NNMonthControlFunction {
   var currentMonthReceiver: AnyObserver<NNCalendarLogic.Month> {
     return currentMonthSb.mapObserver({[weak self] month -> Void in
       (self?.calendar).zipWith(self?.delegate, {
@@ -71,8 +71,8 @@ extension NNCalendarLegacy.Regular99.Bridge: NNMonthControlNoDefaultFunction {
   }
 }
 
-// MARK: - NNMonthControlNoDefaultModelFunction
-extension NNCalendarLegacy.Regular99.Bridge: NNMonthControlNoDefaultModelFunction {
+// MARK: - NNMonthControlModelFunction
+extension NNCalendarLegacy.Regular99.Bridge: NNMonthControlModelFunction {
   var minimumMonth: NNCalendarLogic.Month {
     return calendar
       .zipWith(delegate, {$1.minimumMonth(for: $0)})
@@ -91,8 +91,8 @@ extension NNCalendarLegacy.Regular99.Bridge: NNMonthControlNoDefaultModelFunctio
   }
 }
 
-// MARK: - NNMonthHeaderDefaultModelFunction
-extension NNCalendarLegacy.Regular99.Bridge: NNMonthHeaderDefaultModelFunction {
+// MARK: - NNMonthHeaderModelFunction
+extension NNCalendarLegacy.Regular99.Bridge: NNMonthHeaderModelFunction {
   func formatMonthDescription(_ month: NNCalendarLogic.Month) -> String {
     return calendar
       .zipWith(delegate, {$1.regular99($0, monthDescriptionFor: month)})
@@ -100,8 +100,8 @@ extension NNCalendarLegacy.Regular99.Bridge: NNMonthHeaderDefaultModelFunction {
   }
 }
 
-// MARK: - NNMultiDaySelectionNoDefaultFunction
-extension NNCalendarLegacy.Regular99.Bridge: NNMultiDaySelectionNoDefaultFunction {
+// MARK: - NNMultiDaySelectionFunction
+extension NNCalendarLegacy.Regular99.Bridge: NNMultiDaySelectionFunction {
   var allSelectionReceiver: AnyObserver<Set<NNCalendarLogic.Selection>> {
     return selectionSb.mapObserver({[weak self] selection -> Void in
       (self?.calendar).zipWith(self?.delegate, {
@@ -136,8 +136,8 @@ extension NNCalendarLegacy.Regular99.Bridge: NNMultiMonthGridSelectionCalculator
   }
 }
 
-// MARK: - NNSelectHighlightNoDefaultFunction
-extension NNCalendarLegacy.Regular99.Bridge: NNSelectHighlightNoDefaultFunction {
+// MARK: - NNSelectHighlightFunction
+extension NNCalendarLegacy.Regular99.Bridge: NNSelectHighlightFunction {
   func highlightPart(_ date: Date) -> NNCalendarLogic.HighlightPart {
     return calendar
       .zipWith(delegate, {$1.regular99($0, highlightPartFor: date)})
@@ -145,8 +145,8 @@ extension NNCalendarLegacy.Regular99.Bridge: NNSelectHighlightNoDefaultFunction 
   }
 }
 
-// MARK: - NNSingleDaySelectionNoDefaultFunction
-extension NNCalendarLegacy.Regular99.Bridge: NNSingleDaySelectionNoDefaultFunction {
+// MARK: - NNSingleDaySelectionFunction
+extension NNCalendarLegacy.Regular99.Bridge: NNSingleDaySelectionFunction {
   func isDateSelected(_ date: Date) -> Bool {
     return calendar
       .zipWith(delegate, {$1.regular99($0, isDateSelected: date)})
@@ -154,15 +154,15 @@ extension NNCalendarLegacy.Regular99.Bridge: NNSingleDaySelectionNoDefaultFuncti
   }
 }
 
-// MARK: - NNWeekdayAwareNoDefaultModelFunction
-extension NNCalendarLegacy.Regular99.Bridge: NNWeekdayAwareNoDefaultModelFunction {
+// MARK: - NNWeekdayAwareModelFunction
+extension NNCalendarLegacy.Regular99.Bridge: NNWeekdayAwareModelFunction {
   var firstWeekday: Int {
     return calendar.zipWith(delegate, {$1.firstWeekday(for: $0)}).getOrElse(1)
   }
 }
 
-// MARK: - NNWeekdayDisplayDefaultModelFunction
-extension NNCalendarLegacy.Regular99.Bridge: NNWeekdayDisplayDefaultModelFunction {
+// MARK: - NNWeekdayDisplayModelFunction
+extension NNCalendarLegacy.Regular99.Bridge: NNWeekdayDisplayModelFunction {
   func weekdayDescription(_ weekday: Int) -> String {
     return calendar
       .zipWith(delegate, {$1.regular99($0, weekdayDescriptionFor: weekday)})

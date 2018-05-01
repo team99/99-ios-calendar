@@ -12,8 +12,7 @@ import RxSwift
 public protocol NNMonthSectionViewModelType:
   NNMonthControlViewModelType,
   NNMonthGridViewModelType,
-  NNSelectHighlightDefaultFunction,
-  NNSelectHighlightNoDefaultFunction,
+  NNSelectHighlightFunction,
   NNSingleDaySelectionViewModelType
 {
   /// Get the total month count.
@@ -100,8 +99,8 @@ public extension NNCalendarLogic.MonthSection {
   }
 }
 
-// MARK: - NNGridDisplayDefaultFunction
-extension NNCalendarLogic.MonthSection.ViewModel: NNGridDisplayDefaultFunction {
+// MARK: - NNGridDisplayFunction
+extension NNCalendarLogic.MonthSection.ViewModel: NNGridDisplayFunction {
   public var weekdayStacks: Int { return monthGridVM.weekdayStacks }
 }
 
@@ -116,8 +115,8 @@ extension NNCalendarLogic.MonthSection.ViewModel: NNMonthGridViewModelType {
   }
 }
 
-// MARK: - NNMonthControlNoDefaultFunction
-extension NNCalendarLogic.MonthSection.ViewModel: NNMonthControlNoDefaultFunction {
+// MARK: - NNMonthControlFunction
+extension NNCalendarLogic.MonthSection.ViewModel: NNMonthControlFunction {
   public var currentMonthReceiver: AnyObserver<NNCalendarLogic.Month> {
     return monthControlVM.currentMonthReceiver
   }
@@ -138,8 +137,8 @@ extension NNCalendarLogic.MonthSection.ViewModel: NNMonthControlViewModelType {
   }
 }
 
-// MARK: - NNSingleDaySelectionNoDefaultFunction
-extension NNCalendarLogic.MonthSection.ViewModel: NNSingleDaySelectionNoDefaultFunction {
+// MARK: - NNSingleDaySelectionFunction
+extension NNCalendarLogic.MonthSection.ViewModel: NNSingleDaySelectionFunction {
   public func isDateSelected(_ date: Date) -> Bool {
     return daySelectionVM.isDateSelected(date)
   }
@@ -156,8 +155,8 @@ extension NNCalendarLogic.MonthSection.ViewModel: NNSingleDaySelectionViewModelT
   }
 }
 
-// MARK: - NNSelectHighlightNoDefaultFunction
-extension NNCalendarLogic.MonthSection.ViewModel: NNSelectHighlightNoDefaultFunction {
+// MARK: - NNSelectHighlightFunction
+extension NNCalendarLogic.MonthSection.ViewModel: NNSelectHighlightFunction {
   public func highlightPart(_ date: Date) -> NNCalendarLogic.HighlightPart {
     return model.highlightPart(date)
   }

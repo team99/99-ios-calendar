@@ -9,16 +9,39 @@
 // MARK: - Utilities
 public extension NNCalendarLogic {
 
-  /// Utilities for calendar views.
-  public final class Util {}
+  /// Utilities for calendar views. The date calculators here will be lazily
+  /// inialized when some functions are called.
+  public final class Util {
+    
+    /// This will be initialized lazily.
+    fileprivate static var defaultCalc: NNCalendarLogic.DateCalc.Default = {
+      let weekdayStacks = defaultWeekdayStacks
+      let firstWeekday = defaultFirstWeekday
+      return NNCalendarLogic.DateCalc.Default(weekdayStacks, firstWeekday)
+    }()
+    
+    /// This will be initialized lazily.
+    fileprivate static var highlightCalc: NNCalendarLogic.DateCalc.HighlightPart = {
+      let weekdayStacks = defaultWeekdayStacks
+      return NNCalendarLogic.DateCalc.HighlightPart(defaultCalc, weekdayStacks)
+    }()
+  }
 }
 
-// MARK: - Connect selection
+// MARK: - Default properties
 public extension NNCalendarLogic.Util {
 
   /// Get the number of days in a week.
   public static var weekdayCount: Int { return 7 }
+  
+  public static var defaultFirstWeekday: Int { return 1 }
+  
+  /// Get the default weekday stacks.
+  public static var defaultWeekdayStacks: Int { return 6 }
+}
 
+public extension NNCalendarLogic.Util {
+  
   /// Get the default weekday description.
   ///
   /// - Parameter weekday: A weekday value.
@@ -226,5 +249,43 @@ public extension NNCalendarLogic.Util {
     } while date.map(compareDay).getOrElse(false)
 
     return newSelections
+  }
+}
+
+// MARK: - Date calculations
+public extension NNCalendarLogic.Util {
+  
+  /// Calculate grid selection changes with default date calculators.
+  ///
+  /// - Parameters:
+  ///   - monthComp: The current month comp.
+  ///   - prev: The previous selections.
+  ///   - current: The current selections.
+  /// - Returns: A Set of changed GridPosition.
+  public static func defaultGridSelectionChanges(
+    _ monthComp: NNCalendarLogic.MonthComp,
+    _ prev: Set<NNCalendarLogic.Selection>,
+    _ current: Set<NNCalendarLogic.Selection>)
+    -> Set<NNCalendarLogic.GridPosition>
+  {
+    return highlightCalc.gridSelectionChanges(monthComp, prev, current)
+  }
+  
+  /// Calculate grid selection changes with default date calculators.
+  ///
+  /// - Parameters:
+  ///   - monthComps: The array of available month comps.
+  ///   - currentMonth: The current month.
+  ///   - prev: The previous selections.
+  ///   - current: The current selections.
+  /// - Returns: A Set of changed GridPosition.
+  public static func defaultGridSelectionChanges(
+    _ monthComps: [NNCalendarLogic.MonthComp],
+    _ currentMonth: NNCalendarLogic.Month,
+    _ prev: Set<NNCalendarLogic.Selection>,
+    _ current: Set<NNCalendarLogic.Selection>)
+    -> Set<NNCalendarLogic.GridPosition>
+  {
+    return highlightCalc.gridSelectionChanges(monthComps, currentMonth, prev, current)
   }
 }

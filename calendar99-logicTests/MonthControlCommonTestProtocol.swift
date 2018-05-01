@@ -17,7 +17,7 @@ public protocol MonthControlCommonTestProtocol: CommonTestProtocol {}
 public extension MonthControlCommonTestProtocol {
   public func test_backwardAndForwardReceiver_shouldWork(
     _ viewModel: NNMonthControlViewModelType,
-    _ model: NNMonthAwareNoDefaultModelFunction)
+    _ model: NNMonthAwareModelFunction)
   {
     /// Setup
     let monthObs = scheduler!.createObserver(NNCalendarLogic.Month.self)
@@ -46,7 +46,7 @@ public extension MonthControlCommonTestProtocol {
 
   public func test_minAndMaxMonths_shouldLimitMonthSelection(
     _ viewModel: NNMonthControlViewModelType,
-    _ model: NNMonthControlNoDefaultModelFunction)
+    _ model: NNMonthControlModelFunction)
   {
     /// Setup
     let monthObs = scheduler!.createObserver(NNCalendarLogic.Month.self)

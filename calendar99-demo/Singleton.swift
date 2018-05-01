@@ -31,94 +31,96 @@ public final class Singleton {
   }
 }
 
-// MARK: - NNMonthAwareNoDefaultModelFunction
-extension Singleton: NNMonthAwareNoDefaultModelFunction {
-  public var currentMonthStream: Observable<NNCalendarLogic.Month> {
-    let path = NNCalendarRedux.Calendar.Action.currentMonthPath
-
-    return reduxStore
-      .stateValueStream(NNCalendarLogic.Month.self, path)
-      .filter({$0.isSuccess}).map({$0.value!})
+// MARK: - NNRegular99CalendarModelDependency
+extension Singleton: NNRegular99CalendarModelDependency {
+  public var firstWeekday: Int { return 1 }
+  
+  public var weekdayStacks: Int {
+    return NNCalendarLogic.Util.defaultWeekdayStacks
   }
-}
-
-// MARK: - NNMonthControlNoDefaultFunction
-extension Singleton: NNMonthControlNoDefaultFunction {
-  public var currentMonthReceiver: AnyObserver<NNCalendarLogic.Month> {
-    let actionFn = NNCalendarRedux.Calendar.Action.updateCurrentMonth
-    return reduxStore.actionTrigger().mapObserver(actionFn)
-  }
-}
-
-// MARK: - NNMonthControlNoDefaultModelFunction
-extension Singleton: NNMonthControlNoDefaultModelFunction {
+  
   public var initialMonthStream: Single<NNCalendarLogic.Month> {
     return Single.just(NNCalendarLogic.Month(1, 1970))
   }
-
+  
   public var minimumMonth: NNCalendarLogic.Month {
     return NNCalendarLogic.Month(4, 2018)
   }
-
+  
   public var maximumMonth: NNCalendarLogic.Month {
     return NNCalendarLogic.Month(10, 2018)
   }
-}
 
-// MARK: - NNWeekdayAwareNoDefaultModelFunction
-extension Singleton: NNWeekdayAwareNoDefaultModelFunction {
-  public var firstWeekday: Int {
-    return 1
-  }
-}
-
-// MARK: - NNMultiDaySelectionNoDefaultFunction
-extension Singleton: NNMultiDaySelectionNoDefaultFunction {
   public var allSelectionReceiver: AnyObserver<Set<NNCalendarLogic.Selection>> {
     let actionFn = NNCalendarRedux.Calendar.Action.updateSelection
     return reduxStore.actionTrigger().mapObserver(actionFn)
   }
-
+  
   public var allSelectionStream: Observable<Try<Set<NNCalendarLogic.Selection>>> {
     let path = NNCalendarRedux.Calendar.Action.selectionPath
     return reduxStore.stateValueStream(Set<NNCalendarLogic.Selection>.self, path)
   }
-}
-
-// MARK: - NNSingleDaySelectionNoDefaultFunction
-extension Singleton: NNSingleDaySelectionNoDefaultFunction {
+  
+  public var currentMonthStream: Observable<NNCalendarLogic.Month> {
+    let path = NNCalendarRedux.Calendar.Action.currentMonthPath
+    
+    return reduxStore
+      .stateValueStream(NNCalendarLogic.Month.self, path)
+      .filter({$0.isSuccess}).map({$0.value!})
+  }
+  
+  public var currentMonthReceiver: AnyObserver<NNCalendarLogic.Month> {
+    let actionFn = NNCalendarRedux.Calendar.Action.updateCurrentMonth
+    return reduxStore.actionTrigger().mapObserver(actionFn)
+  }
+  
   public func isDateSelected(_ date: Date) -> Bool {
     let path = NNCalendarRedux.Calendar.Action.selectionPath
-
+    
     return reduxStore
       .lastState.flatMap({$0.stateValue(path)})
       .cast(Set<NNCalendarLogic.Selection>.self)
       .map({$0.contains(where: {$0.contains(date)})})
       .getOrElse(false)
   }
-}
-
-// MARK: - NNSelectHighlightNoDefaultFunction
-extension Singleton: NNSelectHighlightNoDefaultFunction {
+  
   public func highlightPart(_ date: Date) -> NNCalendarLogic.HighlightPart {
     let path = NNCalendarRedux.Calendar.Action.selectionPath
-
+    
     return reduxStore
       .lastState.flatMap({$0.stateValue(path)})
       .cast(Set<NNCalendarLogic.Selection>.self)
       .map({NNCalendarLogic.Util.highlightPart($0, date)})
       .getOrElse(.none)
   }
+  
+  public func formatMonthDescription(_ month: NNCalendarLogic.Month) -> String {
+    return NNCalendarLogic.Util.defaultMonthDescription(month)
+  }
+  
+  public func gridSelectionChanges(_ monthComps: [NNCalendarLogic.MonthComp],
+                                   _ currentMonth: NNCalendarLogic.Month,
+                                   _ prev: Set<NNCalendarLogic.Selection>,
+                                   _ current: Set<NNCalendarLogic.Selection>)
+    -> Set<NNCalendarLogic.GridPosition>
+  {
+    return NNCalendarLogic.Util
+      .defaultGridSelectionChanges(monthComps, currentMonth, prev, current)
+  }
+  
+  public func weekdayDescription(_ weekday: Int) -> String {
+    return NNCalendarLogic.Util.defaultWeekdayDescription(weekday)
+  }
 }
 
-// MARK: - NNMonthDisplayNoDefaultModelDependency
-extension Singleton: NNMonthDisplayNoDefaultModelDependency {}
-
-// MARK: - NNSelectWeekdayNoDefaultModelDependency
-extension Singleton: NNSelectWeekdayNoDefaultModelDependency {}
-
-// MARK: - NNMonthHeaderNoDefaultModelDependency
-extension Singleton: NNMonthHeaderNoDefaultModelDependency {}
-
-// MARK: - NNRegular99CalendarModelDependency
-extension Singleton: NNRegular99CalendarNoDefaultModelDependency {}
+// MARK: - NNMonthDisplayModelDependency
+extension Singleton: NNMonthDisplayModelDependency {
+  public func gridSelectionChanges(_ monthComp: NNCalendarLogic.MonthComp,
+                                   _ prev: Set<NNCalendarLogic.Selection>,
+                                   _ current: Set<NNCalendarLogic.Selection>)
+    -> Set<NNCalendarLogic.GridPosition>
+  {
+    return NNCalendarLogic.Util
+      .defaultGridSelectionChanges(monthComp, prev, current)
+  }
+}

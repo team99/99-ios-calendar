@@ -15,24 +15,11 @@ import XCTest
 public final class WeekdayDisplayTest: RootTest {
   fileprivate var model: NNCalendarLogic.WeekdayDisplay.Model!
   fileprivate var viewModel: NNCalendarLogic.WeekdayDisplay.ViewModel!
-  fileprivate var defaultModelDp: NNWeekdayDisplayModelDependency!
 
   override public func setUp() {
     super.setUp()
     model = NNCalendarLogic.WeekdayDisplay.Model(self)
     viewModel = NNCalendarLogic.WeekdayDisplay.ViewModel(model)
-    defaultModelDp = NNCalendarLogic.WeekdayDisplay.Model.DefaultDependency(self)
-  }
-}
-
-public extension WeekdayDisplayTest {
-  public func test_defaultDependencies_shouldWork() {
-    let model1 = NNCalendarLogic.WeekdayDisplay.Model(defaultModelDp)
-
-    for weekday in 0..<7 {
-      XCTAssertEqual(model1.weekdayDescription(weekday),
-                     defaultModelDp.weekdayDescription(weekday))
-    }
   }
 }
 
@@ -45,7 +32,7 @@ public extension WeekdayDisplayTest {
 
     /// When & Then
     let weekdayCount = NNCalendarLogic.Util.weekdayCount
-    let firstWeekday = defaultModelDp!.firstWeekday
+    let firstWeekday = model!.firstWeekday
     let actualRange = NNCalendarLogic.Util.weekdayRange(firstWeekday, weekdayCount)
 
     let emittedWeekdays = weekdayObserver.nextElements()
@@ -71,9 +58,11 @@ public extension WeekdayDisplayTest {
   }
 }
 
-extension WeekdayDisplayTest: NNWeekdayDisplayNoDefaultModelDependency {
-  public var firstWeekday: Int {
-    return firstWeekdayForTest!
+extension WeekdayDisplayTest: NNWeekdayDisplayModelDependency {
+  public var firstWeekday: Int { return firstWeekdayForTest! }
+
+  public func weekdayDescription(_ weekday: Int) -> String {
+    return NNCalendarLogic.Util.defaultWeekdayDescription(weekday)
   }
 }
 

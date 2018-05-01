@@ -17,22 +17,15 @@ import XCTest
 public final class MonthGridTest: RootTest {
   fileprivate var model: NNCalendarLogic.MonthGrid.Model!
   fileprivate var viewModel: NNCalendarLogic.MonthGrid.ViewModel!
-  fileprivate var defaultModelDp: NNMonthGridModelDependency!
 
   override public func setUp() {
     super.setUp()
-    model = NNCalendarLogic.MonthGrid.Model()
+    model = NNCalendarLogic.MonthGrid.Model(self)
     viewModel = NNCalendarLogic.MonthGrid.ViewModel(model!)
-    defaultModelDp = NNCalendarLogic.MonthGrid.Model.DefaultDependency()
   }
 }
 
 public extension MonthGridTest {
-  public func test_defaultDependencies_shouldWork() {
-    let model1 = NNCalendarLogic.MonthGrid.Model(defaultModelDp!)
-    XCTAssertEqual(model1.weekdayStacks, defaultModelDp.weekdayStacks)
-  }
-
   public func test_gridSelectionReceiverAndStream_shouldWork() {
     /// Setup
     let selectionObs = scheduler!.createObserver(NNCalendarLogic.GridPosition.self)
@@ -53,5 +46,11 @@ public extension MonthGridTest {
       let lastSelection = selectionObs.nextElements().last!
       XCTAssertEqual(lastSelection, selection)
     }
+  }
+}
+
+extension MonthGridTest: NNMonthGridModelDependency {
+  public var weekdayStacks: Int {
+    return NNCalendarLogic.Util.defaultWeekdayStacks
   }
 }

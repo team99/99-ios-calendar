@@ -9,10 +9,8 @@
 import RxSwift
 
 /// View model for month-grid based views.
-public protocol NNMonthGridViewModelType:
-  NNGridDisplayDefaultFunction,
-  NNGridDisplayNoDefaultFunction
-{
+public protocol NNMonthGridViewModelType: NNGridDisplayFunction {
+
   /// Trigger grid item selection. Each grid selection corresponds to an Index
   /// Path in the current month grid.
   var gridSelectionReceiver: AnyObserver<NNCalendarLogic.GridPosition> { get }
@@ -36,8 +34,8 @@ public extension NNCalendarLogic.MonthGrid {
   }
 }
 
-// MARK: - NNGridDisplayDefaultFunction
-extension NNCalendarLogic.MonthGrid.ViewModel: NNGridDisplayDefaultFunction {
+// MARK: - NNGridDisplayFunction
+extension NNCalendarLogic.MonthGrid.ViewModel: NNGridDisplayFunction {
   public var weekdayStacks: Int { return model.weekdayStacks }
 }
 

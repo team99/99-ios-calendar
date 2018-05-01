@@ -32,7 +32,7 @@ Each of these views requires its own **ViewModel** and **Model**, so we must be 
 
 - Any protocol that ends with **Function** means it contains functionalities which are shared between/among two or more classes/protocols. For example, **NNxxFunction** contains shared functionalities between a model and view model for a specific view; **NNxxModelFunction** is the same for a model and its dependency.
 
-- Any protocol whose name contains **Default** or **NoDefault** has properties that are defaultable or non-defaultable. For e.g., **NNGridDisplayDefaultFunction** has **weekdayStacks** property with a default value of 6. Default protocols only extend from other defaults, and likewise for NoDefaults (e.g., **NNMonthGridDefaultFunction** extends from **NNGridDisplayDefaultFunction**, but not **NNGridDisplayNoDefaultFunction**). There are internal **DefaultDependency** classes that provide default values. 
+- Any protocol whose name contains **Default** or **NoDefault** has properties that are defaultable or non-defaultable.
 
 - Usually protocols will have the postfix **Type**, (e.g. **ViewModelType**, **ModelType**), but not always. A **ViewModel** will have a protocol **ViewModelType** and an implementation.
 

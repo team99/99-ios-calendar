@@ -8,9 +8,9 @@
 
 import RxSwift
 
-/// Shared functionalities between the model and its dependency that can have
-/// defaults.
-public protocol NNMonthHeaderDefaultModelFunction: NNMonthControlDefaultModelFunction {
+/// Shared functionalities between the model and its dependency.
+public protocol NNMonthHeaderModelFunction {
+  
   /// Format month description.
   ///
   /// - Parameter month: A ControlComponents instance.
@@ -18,30 +18,15 @@ public protocol NNMonthHeaderDefaultModelFunction: NNMonthControlDefaultModelFun
   func formatMonthDescription(_ month: NNCalendarLogic.Month) -> String
 }
 
-/// Shared functionalities between the model and its dependency that cannot
-/// have defaults.
-public protocol NNMonthHeaderNoDefaultModelFunction:
-  NNMonthControlNoDefaultModelFunction {}
-
-/// Defaultable dependency for month header model.
-public protocol NNMonthHeaderDefaultModelDependency:
-  NNMonthHeaderDefaultModelFunction {}
-
-/// Non-defaultable dependency for month header model.
-public protocol NNMonthHeaderNoDefaultModelDependency:
-  NNMonthHeaderNoDefaultModelFunction {}
-
 /// Dependency for month header model.
 public protocol NNMonthHeaderModelDependency:
   NNMonthControlModelDependency,
-  NNMonthHeaderDefaultModelDependency,
-  NNMonthHeaderNoDefaultModelDependency {}
+  NNMonthHeaderModelFunction {}
 
 /// Model for month header view.
 public protocol NNMonthHeaderModelType:
   NNMonthControlModelType,
-  NNMonthHeaderDefaultModelFunction,
-  NNMonthHeaderNoDefaultModelFunction {}
+  NNMonthHeaderModelFunction {}
 
 public extension NNCalendarLogic.MonthHeader {
 
@@ -60,30 +45,25 @@ public extension NNCalendarLogic.MonthHeader {
       let monthControlModel = NNCalendarLogic.MonthControl.Model(dependency)
       self.init(monthControlModel, dependency)
     }
-
-    convenience public init(_ dependency: NNMonthHeaderNoDefaultModelDependency) {
-      let defaultDp = DefaultDependency(dependency)
-      self.init(defaultDp)
-    }
   }
 }
 
-// MARK: - NNMonthAwareNoDefaultModelFunction
-extension NNCalendarLogic.MonthHeader.Model: NNMonthAwareNoDefaultModelFunction {
+// MARK: - NNMonthAwareModelFunction
+extension NNCalendarLogic.MonthHeader.Model: NNMonthAwareModelFunction {
   public var currentMonthStream: Observable<NNCalendarLogic.Month> {
     return monthControlModel.currentMonthStream
   }
 }
 
-// MARK: - NNMonthControlNoDefaultFunction
-extension NNCalendarLogic.MonthHeader.Model: NNMonthControlNoDefaultFunction {
+// MARK: - NNMonthControlFunction
+extension NNCalendarLogic.MonthHeader.Model: NNMonthControlFunction {
   public var currentMonthReceiver: AnyObserver<NNCalendarLogic.Month> {
     return monthControlModel.currentMonthReceiver
   }
 }
 
-// MARK: - NNMonthControlNoDefaultModelFunction
-extension NNCalendarLogic.MonthHeader.Model: NNMonthControlNoDefaultModelFunction {
+// MARK: - NNMonthControlModelFunction
+extension NNCalendarLogic.MonthHeader.Model: NNMonthControlModelFunction {
   public var initialMonthStream: PrimitiveSequence<SingleTrait, NNCalendarLogic.Month> {
     return monthControlModel.initialMonthStream
   }
@@ -97,8 +77,8 @@ extension NNCalendarLogic.MonthHeader.Model: NNMonthControlNoDefaultModelFunctio
   }
 }
 
-// MARK: - NNMonthHeaderModelDependency
-extension NNCalendarLogic.MonthHeader.Model: NNMonthHeaderModelDependency {
+// MARK: - NNMonthHeaderModelFunction
+extension NNCalendarLogic.MonthHeader.Model: NNMonthHeaderModelFunction {
   public func formatMonthDescription(_ month: NNCalendarLogic.Month) -> String {
     return dependency.formatMonthDescription(month)
   }
@@ -106,33 +86,3 @@ extension NNCalendarLogic.MonthHeader.Model: NNMonthHeaderModelDependency {
 
 // MARK: - NNMonthHeaderModelType
 extension NNCalendarLogic.MonthHeader.Model: NNMonthHeaderModelType {}
-
-// MARK: - Default dependency.
-public extension NNCalendarLogic.MonthHeader.Model {
-  public final class DefaultDependency: NNMonthHeaderModelDependency {
-    public var minimumMonth: NNCalendarLogic.Month { return noDefault.minimumMonth }
-    public var maximumMonth: NNCalendarLogic.Month { return noDefault.maximumMonth }
-
-    public var initialMonthStream: PrimitiveSequence<SingleTrait, NNCalendarLogic.Month> {
-      return noDefault.initialMonthStream
-    }
-
-    public var currentMonthReceiver: AnyObserver<NNCalendarLogic.Month> {
-      return noDefault.currentMonthReceiver
-    }
-
-    public var currentMonthStream: Observable<NNCalendarLogic.Month> {
-      return noDefault.currentMonthStream
-    }
-
-    private let noDefault: NNMonthHeaderNoDefaultModelDependency
-
-    public init(_ dependency: NNMonthHeaderNoDefaultModelDependency) {
-      self.noDefault = dependency
-    }
-
-    public func formatMonthDescription(_ month: NNCalendarLogic.Month) -> String {
-      return NNCalendarLogic.Util.defaultMonthDescription(month)
-    }
-  }
-}

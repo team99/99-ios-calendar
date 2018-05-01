@@ -18,7 +18,6 @@ public final class MonthDisplayTest: RootTest {
   fileprivate var currentMonth: NNCalendarLogic.Month!
   fileprivate var currentMonthSb: BehaviorSubject<NNCalendarLogic.Month>!
   fileprivate var allSelectionSb: BehaviorSubject<Try<Set<NNCalendarLogic.Selection>>>!
-  fileprivate var defaultModelDp: NNMonthDisplayModelDependency!
 
   override public func setUp() {
     super.setUp()
@@ -27,7 +26,6 @@ public final class MonthDisplayTest: RootTest {
     currentMonth = NNCalendarLogic.Month(Date())
     currentMonthSb = BehaviorSubject(value: currentMonth!)
     allSelectionSb = BehaviorSubject(value: Try.failure(""))
-    defaultModelDp = NNCalendarLogic.MonthDisplay.Model.DefaultDependency(self)
   }
 }
 
@@ -48,41 +46,37 @@ extension MonthDisplayTest: SelectHighlightCommonTestProtocol {
 }
 
 public extension MonthDisplayTest {
-  public func test_defaultDependencies_shouldWork() {
-    let monthControlModel = NNCalendarLogic.MonthControl.Model(defaultModelDp)
-    let monthGridModel = NNCalendarLogic.MonthGrid.Model(defaultModelDp)
-    let daySelectionModel = NNCalendarLogic.DaySelect.Model(defaultModelDp)
-
-    let model1 = NNCalendarLogic.MonthDisplay.Model(monthControlModel,
-                                               monthGridModel,
-                                               daySelectionModel,
-                                               defaultModelDp!)
-
-    let model2 = NNCalendarLogic.MonthDisplay.Model(defaultModelDp!)
+  public func test_multipleConstructors_shouldWork() {
+    let monthControlModel = NNCalendarLogic.MonthControl.Model(self)
+    let monthGridModel = NNCalendarLogic.MonthGrid.Model(self)
+    let daySelectionModel = NNCalendarLogic.DaySelect.Model(self)
+    
+    let model1 = NNCalendarLogic.MonthDisplay
+      .Model(monthControlModel, monthGridModel, daySelectionModel, self)
+    
+    let initialMonth = try! model!.initialMonthStream.toBlocking().first()!
     let initialMonth1 = try! model1.initialMonthStream.toBlocking().first()!
-    let initialMonth2 = try! model2.initialMonthStream.toBlocking().first()!
-    XCTAssertEqual(initialMonth1, initialMonth2)
-
+    XCTAssertEqual(initialMonth, initialMonth1)
+    
     let monthControlVM = NNCalendarLogic.MonthControl.ViewModel(monthControlModel)
     let monthGridVM = NNCalendarLogic.MonthGrid.ViewModel(monthGridModel)
     let daySelectionVM = NNCalendarLogic.DaySelect.ViewModel(daySelectionModel)
-
+    
     let viewModel1 = NNCalendarLogic.MonthDisplay.ViewModel(monthControlVM,
-                                                       monthGridVM,
-                                                       daySelectionVM,
-                                                       model1)
-
-    let viewModel2 = NNCalendarLogic.MonthDisplay.ViewModel(model2)
+                                                            monthGridVM,
+                                                            daySelectionVM,
+                                                            model1)
+    
+    viewModel!.setupAllBindingsAndSubBindings()
     viewModel1.setupAllBindingsAndSubBindings()
-    viewModel2.setupAllBindingsAndSubBindings()
-    XCTAssertEqual(viewModel1.weekdayStacks, viewModel2.weekdayStacks)
-
+    XCTAssertEqual(viewModel!.weekdayStacks, viewModel1.weekdayStacks)
+    
     XCTAssertEqual(
-      try! viewModel1.dayStream.take(1).toBlocking().first(),
-      try! viewModel2.dayStream.take(1).toBlocking().first()
+      try! viewModel!.dayStream.take(1).toBlocking().first(),
+      try! viewModel1.dayStream.take(1).toBlocking().first()
     )
   }
-
+  
   public func test_dayStreamForCurrentMonth_shouldWorkCorrectly() {
     /// Setup
     let dayObs = scheduler!.createObserver([NNCalendarLogic.Day].self)
@@ -190,9 +184,13 @@ public extension MonthDisplayTest {
   }
 }
 
-extension MonthDisplayTest: NNMonthDisplayNoDefaultModelDependency {
+extension MonthDisplayTest: NNMonthDisplayModelDependency {
   public var firstWeekday: Int {
     return firstWeekdayForTest!
+  }
+  
+  public var weekdayStacks: Int {
+    return NNCalendarLogic.Util.defaultWeekdayStacks
   }
   
   public var allSelectionReceiver: AnyObserver<Set<NNCalendarLogic.Selection>> {
@@ -225,5 +223,13 @@ extension MonthDisplayTest: NNMonthDisplayNoDefaultModelDependency {
     return try! allSelectionSb.value()
       .map({NNCalendarLogic.Util.highlightPart($0, date)})
       .getOrElse(.none)
+  }
+  
+  public func gridSelectionChanges(_ monthComp: NNCalendarLogic.MonthComp,
+                                   _ prev: Set<NNCalendarLogic.Selection>,
+                                   _ current: Set<NNCalendarLogic.Selection>)
+    -> Set<NNCalendarLogic.GridPosition>
+  {
+    return NNCalendarLogic.Util.defaultGridSelectionChanges(monthComp, prev, current)
   }
 }

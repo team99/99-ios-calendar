@@ -11,13 +11,13 @@ import XCTest
 @testable import calendar99_logic
 
 /// Common select highlight tests.
-public protocol SelectHighlightCommonTestProtocol: CommonTestProtocol,
-  NNSelectHighlightNoDefaultFunction {}
+public protocol SelectHighlightCommonTestProtocol:
+  CommonTestProtocol, NNSelectHighlightFunction {}
 
 public extension SelectHighlightCommonTestProtocol {
   public func test_calculateHighlightParts_shouldWorkCorrectly(
-    _ viewModel: NNSelectHighlightNoDefaultFunction,
-    _ model: NNWeekdayAwareModelType & NNMultiDaySelectionNoDefaultFunction)
+    _ viewModel: NNSelectHighlightFunction,
+    _ model: NNWeekdayAwareModelType & NNMultiDaySelectionFunction)
   {
     /// Setup
     let calendar = Calendar.current

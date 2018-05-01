@@ -7,13 +7,9 @@
 //
 
 /// Shared functionalities between the model and view model for grid display
-/// views that can have defaults.
-public protocol NNGridDisplayDefaultFunction {
-
+/// view.
+public protocol NNGridDisplayFunction {
+  
   /// Represents the number of weekday lines in a grid. Generally should be 6.
   var weekdayStacks: Int { get }
 }
-
-/// Shared functionalities between the model and view model for grid display
-/// views that cannot have defaults.
-public protocol NNGridDisplayNoDefaultFunction {}

@@ -353,7 +353,9 @@ public extension NNCalendarLogic {
     }
 
     public static func ==(_ lhs: MonthComp, _ rhs: MonthComp) -> Bool {
-      return lhs.month == rhs.month && lhs.dayCount == rhs.dayCount
+      return lhs.month == rhs.month
+        && lhs.dayCount == rhs.dayCount
+        && lhs.firstWeekday == rhs.firstWeekday
     }
   }
 }

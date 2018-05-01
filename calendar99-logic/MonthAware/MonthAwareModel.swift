@@ -9,13 +9,8 @@
 import RxSwift
 import SwiftFP
 
-/// Shared functionalities between the model and its dependency that can have
-/// defaults.
-public protocol NNMonthAwareDefaultModelFunction {}
-
-/// Shared functionalities between the model and its dependency that cannot
-/// have defaults.
-public protocol NNMonthAwareNoDefaultModelFunction {
+/// Shared functionalities between the model and its dependency.
+public protocol NNMonthAwareModelFunction {
 
   /// Stream the current selected components.
   var currentMonthStream: Observable<NNCalendarLogic.Month> { get }

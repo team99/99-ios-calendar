@@ -8,37 +8,26 @@
 
 import RxSwift
 
-/// Shared functionalities between the model and its dependency that can have
-/// defaults.
-public protocol NNMonthControlDefaultModelFunction:
-  NNMonthAwareDefaultModelFunction,
-  NNMonthControlDefaultFunction {}
-
-/// Shared functionalities between the model and its dependency that cannot
-/// have defaults.
-public protocol NNMonthControlNoDefaultModelFunction:
-  NNMonthAwareNoDefaultModelFunction,
-  NNMonthControlNoDefaultFunction
+/// Shared functionalities between the model and its dependency.
+public protocol NNMonthControlModelFunction:
+  NNMonthAwareModelFunction,
+  NNMonthControlFunction
 {
   /// Get the minimum month that we cannot go past.
   var minimumMonth: NNCalendarLogic.Month { get }
-
+  
   /// Get the maximum month that we cannot go past.
   var maximumMonth: NNCalendarLogic.Month { get }
-
+  
   /// Stream the initial month.
   var initialMonthStream: Single<NNCalendarLogic.Month> { get }
 }
 
 /// Dependency for month control model.
-public protocol NNMonthControlModelDependency:
-  NNMonthControlDefaultModelFunction,
-  NNMonthControlNoDefaultModelFunction {}
+public protocol NNMonthControlModelDependency: NNMonthControlModelFunction {}
 
 /// Model for month header view.
-public protocol NNMonthControlModelType:
-  NNMonthControlDefaultModelFunction,
-  NNMonthControlNoDefaultModelFunction {}
+public protocol NNMonthControlModelType: NNMonthControlModelFunction {}
 
 public extension NNCalendarLogic.MonthControl {
 
@@ -52,22 +41,22 @@ public extension NNCalendarLogic.MonthControl {
   }
 }
 
-// MARK: - NNMonthAwareNoDefaultModelFunction
-extension NNCalendarLogic.MonthControl.Model: NNMonthAwareNoDefaultModelFunction {
+// MARK: - NNMonthAwareModelFunction
+extension NNCalendarLogic.MonthControl.Model: NNMonthAwareModelFunction {
   public var currentMonthStream: Observable<NNCalendarLogic.Month> {
     return dependency.currentMonthStream
   }
 }
 
-// MARK: - NNMonthControlNoDefaultFunction
-extension NNCalendarLogic.MonthControl.Model: NNMonthControlNoDefaultFunction {
+// MARK: - NNMonthControlFunction
+extension NNCalendarLogic.MonthControl.Model: NNMonthControlFunction {
   public var currentMonthReceiver: AnyObserver<NNCalendarLogic.Month> {
     return dependency.currentMonthReceiver
   }
 }
 
-/// NNMonthControlNoDefaultModelFunction
-extension NNCalendarLogic.MonthControl.Model: NNMonthControlNoDefaultModelFunction {
+/// NNMonthControlModelFunction
+extension NNCalendarLogic.MonthControl.Model: NNMonthControlModelFunction {
   public var initialMonthStream: Single<NNCalendarLogic.Month> {
     return dependency.initialMonthStream
   }
