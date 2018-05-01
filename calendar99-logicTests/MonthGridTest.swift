@@ -26,6 +26,11 @@ public final class MonthGridTest: RootTest {
 }
 
 public extension MonthGridTest {
+  public func test_injectDependencies_shouldWork() {
+    XCTAssertEqual(model!.weekdayStacks, weekdayStacks)
+    XCTAssertEqual(viewModel!.weekdayStacks, weekdayStacks)
+  }
+  
   public func test_gridSelectionReceiverAndStream_shouldWork() {
     /// Setup
     let selectionObs = scheduler!.createObserver(NNCalendarLogic.GridPosition.self)
