@@ -52,8 +52,6 @@ Each of these views requires its own **ViewModel** and **Model**, so we must be 
 
 - **NNCalendarLegacy** contains legacy components. All classes under this namespace can be found in **calendar99-legacy**, and the entry file for this namespace is **LegacyEntry.swift**.
 
-- Since protocols cannot be nested in classes, they are defined at top level, depending on the features they are supposed to provide (e.g. **NNMultiDaySelectionNoDefaultFunction** contains non-defaultable multi-date selection features).
-
 ## Legacy bridge
 
 - If you find the amount of dependencies to implement too daunting, and have reservations towards reactive programming, check out legacy bridges in **calendar99-legacy**. Currently only delegate bridges for **Regular99** are provided. 
