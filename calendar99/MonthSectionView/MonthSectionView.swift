@@ -171,13 +171,12 @@ public extension NNMonthSectionView {
       .share(replay: 1)
 
     movementStream
-      .filter({$0 >= 0}).map({UInt($0)})
+      .filter({$0 >= 0}).map({_ in})
       .bind(to: viewModel.currentMonthForwardReceiver)
       .disposed(by: disposable)
 
     movementStream
-      .filter({$0 < 0})
-      .map({UInt(Swift.abs($0))})
+      .filter({$0 < 0}).map({_ in})
       .bind(to: viewModel.currentMonthBackwardReceiver)
       .disposed(by: disposable)
 

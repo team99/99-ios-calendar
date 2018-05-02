@@ -31,9 +31,9 @@ public extension MonthControlCommonTestProtocol {
       currentMonth = currentMonth.with(monthOffset: forward ? 1 : -1)!
 
       if forward {
-        viewModel.currentMonthForwardReceiver.onNext(1)
+        viewModel.currentMonthForwardReceiver.onNext()
       } else {
-        viewModel.currentMonthBackwardReceiver.onNext(1)
+        viewModel.currentMonthBackwardReceiver.onNext()
       }
 
       waitOnMainThread(waitDuration!)
@@ -56,13 +56,13 @@ public extension MonthControlCommonTestProtocol {
     /// When & Then
     viewModel.currentMonthReceiver.onNext(model.minimumMonth)
     waitOnMainThread(waitDuration!)
-    viewModel.currentMonthBackwardReceiver.onNext(1)
+    viewModel.currentMonthBackwardReceiver.onNext()
     waitOnMainThread(waitDuration!)
     XCTAssertEqual(monthObs.nextElements().last!, model.minimumMonth)
 
     viewModel.currentMonthReceiver.onNext(model.maximumMonth)
     waitOnMainThread(waitDuration!)
-    viewModel.currentMonthForwardReceiver.onNext(1)
+    viewModel.currentMonthForwardReceiver.onNext()
     waitOnMainThread(waitDuration!)
     XCTAssertEqual(monthObs.nextElements().last!, model.maximumMonth)
   }

@@ -163,7 +163,7 @@ public extension NNMonthHeaderView {
     let reachedMinStream = viewModel.reachedMinimumMonth.share(replay: 1)
     let reachedMaxStream = viewModel.reachedMaximumMonth.share(replay: 1)
 
-    backwardBtn.rx.tap.map({1})
+    backwardBtn.rx.tap
       .bind(to: viewModel.currentMonthBackwardReceiver)
       .disposed(by: disposable)
 
@@ -178,7 +178,7 @@ public extension NNMonthHeaderView {
       .bind(onNext: {[weak backwardImg] in backwardImg?.tintColor = $0})
       .disposed(by: disposable)
 
-    forwardBtn.rx.tap.map({1})
+    forwardBtn.rx.tap
       .bind(to: viewModel.currentMonthForwardReceiver)
       .disposed(by: disposable)
 

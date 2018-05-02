@@ -84,11 +84,11 @@ extension NNCalendarLogic.MonthDisplay.ViewModel: NNMonthControlFunction {
 
 // MARK: - NNMonthControlViewModelType
 extension NNCalendarLogic.MonthDisplay.ViewModel: NNMonthControlViewModelType {
-  public var currentMonthForwardReceiver: AnyObserver<UInt> {
+  public var currentMonthForwardReceiver: AnyObserver<Void> {
     return monthControlVM.currentMonthForwardReceiver
   }
 
-  public var currentMonthBackwardReceiver: AnyObserver<UInt> {
+  public var currentMonthBackwardReceiver: AnyObserver<Void> {
     return monthControlVM.currentMonthBackwardReceiver
   }
 

@@ -13,10 +13,10 @@ import RxSwift
 public protocol NNMonthControlViewModelType: NNMonthControlFunction {
 
   /// Move forward by some months.
-  var currentMonthForwardReceiver: AnyObserver<UInt> { get }
+  var currentMonthForwardReceiver: AnyObserver<Void> { get }
 
   /// Move backward by some months.
-  var currentMonthBackwardReceiver: AnyObserver<UInt> { get }
+  var currentMonthBackwardReceiver: AnyObserver<Void> { get }
 
   /// Set up stream bindings.
   func setupMonthControlBindings()
@@ -47,12 +47,12 @@ extension NNCalendarLogic.MonthControl.ViewModel: NNMonthControlFunction {
 
 // MARK: - NNMonthControlViewModelType
 extension NNCalendarLogic.MonthControl.ViewModel: NNMonthControlViewModelType {
-  public var currentMonthForwardReceiver: AnyObserver<UInt> {
-    return currentMonthMovementSb.mapObserver(MonthDirection.forward)
+  public var currentMonthForwardReceiver: AnyObserver<Void> {
+    return currentMonthMovementSb.mapObserver({MonthDirection.forward(1)})
   }
 
-  public var currentMonthBackwardReceiver: AnyObserver<UInt> {
-    return currentMonthMovementSb.mapObserver(MonthDirection.backward)
+  public var currentMonthBackwardReceiver: AnyObserver<Void> {
+    return currentMonthMovementSb.mapObserver({MonthDirection.backward(1)})
   }
 
   public func setupMonthControlBindings() {
